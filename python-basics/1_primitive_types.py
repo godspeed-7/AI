@@ -39,8 +39,8 @@ print(type(middle_name))    # → <class 'NoneType'>
 
 # isinstance() — the preferred way to CHECK a type
 print(isinstance(rating, float))         # → True
-# → True   (pass a tuple to check several types)
-print(isinstance(rating, (int, float)))
+# pass a tuple to check against several types at once
+print(isinstance(rating, (int, float)))  # → True
 
 # Dynamic typing — the VALUE has a type, the variable doesn't.
 # The same variable can hold an int now and a str later.
@@ -84,17 +84,15 @@ print(r"C:\new\folder")  # → C:\new\folder
 # --- Indexing & slicing ------------------------------------------------
 print("\n--- Indexing & slicing ---")
 course = "Python Programming"
-# → 18   len() is a built-in FUNCTION: len(course), not course.len()
-print(len(course))
+# len() is a built-in FUNCTION: len(course), not course.len()
+print(len(course))   # → 18
 print(course[0])     # → P    first character (indexes start at 0)
-# → g    last character (negative index counts from the end)
-print(course[-1])
+print(course[-1])    # → g    last character (counts from the end)
 
 # Slicing: [start:end:step] → start is INCLUDED, end is NOT included
 print(course[0:6])   # → Python              characters 0 to 5
 print(course[:6])    # → Python              start defaults to 0
-# → Programming         end defaults to the end of the string
-print(course[7:])
+print(course[7:])    # → Programming         end defaults to the end
 print(course[:])     # → Python Programming  full copy
 print(course[::2])   # → Pto rgamn           every 2nd character
 print(course[::-1])  # → gnimmargorP nohtyP  reversed
@@ -123,8 +121,7 @@ print("-" * 10)            # → ----------  * repeats a string
 
 # GOTCHA: you can't + a string and a number
 # print("Age: " + 25)      # ❌ TypeError: can only concatenate str (not "int") to str
-# → Age: 25     convert first (or use an f-string, see below)
-print("Age: " + str(25))
+print("Age: " + str(25))   # → Age: 25     convert first (or use an f-string)
 
 # --- String methods ----------------------------------------------------
 print("\n--- String methods ---")
@@ -133,7 +130,7 @@ course = "python programming"
 # Changing case
 print(course.upper())       # → PYTHON PROGRAMMING
 print(course.lower())       # → python programming
-print(course.title())       # → Python Programming  (first letter of EVERY word)
+print(course.title())       # → Python Programming  (every word capitalised)
 print(course.capitalize())  # → Python programming  (first letter only)
 
 # Removing whitespace (brackets added so you can see the spaces)
@@ -156,8 +153,8 @@ print("java" not in course)  # → True
 
 # GOTCHA: all of these checks are case-sensitive
 print("Pro" in course)                  # → False
-# → True   lower() both sides for a case-insensitive check
-print("Pro".lower() in course.lower())
+# lower() both sides for a case-insensitive check
+print("Pro".lower() in course.lower())  # → True
 
 # Replacing
 print(course.replace("python", "java"))  # → java programming
@@ -177,15 +174,14 @@ print("-".join(["a", "b", "c"]))  # → a-b-c                       list → str
 
 # split(" ") vs split()
 print("a  b".split(" "))  # → ['a', '', 'b']  splits on every single space
-# → ['a', 'b']      no argument = split on any whitespace (usually what you want)
-print("a  b".split())
+print("a  b".split())     # → ['a', 'b']      no argument: any whitespace
 
 # --- f-strings (formatted strings) -------------------------------------
 print("\n--- f-strings ---")
 full_name = f"{first} {last}"
 print(full_name)                             # → John Doe
-# → John has 4 letters   any expression works inside {}
-print(f"{first} has {len(first)} letters")
+# any expression works inside {}
+print(f"{first} has {len(first)} letters")   # → John has 4 letters
 print(f"2 + 3 = {2 + 3}")                    # → 2 + 3 = 5
 
 # Format specs go after a colon → {value:spec}
@@ -213,12 +209,10 @@ print(10 + 3)         # → 13
 print(10 - 3)         # → 7
 print(10 * 3)         # → 30
 print(10 / 3)         # → 3.3333333333333335  division
-# → 3                   floor division (rounds DOWN to a whole number)
-print(10 // 3)
+print(10 // 3)        # → 3                   floor division (rounds DOWN)
 print(10 % 3)         # → 1                   modulus (the remainder)
 print(10 ** 3)        # → 1000                exponent (10 to the power 3)
-# → (3, 1)              floor division and remainder in one go
-print(divmod(10, 3))
+print(divmod(10, 3))  # → (3, 1)              // and % in one go
 
 # GOTCHA: / ALWAYS returns a float, even when it divides evenly
 print(10 / 2)   # → 5.0
@@ -254,11 +248,11 @@ print(count)  # → 4
 
 # --- Writing numbers ---------------------------------------------------
 print("\n--- Writing numbers ---")
-population = 1_000_000  # underscores are ignored — they're only for readability
+population = 1_000_000  # underscores are ignored — just for readability
 print(population)       # → 1000000
-print(1.5e3)            # → 1500.0   scientific notation (1.5 × 10³), always a float
-# → 1267650600228229401496703205376   ints have no maximum size
-print(2 ** 100)
+print(1.5e3)            # → 1500.0   1.5 × 10³ (always a float)
+# ints have no maximum size
+print(2 ** 100)         # → 1267650600228229401496703205376
 
 # --- Built-in number functions -----------------------------------------
 print("\n--- Built-in number functions ---")
@@ -286,8 +280,7 @@ print("\n--- Float precision ---")
 # GOTCHA: floats are stored in binary, so most decimals are not exact
 print(0.1 + 0.2)                     # → 0.30000000000000004
 print(0.1 + 0.2 == 0.3)              # → False  (!)
-# → True   compare floats with math.isclose()
-print(math.isclose(0.1 + 0.2, 0.3))
+print(math.isclose(0.1 + 0.2, 0.3))  # → True   how to compare floats
 print(round(0.1 + 0.2, 2))           # → 0.3    or round them for display
 # For money, don't use floats — look up the `decimal` module.
 
@@ -327,14 +320,13 @@ print(bool("False"))  # → True
 print("\n--- bool is a kind of int ---")
 print(True + True)             # → 2      True == 1 and False == 0
 print(isinstance(True, int))   # → True
-# → 2    handy for counting how many things are True
-print(sum([True, False, True]))
+print(sum([True, False, True]))  # → 2    counts how many are True
 
 # --- None --------------------------------------------------------------
 print("\n--- None ---")
 result = None
-# → True    always check None with `is` / `is not`, not ==
-print(result is None)
+# always check None with `is` / `is not`, never ==
+print(result is None)      # → True
 print(result is not None)  # → False
 
 
@@ -346,13 +338,13 @@ print("\n===== 5. TYPE CONVERSION =====")
 # --- Between numbers ---------------------------------------------------
 print("\n--- Between numbers ---")
 print(float(10))  # → 10.0
-print(int(3.9))   # → 3    GOTCHA: int() CHOPS OFF the decimal, it doesn't round
+print(int(3.9))   # → 3    GOTCHA: int() chops the decimal, doesn't round
 print(int(-3.9))  # → -3   (moves toward 0 — compare math.floor(-3.9) → -4)
 print(round(3.9))  # → 4    use round() if you actually want rounding
 
 # --- To and from strings -----------------------------------------------
 print("\n--- To and from strings ---")
-print(str(10) + "5")       # → 105     str(10) is the text "10", so + joins text
+print(str(10) + "5")       # → 105     "10" is text, so + joins text
 print(int("42") + 8)       # → 50      int("42") is the number 42, so + adds
 print(float("3.5"))        # → 3.5
 print(int("  42  "))       # → 42      spaces around the number are ignored
