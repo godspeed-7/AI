@@ -1,2 +1,3 @@
-password = 'asdasds1'
-print(any(char.isupper() for char in password))
+val = []
+
+print(val is None)

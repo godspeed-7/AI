@@ -106,7 +106,12 @@ check("4 is_strong_password", lambda: is_strong_password("Abcdefg1"),
 # Turn a number of seconds into a clock reading.
 #   seconds_to_clock(3725) → "01:02:05"
 def seconds_to_clock(total_seconds):
-    pass  # TODO
+    rem = total_seconds % 60
+    divisible = (total_seconds-rem) // 60
+    hours = 0 if divisible < 60 else divisible // 60
+    minutes = divisible % 60
+    seconds = total_seconds % 60
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
 
 check("5 seconds_to_clock", lambda: seconds_to_clock(3725), "01:02:05")
@@ -124,7 +129,16 @@ print("\n===== PART 2 — CONDITIONS & LOOPS =====")
 #   below 0 or above 100 → "Invalid"
 #   90+ → "A"      75+ → "B"      50+ → "C"      otherwise → "Fail"
 def grade(score):
-    pass  # TODO
+    if score < 0 or score > 100:
+        return "Invalid"
+    if score >= 90:
+        return 'A'
+    if score >= 75 and score < 90:
+        return 'B'
+    if score >= 50 and score < 75:
+        return 'C'
+    if score < 50:
+        return 'Fail'
 
 
 check("6 grade", lambda: grade(95), "A")
@@ -141,7 +155,16 @@ check("6 grade", lambda: grade(-1), "Invalid")
 #   heavier    → 100 + 20 for every kg above 5
 #   express doubles the final cost
 def shipping_cost(weight_kg, express=False):
-    pass  # TODO
+    cost = 0
+    if weight_kg <= 1:
+        cost = 50
+    elif weight_kg > 1 and weight_kg < 5:
+        cost = 100
+    else:
+        cost = 120
+    if express:
+        cost *= 2
+    return cost
 
 
 check("7 shipping_cost", lambda: shipping_cost(1), 50)
@@ -154,7 +177,11 @@ check("7 shipping_cost", lambda: shipping_cost(3, True), 200)
 # Add up only the even digits of a number.
 #   sum_even_digits(123456) → 12      (2 + 4 + 6)
 def sum_even_digits(number):
-    pass  # TODO
+    tot = 0
+    for n in str(number):
+        if int(n) % 2 == 0:
+            tot += int(n)
+    return tot
 
 
 check("8 sum_even_digits", lambda: sum_even_digits(123456), 12)
@@ -165,7 +192,16 @@ check("8 sum_even_digits", lambda: sum_even_digits(13579), 0)
 # Return the longest word in a sentence. On a tie, the FIRST one wins.
 #   longest_word("the quick brown fox") → "quick"
 def longest_word(sentence):
-    pass  # TODO
+    words = sentence.split(" ")
+    maxObj = {
+        'val': '',
+        'len': 0
+    }
+    for word in words:
+        if len(word) > maxObj['len']:
+            maxObj['val'] = word
+            maxObj['len'] = len(word)
+    return maxObj['val']
 
 
 check("9 longest_word", lambda: longest_word("the quick brown fox"),
@@ -177,7 +213,17 @@ check("9 longest_word", lambda: longest_word("a bb ccc"), "ccc")
 # Find the first prime number strictly greater than n.
 #   first_prime_above(10) → 11
 def first_prime_above(n):
-    pass  # TODO
+    t = n+1  # 11
+    while True:
+        p = 2
+        isPrime = True
+        for k in range(p, t//2):  # 5
+            if t % k == 0:
+                isPrime = False
+                break
+        if isPrime:
+            return t
+        t += 1
 
 
 check("10 first_prime_above", lambda: first_prime_above(10), 11)
@@ -196,7 +242,13 @@ print("\n===== PART 3 — FUNCTIONS =====")
 #   make_tag("hi")                      → "<p>hi</p>"
 #   make_tag("click", "a", href="/x")   → '<a href="/x">click</a>'
 def make_tag(text, tag="p", **attrs):
-    pass  # TODO
+    some_text = ''
+    for key, val in attrs.items():
+        some_text += f"{key}=\"{val}\" "
+    if some_text:
+        return f'<{tag} {some_text.rstrip()}>{text}</{tag}>'
+    else:
+        return f'<{tag}>{text}</{tag}>'
 
 
 check("11 make_tag", lambda: make_tag("hi"), "<p>hi</p>")
@@ -210,7 +262,9 @@ check("11 make_tag", lambda: make_tag("x", "div", id="main", title="t"),
 # Average any number of values. No values at all → 0 (not an error).
 #   average(2, 4) → 3.0        average() → 0
 def average(*numbers):
-    pass  # TODO
+    if not numbers:
+        return 0
+    return sum(numbers) / len(numbers)
 
 
 check("12 average", lambda: average(2, 4), 3.0)
@@ -222,8 +276,9 @@ check("12 average", lambda: average(), 0)
 # Return a NEW list of discounted prices, rounded to 2 decimals.
 # The list you were given must stay untouched.
 #   apply_discount([100, 200]) → [90.0, 180.0]
-def apply_discount(prices, percent=10):
-    pass  # TODO
+def apply_discount(prices: list, percent=10):
+    n_prices = [price-(price * percent)/100 for price in prices]
+    return n_prices
 
 
 original = [100, 200]
@@ -240,8 +295,12 @@ check("13 apply_discount keeps the original",
 #   add_skill("python") → ["python"]
 #   add_skill("js")     → ["js"]          (not ["python", "js"]!)
 #   add_skill("ai", ["python"]) → ["python", "ai"]
-def add_skill(skill, skills=None):
-    pass  # TODO
+def add_skill(skill, skills: list = None):
+    if not skills:
+        return [skill]
+    else:
+        skills.append(skill)
+        return skills
 
 
 check("14 add_skill", lambda: add_skill("python"), ["python"])
@@ -254,7 +313,9 @@ check("14 add_skill", lambda: add_skill("ai", ["python"]),
 # Sort a list of dicts by one field, without changing the original list.
 #   sort_records(people, "age") → youngest first
 def sort_records(records, field, descending=False):
-    pass  # TODO
+    sorted_items = sorted(
+        records, key=lambda record: record[field], reverse=descending)
+    return sorted_items
 
 
 people = [
@@ -280,7 +341,7 @@ print("\n===== PART 4 — DATA STRUCTURES =====")
 # Remove duplicates and sort what's left.
 #   unique_sorted([3, 1, 2, 1, 3]) → [1, 2, 3]
 def unique_sorted(items):
-    pass  # TODO
+    return sorted(list(set(items)))
 
 
 check("16 unique_sorted", lambda: unique_sorted([3, 1, 2, 1, 3]),
@@ -294,7 +355,15 @@ check("16 unique_sorted", lambda: unique_sorted(["b", "a", "b"]),
 #   word_frequency("The cat the CAT sat")
 #       → {"the": 2, "cat": 2, "sat": 1}
 def word_frequency(text):
-    pass  # TODO
+    words = text.split(' ')
+    counter = {}
+    for word in words:
+        if counter.get(word.lower(), 0):
+            counter[word.lower()] += 1
+        else:
+            counter[word.lower()] = 1
+
+    return counter
 
 
 check("17 word_frequency", lambda: word_frequency("The cat the CAT sat"),
@@ -305,7 +374,17 @@ check("17 word_frequency", lambda: word_frequency("The cat the CAT sat"),
 # Group records into a dict: field value → list of names.
 #   group_by(staff, "dept") → {"eng": ["John", "Jane"], "sales": ["Bob"]}
 def group_by(records, field):
-    pass  # TODO
+    gp = {}
+    for record in records:
+        if record.get(field):
+            if gp.get(record.get(field)):
+                vals = gp[record.get(field)]
+                vals.append(record.get('name'))
+            else:
+                gp[record.get(field)] = [record.get('name')]
+        else:
+            gp[record.get(field)] = [record.get('name')]
+    return gp
 
 
 staff = [
@@ -322,7 +401,7 @@ check("18 group_by", lambda: group_by(staff, "dept"),
 #   merge_settings({"theme": "light", "lang": "en"}, {"lang": "hi"})
 #       → {"theme": "light", "lang": "hi"}
 def merge_settings(defaults, overrides):
-    pass  # TODO
+    return {**defaults, **overrides}
 
 
 check("19 merge_settings",
@@ -335,7 +414,12 @@ check("19 merge_settings",
 # Return the names of the n highest scores, best first.
 #   top_scorers({"ann": 90, "bob": 75, "cy": 95}, 2) → ["cy", "ann"]
 def top_scorers(scores, n):
-    pass  # TODO
+    vals = sorted(scores.items(), key=lambda score: score[1], reverse=True)
+
+    data = []
+    for i in range(n):
+        data.append(vals[i][0])
+    return data
 
 
 check("20 top_scorers",
@@ -349,7 +433,13 @@ check("20 top_scorers",
 # Flatten a list of lists into one flat list.
 #   flatten([[1, 2], [3], [4, 5]]) → [1, 2, 3, 4, 5]
 def flatten(matrix):
-    pass  # TODO
+    vals = []
+    for i in range(len(matrix)):
+        if isinstance(matrix[i], list):
+            vals = [*vals, *matrix[i]]
+        else:
+            vals.append(matrix[i])
+    return vals
 
 
 check("21 flatten", lambda: flatten([[1, 2], [3], [4, 5]]),
@@ -369,8 +459,13 @@ print("\n===== PART 5 — MINI PROJECTS =====")
 #   parse_log_line("2026-09-24 ERROR Database timeout")
 #       → {"date": "2026-09-24", "level": "ERROR",
 #          "message": "Database timeout"}
-def parse_log_line(line):
-    pass  # TODO
+def parse_log_line(line=""):
+    data = line.split(" ", maxsplit=2)
+    return {
+        "date": data[0],
+        "level": data[1],
+        "message": data[2]
+    }
 
 
 check("22 parse_log_line",
@@ -386,7 +481,19 @@ check("22 parse_log_line",
 #   best  → the product with the highest line value
 #   summarise_orders(orders) → {"total": 860, "items": 3, "best": "book"}
 def summarise_orders(orders):
-    pass  # TODO
+    tots = [(order['qty'] * order['price'], order['product'])
+            for order in orders]
+    max_val_name = (0, 0)
+    total = 0
+    for value, key in tots:
+        total += value
+        if value > max_val_name[0]:
+            max_val_name = (value, key)
+    return {
+        "total": total,
+        "items": len(orders),
+        "best": max_val_name[1]
+    }
 
 
 orders = [
@@ -405,7 +512,10 @@ check("23 summarise_orders", lambda: summarise_orders(orders),
 #   clean_rows(["  Ann ", "bob", "ANN", "", "  ", "Bob"])
 #       → ["Ann", "Bob"]
 def clean_rows(rows):
-    pass  # TODO
+
+    vals = [row.strip() for row in rows]
+
+    return [val for val in vals if val]
 
 
 check("24 clean_rows",
