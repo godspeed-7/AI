@@ -8,6 +8,10 @@
 # object: jack, mary, jan
 
 
+from collections import namedtuple
+from abc import ABC, abstractmethod
+
+
 class Point:
     default_color = 'red'
 
@@ -73,7 +77,7 @@ print(Point.default_color)
 
 # Magic methods
 
-# earlier we were getting a address pronetd when we tried to print the obejct , but after this __str__magic methd we get proper details
+# earlier we were getting a address printed when we tried to print the obejct , but after this __str__magic methd we get proper details
 # print(point)
 
 
@@ -144,3 +148,95 @@ product = Product(10)
 print(product.price)
 
 # Inheritance
+
+# Animal class is parent, Base class
+
+
+class Animal:
+    def __init__(self):
+        self.age = 1
+
+    def eat(self):
+        print('eat')
+
+# Mammal is Chile, subclass
+
+
+class Mammal(Animal):
+    def walk(self):
+        print('walk')
+
+
+m = Mammal()
+m.walk()
+m.eat()
+m.age
+print(isinstance(m, Animal))
+print(isinstance(m, Mammal))
+print(isinstance(m, object))
+print(issubclass(Mammal, Animal))
+
+
+# Method overriding
+
+# use super
+
+
+# Multi level inheritance
+
+# Multiple Inheritance
+
+# class Manager(Employee, Person)
+
+# Abstract Base class
+# an abstract class cannot be instantiated, a class inhriting abstact class has to implement its abstract methods
+
+# polymorphism
+
+
+class UIControl:
+    @abstractmethod
+    def draw(self):
+        print()
+
+
+class TextBox(UIControl):
+    def draw(self):
+        print('TextBox')
+
+
+class DropDownList(UIControl):
+    def draw(self):
+        print('DropDownList')
+
+
+def draw(controls):
+    for control in controls:
+        control.draw()
+
+
+ddl = DropDownList()
+ttB = TextBox()
+
+cals = [ddl, ttB]
+draw(cals)
+# Duck Typing
+
+# extendong built-intypes
+
+
+class Text(str):
+    def duplicate(self):
+        return self + self
+
+
+text = Text('Python')
+print(text.duplicate())
+
+# Data classes
+
+# namedtuple in immutable
+Point = namedtuple("Point", ["x", 'y'])
+p1 = Point(x=1, y=2)
+p2 = Point(x=1, y=2)
+print(p1 == p2)
