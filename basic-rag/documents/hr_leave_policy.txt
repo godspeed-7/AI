@@ -1,0 +1,93 @@
+NORTHSTAR TECHNOLOGIES
+EMPLOYEE LEAVE POLICY
+Policy ID: HR-LEAVE-2026 | Version: 2.1 | Effective: 1 April 2026
+Policy owner: People Operations | Applies to employees on Northstar Technologies' India payroll
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal, HR, or employment advice.
+
+1. PURPOSE AND SCOPE
+This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests. It applies to permanent full-time employees unless a section says otherwise. Interns, contractors, consultants, and employees paid through another country's payroll follow separate agreements and policies. Where local law or an individual employment agreement provides a more favourable entitlement, People Operations must review the case and apply the applicable requirement.
+
+2. LEAVE YEAR AND GENERAL RULES
+The leave year runs from 1 January through 31 December. Leave balances are recorded in days. A standard leave day represents the employee's normal scheduled working day. Employees on non-standard schedules should have their entitlement converted to the appropriate equivalent by People Operations.
+Weekends and company public holidays are not deducted from annual leave when they fall within an approved leave period, unless the employee's work schedule or applicable local rule requires different treatment.
+Employees should submit leave requests through the HR portal. A request is not approved merely because it has been submitted. The HR portal must show approved, or written manager confirmation must be obtained if the portal is unavailable.
+
+3. ANNUAL LEAVE
+3.1 Standard entitlement
+Eligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.
+3.2 Joining during the year
+Employees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.
+3.3 Part-time schedules
+Employees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.
+3.4 Annual leave approval
+Employees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.
+For an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative.
+
+4. ANNUAL LEAVE CARRY-OVER
+4.1 Standard carry-over limit
+Employees may carry over up to 5 unused annual-leave days from one leave year into the next leave year.
+4.2 Conditions
+Only unused annual leave from the current leave year is eligible for standard carry-over. Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.
+The carried-over balance must be used by 31 March of the following year. Any standard carried-over annual leave remaining after 31 March expires, unless an approved exception under Section 4.3 applies.
+4.3 Exception: business-critical inability to take leave
+If an employee could not reasonably take annual leave because a manager required the employee to support a documented business-critical delivery, the employee may request an exception. The manager must provide written justification, and People Operations must approve the exception in writing before the normal expiry date.
+An exception does not automatically grant unlimited carry-over. The approval must specify the additional number of days, the revised expiry date, and the reason for the exception. Employees should retain written approval for their records.
+4.4 No automatic cash conversion
+Unused annual leave does not automatically convert to cash at year-end under this policy. Any payment on separation or other cash settlement must be reviewed under the employee's applicable agreement and local requirements by People Operations and Payroll.
+
+5. SICK LEAVE
+5.1 Standard entitlement
+Eligible permanent full-time employees receive 10 days of sick leave per leave year.
+5.2 Carry-over
+Unused sick leave does not carry over to the next leave year under this policy. Sick leave also cannot be converted into annual leave.
+5.3 Notice and documentation
+Employees should notify their manager as soon as reasonably possible when illness prevents them from working. If an absence lasts more than 3 consecutive working days, the employee may be asked to provide reasonable supporting documentation in accordance with company procedures and applicable requirements.
+Medical details should be shared only through approved confidential channels and only to the extent necessary. Managers should not request detailed diagnoses in ordinary team communications.
+5.4 Extended illness
+For an illness expected to require an extended absence, the employee should contact People Operations to discuss applicable leave options and required documentation. The outcome depends on the circumstances and applicable requirements; this policy does not promise a particular accommodation or payment.
+
+6. CASUAL LEAVE
+6.1 Standard entitlement
+Eligible permanent full-time employees receive 6 days of casual leave per leave year for short, unplanned personal matters.
+6.2 Carry-over and conversion
+Unused casual leave expires at the end of the leave year. It cannot be carried over and cannot be converted into annual leave or cash under this policy.
+6.3 Request process
+Employees should inform their manager as soon as practical. For an unexpected absence, advance notice is not always possible; employees should submit or regularize the request in the HR portal when able to do so.
+
+7. PARENTAL LEAVE
+7.1 General approach
+Parental-leave entitlements depend on the employee's circumstances, applicable local requirements, and the company's separate parental-leave procedures. Employees should contact People Operations before planning parental leave so eligibility rules, documents, and dates can be confirmed.
+7.2 No inference from annual leave
+Annual-leave, sick-leave, and casual-leave balances do not determine parental-leave eligibility. Employees should not use the general leave balances in this policy to estimate parental-leave entitlement.
+
+8. REQUESTS, APPROVALS, AND CANCELLATIONS
+8.1 Planned requests
+Submit planned leave in the HR portal and wait for the status to show approved. Managers assess timing, team coverage, and competing requests. Managers should communicate decisions and, where possible, suggest alternative dates if a request cannot be approved as submitted.
+8.2 Urgent or emergency absence
+For an emergency, contact the manager as soon as reasonably possible using the usual team communication channel. Enter the leave request in the HR portal when practical. The manager or People Operations can help regularize the record if the employee cannot access the portal.
+8.3 Changes and cancellations
+If dates change, update the HR portal and notify the manager. Employees should not assume that changing a submitted request automatically changes an existing approval.
+8.4 Manager unavailability
+If the manager is unavailable and the matter is time-sensitive, contact the manager's designated delegate or People Operations. This does not remove the need to record the request in the HR portal when access is restored.
+
+9. HOLIDAYS AND WORK SCHEDULES
+The company publishes a location-specific public-holiday calendar each year. Employees should consult the calendar applicable to their work location rather than relying on another office's calendar.
+A public holiday is not deducted from annual leave when it falls on a scheduled working day covered by the published holiday calendar, subject to applicable local rules and the employee's work arrangement.
+Employees working shifts or non-standard schedules should confirm holiday treatment with People Operations if the HR system's balance appears inconsistent with their schedule.
+
+10. LEAVE BALANCE QUESTIONS AND CORRECTIONS
+The HR portal is the operational source for an employee's current displayed leave balance. Employees who believe the balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.
+Managers should not manually promise a balance correction. People Operations reviews the request and coordinates with Payroll or the HR-system administrator when required.
+For carry-over questions, include the leave year, leave type, displayed unused balance, and any written exception approval. This helps distinguish standard carry-over from an approved exception.
+
+11. QUICK REFERENCE TABLE
+Leave type | Annual entitlement | Carry-over rule
+Annual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3
+Sick leave | 10 days | No carry-over under this policy
+Casual leave | 6 days | No carry-over; expires at year-end
+Parental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements
+This table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation.
+
+12. CONTACT
+For questions about eligibility, balances, carry-over exceptions, or policy interpretation, contact People Operations through the internal HR portal. Do not send confidential medical information through public or general team channels.

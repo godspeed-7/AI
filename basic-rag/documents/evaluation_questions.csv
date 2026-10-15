@@ -1,0 +1,26 @@
+question,expected_answer,expected_source,category
+How many annual-leave days does a full-time employee receive each year?,20 days per complete leave year.,Section 3.1,easy
+How many unused annual-leave days can normally carry over?,Up to 5 unused annual-leave days.,Section 4.1,easy
+By when must standard carried-over annual leave be used?,By 31 March of the following year.,Section 4.2,easy
+Can unused sick leave carry over into the next year?,No. Sick leave does not carry over under this policy.,Section 5.2,easy
+Can unused casual leave be converted into annual leave?,No. Casual leave cannot be converted into annual leave.,Section 6.2,easy
+What is the annual sick-leave entitlement?,10 days per leave year for eligible permanent full-time employees.,Section 5.1,easy
+What is the annual casual-leave entitlement?,6 days per leave year for eligible permanent full-time employees.,Section 6.1,easy
+I have 8 unused annual-leave days. Can I carry all 8 into next year?,"Under the standard rule, no. The carry-over limit is 5 days; an exception may be requested under Section 4.3.","Sections 4.1, 4.3",multi-hop
+I could not take leave because my manager required me to support a business-critical delivery. Can my carry-over limit be increased?,"Possibly, through an exception request with written manager justification and written People Operations approval before the normal expiry date. The approval must specify extra days and a revised expiry date.",Section 4.3,exception
+Do unused sick days count toward the five-day annual-leave carry-over limit?,No. Sick leave cannot be carried over and cannot be converted into annual leave.,"Sections 4.2, 5.2",exception
+Does unused annual leave automatically get paid out at year-end?,No. It does not automatically convert to cash under this policy; any settlement must be reviewed by People Operations and Payroll under the applicable agreement and local requirements.,Section 4.4,exception
+How far in advance should I submit a planned annual-leave request?,"At least 10 calendar days before leave starts; for 5 or more consecutive working days, at least 15 calendar days in advance where reasonably possible.",Section 3.4,multi-hop
+"If I submit a leave request in the HR portal, can I assume it is approved?","No. Wait for the portal to show approved, or obtain written manager confirmation if the portal is unavailable.","Sections 2, 8.1",exception
+What should I do if my leave balance looks wrong?,Raise a request with People Operations and include the relevant dates and leave type.,Section 10,easy
+Who should I contact to confirm parental-leave eligibility?,"People Operations can confirm the applicable eligibility rules, documents, and dates.",Section 7.1,easy
+Are weekends deducted from annual leave during an approved leave period?,"Generally no, unless the employee's schedule or applicable local rule requires different treatment.",Section 2,exception
+Which holiday calendar should an employee use?,The location-specific public-holiday calendar for their work location.,Section 9,easy
+Can a manager independently promise a leave-balance correction?,No. People Operations reviews balance-correction requests and coordinates with Payroll or the HR-system administrator when needed.,Section 10,exception
+What details should I include when asking about carry-over?,"The leave year, leave type, displayed unused balance, and any written exception approval.",Section 10,multi-hop
+Does a part-time employee receive the same fixed annual-leave balance as a full-time employee?,No. The entitlement is prorated based on the contracted working pattern.,Section 3.3,exception
+How many days of annual leave can be carried over if I have 4 unused days?,"All 4 days are within the standard limit of up to 5 days, subject to the other policy conditions.","Sections 4.1, 4.2",easy
+Can casual leave remaining at the end of December be used in the next leave year?,No. Unused casual leave expires at the end of the leave year.,Section 6.2,easy
+What happens if a public holiday falls during my annual leave?,"It is generally not deducted when it falls on a scheduled working day covered by the location's published holiday calendar, subject to applicable rules and work arrangements.",Section 9,multi-hop
+Does the policy specify a fixed number of parental-leave days?,"No. Entitlements depend on circumstances, applicable local requirements, and separate procedures.",Section 7.1,unanswerable-fixed-number
+Can I use annual-leave balance to determine parental-leave eligibility?,"No. Annual, sick, and casual leave balances do not determine parental-leave eligibility.",Section 7.2,exception
