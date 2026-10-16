@@ -1,10 +1,10 @@
 
 import time
 
-from src.embedder import generate_embedding
-from src.vector_store import create_vector_store, COLLECTION_NAME
-from src.generator import generate_answer
-from src.logger import info, progress, success, heading, timing, error
+from basic_rag.embedder import generate_embedding
+from basic_rag.vector_store import create_vector_store, COLLECTION_NAME
+from basic_rag.generator import generate_answer
+from basic_rag.logger import info, progress, success, heading, timing, error
 
 
 def build_prompt(question: str, retrieved_chunks: list) -> str:

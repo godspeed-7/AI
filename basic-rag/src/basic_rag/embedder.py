@@ -29,7 +29,14 @@ def embed_chunks(chunks: list[dict]) -> list[dict]:
     embedded_chunks = []
 
     for chunk in chunks:
-        embedding = generate_embedding(chunk["text"])
+        # Add section context to improve semantic retrieval.
+        embedding_text = (
+            f"Section: {chunk['section_id']} {chunk['section_title']}\n"
+            f"Parent section: {chunk['parent_section']}\n\n"
+            f"{chunk['text']}"
+        )
+
+        embedding = generate_embedding(embedding_text)
 
         embedded_chunks.append({
             **chunk,

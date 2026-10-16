@@ -1,11 +1,11 @@
 
 import time
 
-from src.parser import load_document
-from src.chunker import chunk_text
-from src.embedder import embed_chunks
-from src.vector_store import create_vector_store, insert_chunks
-from src.logger import info, progress, success, heading, timing
+from basic_rag.parser import load_document
+from basic_rag.chunker import chunk_text
+from basic_rag.embedder import embed_chunks
+from basic_rag.vector_store import create_vector_store, insert_chunks
+from basic_rag.logger import info, progress, success, heading, timing
 
 
 def main():
