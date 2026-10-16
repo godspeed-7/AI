@@ -1,4 +1,3 @@
-
 import time
 
 from qdrant_client import QdrantClient
@@ -21,27 +20,59 @@ TOP_K = 3
 
 
 def build_prompt(question: str, retrieved_chunks: list) -> str:
-    """Build a prompt using the retrieved policy chunks."""
+    """Build a focused prompt using the retrieved policy chunks."""
 
     context = "\n\n".join(
         point.payload["text"]
         for point in retrieved_chunks
+        if point.payload and point.payload.get("text")
     )
 
     prompt = f"""
-You are an HR policy assistant. Answer questions using only
-the policy context provided below.
+You are an HR policy assistant. Answer the user's question using
+only the policy context provided below.
 
-Instructions:
-- Answer the exact question directly.
-- Treat "per leave year" as the annual entitlement.
-- Treat "annual entitlement" and "entitlement per leave year"
-  as equivalent when the policy states a number of days per
-  leave year.
-- Do not introduce distinctions that the policy does not make.
-- Include the applicable employee eligibility conditions.
-- Never contradict information stated in the context.
-- If the answer is not present in the context, say so clearly.
+Follow these rules in order:
+
+1. Identify the exact policy topic and leave category in the question.
+   Do not confuse annual leave, casual leave, sick leave, or parental leave.
+
+2. Find the statement in the context that directly answers the question.
+   Use that statement as the primary evidence for your answer.
+
+3. If the context explicitly states a number of days per leave year,
+   treat that as the entitlement for that leave year. For example,
+   "6 days of casual leave per leave year" directly answers a question
+   asking for the annual casual-leave entitlement.
+
+4. Do not say that an entitlement is unspecified, missing, or cannot
+   be determined when the context explicitly states the answer.
+   Do not introduce distinctions that the policy does not make.
+
+5. Apply policy rules to the user's specific scenario. For example,
+   if the standard carry-over limit is 5 days and the employee has
+   8 unused days, explain that all 8 days cannot be carried over
+   under the standard rule. If the employee has 4 unused days and
+   the limit is 5, explain that all 4 are within the numerical limit,
+   while preserving any relevant conditions or exceptions in context.
+
+6. Preserve relevant eligibility conditions, exceptions, deadlines,
+   approval requirements, and limits. Do not invent conditions or
+   exceptions that are not in the context.
+
+7. If the answer genuinely is not supported by the context, say that
+   you cannot determine it from the available policy context.
+
+8. Before responding, check your draft:
+   - Does it directly answer the question?
+   - Does every claim agree with the context?
+   - Does any sentence contradict another sentence?
+   - Have you applied any relevant number or limit to the scenario?
+   Remove contradictory or unnecessary statements.
+
+Answer concisely in one to three sentences. State the supported answer
+directly; do not add a preamble about missing information unless the
+context genuinely lacks the answer.
 
 Policy context:
 {context}
@@ -49,9 +80,8 @@ Policy context:
 Question:
 {question}
 
-Answer in one or two sentences. Give the answer directly:
+Answer:
 """
-
     return prompt.strip()
 
 
@@ -103,9 +133,10 @@ def main():
         print("\n--- RETRIEVED CONTEXT ---")
 
         for i, point in enumerate(results, start=1):
+            payload = point.payload or {}
             print(f"\n[Chunk {i}]")
-            print(f"Section: {point.payload.get('section_title')}")
-            print(point.payload["text"])
+            print(f"Section: {payload.get('section_title')}")
+            print(payload.get("text", ""))
 
         print("\n--- END OF RETRIEVED CONTEXT ---")
         timing(
