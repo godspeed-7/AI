@@ -19,9 +19,7 @@ def load_questions(file_path: str) -> list[dict]:
 
 def extract_section_ids(expected_source: str) -> set[str]:
     # Extract IDs such as 3.1, 4.3, or top-level IDs such as 5.
-    return set(
-        re.findall(r"\d+(?:\.\d+)*", expected_source)
-    )
+    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
 
 
 def main():
@@ -32,6 +30,8 @@ def main():
 
     total = len(questions)
     hits = 0
+    recall_sum = 0.0
+    mrr_sum = 0.0
     failures = []
 
     info(f"Evaluation questions: {total}")
@@ -53,44 +53,70 @@ def main():
             with_payload=True,
         ).points
 
-        retrieved_ids = {
+        # Preserve ranking order for MRR.
+        retrieved_ids = [
             point.payload.get("section_id", "").strip()
             for point in results
-            if point.payload.get("section_id", "").strip()
-        }
+            if point.payload
+            and point.payload.get("section_id", "").strip()
+        ]
 
-        # A hit occurs when any expected section ID is retrieved.
-        expected_section_found = bool(
-            expected_ids & retrieved_ids
-        )
+        retrieved_id_set = set(retrieved_ids)
+
+        # Hit Rate: at least one expected section is retrieved.
+        matched_ids = expected_ids & retrieved_id_set
+        expected_section_found = bool(matched_ids)
 
         if expected_section_found:
             hits += 1
             success(f"Expected source found: {expected_source}")
         else:
+            error(f"Expected source NOT found: {expected_source}")
+            info(f"Expected IDs: {sorted(expected_ids)}")
+            info(f"Retrieved IDs: {sorted(retrieved_id_set)}")
+
             failures.append({
                 "question": question,
                 "expected_source": expected_source,
                 "expected_ids": sorted(expected_ids),
-                "retrieved_ids": sorted(retrieved_ids),
+                "retrieved_ids": retrieved_ids,
                 "retrieved_sections": sorted({
                     point.payload.get("section", "").strip()
                     for point in results
+                    if point.payload
                 }),
             })
 
-            error(f"Expected source NOT found: {expected_source}")
-            info(f"Expected IDs: {sorted(expected_ids)}")
-            info(f"Retrieved IDs: {sorted(retrieved_ids)}")
+        # Recall@3: proportion of expected sections retrieved.
+        if expected_ids:
+            question_recall = len(matched_ids) / len(expected_ids)
+        else:
+            question_recall = 0.0
+
+        recall_sum += question_recall
+
+        # MRR@3: reciprocal rank of the first expected section.
+        reciprocal_rank = 0.0
+
+        for rank, section_id in enumerate(retrieved_ids, start=1):
+            if section_id in expected_ids:
+                reciprocal_rank = 1.0 / rank
+                break
+
+        mrr_sum += reciprocal_rank
 
     heading("RETRIEVAL EVALUATION SUMMARY")
 
-    hit_rate = (hits / total * 100) if total else 0
+    hit_rate = (hits / total * 100) if total else 0.0
+    mean_recall = (recall_sum / total) if total else 0.0
+    mrr = (mrr_sum / total) if total else 0.0
 
     print(f"Total questions : {total}")
     print(f"Source found    : {hits}")
     print(f"Source missing  : {total - hits}")
-    print(f"Hit rate        : {hit_rate:.2f}%")
+    print(f"Hit Rate@{TOP_K}   : {hit_rate:.2f}%")
+    print(f"Recall@{TOP_K}      : {mean_recall:.4f} ({mean_recall * 100:.2f}%)")
+    print(f"MRR@{TOP_K}         : {mrr:.4f}")
 
     if failures:
         heading("FAILED QUESTIONS")

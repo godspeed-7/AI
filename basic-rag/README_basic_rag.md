@@ -25,7 +25,7 @@ User question -> all-minilm embedding -> Qdrant top-3 retrieval
                          Prompt = question + retrieved context
                                       |
                                       v
-                         Ollama: llama3.2:3b -> answer
+                         Ollama: gemma3:4b -> answer
 ```
 
 ## Project layout
@@ -62,7 +62,7 @@ basic-rag/
 Current model names:
 
 - `all-minilm` — embeddings; returns 384-dimensional vectors
-- `llama3.2:3b` — answer generation
+- `gemma3:4b` — answer generation
 
 The models must be available to the Ollama instance used by the Python app. Ollama models downloaded inside a Docker container are separate from models downloaded into native macOS Ollama.
 
@@ -86,7 +86,7 @@ If needed, download them:
 
 ```bash
 ollama pull all-minilm
-ollama pull llama3.2:3b
+ollama pull gemma3:4b
 ```
 
 ### Qdrant
@@ -144,7 +144,7 @@ Enter a question about the HR leave policy. The query flow:
 1. Embeds the question using `all-minilm`.
 2. Retrieves the three nearest chunks from Qdrant using cosine similarity.
 3. Builds a prompt containing the retrieved context and question.
-4. Sends the prompt to `llama3.2:3b` through Ollama's `/api/generate` endpoint.
+4. Sends the prompt to `gemma3:4b` through Ollama's `/api/generate` endpoint.
 5. Prints the answer and timings for each stage.
 
 The prompt instructs the model to use only the provided context and to say when the answer cannot be found in that context. This is a prompt instruction, not a guarantee that the model will always follow it.
