@@ -1,0 +1,86 @@
+AMS
+TRAVEL AND EXPENSE POLICY
+Policy ID: FIN-TRV-2026 | Version: 3.0 | Effective: 1 April 2026
+Policy owner: Finance | Applies to all AMS employees travelling on company business
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. Amounts are illustrative.
+
+1. PURPOSE AND SCOPE
+This policy explains how to get travel approved, what AMS pays for during business travel, and how to claim expenses. It applies to all employees in all offices. Amounts for India-based employees are in Indian rupees (INR). Amounts for US-based employees are in US dollars (USD). The limits depend on the employee's job grade, as defined in the Company Overview.
+
+2. KEY TERMS
+2.1 City categories in India
+Tier A cities are Bengaluru, Chennai, Delhi NCR, Hyderabad, Kolkata, Mumbai, and Pune. All other Indian cities are Tier B.
+2.2 Business trip
+A business trip is travel away from the employee's base office for work. Travel within the base city is local travel and is covered in section 7.
+2.3 Day trip
+A day trip is a business trip that does not include an overnight stay.
+
+3. TRAVEL APPROVAL
+3.1 Domestic travel
+Domestic business travel needs manager approval in AMS Expense before any booking is made.
+3.2 International travel
+International business travel needs a travel request on form TRV-F-02, approved by the department head and by Finance. Employees must submit form TRV-F-02 at least 21 calendar days before the departure date. Employees are responsible for their passport; AMS supports business visa applications through the travel desk.
+3.3 Booking
+Flights, trains, and hotels are booked through the travel desk at travel-desk@ams.example. If an employee books directly, the cost is reimbursed only up to the fare the travel desk would have paid.
+
+4. TRAVEL CLASS
+4.1 Air travel
+All employees travel in economy class. Employees at grade L6 may travel in business class on flights with a scheduled duration of more than 6 hours.
+4.2 Rail travel in India
+Grades L1 to L3 travel in AC 2-tier. Grades L4 to L6 travel in AC first class.
+
+5. ACCOMMODATION
+5.1 Nightly limits in India (INR per night)
+Grade | Tier A city | Tier B city
+L1 and L2 | 4,500 | 3,000
+L3 and L4 | 6,500 | 4,500
+L5 and L6 | 9,000 | 6,000
+5.2 Nightly limits in the United States (USD per night)
+Grades L1 to L3 may spend up to USD 180 per night. Grades L4 to L6 may spend up to USD 250 per night.
+5.3 International hotels
+For other countries, the travel desk books hotels within the limit set by Finance for that city.
+
+6. DAILY ALLOWANCE
+6.1 Purpose
+The daily allowance covers meals, tips, and small incidental costs. Employees do not need receipts for the daily allowance.
+6.2 Daily allowance in India (INR per day)
+Grade | Tier A city | Tier B city
+L1 and L2 | 1,200 | 900
+L3 and L4 | 1,800 | 1,300
+L5 and L6 | 2,500 | 1,800
+6.3 Daily allowance in the United States
+Grades L1 to L3 receive USD 60 per day. Grades L4 to L6 receive USD 75 per day.
+6.4 International trips
+For international trips, the daily allowance is USD 70 per day unless Finance has published a different rate for the destination.
+6.5 Day trips
+For a day trip, the employee receives half of the daily allowance.
+
+7. LOCAL TRAVEL
+Taxis and ride-hailing for business purposes are reimbursed with receipts. Use of a personal car for business is reimbursed at INR 12 per kilometre in India and USD 0.70 per mile in the United States. Travel between home and the base office is not reimbursed.
+
+8. EXPENSE CLAIMS
+8.1 How to claim
+Employees claim business expenses in AMS Expense using form EXP-F-07.
+8.2 Deadline
+Claims must be submitted within 30 calendar days of the end of the trip or the date of the expense.
+8.3 Late claims
+Claims submitted after 30 days need approval from the department head. Claims submitted more than 90 days after the expense are not reimbursed.
+8.4 Receipts
+A receipt is required for every expense above INR 500 in India or USD 25 in the United States, except the daily allowance.
+8.5 Lost receipts
+If a receipt is lost, the employee completes a lost-receipt declaration on form EXP-F-09. A lost-receipt declaration can be used at most twice per financial year, for amounts up to INR 2,000 or USD 50 each.
+8.6 Payment
+Approved claims are paid to the employee's salary bank account within 10 working days of approval.
+
+9. NON-REIMBURSABLE EXPENSES
+AMS does not reimburse alcohol (except approved client entertainment), traffic or parking fines, flight or hotel upgrades, minibar charges, spa or personal entertainment, or expenses for family members travelling with the employee.
+
+10. CLIENT ENTERTAINMENT
+Client entertainment needs prior approval on form ENT-F-03. The limit is INR 3,000 per person in India and USD 100 per person in the United States, including the AMS employees present.
+
+11. CORPORATE CARDS
+Employees at grade L5 and above may receive a corporate card. Corporate card transactions must be reconciled in AMS Expense by the 10th of the following month. Personal use of the corporate card is not allowed.
+
+12. CONTACT
+For questions about this policy, contact the Finance help desk at finance-help@ams.example. For bookings, contact the travel desk at travel-desk@ams.example.

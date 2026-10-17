@@ -1,0 +1,64 @@
+AMS
+HR FREQUENTLY ASKED QUESTIONS
+Document ID: HR-FAQ-2026 | Version: 1.2 | Last updated: 1 April 2026
+Document owner: People Operations | For all AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only.
+
+This FAQ answers practical, everyday questions. It does not replace the policies. Where this FAQ and a policy appear to disagree, the policy applies.
+
+1. LEAVE AND TIME OFF
+1.1 How do I apply for leave?
+Open AMS People, go to Leave, choose Apply, and select the leave type and dates. Your leave is approved only when the status changes to Approved. If AMS People is down, get written confirmation from your manager and enter the request once the portal is back.
+1.2 What do I use if I need a day off at short notice?
+In India, use casual leave, which is meant for short, unplanned personal matters. In the United States, use PTO, and let your manager know as early as you can. The exact entitlements are in your country's leave policy.
+1.3 Is there bereavement leave in India?
+The India leave policy does not have a separate bereavement leave type. You can use casual or annual leave. On request, People Operations may also approve up to 3 days of special paid leave after the death of an immediate family member.
+1.4 I was absent but forgot to apply for leave. What now?
+Apply for the missed day in AMS People within 7 calendar days. After 7 days, the missed day is treated as unpaid leave unless your manager and People Operations approve a late request.
+1.5 What happens to my leave if I transfer from India to Austin?
+On the transfer date, your India leave balance is closed and unused annual leave is settled under the India rules. You start on the US leave policy with a prorated PTO balance from the transfer date.
+
+2. PAY AND PAYSLIPS
+2.1 When is salary paid?
+In India, salary is paid on the last working day of each month. In the United States, pay is every other Friday (biweekly).
+2.2 Where can I find my payslips?
+Payslips are in AMS People under Pay. In India, the payslip is published by the second working day of the following month. In the United States, it is published on payday.
+2.3 How do I change my bank account?
+Update your bank details in AMS People. Changes made by the 20th of the month apply to that month's salary. Changes made after the 20th apply from the following month.
+2.4 When do I get my annual tax documents?
+In India, Form 16 is available in AMS People by 15 June each year. In the United States, Form W-2 is available by 31 January each year.
+
+3. OFFICE AND FACILITIES
+3.1 I lost my access badge. What should I do?
+Report it to Facilities at facilities@ams.example on the same day so the badge can be deactivated. Reception can give you a temporary day badge. A replacement badge costs INR 500 in India or USD 15 in the United States, deducted from salary.
+3.2 Is there parking at the office?
+Bengaluru: two-wheeler parking is free; car parking spaces are limited and allocated by Facilities, with priority for car pools. Pune: parking is free on a first-come, first-served basis. Austin: free parking is available in the building garage.
+3.3 Is food provided at the office?
+Bengaluru and Pune have a subsidised cafeteria where lunch costs INR 50 per meal. In Austin, a catered lunch is provided on the Tuesday and Thursday anchor days.
+3.4 Can I bring a visitor to the office?
+Register your visitor in AMS People by the end of the previous working day. Visitors must be escorted at all times and may not enter client project areas.
+
+4. IT AND ACCESS
+4.1 My laptop is broken. What do I do?
+Raise a ServiceDesk ticket. IT aims to repair it or give you a replacement laptop within 2 working days.
+4.2 Can I use my personal laptop or phone for work?
+You may not store Confidential or Restricted information on personal devices. You may read work email and chat on your personal phone only through the AMS Mobile app, which IT manages.
+4.3 I forgot my password.
+Use the self-service reset link on the AMS sign-in page. If you are locked out after 3 failed attempts, raise a ServiceDesk ticket or call the IT help line.
+
+5. CAREER AND LEARNING
+5.1 How do I find out my grade?
+Your grade is shown on your AMS People profile. The Company Overview describes what each grade means.
+5.2 Can I use my learning budget for an MBA or other degree?
+No. Degree programmes are not covered by the learning budget. AMS has a separate higher education sponsorship scheme for employees at grade L3 and above with at least 2 years of service. It covers up to 50% of tuition fees, needs a 24-month service agreement, and applications open each April.
+5.3 Can I apply for a job in another team?
+Yes. Internal openings are posted in AMS People. You can apply after 12 months in your current role if your last performance rating was "meets expectations" or higher. Your manager is told once you are shortlisted.
+
+6. GETTING HELP
+6.1 Who do I contact with an HR question?
+Raise a request in AMS People. People Operations replies within 2 working days. For urgent matters, email People Operations directly.
+6.2 How do I report a concern without giving my name?
+Use the Ethics line described in section 6 of the Code of Conduct. Reports can be anonymous.
+6.3 Where can I get confidential counselling?
+Use the Employee Assistance Programme described in section 5.2 of the Employee Benefits Policy. AMS is not told who uses it.

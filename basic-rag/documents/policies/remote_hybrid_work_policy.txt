@@ -1,0 +1,62 @@
+AMS
+REMOTE AND HYBRID WORK POLICY
+Policy ID: HR-RWP-2026 | Version: 1.4 | Effective: 1 April 2026
+Policy owner: People Operations | Applies to all AMS employees in hybrid-eligible roles
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal, tax, or immigration advice.
+
+1. PURPOSE AND SCOPE
+This policy explains when employees work from the office, when they may work from home or from another location, and what support AMS provides. Most roles at AMS are hybrid-eligible. Some roles are office-based because they need on-site equipment or presence, for example IT infrastructure, Facilities, and lab-based testing roles. The employee's offer letter or AMS People profile shows whether a role is hybrid-eligible.
+
+2. HYBRID WORKING MODEL
+2.1 Office days
+Employees in hybrid-eligible roles work from their base office at least 3 days per week. Tuesday and Thursday are company-wide anchor days when all hybrid employees are expected in the office. Each team chooses its third office day.
+2.2 Working from home
+On the remaining days, employees may work from home within their base city.
+2.3 Core collaboration hours
+Core collaboration hours are 11:00 to 16:00 local time in each office. Employees should be available for meetings during core hours on working days, whether in the office or at home.
+2.4 Exceptions
+A manager may approve a temporary reduction in office days, for example during recovery from an injury, for up to 8 weeks. Longer arrangements need People Operations approval.
+
+3. WORKING FROM ANOTHER CITY (SAME COUNTRY)
+3.1 Allowance
+Employees may work from a city other than their base city, within the same country, for up to 30 working days per calendar year. Unused days do not carry over to the next year.
+3.2 How to request
+Employees submit a remote location request in AMS People at least 5 working days before the first remote day. The manager approves or declines the request.
+3.3 Rules while working from another city
+While working from another city, the employee keeps their base office's working hours, holiday calendar, and leave policy. Office anchor days do not apply during approved remote location days.
+
+4. WORKING FROM ABROAD
+4.1 Approval
+Working from a country other than the country of the employee's payroll needs approval from the manager, People Operations, and Legal and Compliance. The request must be submitted in AMS People at least 30 calendar days before travel, because it can have tax and immigration consequences.
+4.2 Limit
+Working from abroad is limited to 15 working days per calendar year. These days are separate from the 30-day allowance for working from another city.
+4.3 Not allowed
+Working from abroad is not allowed from countries on the Legal and Compliance restricted list. Employees may not work while on approved leave abroad; leave days are recorded as leave, not as remote work.
+4.4 Business travel is different
+Travelling abroad for client work under an approved travel request (form TRV-F-02) is business travel under the Travel and Expense Policy, not working from abroad.
+
+5. FULLY REMOTE ARRANGEMENTS
+Fully remote work is an exception. It needs approval from the department head and People Operations and is reviewed every 6 months. A fully remote employee keeps a base office, follows that office's holiday calendar, and is expected to visit the office when asked, with travel paid under the Travel and Expense Policy.
+
+6. EQUIPMENT AND ALLOWANCES
+6.1 Equipment
+AMS provides each employee with a laptop and the accessories needed for their role. Requests for additional equipment are raised through ServiceDesk.
+6.2 Home office setup allowance
+After completing probation, employees in hybrid-eligible roles receive a one-time home office setup allowance of INR 15,000 in India or USD 500 in the United States, claimed in AMS Expense with receipts.
+6.3 Internet allowance
+The monthly internet allowance for hybrid and remote employees is described in section 6 of the Employee Benefits Policy (HR-BEN-2026).
+
+7. INFORMATION SECURITY WHEN WORKING REMOTELY
+7.1 Network
+Employees must connect to the AMS VPN when working outside the office. Public Wi-Fi may be used only with the VPN connected.
+7.2 Lost or stolen devices
+A lost or stolen laptop or phone with AMS data must be reported to IT ServiceDesk within 24 hours at it-helpdesk@ams.example.
+7.3 Confidential work
+Employees should not take confidential client calls in public places and must lock their screen whenever they leave their device.
+
+8. REMOTE WORK AND LEAVE
+Working from home is not a form of leave. An employee who is too unwell to work should apply for sick leave rather than working from home. Holidays follow the base office calendar, so an employee working from their hometown does not get that city's local holidays.
+
+9. CONTACT
+For questions about this policy, contact People Operations through AMS People.

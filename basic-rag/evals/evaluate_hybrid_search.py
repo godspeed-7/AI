@@ -51,13 +51,20 @@ def tokenize(text: str) -> list[str]:
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
-    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
-    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
+    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
+    return {
+        key.strip() for key in expected_source.split(";") if key.strip()
+    }
 
 
-def section_id(point) -> str:
-    """Return a Qdrant point's section_id, or "" if it has none."""
-    return str((point.payload or {}).get("section_id", "")).strip()
+def section_key(point) -> str:
+    """Return a Qdrant point's "document#section" key, or "" if the
+    chunk has no section (text before a document's first heading)."""
+    payload = point.payload or {}
+    section_id = str(payload.get("section_id", "")).strip()
+    if not section_id:
+        return ""
+    return f"{payload.get('source', '')}#{section_id}"
 
 
 def load_all_chunks(client: QdrantClient) -> list:
@@ -135,7 +142,7 @@ def evaluate_vector_baseline(client: QdrantClient, questions: list[dict]) -> dic
         expected_source = item.get("expected_source", "").strip()
         embedding = generate_embedding(question)
         points = search(client, embedding, limit=TOP_K)
-        retrieved_ids = [sid for sid in map(section_id, points) if sid]
+        retrieved_ids = [sid for sid in map(section_key, points) if sid]
         details.append({
             "question": question,
             "expected_source": expected_source,
@@ -209,7 +216,7 @@ def evaluate_hybrid(
         # RRF combines ranks, not the raw scores from either search.
         fused = reciprocal_rank_fusion([vector_candidates, keyword_candidates])
         final_points = [point for point, _score in fused[:TOP_K]]
-        retrieved_ids = [sid for sid in map(section_id, final_points) if sid]
+        retrieved_ids = [sid for sid in map(section_key, final_points) if sid]
 
         details.append({
             "question": question,
@@ -241,7 +248,12 @@ def print_summary(label: str, result: dict) -> None:
 def main() -> None:
     """Build the BM25 index, run both flows, and compare them."""
     heading("HYBRID SEARCH EVALUATION")
-    questions = load_questions(EVALUATION_FILE)
+    # Only questions with an expected source can be scored; the
+    # unanswerable ones are skipped.
+    questions = [
+        q for q in load_questions(EVALUATION_FILE)
+        if q["expected_source"].strip()
+    ]
     if not questions:
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return

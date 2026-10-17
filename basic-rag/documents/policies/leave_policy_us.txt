@@ -1,0 +1,75 @@
+AMS
+EMPLOYEE LEAVE POLICY (UNITED STATES)
+Policy ID: HR-LEAVE-US-2026 | Version: 1.3 | Effective: 1 January 2026
+Policy owner: People Operations | Applies to employees on AMS's US payroll (Austin office)
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal, HR, or employment advice.
+
+1. PURPOSE AND SCOPE
+This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll. Employees on the India payroll follow the Employee Leave Policy (India), HR-LEAVE-IN-2026, even when they travel to or work from the United States. Where federal, state, or local law provides a greater benefit, the law applies.
+
+2. LEAVE YEAR AND GENERAL RULES
+2.1 Leave year
+The leave year runs from 1 January through 31 December.
+2.2 Units
+Leave is recorded in days. One day equals eight working hours. Employees may take PTO in half-day units.
+2.3 Requests
+Employees request all leave in AMS People. Leave is approved only when AMS People shows the status as approved.
+
+3. PAID TIME OFF (PTO)
+3.1 Standard entitlement
+Regular full-time employees receive 15 days of PTO per leave year. PTO is used for vacation, personal matters, and any other planned time away. There is no separate casual leave in the United States.
+3.2 Service-based increase
+The PTO entitlement increases with completed years of service: 18 days per leave year after 3 completed years, and 20 days per leave year after 5 completed years. The increase applies from the leave year after the anniversary.
+3.3 Joining during the year
+Employees who join after 1 January receive a prorated PTO balance based on their start date.
+3.4 Part-time employees
+Regular part-time employees receive PTO prorated to their scheduled hours.
+3.5 PTO requests
+Employees should request PTO at least 7 calendar days in advance. For an absence of 5 or more consecutive working days, employees should request PTO at least 21 calendar days in advance.
+
+4. PTO CARRY-OVER AND PAYOUT
+4.1 Carry-over limit
+Employees may carry over up to 10 unused PTO days from one leave year into the next leave year.
+4.2 Use-by date
+Carried-over PTO must be used by 30 June of the following year. Carried-over PTO remaining after 30 June is forfeited.
+4.3 No cash-out during employment
+PTO cannot be exchanged for cash while employment continues.
+4.4 Payout on separation
+When employment ends, AMS pays out accrued, unused PTO up to a maximum of 10 days in the final paycheck. Sick leave and floating holidays are not paid out.
+
+5. SICK LEAVE
+5.1 Standard entitlement
+Regular full-time employees receive 5 days of paid sick leave per leave year, separate from PTO. Sick leave may be used for the employee's own illness or medical appointments, or to care for an ill family member.
+5.2 Carry-over
+Unused sick leave does not carry over to the next leave year.
+5.3 Documentation
+A doctor's note may be requested for an absence of more than 3 consecutive working days.
+
+6. FLOATING HOLIDAYS
+Regular full-time employees receive 2 floating holidays per leave year, in addition to the company holidays listed in the Holiday Calendar (HR-HOL-2026). Floating holidays may be used on any working day for any reason, with manager approval. They do not carry over and are not paid out.
+
+7. PARENTAL LEAVE
+7.1 Eligibility
+Employees become eligible for paid parental leave after 6 months of continuous service.
+7.2 Entitlement
+A birthing parent receives 12 weeks of paid parental leave. A non-birthing parent, including adoptive and foster parents, receives 6 weeks of paid parental leave. Parental leave must be taken within 12 months of the birth or placement.
+7.3 Relationship to other leave
+Paid parental leave runs at the same time as any job-protected leave the employee is entitled to under law. Employees should notify People Operations at least 30 days before the expected start date where possible.
+
+8. BEREAVEMENT LEAVE
+Employees receive up to 5 days of paid bereavement leave for the death of an immediate family member (spouse, partner, child, parent, or sibling) and up to 3 days for other relatives. Bereavement leave does not reduce the PTO balance.
+
+9. JURY DUTY
+Employees summoned for jury duty receive their regular pay for up to 10 working days per leave year. Employees should share the summons with their manager as soon as they receive it.
+
+10. QUICK REFERENCE TABLE
+Leave type | Annual entitlement | Carry-over rule
+PTO | 15 days, rising to 18 after 3 years and 20 after 5 years | Up to 10 days; use by 30 June; up to 10 days paid out on separation
+Sick leave | 5 days | No carry-over; not paid out
+Floating holidays | 2 days | No carry-over; not paid out
+Parental leave | 12 weeks (birthing parent) or 6 weeks (non-birthing parent) | Use within 12 months of birth or placement
+Bereavement leave | 5 days (immediate family) or 3 days (other relatives) | Not applicable
+
+11. CONTACT
+For questions about this policy, contact People Operations (United States) at people-ops-us@ams.example or through AMS People.

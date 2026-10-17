@@ -22,7 +22,6 @@ costs an LLM call and more searches.
 
 import csv
 import json
-import re
 import time
 from urllib.request import Request, urlopen
 
@@ -51,8 +50,20 @@ def load_questions(file_path: str) -> list[dict]:
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
-    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
-    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
+    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
+    return {
+        key.strip() for key in expected_source.split(";") if key.strip()
+    }
+
+
+def section_key(point) -> str:
+    """Return a retrieved point's "document#section" key, or "" if the
+    chunk has no section (text before a document's first heading)."""
+    payload = point.payload or {}
+    section_id = str(payload.get("section_id", "")).strip()
+    if not section_id:
+        return ""
+    return f"{payload.get('source', '')}#{section_id}"
 
 
 def expand_query(question: str) -> list[str]:
@@ -227,10 +238,7 @@ def evaluate_retrieval(
         # Step 3: score the merged top TOP_K (Hit, Recall, Reciprocal
         # Rank).
         retrieved_ids = [
-            point.payload.get("section_id", "").strip()
-            for point in final_points
-            if point.payload
-            and point.payload.get("section_id", "").strip()
+            key for key in map(section_key, final_points) if key
         ]
 
         retrieved_id_set = set(retrieved_ids)
@@ -328,7 +336,12 @@ def main():
     """Run the baseline, then query expansion, and compare."""
     heading("QUERY EXPANSION EVALUATION")
 
-    questions = load_questions(EVALUATION_FILE)
+    # Only questions with an expected source can be scored; the
+    # unanswerable ones are skipped.
+    questions = [
+        q for q in load_questions(EVALUATION_FILE)
+        if q["expected_source"].strip()
+    ]
 
     if not questions:
         error(f"No evaluation questions found in {EVALUATION_FILE}")

@@ -12,7 +12,8 @@ from pathlib import Path
 # Anchored to the project root (two folders up from this file), so
 # scripts work no matter which directory you run them from.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DOCUMENT_PATH = PROJECT_ROOT / "documents" / "hr_leave_policy.txt"
+# Every .txt file in this folder is ingested as one document.
+POLICIES_DIR = PROJECT_ROOT / "documents" / "policies"
 EVALUATION_FILE = PROJECT_ROOT / "documents" / "evaluation_questions.csv"
 EVALS_DIR = PROJECT_ROOT / "evals"
 

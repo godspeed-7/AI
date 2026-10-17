@@ -7,8 +7,13 @@ Run from the basic-rag/ folder (no LLM needed, takes seconds):
 For each question in documents/evaluation_questions.csv:
     1. Embed the question.
     2. Retrieve the TOP_K nearest chunks from Qdrant.
-    3. Compare the retrieved chunks' section_ids with the question's
-       expected sections (e.g. "Sections 4.1, 4.3" -> {"4.1", "4.3"}).
+    3. Compare the retrieved chunks with the question's expected
+       sections. Sections are identified as "document#section", e.g.
+       "leave_policy_us.txt#4.1", because several documents have a 4.1.
+
+Questions with no expected source (the "unanswerable" category) are
+skipped: retrieval can't be right or wrong for them. They are used by
+evaluate_answers.py instead.
 
 Metrics (all "@3" because TOP_K = 3 chunks are retrieved):
     Hit Rate  % of questions where at least one expected section was
@@ -23,7 +28,6 @@ This is the baseline the other retrieval experiments compare against.
 """
 
 import csv
-import re
 
 from basic_rag.config import EVALUATION_FILE, TOP_K
 from basic_rag.embedder import generate_embedding
@@ -33,22 +37,35 @@ from basic_rag.logger import heading, progress, success, info, error
 
 def load_questions(file_path: str) -> list[dict]:
     """Read the CSV; each row is a dict with keys question,
-    expected_answer, expected_source, and category."""
+    expected_answer, expected_source, category, and split."""
     with open(file_path, "r", encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
-    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
-    # Extract IDs such as 3.1, 4.3, or top-level IDs such as 5.
-    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
+    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
+    return {
+        key.strip() for key in expected_source.split(";") if key.strip()
+    }
+
+
+def section_key(point) -> str:
+    """Return a retrieved point's "document#section" key, or "" if the
+    chunk has no section (text before a document's first heading)."""
+    payload = point.payload or {}
+    section_id = str(payload.get("section_id", "")).strip()
+    if not section_id:
+        return ""
+    return f"{payload.get('source', '')}#{section_id}"
 
 
 def main():
     """Score vector search on every question and print the metrics."""
     heading("RAG RETRIEVAL EVALUATION")
 
-    questions = load_questions(EVALUATION_FILE)
+    all_questions = load_questions(EVALUATION_FILE)
+    # Only questions with an expected source can be scored.
+    questions = [q for q in all_questions if q["expected_source"].strip()]
     client = get_client()
 
     # Running totals; divided by the question count at the end.
@@ -59,6 +76,10 @@ def main():
     failures = []
 
     info(f"Evaluation questions: {total}")
+    info(
+        f"Skipped {len(all_questions) - total} questions with no "
+        "expected source (unanswerable)"
+    )
     info(f"Retrieving top {TOP_K} chunks per question")
 
     for index, item in enumerate(questions, start=1):
@@ -75,12 +96,7 @@ def main():
 
         # Step 3: score the result.
         # Preserve ranking order for MRR.
-        retrieved_ids = [
-            point.payload.get("section_id", "").strip()
-            for point in results
-            if point.payload
-            and point.payload.get("section_id", "").strip()
-        ]
+        retrieved_ids = [key for key in map(section_key, results) if key]
 
         retrieved_id_set = set(retrieved_ids)
 

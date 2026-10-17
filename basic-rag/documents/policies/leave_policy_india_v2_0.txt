@@ -1,0 +1,61 @@
+AMS
+EMPLOYEE LEAVE POLICY (INDIA)
+Policy ID: HR-LEAVE-IN-2024 | Version: 2.0 | Effective: 1 April 2024
+Policy owner: People Operations | Applies to employees on AMS's India payroll (Bengaluru and Pune offices)
+
+STATUS: SUPERSEDED. This version was replaced by Version 2.1 (HR-LEAVE-IN-2026), effective 1 April 2026. It is kept for reference only. Do not use it to decide current entitlements.
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal, HR, or employment advice.
+
+1. PURPOSE AND SCOPE
+This policy describes annual leave, sick leave, casual leave, parental leave, carry-over, encashment, and leave requests for permanent full-time employees on the India payroll. Interns and contractors follow their own agreements.
+
+2. LEAVE YEAR AND GENERAL RULES
+The leave year runs from 1 January through 31 December. Leave balances are recorded in days. Weekends and company public holidays within an approved leave period are not deducted from annual leave.
+Employees submit leave requests in the HR portal. A request is approved only when the portal shows the status as approved.
+
+3. ANNUAL LEAVE
+3.1 Standard entitlement
+Eligible permanent full-time employees receive 18 days of annual leave for each complete leave year.
+3.2 Joining during the year
+Employees who join after 1 January receive a prorated annual-leave balance, calculated in the HR system from the joining date.
+3.3 Annual leave approval
+Employees should submit planned annual leave at least 7 calendar days before the first day of leave. Managers should respond within 5 working days.
+
+4. ANNUAL LEAVE CARRY-OVER AND ENCASHMENT
+4.1 Standard carry-over limit
+Employees may carry over up to 8 unused annual-leave days from one leave year into the next leave year.
+4.2 Conditions
+The carried-over balance must be used by 30 June of the following year. Any carried-over annual leave remaining after 30 June expires. Sick leave and casual leave cannot be carried over.
+4.3 No exceptions
+Carry-over above the 8-day limit is not permitted under this version of the policy, including for business reasons.
+4.4 Year-end encashment
+At the end of each leave year, up to 10 unused annual-leave days that are not carried over are encashed automatically at basic pay and paid with the January salary.
+
+5. SICK LEAVE
+5.1 Standard entitlement
+Eligible permanent full-time employees receive 10 days of sick leave per leave year.
+5.2 Carry-over
+Unused sick leave does not carry over to the next leave year.
+5.3 Documentation
+A medical certificate is required for sick leave of more than 2 consecutive working days.
+
+6. CASUAL LEAVE
+6.1 Standard entitlement
+Eligible permanent full-time employees receive 7 days of casual leave per leave year.
+6.2 Carry-over and conversion
+Unused casual leave expires at the end of the leave year and cannot be carried over or encashed.
+
+7. PARENTAL LEAVE
+7.1 General approach
+Parental-leave entitlements depend on the employee's circumstances and applicable local requirements. Employees should contact People Operations before planning parental leave.
+
+8. QUICK REFERENCE TABLE
+Leave type | Annual entitlement | Carry-over rule
+Annual leave | 18 days | Up to 8 days; use by 30 June of the following year; up to 10 further days encashed at year-end
+Sick leave | 10 days | No carry-over
+Casual leave | 7 days | No carry-over; expires at year-end
+Parental leave | Case-dependent | Contact People Operations
+
+9. CONTACT
+For questions about this superseded version, contact People Operations through the HR portal.

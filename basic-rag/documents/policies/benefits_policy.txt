@@ -1,0 +1,64 @@
+AMS
+EMPLOYEE BENEFITS POLICY
+Policy ID: HR-BEN-2026 | Version: 2.2 | Effective: 1 April 2026
+Policy owner: People Operations (Benefits) | Applies to all regular AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. Amounts and plan names are illustrative.
+
+1. PURPOSE AND SCOPE
+This policy describes insurance, learning, wellness, connectivity, and retirement benefits. Benefits differ between the India payroll and the US payroll; each section says which applies. Interns and contractors are not covered by this policy.
+
+2. HEALTH AND INSURANCE BENEFITS (INDIA)
+2.1 Group medical insurance
+Employees on the India payroll are covered by a family floater medical policy with a sum insured of INR 5,00,000 per year. The policy covers the employee, spouse or partner, and up to two children. Coverage starts on the joining date.
+2.2 Parents' cover
+Employees may add parents or parents-in-law under an optional top-up policy. The premium for parents' cover is paid by the employee through salary deduction.
+2.3 Enrolment and changes
+Employees enrol dependants in AMS People within 30 days of joining. Dependants can be added later only after a life event, such as marriage or the birth or adoption of a child, and within 30 days of that event.
+2.4 Claims
+Cashless hospitalisation and reimbursement claims are handled by the insurer's third-party administrator, CareFirst TPA. The e-card is available in AMS People.
+2.5 Life and accident cover
+Employees are covered by group term life insurance of three times annual fixed pay and personal accident insurance of five times annual fixed pay. AMS pays the full premium.
+
+3. HEALTH AND INSURANCE BENEFITS (UNITED STATES)
+3.1 Medical plans
+Employees on the US payroll choose between a PPO plan and a high-deductible health plan (HDHP) with a health savings account (HSA). AMS pays 90% of the employee premium and 70% of the premium for dependants.
+3.2 HSA contribution
+Employees enrolled in the HDHP receive an AMS contribution of USD 750 per year to their HSA, or USD 1,500 per year with family coverage.
+3.3 Dental and vision
+Dental and vision plans are available. AMS pays 100% of the employee premium for both.
+3.4 Enrolment
+New employees enrol within 30 days of their start date. Changes outside that window are allowed only during open enrolment in November or after a qualifying life event.
+
+4. LEARNING AND DEVELOPMENT BUDGET
+4.1 Annual budget
+Each employee has a personal learning budget. Employees on the India payroll receive INR 50,000 per financial year (1 April to 31 March). Employees on the US payroll receive USD 1,500 per calendar year.
+4.2 What the budget covers
+The learning budget covers online courses, certification exams, conference tickets, and work-related books. Books are limited to INR 5,000 or USD 100 per year within the budget. Travel to conferences is paid under the Travel and Expense Policy, not from the learning budget.
+4.3 Carry-forward of unused budget
+Up to 50% of the unused learning budget carries forward to the next budget year. Carried-forward budget must be used by the end of that next budget year; it cannot be carried forward a second time.
+4.4 Approval and reimbursement
+Learning expenses need manager approval in AMS People before payment. Employees are reimbursed after completing the course or exam and uploading the certificate or receipt.
+4.5 Service agreement for costly certifications
+A single certification or course costing more than INR 1,00,000 or USD 2,000 needs a service agreement. If the employee resigns within 12 months of completion, they repay a prorated share of the cost.
+
+5. WELLNESS
+5.1 Wellness allowance
+Employees on the India payroll receive a wellness allowance of INR 12,000 per year, paid as INR 3,000 each quarter with salary. Employees on the US payroll receive a wellness allowance of USD 600 per year, reimbursed against receipts for gym memberships, fitness classes, or wellbeing apps. The wellness allowance does not carry over.
+5.2 Employee Assistance Programme
+All employees and their immediate family members can use the Employee Assistance Programme (EAP). The EAP provides up to 6 free, confidential counselling sessions per person per year and a 24-hour helpline. AMS does not receive the names of employees who use the EAP.
+
+6. CONNECTIVITY ALLOWANCE
+Employees in a hybrid or remote arrangement under the Remote and Hybrid Work Policy receive an internet allowance of INR 1,500 per month in India or USD 50 per month in the United States, paid with salary.
+
+7. RETIREMENT BENEFITS
+7.1 India
+Employees on the India payroll contribute to the Employees' Provident Fund (EPF) at 12% of basic pay, matched by AMS. Gratuity is payable on leaving after completing at least five years of continuous service.
+7.2 United States
+Employees on the US payroll may join the AMS 401(k) plan. AMS matches 100% of the employee's contribution up to 4% of eligible pay. Employer matching contributions vest immediately.
+
+8. EMPLOYEE REFERRAL BONUS
+Employees who refer a candidate who is hired receive a referral bonus of INR 50,000 in India or USD 2,000 in the United States. The bonus is paid after the new hire completes 90 days of employment. Employees at grade L6, and members of the hiring panel for the role, are not eligible.
+
+9. CONTACT
+For questions about benefits, contact benefits@ams.example or raise a request in AMS People.

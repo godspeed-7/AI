@@ -4,8 +4,9 @@ Run from the basic-rag/ folder (no LLM needed):
     uv run python evals/diagnose_retrieval.py
 
 The question "Does the policy specify a fixed number of parental-leave
-days?" should retrieve section 7.1 (parental leave). This script tries
-the original wording and three rephrasings, and for each prints:
+days?" should retrieve section 7.1 (parental leave) of the India leave
+policy. This script tries the original wording and three rephrasings,
+and for each prints:
     - its cosine similarity with section 7.1's stored vector
     - the top 5 search results with their scores
     - where 7.1 ranked, or "outside top 5"
@@ -43,6 +44,8 @@ QUESTIONS = [
 
 # Deliberately wider than config.TOP_K to see near-miss ranks.
 TOP_K = 5
+# Several documents have a section 7.1, so the document is needed too.
+TARGET_SOURCE = "leave_policy_india.txt"
 TARGET_SECTION_ID = "7.1"
 
 
@@ -54,9 +57,13 @@ def get_target_section(client):
         scroll_filter=models.Filter(
             must=[
                 models.FieldCondition(
+                    key="source",
+                    match=models.MatchValue(value=TARGET_SOURCE),
+                ),
+                models.FieldCondition(
                     key="section_id",
                     match=models.MatchValue(value=TARGET_SECTION_ID),
-                )
+                ),
             ]
         ),
         limit=1,
@@ -125,13 +132,15 @@ def main():
 
         for rank, point in enumerate(results, start=1):
             payload = point.payload or {}
+            source = payload.get("source", "")
             section_id = payload.get("section_id", "")
 
-            if section_id == TARGET_SECTION_ID:
+            # Only the India policy's 7.1 counts, not another 7.1.
+            if (source, section_id) == (TARGET_SOURCE, TARGET_SECTION_ID):
                 target_rank = rank
 
             print(
-                f"Rank {rank}: Section {section_id} | "
+                f"Rank {rank}: {source} section {section_id} | "
                 f"Score: {point.score:.4f}"
             )
 

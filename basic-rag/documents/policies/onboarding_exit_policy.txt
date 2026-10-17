@@ -1,0 +1,76 @@
+AMS
+ONBOARDING AND EXIT POLICY
+Policy ID: HR-ONX-2026 | Version: 2.0 | Effective: 1 April 2026
+Policy owner: People Operations | Applies to all regular AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal or employment advice.
+
+1. PURPOSE AND SCOPE
+This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement. India and US rules differ in some sections; each section says which applies.
+
+2. BEFORE JOINING
+2.1 Documents
+New joiners upload their identity proof, address proof, education certificates, and the relieving letter from their previous employer to AMS People at least 3 working days before the joining date.
+2.2 Background verification
+AMS carries out background verification of education, previous employment, and identity. An offer may be withdrawn if the verification finds false information.
+
+3. FIRST WEEKS
+3.1 First day
+On the first day, new joiners receive their laptop and access badge and attend the company induction. Each new joiner is assigned a buddy from their team for the first 90 days.
+3.2 Mandatory training
+New joiners complete Code of Conduct, information security, and anti-harassment training in AMS Learn within 30 days of joining.
+
+4. PROBATION
+4.1 Length
+Employees on the India payroll serve a probation period of 6 months. Employees on the US payroll have a 90-day introductory period.
+4.2 Extension
+Probation may be extended once, by up to 3 months, if the manager and People Operations agree that more time is needed. The employee is told in writing before the original probation ends.
+4.3 Confirmation
+Employees on the India payroll receive a confirmation letter in AMS People when probation is completed successfully.
+4.4 Leave during probation
+Annual leave builds up from the joining date. During probation, employees on the India payroll may use up to 5 days of annual leave; the rest becomes available after confirmation. Sick leave and casual leave can be used during probation.
+4.5 Notice during probation
+During probation, the notice period on either side is 15 days for employees on the India payroll.
+
+5. RESIGNATION AND NOTICE PERIODS
+5.1 How to resign
+Employees resign by submitting a resignation request in AMS People. The notice period starts on the day the request is submitted.
+5.2 Notice periods in India (after confirmation)
+Grade | Notice period
+L1 to L3 | 30 days
+L4 and L5 | 60 days
+L6 | 90 days
+5.3 Notice in the United States
+Employment in the United States is at will. AMS asks employees to give at least 2 weeks' notice, or 4 weeks' notice for grades L5 and L6.
+5.4 Shortening the notice period
+In India, the notice period may be shortened with approval from the manager and People Operations. If it is shortened at the employee's request, the employee pays basic pay for the unserved days, which is recovered in the final settlement. Unused annual leave cannot be used to shorten the notice period without this approval.
+5.5 Leave during the notice period
+Sick leave may be taken during the notice period. Annual leave during the notice period needs manager approval and is normally granted only for days already approved before the resignation.
+
+6. EXIT PROCESS
+6.1 Handover
+The employee completes a handover plan agreed with their manager before the last working day.
+6.2 Exit interview
+People Operations invites every leaver to a confidential exit interview in the final two weeks.
+6.3 Return of assets
+The laptop, access badge, corporate card, and any other company property must be returned on or before the last working day. Access to AMS systems ends at 18:00 local time on the last working day.
+
+7. FINAL SETTLEMENT
+7.1 India
+The full and final settlement is paid within 45 days of the last working day. It includes:
+Salary up to the last working day.
+Encashment of unused annual leave, up to a maximum of 15 days, at basic pay.
+Gratuity, if the employee completed at least five years of continuous service.
+Recovery of any unserved notice period, unreturned assets, or outstanding advances.
+Casual leave, sick leave, and restricted holidays are not encashed. Leave encashment on exit is the payment on separation referred to in section 4.4 of the Employee Leave Policy (India).
+7.2 United States
+The final paycheck is paid on the next regular payday after the last working day, or earlier where state law requires. Unused PTO is paid out up to 10 days under section 4.4 of the US leave policy (HR-LEAVE-US-2026). Sick leave and floating holidays are not paid out.
+
+8. LETTERS AFTER LEAVING
+In India, the relieving letter and experience letter are issued within 7 days of the final settlement. In the United States, an employment verification letter is provided on request.
+
+9. REHIRING
+Former employees may be considered for rehire 6 months after their last working day. Employees whose employment ended because of misconduct are not eligible for rehire.
+
+10. CONTACT
+For questions about onboarding or exit, contact People Operations through AMS People.

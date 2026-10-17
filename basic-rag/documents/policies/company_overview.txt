@@ -1,0 +1,79 @@
+AMS
+COMPANY OVERVIEW AND EMPLOYEE GUIDE
+Document ID: HR-OVR-2026 | Version: 1.0 | Effective: 1 April 2026
+Document owner: People Operations | Applies to all AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company.
+
+1. ABOUT AMS
+AMS is a software and IT services company that builds and supports enterprise applications for clients in banking, retail, and healthcare. AMS employs approximately 1,200 people across three offices in two countries. The company headquarters is in Bengaluru.
+The company's financial year runs from 1 April to 31 March. Some benefits, such as the learning budget in India, follow the financial year, while leave follows the calendar year. Each policy states which year it uses.
+
+2. OFFICES AND PAYROLL
+2.1 Office locations
+AMS has three offices:
+Bengaluru, India | Headquarters | About 700 employees | India payroll
+Pune, India | Delivery centre | About 350 employees | India payroll
+Austin, Texas, United States | Client office | About 150 employees | US payroll
+2.2 Base location
+Every employee has a base location, which is the office named in their employment contract. The base location decides which payroll, leave policy, and holiday calendar apply. Working temporarily from another city or country does not change the base location. Employees on the India payroll follow the India leave policy (HR-LEAVE-IN-2026). Employees on the US payroll follow the US leave policy (HR-LEAVE-US-2026).
+2.3 Changing base location
+A permanent move between offices is a transfer, not remote work. Transfers need approval from the current manager, the receiving manager, and People Operations. A transfer between India and the United States also needs a new employment contract and immigration review.
+
+3. JOB GRADES
+3.1 Grade structure
+AMS uses six job grades. Grades are used in several policies, including travel limits, notice periods, and approval rules.
+L1 | Associate | Entry level, usually up to two years of experience
+L2 | Engineer or Analyst | Works independently on defined tasks
+L3 | Senior Engineer or Senior Analyst | Leads features and mentors juniors
+L4 | Team Lead | Leads a team of up to ten people; first level of people management
+L5 | Manager or Principal | Manages several teams or is a senior individual contributor
+L6 | Director | Leads a department or a major client account
+3.2 People managers
+Employees at grade L4 and above may be people managers. Where a policy says "manager approval", it means the employee's reporting manager as shown in AMS People. Where a policy says "department head", it means the L6 director responsible for the department.
+3.3 Promotions
+Promotions are reviewed twice a year, in April and October, as part of the performance cycle. A promotion takes effect from the first day of the following month.
+
+4. DEPARTMENTS
+AMS is organised into the following departments: Engineering, Product, Delivery, Sales, Finance, People Operations, IT and Security, Legal and Compliance, and Facilities. People Operations is the HR team. Legal and Compliance owns the Code of Conduct. Finance owns the travel and expense policy.
+
+5. SYSTEMS EMPLOYEES USE
+5.1 AMS People
+AMS People is the HR portal. Employees use it to apply for leave, check leave balances, view payslips, update personal and bank details, raise People Operations requests, and request remote work. Policies may refer to it as "the HR portal".
+5.2 AMS Expense
+AMS Expense is the system for travel approvals and expense claims. Claims are submitted on form EXP-F-07 inside AMS Expense.
+5.3 AMS Learn
+AMS Learn is the training platform. Mandatory trainings, such as Code of Conduct, information security, and anti-harassment training, are assigned and tracked in AMS Learn.
+5.4 ServiceDesk
+ServiceDesk is the IT support system. Employees raise tickets for laptop problems, access requests, and lost devices.
+
+6. WORKING HOURS
+6.1 Standard working week
+The standard working week is Monday to Friday in all offices. A standard working day is eight hours, plus a one-hour meal break. Core collaboration hours are set in the Remote and Hybrid Work Policy.
+6.2 Overtime
+Employees in India at grades L1 and L2 who are asked to work on a weekend or public holiday receive a compensatory day off, as described in the Holiday Calendar. Non-exempt employees in the United States are paid overtime as required by law.
+
+7. KEY CONTACTS
+People Operations, India | people-ops@ams.example
+People Operations, United States | people-ops-us@ams.example
+Payroll | payroll@ams.example
+Benefits | benefits@ams.example
+Finance help desk | finance-help@ams.example
+Travel desk | travel-desk@ams.example
+IT ServiceDesk | it-helpdesk@ams.example
+Ethics line | ethics@ams.example
+Internal Committee (India) | internal-committee@ams.example
+Facilities | facilities@ams.example
+
+8. POLICY LIBRARY
+The main employee policies are:
+Employee Leave Policy (India) | HR-LEAVE-IN-2026
+Employee Leave Policy (United States) | HR-LEAVE-US-2026
+Holiday Calendar 2026 | HR-HOL-2026
+Travel and Expense Policy | FIN-TRV-2026
+Employee Benefits Policy | HR-BEN-2026
+Remote and Hybrid Work Policy | HR-RWP-2026
+Code of Conduct | LEG-COC-2026
+Onboarding and Exit Policy | HR-ONX-2026
+HR Frequently Asked Questions | HR-FAQ-2026
+Where a policy and the FAQ appear to disagree, the policy applies.

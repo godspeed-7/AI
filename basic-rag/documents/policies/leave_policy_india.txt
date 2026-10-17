@@ -1,7 +1,7 @@
-NORTHSTAR TECHNOLOGIES
-EMPLOYEE LEAVE POLICY
-Policy ID: HR-LEAVE-2026 | Version: 2.1 | Effective: 1 April 2026
-Policy owner: People Operations | Applies to employees on Northstar Technologies' India payroll
+AMS
+EMPLOYEE LEAVE POLICY (INDIA)
+Policy ID: HR-LEAVE-IN-2026 | Version: 2.1 | Effective: 1 April 2026 | Supersedes: Version 2.0
+Policy owner: People Operations | Applies to employees on AMS's India payroll (Bengaluru and Pune offices)
 
 TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal, HR, or employment advice.
 

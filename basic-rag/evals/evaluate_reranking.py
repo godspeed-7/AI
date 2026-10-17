@@ -19,7 +19,6 @@ that vector search didn't fetch.
 """
 
 import csv
-import re
 import time
 
 from qdrant_client import QdrantClient
@@ -45,8 +44,20 @@ def load_questions(file_path: str) -> list[dict]:
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
-    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
-    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
+    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
+    return {
+        key.strip() for key in expected_source.split(";") if key.strip()
+    }
+
+
+def section_key(point) -> str:
+    """Return a retrieved point's "document#section" key, or "" if the
+    chunk has no section (text before a document's first heading)."""
+    payload = point.payload or {}
+    section_id = str(payload.get("section_id", "")).strip()
+    if not section_id:
+        return ""
+    return f"{payload.get('source', '')}#{section_id}"
 
 
 def calculate_metrics(details: list[dict]) -> dict:
@@ -113,12 +124,8 @@ def evaluate_baseline(client: QdrantClient, questions: list[dict]) -> dict:
 
         chunks = search(client, embedding, limit=TOP_K)
 
-        # Section ids in rank order (best first), skipping blanks.
-        retrieved_ids = [
-            str((point.payload or {}).get("section_id", "")).strip()
-            for point in chunks
-            if str((point.payload or {}).get("section_id", "")).strip()
-        ]
+        # Section keys in rank order (best first), skipping blanks.
+        retrieved_ids = [key for key in map(section_key, chunks) if key]
         details.append({
             "question": question,
             "expected_source": expected_source,
@@ -158,9 +165,8 @@ def evaluate_with_reranking(
         # Step 3: record the result. ranked_sections keeps the reranker
         # scores so they can be printed below.
         retrieved_ids = [
-            str((point.payload or {}).get("section_id", "")).strip()
-            for point, _score in ranked
-            if str((point.payload or {}).get("section_id", "")).strip()
+            key for key in (section_key(point) for point, _score in ranked)
+            if key
         ]
         details.append({
             "question": question,
@@ -169,7 +175,7 @@ def evaluate_with_reranking(
             "retrieved_ids": retrieved_ids,
             "ranked_sections": [
                 {
-                    "section_id": str((point.payload or {}).get("section_id", "")),
+                    "section_id": section_key(point),
                     "section_title": str((point.payload or {}).get("section_title", "")),
                     "score": score,
                 }
@@ -227,7 +233,12 @@ def print_comparison(baseline: dict, reranked: dict) -> None:
 def main() -> None:
     """Run baseline, then reranked retrieval, and compare them."""
     heading("RERANKING EVALUATION")
-    questions = load_questions(EVALUATION_FILE)
+    # Only questions with an expected source can be scored; the
+    # unanswerable ones are skipped.
+    questions = [
+        q for q in load_questions(EVALUATION_FILE)
+        if q["expected_source"].strip()
+    ]
     if not questions:
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return

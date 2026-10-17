@@ -75,7 +75,7 @@ def insert_chunks(
     """Store embedded chunks in Qdrant as points.
 
     `embedded_chunks` come from embedder.embed_chunks; `source` is the
-    document's file name (e.g. "hr_leave_policy.txt") and is saved in
+    document's file name (e.g. "leave_policy_us.txt") and is saved in
     every payload. Raises ValueError if two chunks would share an ID.
     """
     points = []

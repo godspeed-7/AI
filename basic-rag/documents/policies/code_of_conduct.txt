@@ -1,0 +1,64 @@
+AMS
+CODE OF CONDUCT
+Policy ID: LEG-COC-2026 | Version: 4.0 | Effective: 1 April 2026
+Policy owner: Legal and Compliance | Applies to all AMS employees, interns, and contractors
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. It is not legal advice.
+
+1. PURPOSE AND SCOPE
+This Code of Conduct sets out how everyone who works for or with AMS is expected to behave. It applies to employees, interns, and contractors in all offices, at client sites, at company events, and online when representing AMS.
+
+2. CORE PRINCIPLES
+AMS expects everyone to act with integrity, treat people with respect, protect information entrusted to us, and follow the law and company policies. When a situation is not covered by a policy, ask: is it legal, is it fair, and would I be comfortable if it were made public?
+
+3. CONFLICTS OF INTEREST
+3.1 Disclosure
+Employees must disclose any situation where personal interests could conflict with AMS's interests, such as outside employment, a directorship, a family member working for a vendor or client, or a financial interest in a vendor or competitor. Disclosures are made on form COI-F-01 within 15 days of the situation arising.
+3.2 Outside work
+Employees need written approval from their manager and Legal and Compliance before taking up any paid outside work. Outside work for a competitor or client of AMS is not allowed.
+
+4. GIFTS AND HOSPITALITY
+4.1 Accepting gifts
+Employees may accept gifts of modest value from a business contact, up to INR 2,500 or USD 50 in total per source per year. Cash or cash equivalents, such as gift cards, must never be accepted.
+4.2 Declaring gifts
+Any gift above the limit must be declared on form GIFT-F-04 within 7 days and either returned or handed to Legal and Compliance.
+4.3 Offering gifts
+Gifts to clients or government officials need prior approval from Legal and Compliance.
+
+5. RESPECTFUL WORKPLACE AND ANTI-HARASSMENT
+5.1 Zero tolerance
+AMS does not tolerate harassment, bullying, or discrimination of any kind, including sexual harassment. This applies in the office, while working remotely, on business travel, and at company events.
+5.2 Internal Committee (India offices)
+For complaints of sexual harassment in the India offices, AMS has an Internal Committee (IC). The IC is chaired by a senior woman employee and includes an external member. Complaints can be sent to internal-committee@ams.example.
+5.3 Making a complaint in India
+A complaint to the Internal Committee should be made in writing within 3 months of the incident, or of the last incident in a series. The IC may extend this by a further 3 months if there were reasons that prevented an earlier complaint. The IC aims to complete its inquiry within 90 days.
+5.4 Making a complaint in the United States
+Employees in the Austin office report harassment to People Operations (United States) or through the Ethics line. Complaints are investigated promptly by a trained investigator.
+5.5 Confidentiality and no retaliation
+Complaints and investigations are kept confidential to the extent possible. Retaliation against anyone who raises a concern in good faith, or who takes part in an investigation, is itself misconduct.
+
+6. SPEAKING UP
+Employees should report suspected fraud, bribery, data misuse, safety risks, or other breaches of this Code. Reports can be made to a manager, to Legal and Compliance, or through the Ethics line at ethics@ams.example. Reports to the Ethics line can be anonymous. AMS will not take action against anyone for a report made in good faith, even if the concern turns out to be unfounded.
+
+7. INFORMATION AND DATA PROTECTION
+7.1 Classification
+AMS information is classified as Public, Internal, Confidential, or Restricted. Client data is always Confidential or Restricted.
+7.2 Handling
+Confidential and Restricted information must be stored only on AMS-approved systems. It must not be copied to personal devices, personal email, or public AI tools.
+7.3 Data incidents
+Suspected data leaks must be reported to IT ServiceDesk and Legal and Compliance immediately.
+
+8. COMPANY ASSETS AND PUBLIC STATEMENTS
+8.1 Company assets
+Laptops, software, and accounts are provided for business use. Limited personal use is acceptable if it does not affect work or security.
+8.2 Social media and the press
+Only authorised spokespeople may speak on behalf of AMS. Employees must not share confidential information or client names on social media.
+
+9. CONSEQUENCES OF BREACHES
+Breaches of this Code may lead to disciplinary action, including a verbal warning, a written warning, a final written warning, or termination of employment. Serious misconduct, such as fraud, harassment, or deliberate data misuse, may lead to immediate termination.
+
+10. ANNUAL CERTIFICATION
+All employees must complete Code of Conduct training and certify that they have read this Code each year by 31 March in AMS Learn. New joiners complete the training within 30 days of joining.
+
+11. CONTACT
+For questions about this Code, contact Legal and Compliance or the Ethics line at ethics@ams.example.

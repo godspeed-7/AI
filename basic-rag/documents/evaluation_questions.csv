@@ -1,26 +1,151 @@
-question,expected_answer,expected_source,category
-How many annual-leave days does a full-time employee receive each year?,20 days per complete leave year.,Section 3.1,easy
-How many unused annual-leave days can normally carry over?,Up to 5 unused annual-leave days.,Section 4.1,easy
-By when must standard carried-over annual leave be used?,By 31 March of the following year.,Section 4.2,easy
-Can unused sick leave carry over into the next year?,No. Sick leave does not carry over under this policy.,Section 5.2,easy
-Can unused casual leave be converted into annual leave?,No. Casual leave cannot be converted into annual leave.,Section 6.2,easy
-What is the annual sick-leave entitlement?,10 days per leave year for eligible permanent full-time employees.,Section 5.1,easy
-What is the annual casual-leave entitlement?,6 days per leave year for eligible permanent full-time employees.,Section 6.1,easy
-I have 8 unused annual-leave days. Can I carry all 8 into next year?,"Under the standard rule, no. The carry-over limit is 5 days; an exception may be requested under Section 4.3.","Sections 4.1, 4.3",multi-hop
-I could not take leave because my manager required me to support a business-critical delivery. Can my carry-over limit be increased?,"Possibly, through an exception request with written manager justification and written People Operations approval before the normal expiry date. The approval must specify extra days and a revised expiry date.",Section 4.3,exception
-Do unused sick days count toward the five-day annual-leave carry-over limit?,No. Sick leave cannot be carried over and cannot be converted into annual leave.,"Sections 4.2, 5.2",exception
-Does unused annual leave automatically get paid out at year-end?,No. It does not automatically convert to cash under this policy; any settlement must be reviewed by People Operations and Payroll under the applicable agreement and local requirements.,Section 4.4,exception
-How far in advance should I submit a planned annual-leave request?,"At least 10 calendar days before leave starts; for 5 or more consecutive working days, at least 15 calendar days in advance where reasonably possible.",Section 3.4,multi-hop
-"If I submit a leave request in the HR portal, can I assume it is approved?","No. Wait for the portal to show approved, or obtain written manager confirmation if the portal is unavailable.","Sections 2, 8.1",exception
-What should I do if my leave balance looks wrong?,Raise a request with People Operations and include the relevant dates and leave type.,Section 10,easy
-Who should I contact to confirm parental-leave eligibility?,"People Operations can confirm the applicable eligibility rules, documents, and dates.",Section 7.1,easy
-Are weekends deducted from annual leave during an approved leave period?,"Generally no, unless the employee's schedule or applicable local rule requires different treatment.",Section 2,exception
-Which holiday calendar should an employee use?,The location-specific public-holiday calendar for their work location.,Section 9,easy
-Can a manager independently promise a leave-balance correction?,No. People Operations reviews balance-correction requests and coordinates with Payroll or the HR-system administrator when needed.,Section 10,exception
-What details should I include when asking about carry-over?,"The leave year, leave type, displayed unused balance, and any written exception approval.",Section 10,multi-hop
-Does a part-time employee receive the same fixed annual-leave balance as a full-time employee?,No. The entitlement is prorated based on the contracted working pattern.,Section 3.3,exception
-How many days of annual leave can be carried over if I have 4 unused days?,"All 4 days are within the standard limit of up to 5 days, subject to the other policy conditions.","Sections 4.1, 4.2",easy
-Can casual leave remaining at the end of December be used in the next leave year?,No. Unused casual leave expires at the end of the leave year.,Section 6.2,easy
-What happens if a public holiday falls during my annual leave?,"It is generally not deducted when it falls on a scheduled working day covered by the location's published holiday calendar, subject to applicable rules and work arrangements.",Section 9,multi-hop
-Does the policy specify a fixed number of parental-leave days?,"No. Entitlements depend on circumstances, applicable local requirements, and separate procedures.",Section 7.1,unanswerable-fixed-number
-Can I use annual-leave balance to determine parental-leave eligibility?,"No. Annual, sick, and casual leave balances do not determine parental-leave eligibility.",Section 7.2,exception
+question,expected_answer,expected_source,category,split
+Can unused sick leave carry over into the next year for India-based employees?,No. Sick leave does not carry over under the India leave policy.,leave_policy_india.txt#5.2,lookup,dev
+Can unused casual leave be converted into annual leave?,No. Casual leave cannot be converted into annual leave.,leave_policy_india.txt#6.2,lookup,test
+What is the annual sick-leave entitlement for employees on the India payroll?,10 days per leave year for eligible permanent full-time employees.,leave_policy_india.txt#5.1,lookup,dev
+I'm based in Bengaluru and have 8 unused annual-leave days. Can I carry all 8 into next year?,"Under the standard rule, no. The carry-over limit is 5 days; an exception may be requested under Section 4.3.",leave_policy_india.txt#4.1; leave_policy_india.txt#4.3,lookup,test
+"If I submit a leave request in the HR portal, can I assume it is approved?","No. Wait for the portal to show approved, or obtain written manager confirmation if the portal is unavailable.",leave_policy_india.txt#2; leave_policy_india.txt#8.1; hr_faq.txt#1.1,lookup,dev
+What should I do if my leave balance looks wrong?,Raise a request with People Operations and include the relevant dates and leave type.,leave_policy_india.txt#10,lookup,dev
+Who should I contact to confirm parental-leave eligibility in India?,"People Operations can confirm the applicable eligibility rules, documents, and dates.",leave_policy_india.txt#7.1,lookup,test
+Are weekends deducted from annual leave during an approved leave period in India?,"Generally no, unless the employee's schedule or applicable local rule requires different treatment.",leave_policy_india.txt#2,lookup,dev
+Can a manager independently promise a leave-balance correction?,No. People Operations reviews balance-correction requests and coordinates with Payroll or the HR-system administrator when needed.,leave_policy_india.txt#10,lookup,test
+What details should I include when asking People Operations about leave carry-over?,"The leave year, leave type, displayed unused balance, and any written exception approval.",leave_policy_india.txt#10,lookup,dev
+Does a part-time employee in India receive the same annual-leave balance as a full-time employee?,No. The entitlement is prorated based on the contracted working pattern.,leave_policy_india.txt#3.3,lookup,dev
+How many days of annual leave can I carry over in India if I have 4 unused days?,"All 4 days are within the standard limit of up to 5 days, subject to the other policy conditions.",leave_policy_india.txt#4.1; leave_policy_india.txt#4.2,lookup,test
+Can casual leave remaining at the end of December be used in the next leave year?,No. Unused casual leave expires at the end of the leave year.,leave_policy_india.txt#6.2,lookup,dev
+What happens if a public holiday falls during my annual leave?,It is not deducted from the leave balance when it falls on a scheduled working day covered by the holiday calendar.,leave_policy_india.txt#9; holiday_calendar_2026.txt#2.4,lookup,test
+How many free counselling sessions does the Employee Assistance Programme provide?,"Up to 6 free, confidential sessions per person per year, plus a 24-hour helpline.",benefits_policy.txt#5.2,lookup,dev
+What is the sum insured under the India group medical policy?,"INR 5,00,000 per year on a family floater basis.",benefits_policy.txt#2.1,lookup,dev
+How much does AMS match on 401(k) contributions?,100% of the employee's contribution up to 4% of eligible pay; the match vests immediately.,benefits_policy.txt#7.2,lookup,test
+How many days a week do hybrid employees need to be in the office?,At least 3 days: the Tuesday and Thursday anchor days plus a third day chosen by the team.,remote_hybrid_work_policy.txt#2.1,lookup,dev
+What are the core collaboration hours?,11:00 to 16:00 local time in each office.,remote_hybrid_work_policy.txt#2.3,lookup,test
+How long is the probation period for employees on the India payroll?,6 months.,onboarding_exit_policy.txt#4.1,lookup,dev
+Within how many days is the full and final settlement paid in India?,Within 45 days of the last working day.,onboarding_exit_policy.txt#7.1,lookup,dev
+How long does the Internal Committee aim to take to complete an inquiry?,90 days.,code_of_conduct.txt#5.3,lookup,test
+By when must employees complete their annual Code of Conduct certification?,"By 31 March each year, in AMS Learn. New joiners complete it within 30 days of joining.",code_of_conduct.txt#10,lookup,dev
+How quickly must a lost work laptop be reported?,"Within 24 hours, to IT ServiceDesk.",remote_hybrid_work_policy.txt#7.2,lookup,test
+How many employees does AMS have?,"Approximately 1,200, across three offices.",company_overview.txt#1,lookup,dev
+When are promotions reviewed at AMS?,"Twice a year, in April and October; a promotion takes effect from the first day of the following month.",company_overview.txt#3.3,lookup,dev
+Within how many days must a business expense claim be submitted?,Within 30 calendar days of the end of the trip or the date of the expense.,travel_expense_policy.txt#8.2,lookup,test
+How much is the employee referral bonus in India?,"INR 50,000, paid after the new hire completes 90 days.",benefits_policy.txt#8,lookup,dev
+When is salary paid in India?,On the last working day of each month.,hr_faq.txt#2.1,lookup,test
+How long is a new joiner's buddy assigned for?,For the first 90 days.,onboarding_exit_policy.txt#3.1,lookup,dev
+Which holiday calendar should an employee use?,"The calendar of their base office, even when working temporarily from another city or country.",holiday_calendar_2026.txt#1; leave_policy_india.txt#9,location,dev
+Does the India leave policy specify a fixed number of parental-leave days?,"No. Entitlements depend on circumstances, applicable local requirements, and separate procedures.",leave_policy_india.txt#7.1,location,test
+How many PTO days does a new full-time employee in Austin get?,"15 days per leave year, prorated if they join after 1 January.",leave_policy_us.txt#3.1,location,dev
+How many sick days do employees in Austin get per year?,"5 days of paid sick leave, separate from PTO.",leave_policy_us.txt#5.1,location,test
+How many weeks of paid parental leave does a birthing parent get in the US office?,"12 weeks, after 6 months of continuous service.",leave_policy_us.txt#7.2; leave_policy_us.txt#7.1,location,dev
+Is Holi a company holiday in the Bengaluru office?,No. Holi is a fixed holiday only for the Pune office.,holiday_calendar_2026.txt#4.2,location,dev
+Is 1 November 2026 a holiday for the Pune office?,No. Kannada Rajyotsava on 1 November applies only to Bengaluru (and falls on a Sunday in 2026).,holiday_calendar_2026.txt#3.2,location,test
+When does the Austin office observe Independence Day in 2026?,"On Friday, 3 July 2026, because 4 July falls on a Saturday.",holiday_calendar_2026.txt#6.2; holiday_calendar_2026.txt#6.1,location,dev
+Independence Day 2026 falls on a Saturday. Do employees in Pune get a substitute day off?,No. India offices do not give a substitute day when a holiday falls on a weekend.,holiday_calendar_2026.txt#4.2; holiday_calendar_2026.txt#2.2,location,test
+How many restricted holidays can employees in India choose?,"2 per calendar year, from the restricted holiday list.",holiday_calendar_2026.txt#5.1,location,dev
+Do employees in Austin get restricted holidays?,No. Restricted holidays are for the India payroll; US employees get 2 floating holidays instead.,holiday_calendar_2026.txt#5.1; leave_policy_us.txt#6,location,dev
+What medical plans can employees in Austin choose from?,A PPO plan or a high-deductible health plan with an HSA; AMS pays 90% of the employee premium and 70% for dependants.,benefits_policy.txt#3.1,location,test
+How much is the learning budget for US employees?,"USD 1,500 per calendar year.",benefits_policy.txt#4.1,location,dev
+What is the wellness allowance for employees in India?,"INR 12,000 per year, paid as INR 3,000 each quarter with salary.",benefits_policy.txt#5.1,location,test
+How much notice should an L5 employee in Austin give when resigning?,"At least 4 weeks; US employment is at will, but AMS asks L5 and L6 for 4 weeks' notice.",onboarding_exit_policy.txt#5.3,location,dev
+Is there a probation period for new hires in Austin?,"Yes, a 90-day introductory period.",onboarding_exit_policy.txt#4.1,location,dev
+Is lunch provided at the Austin office?,A catered lunch is provided on the Tuesday and Thursday anchor days.,hr_faq.txt#3.3,location,test
+Where should an employee in Austin report harassment?,To People Operations (United States) or through the Ethics line.,code_of_conduct.txt#5.4,location,dev
+How many days of bereavement leave does an Austin employee get when a parent dies?,Up to 5 days of paid bereavement leave.,leave_policy_us.txt#8,location,test
+When do US employees receive their W-2?,"By 31 January each year, in AMS People.",hr_faq.txt#2.4,location,dev
+Which form is used to request approval for international business travel?,"Form TRV-F-02, approved by the department head and Finance, submitted at least 21 days before departure.",travel_expense_policy.txt#3.2,code_grade,dev
+Which form do I use to claim business expenses?,"Form EXP-F-07, in AMS Expense.",travel_expense_policy.txt#8.1,code_grade,test
+Which form do I fill in if I lost a receipt?,"Form EXP-F-09, the lost-receipt declaration; at most twice per financial year, up to INR 2,000 or USD 50 each.",travel_expense_policy.txt#8.5,code_grade,dev
+What is form ENT-F-03 used for?,Prior approval for client entertainment.,travel_expense_policy.txt#10,code_grade,test
+Which form is used to disclose a conflict of interest?,"Form COI-F-01, within 15 days of the situation arising.",code_of_conduct.txt#3.1,code_grade,dev
+What is GIFT-F-04?,"The form for declaring a gift above the allowed limit, within 7 days.",code_of_conduct.txt#4.2,code_grade,dev
+What is the nightly hotel limit for an L3 employee in a Tier A city in India?,"INR 6,500 per night.",travel_expense_policy.txt#5.1,code_grade,test
+What daily allowance does an L2 employee get on a trip to a Tier B city in India?,INR 900 per day.,travel_expense_policy.txt#6.2,code_grade,dev
+What is the daily allowance for an L4 employee travelling in the United States?,USD 75 per day.,travel_expense_policy.txt#6.3,code_grade,test
+Can an L6 director fly business class?,"Yes, on flights scheduled for more than 6 hours; otherwise economy.",travel_expense_policy.txt#4.1,code_grade,dev
+Which train class can an L4 employee book in India?,AC first class.,travel_expense_policy.txt#4.2,code_grade,dev
+What is the notice period for an L4 employee in India after confirmation?,60 days.,onboarding_exit_policy.txt#5.2,code_grade,test
+What is the notice period for an L2 employee in India after confirmation?,30 days.,onboarding_exit_policy.txt#5.2,code_grade,dev
+Which grade is a Team Lead at AMS?,L4.,company_overview.txt#3.1,code_grade,test
+From which grade can employees get a corporate card?,L5 and above.,travel_expense_policy.txt#11,code_grade,dev
+Who counts as a department head in AMS policies?,The L6 director responsible for the department.,company_overview.txt#3.2,code_grade,dev
+What is the policy ID of the remote and hybrid work policy?,HR-RWP-2026.,company_overview.txt#8,code_grade,test
+What is the hotel limit per night for an L5 employee travelling in the US?,USD 250 per night.,travel_expense_policy.txt#5.2,code_grade,dev
+Are L6 employees eligible for the referral bonus?,No. L6 employees and members of the hiring panel are not eligible.,benefits_policy.txt#8,code_grade,test
+Who is eligible for the higher education sponsorship scheme?,Employees at grade L3 and above with at least 2 years of service; it covers up to 50% of tuition and needs a 24-month service agreement.,hr_faq.txt#5.2,code_grade,dev
+Do unused sick days count toward the five-day annual-leave carry-over limit in India?,No. Sick leave cannot be carried over and cannot be converted into annual leave.,leave_policy_india.txt#4.2; leave_policy_india.txt#5.2,confusable,dev
+Can I use my annual-leave balance to determine parental-leave eligibility?,"No. Annual, sick, and casual leave balances do not determine parental-leave eligibility.",leave_policy_india.txt#7.2,confusable,test
+Does unused learning budget expire at the end of the year like casual leave?,No. Up to 50% of the unused budget carries forward to the next budget year and must be used by its end.,benefits_policy.txt#4.3,confusable,dev
+Can carried-forward learning budget be carried forward again?,No. It must be used by the end of the next budget year and cannot be carried forward a second time.,benefits_policy.txt#4.3,confusable,test
+Does the wellness allowance carry over to the next year?,No. The wellness allowance does not carry over.,benefits_policy.txt#5.1,confusable,dev
+Does the India learning budget follow the calendar year?,"No. In India it follows the financial year, 1 April to 31 March; the US budget is per calendar year.",benefits_policy.txt#4.1,confusable,dev
+Can I carry over unused restricted holidays?,No. Unused restricted holidays lapse at the end of the year and are not carried over or encashed.,holiday_calendar_2026.txt#5.1,confusable,test
+Are floating holidays paid out when a US employee leaves AMS?,No. Floating holidays do not carry over and are not paid out.,leave_policy_us.txt#6; leave_policy_us.txt#4.4,confusable,dev
+Is working from another city the same as working from abroad?,"No. Another city in the same country: up to 30 working days a year with manager approval. Abroad: up to 15 working days with manager, People Operations, and Legal approval, requested 30 days ahead.",remote_hybrid_work_policy.txt#3.1; remote_hybrid_work_policy.txt#4.2,confusable,test
+Does a client trip abroad count against my working-from-abroad days?,"No. Approved client travel under form TRV-F-02 is business travel, not working from abroad.",remote_hybrid_work_policy.txt#4.4,confusable,dev
+"If I'm too sick to work, can I just work from home instead of taking leave?",No. An employee who is too unwell to work should apply for sick leave.,remote_hybrid_work_policy.txt#8,confusable,dev
+Is conference travel paid from my learning budget?,No. Travel to conferences is paid under the Travel and Expense Policy; the learning budget covers the ticket.,benefits_policy.txt#4.2,confusable,test
+Is the home office setup allowance the same as the internet allowance?,"No. The setup allowance is a one-time INR 15,000 or USD 500 after probation; the internet allowance is INR 1,500 or USD 50 per month.",remote_hybrid_work_policy.txt#6.2; benefits_policy.txt#6,confusable,dev
+"Can I accept a gift card worth INR 1,000 from a vendor?",No. Gift cards are cash equivalents and must never be accepted.,code_of_conduct.txt#4.1,confusable,test
+"In the US, can I cash out unused PTO while I'm still employed?",No. PTO cannot be exchanged for cash while employment continues.,leave_policy_us.txt#4.3,confusable,dev
+Do employees in Austin get casual leave?,No. There is no separate casual leave in the United States; PTO covers personal time.,leave_policy_us.txt#3.1,confusable,dev
+Are unused restricted holidays paid out in the final settlement in India?,"No. Casual leave, sick leave, and restricted holidays are not encashed.",onboarding_exit_policy.txt#7.1; holiday_calendar_2026.txt#5.1,confusable,test
+Is the provident fund contribution 12% of gross salary?,"No. It is 12% of basic pay, matched by AMS.",benefits_policy.txt#7.1,confusable,dev
+Do unused days of the 30-day work-from-another-city allowance carry over?,No. Unused days do not carry over to the next year.,remote_hybrid_work_policy.txt#3.1,confusable,test
+Can I use my working-from-abroad days while I'm on approved leave abroad?,No. Employees may not work while on approved leave abroad; those days are recorded as leave.,remote_hybrid_work_policy.txt#4.3,confusable,dev
+I'm resigning from the Bengaluru office with 12 unused annual-leave days. Will I be paid for them?,"Yes. On exit, unused annual leave is encashed up to 15 days at basic pay, so all 12 days are paid in the final settlement within 45 days.",onboarding_exit_policy.txt#7.1; leave_policy_india.txt#4.4,two_document,dev
+I'm leaving AMS in Austin with 14 unused PTO days. How many will be paid out?,"10 days, the maximum PTO payout on separation.",leave_policy_us.txt#4.4; onboarding_exit_policy.txt#7.2,two_document,test
+I'm based in Pune and will work from Bengaluru for two weeks in November 2026. Do I get Kannada Rajyotsava off?,"No. Employees follow their base office calendar, and Kannada Rajyotsava applies only to Bengaluru (it is also a Sunday in 2026).",holiday_calendar_2026.txt#7; remote_hybrid_work_policy.txt#3.3,two_document,dev
+"I'm an L3 in Pune attending a conference in Hyderabad. What daily allowance do I get, and does the conference ticket come from my learning budget?","INR 1,800 per day (Hyderabad is Tier A), and yes, the conference ticket can come from the learning budget.",travel_expense_policy.txt#6.2; benefits_policy.txt#4.2,two_document,test
+I joined the Pune office two months ago. How much annual leave can I use right now?,"During probation, up to 5 days of the prorated annual leave built up since joining; the rest after confirmation.",onboarding_exit_policy.txt#4.4; leave_policy_india.txt#3.2,two_document,dev
+What is the notice period for a Team Lead in India?,"60 days. A Team Lead is grade L4, and L4 and L5 have a 60-day notice period after confirmation.",company_overview.txt#3.1; onboarding_exit_policy.txt#5.2,two_document,dev
+Does a Bengaluru employee travelling to Austin for client work get US holidays off?,No. They follow the Bengaluru calendar and work on US holidays unless they take leave.,holiday_calendar_2026.txt#7; company_overview.txt#2.2,two_document,test
+I'm based in Bengaluru and working from Goa during Ganesh Chaturthi. Is it a holiday for me?,"Yes. Ganesh Chaturthi (14 September 2026) is a Bengaluru fixed holiday, and the base office calendar applies when working from another city.",holiday_calendar_2026.txt#3.1; remote_hybrid_work_policy.txt#3.3,two_document,dev
+Can I claim the home office setup allowance in my second month at AMS?,"No. It is available only after completing probation (6 months in India, a 90-day introductory period in the US).",remote_hybrid_work_policy.txt#6.2; onboarding_exit_policy.txt#4.1,two_document,test
+"If I resign 8 months after AMS paid INR 1,50,000 for my certification, do I have to repay anything?","Yes. Certifications above INR 1,00,000 need a service agreement; resigning within 12 months means repaying a prorated share, recovered in the final settlement.",benefits_policy.txt#4.5; onboarding_exit_policy.txt#7.1,two_document,dev
+What internet allowance and one-time setup allowance does a hybrid employee in Austin get?,"USD 50 per month for internet, and a one-time USD 500 home office setup allowance after probation.",benefits_policy.txt#6; remote_hybrid_work_policy.txt#6.2,two_document,dev
+I'm on the US payroll but temporarily working from Bengaluru. Which leave policy applies to me?,"The US leave policy. The payroll and base location decide the policy, not where you are working temporarily.",leave_policy_us.txt#1; company_overview.txt#2.2,two_document,test
+Do I get gratuity in my final settlement after 4 years in the Pune office?,No. Gratuity needs at least five years of continuous service.,onboarding_exit_policy.txt#7.1; benefits_policy.txt#7.1,two_document,dev
+I'm transferring from Pune to Austin. What happens to my leave?,The India leave balance is closed and unused annual leave is settled under the India rules; you start on the US policy with prorated PTO. A transfer also needs approvals and a new contract.,hr_faq.txt#1.5; company_overview.txt#2.3,two_document,test
+"Who approves an international trip for an L3 engineer, and how early must it be requested?","The department head (the L6 director) and Finance, on form TRV-F-02, at least 21 days before departure.",travel_expense_policy.txt#3.2; company_overview.txt#3.2,two_document,dev
+"I'm serving my notice in Pune and fell ill. Can I take sick leave, and how many sick days do I get a year?","Yes, sick leave may be taken during the notice period. The India entitlement is 10 days per leave year.",onboarding_exit_policy.txt#5.5; leave_policy_india.txt#5.1,two_document,dev
+"Which days are office anchor days, and is lunch served in Austin on those days?",Tuesday and Thursday; Austin provides a catered lunch on those anchor days.,remote_hybrid_work_policy.txt#2.1; hr_faq.txt#3.3,two_document,test
+I lost my work laptop at the airport. Who do I tell and how quickly?,Report it to IT ServiceDesk within 24 hours; a suspected data leak must also be reported to Legal and Compliance immediately.,remote_hybrid_work_policy.txt#7.2; code_of_conduct.txt#7.3,two_document,dev
+"I'm an L5 in Austin and resigning. How much notice should I give, and how much PTO will be paid out?",At least 4 weeks' notice; unused PTO is paid out up to 10 days.,onboarding_exit_policy.txt#5.3; leave_policy_us.txt#4.4,two_document,test
+Can I carry my unused restricted holidays and casual leave from Bengaluru into 2027?,"No to both. Restricted holidays lapse at year-end, and unused casual leave expires at the end of the leave year.",holiday_calendar_2026.txt#5.1; leave_policy_india.txt#6.2,two_document,dev
+can i chill at home on fridays?,"Possibly. Hybrid employees must be in the office 3 days a week, including Tuesday and Thursday; Friday can be a home day if it isn't the team's third office day.",remote_hybrid_work_policy.txt#2.1; remote_hybrid_work_policy.txt#2.2,casual,dev
+how many days off do i get in pune,"On the India payroll: 20 days annual, 10 days sick, and 6 days casual leave, plus 10 fixed holidays and 2 restricted holidays.",leave_policy_india.txt#11; holiday_calendar_2026.txt#2.1,casual,test
+"my laptop just died, what do i do??",Raise a ServiceDesk ticket; IT aims to repair or replace it within 2 working days.,hr_faq.txt#4.1,casual,dev
+"lost my badge yesterday, am i in trouble","Report it to Facilities the same day; reception gives a temporary badge, and a replacement costs INR 500 or USD 15.",hr_faq.txt#3.1,casual,test
+can my boss make me work on diwali,If you are asked to work on a company holiday you get a compensatory day off; in India it must be taken within 60 days.,holiday_calendar_2026.txt#2.3,casual,dev
+hey when do i get paid in austin,Every other Friday (biweekly).,hr_faq.txt#2.1,casual,dev
+"forgot to put in leave for last monday, help",Apply for it in AMS People within 7 calendar days; after that it is treated as unpaid leave unless a late request is approved.,hr_faq.txt#1.4,casual,test
+can i bring a friend to see the office,"Yes, if you register them in AMS People by the end of the previous working day; they must be escorted and can't enter client areas.",hr_faq.txt#3.4,casual,dev
+"my manager keeps making creepy comments, who do i talk to? i'm in bengaluru","For sexual harassment, complain in writing to the Internal Committee (internal-committee@ams.example); you can also use the Ethics line. Retaliation is not allowed.",code_of_conduct.txt#5.2; code_of_conduct.txt#5.5,casual,test
+will ams pay for my aws certification exam,"Yes, from your learning budget, with manager approval first; you're reimbursed after passing and uploading the certificate.",benefits_policy.txt#4.2; benefits_policy.txt#4.4,casual,dev
+is food free at the bangalore office,Not free: the cafeteria lunch is subsidised at INR 50 per meal.,hr_faq.txt#3.3,casual,dev
+"feeling really low lately, is there someone i can talk to","Yes. The Employee Assistance Programme offers up to 6 free, confidential counselling sessions a year and a 24-hour helpline.",benefits_policy.txt#5.2; hr_faq.txt#6.3,casual,test
+can i do some freelance work on weekends,"Only with written approval from your manager and Legal and Compliance, and never for a competitor or client.",code_of_conduct.txt#3.2,casual,dev
+can i go work from bali for a month,"Not for a month: working abroad is limited to 15 working days a year and needs manager, People Operations, and Legal approval 30 days in advance.",remote_hybrid_work_policy.txt#4.2; remote_hybrid_work_policy.txt#4.1,casual,test
+"i wanna switch teams, how does that work",Apply to internal openings in AMS People after 12 months in your role with a rating of meets expectations or higher; your manager is told when you're shortlisted.,hr_faq.txt#5.3,casual,dev
+How many annual-leave days does a full-time employee in India receive each year?,20 days per complete leave year (the superseded 2024 version said 18).,leave_policy_india.txt#3.1,outdated,dev
+How many unused annual-leave days can an India-based employee normally carry over?,Up to 5 unused annual-leave days.,leave_policy_india.txt#4.1,outdated,test
+By when must standard carried-over annual leave be used in India?,By 31 March of the following year.,leave_policy_india.txt#4.2,outdated,dev
+What is the annual casual-leave entitlement?,6 days per leave year for eligible permanent full-time employees.,leave_policy_india.txt#6.1,outdated,test
+I could not take leave because my manager required me to support a business-critical delivery. Can my carry-over limit be increased?,"Possibly, through an exception request with written manager justification and written People Operations approval before the normal expiry date. The approval must specify extra days and a revised expiry date.",leave_policy_india.txt#4.3,outdated,dev
+Does unused annual leave automatically get paid out at year-end in India?,No. It does not automatically convert to cash under the current policy; any settlement on separation is reviewed by People Operations and Payroll.,leave_policy_india.txt#4.4,outdated,dev
+How far in advance should I submit a planned annual-leave request in India?,"At least 10 calendar days before leave starts; for 5 or more consecutive working days, at least 15 calendar days in advance where reasonably possible.",leave_policy_india.txt#3.4,outdated,test
+After how many days of sick leave can an India-based employee be asked for supporting documents?,If the absence lasts more than 3 consecutive working days.,leave_policy_india.txt#5.3,outdated,dev
+What was the annual-leave carry-over limit in India under the 2024 policy version?,"8 days, to be used by 30 June. That version was superseded on 1 April 2026.",leave_policy_india_v2_0.txt#4.1; leave_policy_india_v2_0.txt#4.2,outdated,test
+"Under the old 2024 leave policy, was unused annual leave encashed at year-end?","Yes, up to 10 days at basic pay. This no longer applies under the current version.",leave_policy_india_v2_0.txt#4.4,outdated,dev
+What is the CEO's salary?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Does AMS offer stock options to employees?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+What is the dress code at AMS?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Can I bring my dog to the office?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+How much is the annual performance bonus?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Does AMS reimburse the cost of a new mobile phone?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+What is the guest Wi-Fi password at the Pune office?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+Does AMS run a shuttle bus to the Pune office?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+How many sabbatical days can I take after 10 years of service?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+What salary increase comes with a promotion?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Is there a gym inside the Bengaluru office?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Can employees work a four-day week?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+What is AMS's annual revenue?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
+Does AMS pay relocation costs when transferring to Austin?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
+Is there a night-shift allowance?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev

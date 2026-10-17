@@ -41,10 +41,20 @@ def load_questions(file_path: str) -> list[dict]:
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
-    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
-    import re
+    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
+    return {
+        key.strip() for key in expected_source.split(";") if key.strip()
+    }
 
-    return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
+
+def section_key(point) -> str:
+    """Return a retrieved point's "document#section" key, or "" if the
+    chunk has no section (text before a document's first heading)."""
+    payload = point.payload or {}
+    section_id = str(payload.get("section_id", "")).strip()
+    if not section_id:
+        return ""
+    return f"{payload.get('source', '')}#{section_id}"
 
 
 def rewrite_query(question: str) -> str:
@@ -140,12 +150,7 @@ def evaluate_retrieval(
 
         # Step 3: score the result (Hit, Recall, Reciprocal Rank).
         # Preserve ranking order for MRR.
-        retrieved_ids = [
-            point.payload.get("section_id", "").strip()
-            for point in results
-            if point.payload
-            and point.payload.get("section_id", "").strip()
-        ]
+        retrieved_ids = [key for key in map(section_key, results) if key]
 
         retrieved_id_set = set(retrieved_ids)
         matched_ids = expected_ids & retrieved_id_set
@@ -269,7 +274,12 @@ def main():
     """Run the baseline, then the rewritten queries, and compare."""
     heading("QUERY REWRITING EVALUATION")
 
-    questions = load_questions(EVALUATION_FILE)
+    # Only questions with an expected source can be scored; the
+    # unanswerable ones are skipped.
+    questions = [
+        q for q in load_questions(EVALUATION_FILE)
+        if q["expected_source"].strip()
+    ]
     if not questions:
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return

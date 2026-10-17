@@ -1,0 +1,90 @@
+AMS
+HOLIDAY CALENDAR 2026
+Document ID: HR-HOL-2026 | Version: 1.0 | Effective: 1 January 2026 to 31 December 2026
+Document owner: People Operations | Applies to all AMS offices
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. Festival dates are illustrative.
+
+1. PURPOSE AND SCOPE
+This calendar lists the company holidays for 2026 for each AMS office. Employees follow the calendar of their base location, as defined in the Company Overview, even when they are working temporarily from another city or country. Company holidays are paid and are not deducted from any leave balance.
+
+2. GENERAL RULES
+2.1 Number of holidays
+Each India office has 10 fixed holidays. Employees in India also choose 2 restricted holidays from the list in section 5. The Austin office has 10 fixed holidays, and US employees also receive 2 floating holidays under the US leave policy.
+2.2 Holidays falling on a weekend
+India offices: when a fixed holiday falls on a Saturday or Sunday, no substitute day off is given.
+Austin office: when a holiday falls on a Saturday, it is observed on the preceding Friday. When a holiday falls on a Sunday, it is observed on the following Monday.
+2.3 Working on a holiday
+Employees asked by their manager to work on a company holiday receive a compensatory day off. In India, the compensatory day off must be taken within 60 days of the holiday worked and is recorded in AMS People as compensatory off. In Austin, exempt employees take the compensatory day within 90 days; non-exempt employees are paid for hours worked as required by law.
+2.4 Holidays during leave
+A company holiday that falls inside an approved leave period is not deducted from the leave balance.
+
+3. BENGALURU OFFICE
+3.1 Fixed holidays
+Holiday | Date | Day
+Republic Day | 26 January 2026 | Monday
+Ugadi | 19 March 2026 | Thursday
+May Day | 1 May 2026 | Friday
+Independence Day | 15 August 2026 | Saturday
+Ganesh Chaturthi | 14 September 2026 | Monday
+Gandhi Jayanti | 2 October 2026 | Friday
+Vijayadashami | 20 October 2026 | Tuesday
+Kannada Rajyotsava | 1 November 2026 | Sunday
+Deepavali (Balipadyami) | 10 November 2026 | Tuesday
+Christmas | 25 December 2026 | Friday
+3.2 Notes for Bengaluru
+Kannada Rajyotsava is a Karnataka state holiday and applies only to the Bengaluru office. Independence Day and Kannada Rajyotsava fall on a weekend in 2026, so no substitute day is given.
+
+4. PUNE OFFICE
+4.1 Fixed holidays
+Holiday | Date | Day
+Republic Day | 26 January 2026 | Monday
+Holi | 4 March 2026 | Wednesday
+Gudi Padwa | 19 March 2026 | Thursday
+Maharashtra Day | 1 May 2026 | Friday
+Independence Day | 15 August 2026 | Saturday
+Ganesh Chaturthi | 14 September 2026 | Monday
+Gandhi Jayanti | 2 October 2026 | Friday
+Dussehra | 20 October 2026 | Tuesday
+Diwali (Balipratipada) | 10 November 2026 | Tuesday
+Christmas | 25 December 2026 | Friday
+4.2 Notes for Pune
+Holi and Maharashtra Day apply only to the Pune office. Gudi Padwa and Ugadi fall on the same date and are observed by both India offices under their local names. Independence Day falls on a Saturday in 2026, so no substitute day is given.
+
+5. RESTRICTED HOLIDAYS (INDIA OFFICES)
+5.1 How restricted holidays work
+In addition to the fixed holidays, each employee on the India payroll may choose 2 restricted holidays per calendar year from the list below. Employees apply for a restricted holiday in AMS People at least 7 calendar days in advance. Unused restricted holidays lapse at the end of the year and are not carried over or encashed.
+5.2 Restricted holiday list
+Holiday | Date | Day
+Makara Sankranti | 14 January 2026 | Wednesday
+Maha Shivaratri | 15 February 2026 | Sunday
+Id-ul-Fitr | 21 March 2026 | Saturday
+Good Friday | 3 April 2026 | Friday
+Bakrid (Id-ul-Zuha) | 27 May 2026 | Wednesday
+Muharram | 26 June 2026 | Friday
+Onam | 26 August 2026 | Wednesday
+Raksha Bandhan | 28 August 2026 | Friday
+Guru Nanak Jayanti | 24 November 2026 | Tuesday
+Christmas Eve | 24 December 2026 | Thursday
+
+6. AUSTIN OFFICE
+6.1 Fixed holidays
+Holiday | Date observed | Day
+New Year's Day | 1 January 2026 | Thursday
+Martin Luther King Jr. Day | 19 January 2026 | Monday
+Memorial Day | 25 May 2026 | Monday
+Juneteenth | 19 June 2026 | Friday
+Independence Day (observed) | 3 July 2026 | Friday
+Labor Day | 7 September 2026 | Monday
+Thanksgiving Day | 26 November 2026 | Thursday
+Day after Thanksgiving | 27 November 2026 | Friday
+Christmas Eve | 24 December 2026 | Thursday
+Christmas Day | 25 December 2026 | Friday
+6.2 Notes for Austin
+Independence Day, 4 July 2026, falls on a Saturday, so it is observed on Friday, 3 July 2026. US employees also receive 2 floating holidays per year under section 6 of the US leave policy (HR-LEAVE-US-2026).
+
+7. EMPLOYEES WORKING AWAY FROM THEIR BASE OFFICE
+Employees follow their base office calendar wherever they work. For example, a Pune-based employee working temporarily from Bengaluru does not get Kannada Rajyotsava as a holiday, and a Bengaluru-based employee visiting Austin works on US holidays unless they take leave.
+
+8. CONTACT
+For questions about this calendar, contact People Operations through AMS People.

@@ -2,52 +2,43 @@
 
 A small Retrieval-Augmented Generation (RAG) project built from scratch in
 Python, without LangChain or similar frameworks, so every step of the
-pipeline stays visible. It answers questions about a fictional HR leave
-policy using:
+pipeline stays visible. It answers employee questions from the policy
+documents of **AMS**, a fictional software company with offices in
+Bengaluru, Pune, and Austin, using:
 
-- **Ollama** for embeddings (`all-minilm`) and answer generation
-  (`gemma3:4b`)
+- **Ollama** for embeddings and answer generation
 - **Qdrant** as the vector database
 
-## Architecture
+There are two pipelines:
 
 ```text
-INGESTION (ingest.py)
-
-documents/hr_leave_policy.txt
-        |
-        v
-  parser.py       load the text
-        |
-        v
-  chunker.py      split by policy section, then into ~500-char chunks
-        |         (35 chunks; each keeps section id, title, parent)
-        v
-  embedder.py     embed "section title + parent + chunk text"
-        |         with all-minilm (384 dimensions)
-        v
-  vector_store.py recreate the collection, store chunks with
-                  deterministic UUIDs and their source document
-
-
-QUERY (query.py)
-
-question -> embedder.py -> vector_store.search() top 3 chunks
-                                   |
-                                   v
-                     prompts.build_prompt(question, chunks)
-                                   |
-                                   v
-                     generator.py (gemma3:4b) -> answer
+Ingestion (ingest.py):  load → chunk → embed → store in Qdrant
+Query     (query.py):   embed question → retrieve chunks → build prompt → generate answer
 ```
+
+**This README covers how to set up and run the project.** For how it works
+(a step-by-step walkthrough with real example data, where each evaluation
+experiment plugs in, the metrics, and the current baseline), see
+[PIPELINE_FLOW.md](PIPELINE_FLOW.md).
 
 ## Project layout
 
 ```text
 basic-rag/
 ├── documents/
-│   ├── hr_leave_policy.txt         # source document (fictional)
-│   └── evaluation_questions.csv    # 25 questions with expected answers
+│   ├── policies/                   # the 11 AMS documents that get ingested
+│   │   ├── company_overview.txt          # offices, grades, systems, contacts
+│   │   ├── leave_policy_india.txt        # India leave, current (v2.1)
+│   │   ├── leave_policy_india_v2_0.txt   # India leave, SUPERSEDED (v2.0)
+│   │   ├── leave_policy_us.txt           # Austin leave (PTO)
+│   │   ├── holiday_calendar_2026.txt     # holidays per office
+│   │   ├── travel_expense_policy.txt     # travel limits by grade, forms
+│   │   ├── benefits_policy.txt           # insurance, learning, wellness
+│   │   ├── remote_hybrid_work_policy.txt # office days, remote work
+│   │   ├── code_of_conduct.txt           # conduct, harassment, gifts
+│   │   ├── onboarding_exit_policy.txt    # probation, notice, settlement
+│   │   └── hr_faq.txt                    # practical everyday questions
+│   └── evaluation_questions.csv    # 150 questions with expected answers
 ├── src/basic_rag/
 │   ├── config.py                   # all settings: URLs, models, sizes, paths
 │   ├── prompts.py                  # answer prompt, shared by query + evals
@@ -59,20 +50,24 @@ basic-rag/
 │   ├── generator.py                # Ollama answer generation
 │   ├── reranker.py                 # cross-encoder reranker (used by evals)
 │   └── logger.py                   # coloured console output
-├── evals/                          # experiments and evaluations (see below)
+├── evals/                          # experiments and evaluations
 ├── ingest.py                       # build the vector collection
 ├── query.py                        # ask a question
+├── README.md                       # setup and running (this file)
+├── PIPELINE_FLOW.md                # how the pipelines work
 ├── pyproject.toml
 └── uv.lock
 ```
 
+Every Python file starts with a docstring explaining what it does and how
+it fits in. In VS Code, hover over a function name to see its docstring.
+
 ## Requirements
 
 - Python 3.14, managed with [`uv`](https://docs.astral.sh/uv/)
-- [Ollama](https://ollama.com/) at `http://localhost:11434`, with:
-  - `all-minilm` for embeddings (384-dimensional vectors)
-  - `gemma3:4b` for answers
-- [Qdrant](https://qdrant.tech/) at `http://localhost:6333`
+- [Ollama](https://ollama.com/), with the embedding and answer models
+  from [Configuration](#configuration) installed
+- [Qdrant](https://qdrant.tech/)
 
 Models must be installed in the Ollama instance the app talks to. Models
 pulled inside a Docker container are separate from models pulled into
@@ -118,7 +113,8 @@ All settings live in [`src/basic_rag/config.py`](src/basic_rag/config.py):
 | `EMBEDDING_MODEL` | `all-minilm` | document and question embeddings |
 | `LLM_MODEL` | `gemma3:4b` | answers, query rewriting/expansion |
 | `JUDGE_MODEL` | `gemma3:4b` | grading answers in evals |
-| `RERANKER_MODEL` | `BAAI/bge-reranker-base` | reranking experiments |
+| `RERANKER_MODEL` | `BAAI/bge-reranker-base` | reranking experiment |
+| `TEMPERATURE` | `0` | repeatable LLM output |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | `500` / `100` | chunking (characters) |
 | `TOP_K` | `3` | chunks passed to the LLM |
 | `CANDIDATE_K` / `RRF_K` | `20` / `60` | reranking and hybrid experiments |
@@ -128,106 +124,98 @@ working directory.
 
 If you change `EMBEDDING_MODEL`, update `VECTOR_SIZE` and re-run ingestion.
 Vectors from different embedding models are not compatible, even when
-their dimensions match.
+their dimensions match. Changing the chunking settings also needs a
+re-ingest.
 
-## Ingest the document
+## Running it
+
+Run every command from the `basic-rag/` directory.
+
+### Ingest the document
 
 ```bash
 uv run python ingest.py
 ```
 
-This loads the policy, splits it into chunks, embeds each chunk, and stores
-them in Qdrant. Run it whenever the document, chunking, or embedding model
-changes.
+It ingests every `.txt` file in `documents/policies/`. Run it once before
+the first query, then again whenever a document, the chunking settings,
+or the embedding model change. It takes a few seconds.
 
-**Ingestion deletes and recreates the collection** every time, so no stale
-chunks survive from earlier runs. Only `ingest.py` calls
-`recreate_collection()`. Everything else connects with `get_client()`,
-which never changes data.
+> ⚠️ **Ingestion deletes and recreates the collection every time.** Only
+> `ingest.py` calls `recreate_collection()`. Everything else connects with
+> `get_client()`, which never changes data.
 
-Each chunk is stored with:
+**To add a document**, save it as a `.txt` file in `documents/policies/`
+and re-run ingestion. The chunker splits on numbered headings, so:
 
-- **A deterministic UUID** built from `source + section_id + chunk_index`.
-  Re-ingesting the same chunk gives the same ID, and chunks from different
-  documents never collide. Ingestion stops with an error if two chunks
-  would get the same ID.
-- **A payload** containing `text`, `source` (the file name), `section`,
-  `section_id`, `section_title`, `parent_section`, `chunk_index`, and
-  `document_type`.
+- Give every section a numbered heading on its own line (`3.`, `3.1`, …).
+- Don't start any other line with a number followed by a space; the
+  chunker would treat it as a heading. Write table rows like
+  `Republic Day | 26 January 2026 | Monday`, not `26 January | ...`.
 
-## Ask a question
+### Ask a question
 
 ```bash
 uv run python query.py
 ```
 
-The query flow:
+Type a question about the leave policy. The script prints the retrieved
+chunks, then the answer, with timings for each step. Expect about 10
+seconds, most of it answer generation. The total time includes the time
+spent typing the question, because the timer starts before `input()`.
 
-1. Embed the question with `all-minilm`.
-2. Retrieve the 3 nearest chunks from Qdrant (cosine similarity).
-3. Build the prompt from [`prompts.py`](src/basic_rag/prompts.py) with the
-   retrieved chunks and the question.
-4. Generate the answer with `gemma3:4b` (temperature 0).
-5. Print the retrieved chunks, the answer, and timings for each stage.
+### Run the evaluations
 
-The prompt tells the model to answer only from the retrieved context. That
-is an instruction, not a guarantee. The total time includes the time spent
-typing the question, because the timer starts before `input()`.
-
-## Evaluations and experiments
+```bash
+uv run python evals/<script>.py
+```
 
 `evals/` is a sandbox for testing retrieval strategies. Each script is
-self-contained on purpose. A strategy moves into the main pipeline only
-after it proves itself here, and the plan is to re-test as more data is
-added.
+self-contained on purpose, and a strategy moves into the main pipeline
+only after it proves itself there. What each script tests, and which
+pipeline step it changes, is described in
+[PIPELINE_FLOW.md § 4](PIPELINE_FLOW.md#4-where-the-experiments-plug-in).
 
-Run any script from the `basic-rag/` directory with
-`uv run python evals/<script>.py`.
+Things to know before running them:
 
-| Script | What it measures | Needs the LLM |
-|---|---|---|
-| `evaluate_retrieval.py` | baseline vector search: Hit Rate, Recall, MRR @3 | no |
-| `evaluate_reranking.py` | top 20 from vector search, cross-encoder reranks to 3 | no |
-| `evaluate_hybrid_search.py` | vector + BM25 keyword search, fused with RRF | no |
-| `evaluate_query_rewriting.py` | LLM rewrites the question before searching | yes |
-| `evaluate_query_expansion.py` | LLM generates alternative queries, results merged | yes |
-| `evaluate_answers.py` | full pipeline answers graded by an LLM judge | yes |
-| `experiment_metadata_filter.py` | one question, with and without a section filter | no |
-| `diagnose_retrieval.py` | why section 7.1 ranks where it does for 4 phrasings | no |
+- **They read from the current collection**, so run `ingest.py` first if
+  anything changed.
+- **Scripts that call the LLM are slow** with 150 questions (rough
+  estimates):
+  - `evaluate_query_rewriting.py` and `evaluate_query_expansion.py` take
+    10–20 minutes each
+  - `evaluate_answers.py` takes about an hour
 
-The retrieval scripts check whether the expected **section** (for example
-`4.1`) appears in the top results. Labels are by section, not by chunk, so
-they stay valid when the chunking changes.
-
-`evaluate_answers.py` writes per-question results to
-`evals/answer_evaluation_results.csv`. Each run overwrites the file.
-
-The reranker model (`BAAI/bge-reranker-base`) is downloaded from Hugging
-Face the first time `evaluate_reranking.py` runs.
-
-### Current baseline (17 October 2026)
-
-| Evaluation | Result |
-|---|---|
-| Retrieval (vector, top 3) | Hit Rate 96%, Recall 0.94, MRR 0.90 |
-| Answer quality (LLM judge) | 97.3% average, 23 of 25 answers perfect |
-
-The answer prompt deliberately contains no examples taken from the
-evaluation questions, so these scores aren't inflated.
+  The others finish in under a minute.
+- **`evaluate_answers.py` overwrites `evals/answer_evaluation_results.csv`**
+  on every run. Copy the file first if you want to compare with a
+  previous run. Add `-u` (`uv run python -u evals/...`) to see progress
+  as it happens.
+- **`evaluate_reranking.py` downloads the reranker model** from Hugging
+  Face on its first run.
 
 ## Known limitations
 
+- **Superseded documents can win.** The outdated 2024 India leave policy
+  is ingested alongside the current one and can rank first, so the system
+  may answer with old rules. For example, it currently says India
+  employees can carry over 8 days instead of 5. Nothing marks a chunk as
+  superseded at search time or in the prompt.
 - **Questions that compare the user's numbers to a policy limit are
   weak.** For example, "I have 8 unused days. Can I carry all 8?" The
   model does not reliably compare the 8 with the 5-day limit.
-- **The judge is the same model as the answerer** (`gemma3:4b`), so
-  answer scores are noisy, and the judge can miss contradictions.
-- **The evaluation set is small** (25 questions). One question is worth 4
-  percentage points.
-- **There is no similarity threshold.** Unrelated questions still get
-  the top 3 chunks as context.
-- **Ingestion handles one document per run** and recreates the collection
-  each time.
+- **"Answer only from the context" is a prompt instruction, not a
+  guarantee.** The model can still add or misstate facts.
+- **The judge is the same model as the answerer**, so answer scores are
+  noisy, and the judge can miss contradictions.
+- **The `split` column isn't used yet.** Every eval script runs on all
+  questions, so there's no held-out test set in practice.
+- **There is no similarity threshold.** Unrelated questions still get the
+  top chunks as context.
+- **Ingestion rebuilds everything every time.** Changing one document
+  re-embeds all of them. Fine at 258 chunks, slow at thousands.
+- **The collection is still named `hr_leave_policy`**, although it now
+  holds all AMS documents.
 - **One embedding request per chunk.** Ollama's `/api/embed` endpoint can
   take a batch.
 - **No streaming.** The answer appears only after generation finishes.

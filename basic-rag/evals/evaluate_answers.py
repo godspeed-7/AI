@@ -212,8 +212,11 @@ def main():
                 if point.payload
             )
 
+            # As "document#section", e.g. "leave_policy_us.txt#4.1", to
+            # compare with the expected_source column in the report.
             retrieved_sections = [
-                point.payload.get("section_id", "")
+                f"{point.payload.get('source', '')}#"
+                f"{point.payload.get('section_id', '')}"
                 for point in retrieved_chunks
                 if point.payload
             ]
@@ -246,7 +249,7 @@ def main():
                     "question": question,
                     "expected_answer": expected_answer,
                     "expected_source": expected_source,
-                    "retrieved_sections": ", ".join(retrieved_sections),
+                    "retrieved_sections": "; ".join(retrieved_sections),
                     "retrieved_context": retrieved_context,
                     "generated_answer": generated_answer,
                     "correctness": evaluation["correctness"],
