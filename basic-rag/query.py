@@ -1,17 +1,10 @@
 import time
 
-from qdrant_client import QdrantClient
-
-from basic_rag.config import (
-    COLLECTION_NAME,
-    EMBEDDING_MODEL,
-    LLM_MODEL,
-    QDRANT_URL,
-    TOP_K,
-)
+from basic_rag.config import EMBEDDING_MODEL, LLM_MODEL, TOP_K
 from basic_rag.embedder import generate_embedding
 from basic_rag.generator import generate_answer
 from basic_rag.prompts import build_prompt
+from basic_rag.vector_store import get_client, search
 from basic_rag.logger import (
     info,
     progress,
@@ -56,16 +49,8 @@ def main():
         )
         step_start = time.perf_counter()
 
-        # Important: Do not call create_vector_store() here.
-        # That function deletes and recreates the collection.
-        client = QdrantClient(url=QDRANT_URL)
-
-        results = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=question_embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        client = get_client()
+        results = search(client, question_embedding, limit=TOP_K)
 
         success(f"Retrieved {len(results)} relevant chunks")
         print("\n--- RETRIEVED CONTEXT ---")

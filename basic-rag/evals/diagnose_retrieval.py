@@ -1,7 +1,8 @@
 
-from basic_rag.config import COLLECTION_NAME, QDRANT_URL
+from basic_rag.config import COLLECTION_NAME
 from basic_rag.embedder import generate_embedding
-from qdrant_client import QdrantClient, models
+from basic_rag.vector_store import get_client, search
+from qdrant_client import models
 
 
 QUESTIONS = [
@@ -64,7 +65,7 @@ def cosine_similarity(vector_a, vector_b):
 
 
 def main():
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
 
     print("Connected to Qdrant")
     print(f"Collection: {COLLECTION_NAME}")
@@ -89,12 +90,7 @@ def main():
             target_vector,
         )
 
-        results = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=question_embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        results = search(client, question_embedding, limit=TOP_K)
 
         print("\n" + "=" * 65)
         print(f"{item['label']}: {question}")

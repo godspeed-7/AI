@@ -5,7 +5,11 @@ from basic_rag.config import COLLECTION_NAME, DOCUMENT_PATH
 from basic_rag.parser import load_document
 from basic_rag.chunker import chunk_text
 from basic_rag.embedder import embed_chunks
-from basic_rag.vector_store import create_vector_store, insert_chunks
+from basic_rag.vector_store import (
+    get_client,
+    insert_chunks,
+    recreate_collection,
+)
 from basic_rag.logger import info, progress, success, heading, timing
 
 
@@ -43,20 +47,21 @@ def main():
     success(f"Generated {len(embedded_chunks)} embeddings")
     timing("Embedding generation", time.perf_counter() - step_start)
 
-    # Step 4: Connect to Qdrant
-    progress("\n[4/5] Connecting to Qdrant...")
+    # Step 4: Connect to Qdrant and reset the collection
+    progress("\n[4/5] Connecting to Qdrant and recreating collection...")
     step_start = time.perf_counter()
 
-    client = create_vector_store()
+    client = get_client()
+    recreate_collection(client)
 
-    success("Connected to Qdrant")
-    timing("Qdrant connection", time.perf_counter() - step_start)
+    success(f"Collection '{COLLECTION_NAME}' recreated")
+    timing("Qdrant setup", time.perf_counter() - step_start)
 
     # Step 5: Store embeddings
     progress("\n[5/5] Storing embeddings in Qdrant...")
     step_start = time.perf_counter()
 
-    insert_chunks(client, embedded_chunks)
+    insert_chunks(client, embedded_chunks, source=DOCUMENT_PATH.name)
 
     count = client.count(
         collection_name=COLLECTION_NAME,

@@ -3,15 +3,14 @@ import json
 from urllib.request import Request, urlopen
 
 from basic_rag.config import (
-    COLLECTION_NAME,
     EMBEDDING_MODEL,
     EVALUATION_FILE,
     LLM_MODEL,
     OLLAMA_GENERATE_URL,
-    QDRANT_URL,
     TOP_K,
 )
 from basic_rag.embedder import generate_embedding
+from basic_rag.vector_store import get_client, search
 from qdrant_client import QdrantClient
 from basic_rag.logger import heading, info, success, error
 
@@ -101,12 +100,7 @@ def evaluate_retrieval(
 
         query_embedding = generate_embedding(search_query)
 
-        results = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=query_embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        results = search(client, query_embedding, limit=TOP_K)
 
         # Preserve ranking order for MRR.
         retrieved_ids = [
@@ -237,7 +231,7 @@ def main():
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return
 
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
 
     info(f"Evaluation questions: {len(questions)}")
     info(f"Embedding model: {EMBEDDING_MODEL}")

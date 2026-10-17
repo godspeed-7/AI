@@ -2,14 +2,9 @@
 import csv
 import re
 
-from basic_rag.config import (
-    COLLECTION_NAME,
-    EVALUATION_FILE,
-    QDRANT_URL,
-    TOP_K,
-)
+from basic_rag.config import EVALUATION_FILE, TOP_K
 from basic_rag.embedder import generate_embedding
-from qdrant_client import QdrantClient
+from basic_rag.vector_store import get_client, search
 from basic_rag.logger import heading, progress, success, info, error
 
 
@@ -27,7 +22,7 @@ def main():
     heading("RAG RETRIEVAL EVALUATION")
 
     questions = load_questions(EVALUATION_FILE)
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
 
     total = len(questions)
     hits = 0
@@ -47,12 +42,7 @@ def main():
 
         question_embedding = generate_embedding(question)
 
-        results = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=question_embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        results = search(client, question_embedding, limit=TOP_K)
 
         # Preserve ranking order for MRR.
         retrieved_ids = [

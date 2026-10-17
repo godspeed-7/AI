@@ -4,20 +4,17 @@ import re
 from pathlib import Path
 from urllib.request import Request, urlopen
 
-from qdrant_client import QdrantClient
-
 from basic_rag.config import (
-    COLLECTION_NAME,
     EVALS_DIR,
     EVALUATION_FILE,
     JUDGE_MODEL,
     OLLAMA_GENERATE_URL,
-    QDRANT_URL,
     TOP_K,
 )
 from basic_rag.embedder import generate_embedding
 from basic_rag.generator import generate_answer
 from basic_rag.prompts import build_prompt
+from basic_rag.vector_store import get_client, search
 
 
 OUTPUT_FILE = EVALS_DIR / "answer_evaluation_results.csv"
@@ -153,7 +150,7 @@ def main():
     print("=" * 60)
 
     questions = load_questions(EVALUATION_FILE)
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
     results_for_report = []
 
     try:
@@ -168,14 +165,9 @@ def main():
             question_embedding = generate_embedding(question)
 
             # Step 2: Retrieve the top K chunks from Qdrant.
-            # Do not call create_vector_store() here because it
-            # deletes and recreates the collection.
-            retrieved_chunks = client.query_points(
-                collection_name=COLLECTION_NAME,
-                query=question_embedding,
-                limit=TOP_K,
-                with_payload=True,
-            ).points
+            retrieved_chunks = search(
+                client, question_embedding, limit=TOP_K
+            )
 
             retrieved_context = "\n\n".join(
                 point.payload.get("text", "")

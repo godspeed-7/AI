@@ -7,16 +7,15 @@ from sentence_transformers import CrossEncoder
 
 from basic_rag.config import (
     CANDIDATE_K,
-    COLLECTION_NAME,
     EMBEDDING_MODEL,
     EVALUATION_FILE,
-    QDRANT_URL,
     RERANKER_MODEL,
     TOP_K,
 )
 from basic_rag.embedder import generate_embedding
 from basic_rag.logger import heading, info, error
 from basic_rag.reranker import rerank_chunks
+from basic_rag.vector_store import get_client, search
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -82,12 +81,7 @@ def evaluate_baseline(client: QdrantClient, questions: list[dict]) -> dict:
         expected_ids = extract_section_ids(expected_source)
         embedding = generate_embedding(question)
 
-        chunks = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        chunks = search(client, embedding, limit=TOP_K)
 
         retrieved_ids = [
             str((point.payload or {}).get("section_id", "")).strip()
@@ -120,12 +114,7 @@ def evaluate_with_reranking(
         expected_ids = extract_section_ids(expected_source)
         embedding = generate_embedding(question)
 
-        candidates = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=embedding,
-            limit=CANDIDATE_K,
-            with_payload=True,
-        ).points
+        candidates = search(client, embedding, limit=CANDIDATE_K)
 
         ranked = rerank_chunks(
             question=question,
@@ -205,7 +194,7 @@ def main() -> None:
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return
 
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
     try:
         info(f"Evaluation questions: {len(questions)}")
         info(f"Embedding model: {EMBEDDING_MODEL}")

@@ -9,12 +9,12 @@ from basic_rag.config import (
     CANDIDATE_K,
     COLLECTION_NAME,
     EVALUATION_FILE,
-    QDRANT_URL,
     RRF_K,
     TOP_K,
 )
 from basic_rag.embedder import generate_embedding
 from basic_rag.logger import heading, info, error
+from basic_rag.vector_store import get_client, search
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -99,12 +99,7 @@ def evaluate_vector_baseline(client: QdrantClient, questions: list[dict]) -> dic
         question = item["question"].strip()
         expected_source = item.get("expected_source", "").strip()
         embedding = generate_embedding(question)
-        points = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=embedding,
-            limit=TOP_K,
-            with_payload=True,
-        ).points
+        points = search(client, embedding, limit=TOP_K)
         retrieved_ids = [sid for sid in map(section_id, points) if sid]
         details.append({
             "question": question,
@@ -146,12 +141,7 @@ def evaluate_hybrid(
 
         # Path A: semantic retrieval.
         embedding = generate_embedding(question)
-        vector_candidates = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=embedding,
-            limit=CANDIDATE_K,
-            with_payload=True,
-        ).points
+        vector_candidates = search(client, embedding, limit=CANDIDATE_K)
 
         # Path B: lexical retrieval uses the original question text.
         bm25_scores = bm25.get_scores(tokenize(question))
@@ -204,7 +194,7 @@ def main() -> None:
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return
 
-    client = QdrantClient(url=QDRANT_URL)
+    client = get_client()
     try:
         info(f"Evaluation questions: {len(questions)}")
         info(f"Qdrant collection: {COLLECTION_NAME}")
