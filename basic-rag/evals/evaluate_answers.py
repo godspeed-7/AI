@@ -1,3 +1,27 @@
+"""Answer-quality evaluation: run the full pipeline and grade each answer.
+
+Run from the basic-rag/ folder (uses the LLM twice per question; takes
+about 8-10 minutes):
+    uv run python -u evals/evaluate_answers.py
+(-u prints progress immediately instead of buffering it.)
+
+For each question in documents/evaluation_questions.csv:
+    1. Embed the question and retrieve TOP_K chunks (same as query.py).
+    2. Build the prompt with prompts.build_prompt (same as query.py).
+    3. Generate the answer with LLM_MODEL.
+    4. Ask JUDGE_MODEL to grade it, from 0 to 2, on:
+         correctness      matches the reference answer?
+         context_support  every claim backed by the retrieved chunks?
+         completeness     includes the important details?
+       Total per question: 0-6.
+
+Writes per-question results to evals/answer_evaluation_results.csv
+(overwritten on every run) and prints averages.
+
+Caveat: the judge is currently the same small model as the answerer
+(gemma3:4b), so treat small score differences as noise.
+"""
+
 import csv
 import json
 import re
@@ -17,6 +41,7 @@ from basic_rag.prompts import build_prompt
 from basic_rag.vector_store import get_client, search
 
 
+# Per-question results; overwritten on every run.
 OUTPUT_FILE = EVALS_DIR / "answer_evaluation_results.csv"
 
 
@@ -32,8 +57,15 @@ def judge_answer(
     generated_answer: str,
     retrieved_context: str,
 ) -> dict:
-    """Evaluate the generated answer against the reference and context."""
+    """Evaluate the generated answer against the reference and context.
 
+    Returns a dict with correctness, context_support, and completeness
+    (each 0-2), total_score (0-6), and the judge's explanation. Raises
+    ValueError if the judge's reply isn't valid JSON with valid scores.
+    """
+
+    # The judge sees the question, the reference answer, the chunks the
+    # answerer was given, and the generated answer.
     judge_prompt = f"""
 You are evaluating the quality of an answer produced by a RAG system
 for an HR leave policy.
@@ -92,6 +124,8 @@ Generated answer:
 {generated_answer}
 """
 
+    # format="json" asks Ollama for valid JSON so the scores can be
+    # parsed; temperature 0 keeps grading repeatable.
     request_data = {
         "model": JUDGE_MODEL,
         "prompt": judge_prompt,
@@ -125,6 +159,8 @@ Generated answer:
 
     score_fields = ("correctness", "context_support", "completeness")
 
+    # Reject anything that isn't exactly 0, 1, or 2. bool is checked
+    # first because in Python True/False count as ints (1/0).
     for field in score_fields:
         score = result.get(field)
         if (
@@ -169,6 +205,7 @@ def main():
                 client, question_embedding, limit=TOP_K
             )
 
+            # Kept for the judge and the CSV report.
             retrieved_context = "\n\n".join(
                 point.payload.get("text", "")
                 for point in retrieved_chunks
@@ -185,7 +222,7 @@ def main():
             prompt = build_prompt(question, retrieved_chunks)
             generated_answer = generate_answer(prompt)
 
-            # Step 4: Evaluate the generated answer.
+            # Step 4: Evaluate the generated answer with the LLM judge.
             evaluation = judge_answer(
                 question=question,
                 expected_answer=expected_answer,
@@ -203,6 +240,7 @@ def main():
             )
             print(f"Judge explanation: {evaluation['explanation']}")
 
+            # Step 5: Keep everything about this question for the CSV.
             results_for_report.append(
                 {
                     "question": question,
@@ -222,7 +260,7 @@ def main():
     finally:
         client.close()
 
-    # Save detailed results.
+    # Save detailed results (one row per question; columns in this order).
     fieldnames = [
         "question",
         "expected_answer",
@@ -258,6 +296,7 @@ def main():
         total_avg = sum(
             row["total_score"] for row in results_for_report
         ) / total
+        # Summing booleans counts the True values.
         perfect_answers = sum(
             row["total_score"] == 6 for row in results_for_report
         )

@@ -1,3 +1,24 @@
+"""Experiment: does hybrid search (vector + keyword) improve retrieval?
+
+Run from the basic-rag/ folder (no LLM needed):
+    uv run python evals/evaluate_hybrid_search.py
+
+Two kinds of search find different things:
+    Vector search   matches meaning ("time off" ~ "leave"), but can miss
+                    exact terms like "31 March" or "Section 4.3".
+    BM25 (keyword)  scores chunks by shared words, weighting rare words
+                    higher. Good at exact terms, blind to synonyms.
+
+Hybrid search runs both, takes the top CANDIDATE_K (20) from each, and
+merges them with Reciprocal Rank Fusion (RRF), keeping the top TOP_K.
+
+Compared against plain vector search, using Hit Rate, Recall, and MRR @3
+(defined in evaluate_retrieval.py).
+
+The BM25 index is built in memory from the chunks already in Qdrant on
+every run. Nothing in Qdrant or the pipeline is changed.
+"""
+
 import csv
 import re
 import time
@@ -18,25 +39,31 @@ from basic_rag.vector_store import get_client, search
 
 
 def load_questions(file_path: str) -> list[dict]:
+    """Read the evaluation CSV into a list of row dicts."""
     with open(file_path, "r", encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
 def tokenize(text: str) -> list[str]:
     """Simple lowercase word tokenization for this BM25 experiment."""
+    # Dots are kept inside words, so "4.3" and "31." stay one token.
     return re.findall(r"\b[\w.]+\b", text.lower())
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
+    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
     return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
 
 
 def section_id(point) -> str:
+    """Return a Qdrant point's section_id, or "" if it has none."""
     return str((point.payload or {}).get("section_id", "")).strip()
 
 
 def load_all_chunks(client: QdrantClient) -> list:
     """Read existing chunks from Qdrant; this does not modify the collection."""
+    # scroll() returns one page at a time plus an offset for the next
+    # page; the offset is None after the last page.
     points = []
     offset = None
     while True:
@@ -54,6 +81,11 @@ def load_all_chunks(client: QdrantClient) -> list:
 
 
 def calculate_metrics(details: list[dict]) -> dict:
+    """Compute Hit Rate, Recall, and MRR from per-question results.
+
+    Each item in `details` needs expected_ids (set) and retrieved_ids
+    (list, best first). Returns the averages plus the failed questions.
+    """
     total = len(details)
     hits = 0
     recall_sum = 0.0
@@ -64,11 +96,14 @@ def calculate_metrics(details: list[dict]) -> dict:
         expected_ids = item["expected_ids"]
         retrieved_ids = item["retrieved_ids"]
         matched_ids = expected_ids & set(retrieved_ids)
+        # Hit: at least one expected section was retrieved.
         if matched_ids:
             hits += 1
+        # Recall: fraction of the expected sections that were retrieved.
         recall_sum += len(matched_ids) / \
             len(expected_ids) if expected_ids else 0.0
 
+        # Reciprocal rank: 1 / position of the first correct section.
         reciprocal_rank = 0.0
         for rank, retrieved_id in enumerate(retrieved_ids, start=1):
             if retrieved_id in expected_ids:
@@ -113,7 +148,15 @@ def evaluate_vector_baseline(client: QdrantClient, questions: list[dict]) -> dic
 
 
 def reciprocal_rank_fusion(ranked_lists: list[list], k: int = RRF_K) -> list:
-    """Fuse ranked Qdrant point lists, deduplicating by point ID."""
+    """Fuse ranked Qdrant point lists, deduplicating by point ID.
+
+    Each list gives a chunk 1 / (k + rank) points; a chunk's scores are
+    added across lists. Only ranks matter, not the raw scores, so
+    vector similarity and BM25 scores (on very different scales) can be
+    combined fairly. A chunk ranked well by both searches wins.
+
+    Returns (point, fused_score) pairs, best first.
+    """
     scores = {}
     point_by_id = {}
     for ranked_list in ranked_lists:
@@ -131,6 +174,11 @@ def evaluate_hybrid(
     corpus_points: list,
     bm25: BM25Okapi,
 ) -> dict:
+    """Run vector + BM25 search for every question and fuse with RRF.
+
+    `corpus_points` and `bm25` must be in the same order: BM25 score i
+    belongs to corpus_points[i].
+    """
     details = []
     corpus_ids = [str(point.id) for point in corpus_points]
     point_by_id = {str(point.id): point for point in corpus_points}
@@ -144,6 +192,8 @@ def evaluate_hybrid(
         vector_candidates = search(client, embedding, limit=CANDIDATE_K)
 
         # Path B: lexical retrieval uses the original question text.
+        # BM25 scores every chunk; sort chunk positions by score and
+        # keep the top CANDIDATE_K that share at least one word.
         bm25_scores = bm25.get_scores(tokenize(question))
         ranked_indexes = sorted(
             range(len(bm25_scores)),
@@ -174,6 +224,7 @@ def evaluate_hybrid(
 
 
 def print_summary(label: str, result: dict) -> None:
+    """Print one flow's metrics and the questions it missed."""
     heading(label)
     print(f"Questions   : {result['total']}")
     print(f"Hit Rate@{TOP_K} : {result['hit_rate']:.2f}%")
@@ -188,6 +239,7 @@ def print_summary(label: str, result: dict) -> None:
 
 
 def main() -> None:
+    """Build the BM25 index, run both flows, and compare them."""
     heading("HYBRID SEARCH EVALUATION")
     questions = load_questions(EVALUATION_FILE)
     if not questions:
@@ -203,6 +255,7 @@ def main() -> None:
         info(f"RRF constant: {RRF_K}")
         info("Reading existing chunks from Qdrant (read-only)...")
 
+        # Step 1: build the BM25 keyword index from the stored chunks.
         corpus_points = [
             point for point in load_all_chunks(client)
             if (point.payload or {}).get("text")
@@ -218,16 +271,19 @@ def main() -> None:
         bm25 = BM25Okapi(tokenized_corpus)
         info(f"BM25 index built in memory for {len(corpus_points)} chunks")
 
+        # Step 2: baseline (plain vector search).
         print("\nRunning vector-only baseline...")
         start = time.perf_counter()
         baseline = evaluate_vector_baseline(client, questions)
         baseline_seconds = time.perf_counter() - start
 
+        # Step 3: hybrid search.
         print("\nRunning hybrid retrieval...")
         start = time.perf_counter()
         hybrid = evaluate_hybrid(client, questions, corpus_points, bm25)
         hybrid_seconds = time.perf_counter() - start
 
+        # Step 4: report.
         print_summary("BASELINE: VECTOR TOP 3", baseline)
         print_summary(
             "HYBRID: VECTOR TOP 20 + BM25 TOP 20 -> RRF TOP 3", hybrid)

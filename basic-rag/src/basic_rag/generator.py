@@ -1,3 +1,8 @@
+"""Query final step: send the finished prompt to the LLM and get the answer.
+
+Calls Ollama's /api/generate endpoint with LLM_MODEL (gemma3:4b) using
+only the standard library. The prompt itself is built in prompts.py.
+"""
 
 import json
 from urllib.request import Request, urlopen
@@ -8,7 +13,10 @@ from basic_rag.config import LLM_MODEL, OLLAMA_GENERATE_URL, TEMPERATURE
 def generate_answer(prompt: str) -> str:
     """Generate an answer using the configured Ollama model."""
 
-    # Prepare the request body
+    # Prepare the request body.
+    # stream=False: wait for the whole answer instead of receiving it
+    # word by word. Simpler, but nothing prints until it's finished.
+    # temperature=0: the same prompt gives the same answer every time.
     request_data = {
         "model": LLM_MODEL,
         "prompt": prompt,
@@ -29,7 +37,8 @@ def generate_answer(prompt: str) -> str:
         method="POST",
     )
 
-    # Send the request to Ollama
+    # Send the request to Ollama. Generation is slow on a laptop, hence
+    # the long timeout.
     with urlopen(request, timeout=180) as response:
         response_data = json.loads(
             response.read().decode("utf-8")

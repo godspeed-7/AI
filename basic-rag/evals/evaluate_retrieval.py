@@ -1,3 +1,26 @@
+"""Baseline retrieval evaluation: does plain vector search find the
+right policy section?
+
+Run from the basic-rag/ folder (no LLM needed, takes seconds):
+    uv run python evals/evaluate_retrieval.py
+
+For each question in documents/evaluation_questions.csv:
+    1. Embed the question.
+    2. Retrieve the TOP_K nearest chunks from Qdrant.
+    3. Compare the retrieved chunks' section_ids with the question's
+       expected sections (e.g. "Sections 4.1, 4.3" -> {"4.1", "4.3"}).
+
+Metrics (all "@3" because TOP_K = 3 chunks are retrieved):
+    Hit Rate  % of questions where at least one expected section was
+              retrieved.
+    Recall    per question, the fraction of expected sections retrieved
+              (1 of 2 expected -> 0.5), averaged over all questions.
+    MRR       Mean Reciprocal Rank: 1 / position of the first correct
+              chunk (1st -> 1.0, 2nd -> 0.5, 3rd -> 0.33, none -> 0),
+              averaged. Rewards putting the right chunk first.
+
+This is the baseline the other retrieval experiments compare against.
+"""
 
 import csv
 import re
@@ -9,21 +32,26 @@ from basic_rag.logger import heading, progress, success, info, error
 
 
 def load_questions(file_path: str) -> list[dict]:
+    """Read the CSV; each row is a dict with keys question,
+    expected_answer, expected_source, and category."""
     with open(file_path, "r", encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
+    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
     # Extract IDs such as 3.1, 4.3, or top-level IDs such as 5.
     return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
 
 
 def main():
+    """Score vector search on every question and print the metrics."""
     heading("RAG RETRIEVAL EVALUATION")
 
     questions = load_questions(EVALUATION_FILE)
     client = get_client()
 
+    # Running totals; divided by the question count at the end.
     total = len(questions)
     hits = 0
     recall_sum = 0.0
@@ -40,10 +68,12 @@ def main():
 
         progress(f"[{index}/{total}] {question}")
 
+        # Steps 1-2: embed the question and retrieve the top chunks.
         question_embedding = generate_embedding(question)
 
         results = search(client, question_embedding, limit=TOP_K)
 
+        # Step 3: score the result.
         # Preserve ranking order for MRR.
         retrieved_ids = [
             point.payload.get("section_id", "").strip()
@@ -96,6 +126,7 @@ def main():
 
         mrr_sum += reciprocal_rank
 
+    # Average the per-question scores (guarding against an empty CSV).
     heading("RETRIEVAL EVALUATION SUMMARY")
 
     hit_rate = (hits / total * 100) if total else 0.0

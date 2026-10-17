@@ -1,3 +1,22 @@
+"""Experiment: does rewriting the question with an LLM improve retrieval?
+
+Run from the basic-rag/ folder (uses the LLM; takes a few minutes):
+    uv run python evals/evaluate_query_rewriting.py
+
+Users phrase questions casually ("can I keep my unused days?"), while the
+policy uses formal terms ("carry over unused annual leave"). Before
+searching, the LLM rewrites each question into one clearer search query
+using policy terms, without answering it or adding facts.
+
+Runs every question twice and compares:
+    Baseline    search with the original question.
+    Rewritten   search with the LLM's rewritten query.
+
+Metrics: Hit Rate, Recall, and MRR @3 (defined in
+evaluate_retrieval.py). The rewritten queries are printed so you can
+check whether a change in score came from a sensible rewrite.
+"""
+
 import csv
 import json
 from urllib.request import Request, urlopen
@@ -16,17 +35,25 @@ from basic_rag.logger import heading, info, success, error
 
 
 def load_questions(file_path: str) -> list[dict]:
+    """Read the evaluation CSV into a list of row dicts."""
     with open(file_path, "r", encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
+    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
     import re
 
     return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
 
 
 def rewrite_query(question: str) -> str:
+    """Ask the LLM to turn a question into one clearer search query.
+
+    Raises ValueError if the model returns nothing.
+    """
+    # The rules keep the rewrite faithful: same intent, same numbers,
+    # no answering, no invented policy facts.
     prompt = f"""
 You rewrite questions for semantic search over an HR leave policy.
 
@@ -53,6 +80,8 @@ Original question:
 Rewritten search query:
 """
 
+    # Same Ollama call as generator.py; temperature 0 makes the rewrite
+    # repeatable between runs.
     request_data = {
         "model": LLM_MODEL,
         "prompt": prompt,
@@ -82,6 +111,11 @@ def evaluate_retrieval(
     questions: list[dict],
     use_rewriting: bool,
 ) -> dict:
+    """Score retrieval on every question, with or without rewriting.
+
+    Returns the averaged metrics, the failed questions, and per-question
+    details (including the query that was actually searched).
+    """
     hits = 0
     recall_sum = 0.0
     mrr_sum = 0.0
@@ -93,15 +127,18 @@ def evaluate_retrieval(
         expected_source = item["expected_source"].strip()
         expected_ids = extract_section_ids(expected_source)
 
+        # Step 1: choose what to search with.
         if use_rewriting:
             search_query = rewrite_query(original_question)
         else:
             search_query = original_question
 
+        # Step 2: embed it and retrieve the top chunks.
         query_embedding = generate_embedding(search_query)
 
         results = search(client, query_embedding, limit=TOP_K)
 
+        # Step 3: score the result (Hit, Recall, Reciprocal Rank).
         # Preserve ranking order for MRR.
         retrieved_ids = [
             point.payload.get("section_id", "").strip()
@@ -131,6 +168,7 @@ def evaluate_retrieval(
 
         mrr_sum += reciprocal_rank
 
+        # Step 4: keep the details for the summary and failure report.
         detail = {
             "question": original_question,
             "search_query": search_query,
@@ -169,6 +207,7 @@ def evaluate_retrieval(
 
 
 def print_summary(label: str, result: dict):
+    """Print one run's metrics; failures show the rewritten query too."""
     heading(label)
 
     print(f"Total questions : {result['total']}")
@@ -189,6 +228,7 @@ def print_summary(label: str, result: dict):
 
 
 def print_comparison(baseline: dict, rewritten: dict):
+    """Print each metric before -> after, then a one-line verdict."""
     heading("METRIC COMPARISON")
 
     for metric in ("hit_rate", "recall", "mrr"):
@@ -207,6 +247,8 @@ def print_comparison(baseline: dict, rewritten: dict):
                 f"({difference:+.4f})"
             )
 
+    # Verdict: only call it an improvement if Hit Rate went up and
+    # nothing else went down.
     if (
         rewritten["hit_rate"] > baseline["hit_rate"]
         and rewritten["recall"] >= baseline["recall"]
@@ -224,6 +266,7 @@ def print_comparison(baseline: dict, rewritten: dict):
 
 
 def main():
+    """Run the baseline, then the rewritten queries, and compare."""
     heading("QUERY REWRITING EVALUATION")
 
     questions = load_questions(EVALUATION_FILE)
@@ -238,12 +281,15 @@ def main():
     info(f"Rewrite model: {LLM_MODEL}")
     info(f"Retrieving top {TOP_K} chunks per question")
 
+    # Step 1: baseline with the original questions.
     print("\nRunning baseline with original questions...")
     baseline = evaluate_retrieval(client, questions, use_rewriting=False)
 
+    # Step 2: same questions, rewritten by the LLM first.
     print("\nRunning experiment with rewritten questions...")
     rewritten = evaluate_retrieval(client, questions, use_rewriting=True)
 
+    # Step 3: report.
     print_summary("BASELINE: ORIGINAL QUESTIONS", baseline)
     print_summary("EXPERIMENT: REWRITTEN QUESTIONS", rewritten)
     print_comparison(baseline, rewritten)

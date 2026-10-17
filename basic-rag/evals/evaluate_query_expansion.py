@@ -1,3 +1,24 @@
+"""Experiment: does searching with several phrasings improve retrieval?
+
+Run from the basic-rag/ folder (uses the LLM; takes a few minutes):
+    uv run python evals/evaluate_query_expansion.py
+
+Query expansion asks the LLM for NUM_ALTERNATIVES other ways to phrase
+the question. The original plus each alternative is searched separately
+(TOP_K results each), and the results are merged:
+    - a chunk found by several queries is kept once, at its best rank
+    - chunks are ordered by best rank; ties go to the earlier query
+      (the original question comes first)
+    - the top TOP_K unique chunks are scored
+
+Unlike rewriting (evaluate_query_rewriting.py), the original question is
+always searched too, so expansion can only add candidates, not lose the
+original's results before merging.
+
+Metrics: Hit Rate, Recall, and MRR @3 (defined in
+evaluate_retrieval.py), plus total run time, since each extra query
+costs an LLM call and more searches.
+"""
 
 import csv
 import json
@@ -19,15 +40,18 @@ from basic_rag.logger import heading, info, success, error
 from basic_rag.vector_store import get_client, search
 
 
+# How many extra phrasings the LLM generates per question.
 NUM_ALTERNATIVES = 2
 
 
 def load_questions(file_path: str) -> list[dict]:
+    """Read the evaluation CSV into a list of row dicts."""
     with open(file_path, "r", encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
 def extract_section_ids(expected_source: str) -> set[str]:
+    """Turn "Sections 4.1, 4.3" into {"4.1", "4.3"}."""
     return set(re.findall(r"\d+(?:\.\d+)*", expected_source))
 
 
@@ -54,6 +78,8 @@ Original question:
 {question}
 """
 
+    # format="json" makes Ollama return valid JSON, so the reply can be
+    # parsed reliably.
     request_data = {
         "model": LLM_MODEL,
         "prompt": prompt,
@@ -88,6 +114,8 @@ Original question:
         raise ValueError("Unexpected query expansion response format.")
 
     # Remove empty queries and duplicates while preserving order.
+    # The original question starts in `seen`, so an alternative that
+    # just repeats it is dropped. casefold() = case-insensitive compare.
     unique_queries = []
     seen = {question.strip().casefold()}
 
@@ -111,6 +139,7 @@ Original question:
 
 
 def retrieve_chunks(client: QdrantClient, query: str) -> list:
+    """Embed one query and return its TOP_K nearest chunks."""
     query_embedding = generate_embedding(query)
 
     return search(client, query_embedding, limit=TOP_K)
@@ -121,6 +150,11 @@ def evaluate_retrieval(
     questions: list[dict],
     use_expansion: bool,
 ) -> dict:
+    """Score retrieval on every question, with or without expansion.
+
+    Returns the averaged metrics, the failed questions, and the elapsed
+    time for the whole run.
+    """
     hits = 0
     recall_sum = 0.0
     mrr_sum = 0.0
@@ -134,6 +168,7 @@ def evaluate_retrieval(
 
         print(f"\n[{index}/{len(questions)}] {question}")
 
+        # Step 1: build the list of queries to search with.
         if use_expansion:
             alternatives = expand_query(question)
             queries = [question] + alternatives
@@ -144,6 +179,7 @@ def evaluate_retrieval(
         else:
             queries = [question]
 
+        # Step 2: search with each query and merge the results.
         # Merge results and retain each Qdrant point only once.
         # Best rank comes first; ties preserve query order.
         unique_points = {}
@@ -164,6 +200,9 @@ def evaluate_retrieval(
 
                 existing = unique_points.get(point_id)
 
+                # Keep this sighting if the chunk is new, or if it ranks
+                # better here than where it was seen before. Tuples
+                # compare element by element: rank first, then query.
                 if existing is None or (
                     rank, query_index
                 ) < (
@@ -185,6 +224,8 @@ def evaluate_retrieval(
             for candidate in ranked_candidates[:TOP_K]
         ]
 
+        # Step 3: score the merged top TOP_K (Hit, Recall, Reciprocal
+        # Rank).
         retrieved_ids = [
             point.payload.get("section_id", "").strip()
             for point in final_points
@@ -243,6 +284,7 @@ def evaluate_retrieval(
 
 
 def print_summary(label: str, result: dict):
+    """Print one run's metrics, run time, and the questions it missed."""
     heading(label)
 
     print(f"Total questions : {result['total']}")
@@ -263,6 +305,7 @@ def print_summary(label: str, result: dict):
 
 
 def print_comparison(baseline: dict, expanded: dict):
+    """Print each metric and the run time, before -> after."""
     heading("BASELINE VS QUERY EXPANSION")
 
     for metric in ("hit_rate", "recall", "mrr"):
@@ -282,6 +325,7 @@ def print_comparison(baseline: dict, expanded: dict):
 
 
 def main():
+    """Run the baseline, then query expansion, and compare."""
     heading("QUERY EXPANSION EVALUATION")
 
     questions = load_questions(EVALUATION_FILE)
@@ -299,16 +343,19 @@ def main():
         info(f"Alternative queries per question: {NUM_ALTERNATIVES}")
         info(f"Final result limit: {TOP_K} unique chunks")
 
+        # Step 1: baseline with the original question only.
         print("\nRunning baseline...")
         baseline = evaluate_retrieval(
             client, questions, use_expansion=False
         )
 
+        # Step 2: original question + LLM-generated alternatives.
         print("\nRunning query expansion experiment...")
         expanded = evaluate_retrieval(
             client, questions, use_expansion=True
         )
 
+        # Step 3: report.
         print_summary("BASELINE: ORIGINAL QUESTIONS", baseline)
         print_summary("EXPERIMENT: QUERY EXPANSION", expanded)
         print_comparison(baseline, expanded)

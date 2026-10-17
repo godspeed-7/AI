@@ -1,8 +1,20 @@
+"""Coloured console output shared by the scripts.
 
+Each helper prints one line with a coloured tag:
+
+    [INFO]   cyan     extra detail
+    [....]   yellow   a step is starting
+    [DONE]   green    a step finished
+    [ERROR]  red      something went wrong
+    [TIME]   blue     how long a step took
+    heading  magenta  a banner between sections of output
+"""
 
 from colorama import Fore, Style, just_fix_windows_console
 
 
+# Makes the colour codes work in the Windows console; does nothing on
+# macOS/Linux.
 just_fix_windows_console()
 
 

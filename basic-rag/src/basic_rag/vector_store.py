@@ -1,3 +1,16 @@
+"""Everything that talks to Qdrant, the vector database.
+
+Ingestion step 4-5 and query step 2. Functions, from safe to dangerous:
+
+    get_client()           connect; changes nothing, safe anywhere
+    search()               find the chunks nearest to a query vector
+    insert_chunks()        store embedded chunks (upsert)
+    recreate_collection()  DELETE all chunks and start fresh;
+                           only ingest.py should call this
+
+Each stored item is a "point": an ID, a vector, and a payload (a dict
+with the chunk text and its section metadata).
+"""
 
 import uuid
 
@@ -26,6 +39,8 @@ def recreate_collection(client: QdrantClient) -> None:
     if client.collection_exists(COLLECTION_NAME):
         client.delete_collection(collection_name=COLLECTION_NAME)
 
+    # COSINE compares the direction of vectors, not their length,
+    # which is the standard choice for text embeddings.
     client.create_collection(
         collection_name=COLLECTION_NAME,
         vectors_config=models.VectorParams(
@@ -45,6 +60,9 @@ def make_point_id(
     The same document, section, and chunk always get the same ID, and
     chunks from different documents never collide.
     """
+    # uuid5 hashes the key, so the same key always gives the same UUID
+    # (unlike uuid4, which is random). Qdrant only accepts integers or
+    # UUIDs as point IDs, so the readable key can't be used directly.
     key = f"{source}#{section_id}#{chunk_index}"
     return str(uuid.uuid5(uuid.NAMESPACE_URL, key))
 
@@ -54,6 +72,12 @@ def insert_chunks(
     embedded_chunks: list[dict],
     source: str,
 ) -> None:
+    """Store embedded chunks in Qdrant as points.
+
+    `embedded_chunks` come from embedder.embed_chunks; `source` is the
+    document's file name (e.g. "hr_leave_policy.txt") and is saved in
+    every payload. Raises ValueError if two chunks would share an ID.
+    """
     points = []
     seen_ids = set()
 
@@ -71,6 +95,8 @@ def insert_chunks(
             )
         seen_ids.add(point_id)
 
+        # The payload is what comes back with search results; the
+        # vector itself is only used for matching.
         points.append(
             models.PointStruct(
                 id=point_id,
@@ -88,6 +114,8 @@ def insert_chunks(
             )
         )
 
+    # Upsert = insert new IDs, overwrite existing ones. All points are
+    # sent in one request.
     if points:
         client.upsert(
             collection_name=COLLECTION_NAME,
@@ -101,7 +129,12 @@ def search(
     limit: int = TOP_K,
     query_filter: models.Filter | None = None,
 ) -> list:
-    """Return the chunks nearest to the query vector, best first."""
+    """Return the chunks nearest to the query vector, best first.
+
+    Each result is a Qdrant point with `.payload` (chunk text and
+    metadata) and `.score` (cosine similarity, higher = closer). Pass
+    `query_filter` to restrict the search, e.g. to one section_id.
+    """
     return client.query_points(
         collection_name=COLLECTION_NAME,
         query=query_vector,

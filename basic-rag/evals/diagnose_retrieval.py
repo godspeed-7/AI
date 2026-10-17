@@ -1,3 +1,19 @@
+"""Diagnostic: why does section 7.1 rank where it does?
+
+Run from the basic-rag/ folder (no LLM needed):
+    uv run python evals/diagnose_retrieval.py
+
+The question "Does the policy specify a fixed number of parental-leave
+days?" should retrieve section 7.1 (parental leave). This script tries
+the original wording and three rephrasings, and for each prints:
+    - its cosine similarity with section 7.1's stored vector
+    - the top 5 search results with their scores
+    - where 7.1 ranked, or "outside top 5"
+
+Useful for telling apart "the chunk is a poor match for this wording"
+(low similarity) from "other chunks just scored slightly higher" (good
+similarity, but a lower rank).
+"""
 
 from basic_rag.config import COLLECTION_NAME
 from basic_rag.embedder import generate_embedding
@@ -5,6 +21,7 @@ from basic_rag.vector_store import get_client, search
 from qdrant_client import models
 
 
+# The original evaluation question plus three ways of rephrasing it.
 QUESTIONS = [
     {
         "label": "Original",
@@ -30,6 +47,8 @@ TARGET_SECTION_ID = "7.1"
 
 
 def get_target_section(client):
+    """Fetch the first stored chunk of the target section, with its
+    vector (search results don't include vectors by default)."""
     points, _ = client.scroll(
         collection_name=COLLECTION_NAME,
         scroll_filter=models.Filter(
@@ -54,6 +73,8 @@ def get_target_section(client):
 
 
 def cosine_similarity(vector_a, vector_b):
+    """How closely two vectors point the same way: 1.0 = identical
+    direction, 0 = unrelated. This is the measure Qdrant ranks by."""
     dot_product = sum(a * b for a, b in zip(vector_a, vector_b))
     norm_a = sum(a * a for a in vector_a) ** 0.5
     norm_b = sum(b * b for b in vector_b) ** 0.5
@@ -65,12 +86,14 @@ def cosine_similarity(vector_a, vector_b):
 
 
 def main():
+    """Compare each phrasing's similarity to 7.1 and its search rank."""
     client = get_client()
 
     print("Connected to Qdrant")
     print(f"Collection: {COLLECTION_NAME}")
     print(f"Retrieving top {TOP_K} chunks per question")
 
+    # Step 1: get section 7.1's stored vector to compare against.
     target_point = get_target_section(client)
     target_vector = target_point.vector
 
@@ -81,6 +104,8 @@ def main():
     if target_vector is None:
         raise RuntimeError("Could not read the stored Section 7.1 vector.")
 
+    # Step 2: for each phrasing, measure similarity to 7.1 directly,
+    # then run a normal search and see where 7.1 lands.
     for item in QUESTIONS:
         question = item["text"]
         question_embedding = generate_embedding(question)

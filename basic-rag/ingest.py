@@ -1,3 +1,21 @@
+"""Ingestion pipeline: turn the policy document into searchable vectors.
+
+Run from the basic-rag/ folder:
+    uv run python ingest.py
+
+Steps:
+    1. Load    read documents/hr_leave_policy.txt         (parser.py)
+    2. Chunk   split it into section-aware chunks          (chunker.py)
+    3. Embed   turn each chunk into a 384-number vector    (embedder.py)
+    4. Reset   connect to Qdrant and recreate the collection
+    5. Store   save the chunks with their vectors          (vector_store.py)
+
+WARNING: step 4 deletes everything in the collection before storing
+the new chunks. Re-run this script whenever the document, the chunking
+settings, or the embedding model change.
+
+Needs Ollama (embeddings) and Qdrant running; see README.md.
+"""
 
 import time
 
@@ -14,6 +32,7 @@ from basic_rag.logger import info, progress, success, heading, timing
 
 
 def main():
+    """Run all five ingestion steps and print a summary with timings."""
     start_time = time.perf_counter()
 
     heading("HR POLICY RAG INGESTION")
@@ -63,6 +82,7 @@ def main():
 
     insert_chunks(client, embedded_chunks, source=DOCUMENT_PATH.name)
 
+    # Count what Qdrant actually stored; it should equal the chunk count.
     count = client.count(
         collection_name=COLLECTION_NAME,
         exact=True,

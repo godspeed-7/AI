@@ -1,9 +1,23 @@
-"""Prompt templates shared by query.py and the evaluations."""
+"""Query step 3: the prompt that turns question + chunks into an answer.
+
+query.py and evals/evaluate_answers.py both import build_prompt from
+here, so the evaluation always tests the exact prompt that real queries
+use.
+
+When editing the rules: don't use the evaluation questions (or their
+answers) as examples. The model would then be shown the test answers,
+and the answer-quality score would be inflated.
+"""
 
 
 def build_prompt(question: str, retrieved_chunks: list) -> str:
-    """Build a focused prompt using the retrieved policy chunks."""
+    """Build a focused prompt using the retrieved policy chunks.
 
+    `retrieved_chunks` are Qdrant points from vector_store.search; only
+    their payload "text" goes into the prompt, separated by blank lines.
+    """
+
+    # Join the chunk texts, skipping any point without text.
     context = "\n\n".join(
         point.payload["text"]
         for point in retrieved_chunks
