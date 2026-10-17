@@ -26,10 +26,9 @@ experiment plugs in, the metrics, and the current baseline), see
 ```text
 basic-rag/
 ├── documents/
-│   ├── policies/                   # the 11 AMS documents that get ingested
+│   ├── policies/                   # the 10 AMS documents that get ingested
 │   │   ├── company_overview.txt          # offices, grades, systems, contacts
-│   │   ├── leave_policy_india.txt        # India leave, current (v2.1)
-│   │   ├── leave_policy_india_v2_0.txt   # India leave, SUPERSEDED (v2.0)
+│   │   ├── leave_policy_india.txt        # Bengaluru and Pune leave (v2.1)
 │   │   ├── leave_policy_us.txt           # Austin leave (PTO)
 │   │   ├── holiday_calendar_2026.txt     # holidays per office
 │   │   ├── travel_expense_policy.txt     # travel limits by grade, forms
@@ -38,7 +37,7 @@ basic-rag/
 │   │   ├── code_of_conduct.txt           # conduct, harassment, gifts
 │   │   ├── onboarding_exit_policy.txt    # probation, notice, settlement
 │   │   └── hr_faq.txt                    # practical everyday questions
-│   └── evaluation_questions.csv    # 150 questions with expected answers
+│   └── evaluation_questions.csv    # 148 questions with expected answers
 ├── src/basic_rag/
 │   ├── config.py                   # all settings: URLs, models, sizes, paths
 │   ├── prompts.py                  # answer prompt, shared by query + evals
@@ -180,7 +179,7 @@ Things to know before running them:
 
 - **They read from the current collection**, so run `ingest.py` first if
   anything changed.
-- **Scripts that call the LLM are slow** with 150 questions (rough
+- **Scripts that call the LLM are slow** with 148 questions (rough
   estimates):
   - `evaluate_query_rewriting.py` and `evaluate_query_expansion.py` take
     10–20 minutes each
@@ -196,11 +195,6 @@ Things to know before running them:
 
 ## Known limitations
 
-- **Superseded documents can win.** The outdated 2024 India leave policy
-  is ingested alongside the current one and can rank first, so the system
-  may answer with old rules. For example, it currently says India
-  employees can carry over 8 days instead of 5. Nothing marks a chunk as
-  superseded at search time or in the prompt.
 - **Questions that compare the user's numbers to a policy limit are
   weak.** For example, "I have 8 unused days. Can I carry all 8?" The
   model does not reliably compare the 8 with the 5-day limit.
@@ -213,7 +207,7 @@ Things to know before running them:
 - **There is no similarity threshold.** Unrelated questions still get the
   top chunks as context.
 - **Ingestion rebuilds everything every time.** Changing one document
-  re-embeds all of them. Fine at 258 chunks, slow at thousands.
+  re-embeds all of them. Fine at 239 chunks, slow at thousands.
 - **One embedding request per chunk.** Ollama's `/api/embed` endpoint can
   take a batch.
 - **No streaming.** The answer appears only after generation finishes.

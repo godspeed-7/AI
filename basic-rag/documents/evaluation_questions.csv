@@ -124,7 +124,7 @@ is food free at the bangalore office,Not free: the cafeteria lunch is subsidised
 can i do some freelance work on weekends,"Only with written approval from your manager and Legal and Compliance, and never for a competitor or client.",code_of_conduct.txt#3.2,casual,dev
 can i go work from bali for a month,"Not for a month: working abroad is limited to 15 working days a year and needs manager, People Operations, and Legal approval 30 days in advance.",remote_hybrid_work_policy.txt#4.2; remote_hybrid_work_policy.txt#4.1,casual,test
 "i wanna switch teams, how does that work",Apply to internal openings in AMS People after 12 months in your role with a rating of meets expectations or higher; your manager is told when you're shortlisted.,hr_faq.txt#5.3,casual,dev
-How many annual-leave days does a full-time employee in India receive each year?,20 days per complete leave year (the superseded 2024 version said 18).,leave_policy_india.txt#3.1,outdated,dev
+How many annual-leave days does a full-time employee in India receive each year?,20 days per complete leave year.,leave_policy_india.txt#3.1,outdated,dev
 How many unused annual-leave days can an India-based employee normally carry over?,Up to 5 unused annual-leave days.,leave_policy_india.txt#4.1,outdated,test
 By when must standard carried-over annual leave be used in India?,By 31 March of the following year.,leave_policy_india.txt#4.2,outdated,dev
 What is the annual casual-leave entitlement?,6 days per leave year for eligible permanent full-time employees.,leave_policy_india.txt#6.1,outdated,test
@@ -132,8 +132,6 @@ I could not take leave because my manager required me to support a business-crit
 Does unused annual leave automatically get paid out at year-end in India?,No. It does not automatically convert to cash under the current policy; any settlement on separation is reviewed by People Operations and Payroll.,leave_policy_india.txt#4.4,outdated,dev
 How far in advance should I submit a planned annual-leave request in India?,"At least 10 calendar days before leave starts; for 5 or more consecutive working days, at least 15 calendar days in advance where reasonably possible.",leave_policy_india.txt#3.4,outdated,test
 After how many days of sick leave can an India-based employee be asked for supporting documents?,If the absence lasts more than 3 consecutive working days.,leave_policy_india.txt#5.3,outdated,dev
-What was the annual-leave carry-over limit in India under the 2024 policy version?,"8 days, to be used by 30 June. That version was superseded on 1 April 2026.",leave_policy_india_v2_0.txt#4.1; leave_policy_india_v2_0.txt#4.2,outdated,test
-"Under the old 2024 leave policy, was unused annual leave encashed at year-end?","Yes, up to 10 days at basic pay. This no longer applies under the current version.",leave_policy_india_v2_0.txt#4.4,outdated,dev
 What is the CEO's salary?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev
 Does AMS offer stock options to employees?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,test
 What is the dress code at AMS?,The policies do not cover this. The assistant should say it cannot determine the answer from the available documents.,,unanswerable,dev

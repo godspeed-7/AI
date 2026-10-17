@@ -25,7 +25,7 @@ The project has two pipelines that meet at Qdrant:
    ─────────────────────────────              ─────────────────────────────
 
    documents/policies/*.txt                   "How many unused annual-leave
-   (11 AMS documents)                          days can an India-based
+   (10 AMS documents)                          days can an India-based
           │                                    employee normally carry over?"
           ▼                                            │
    ① Load        parser.py                            ▼
@@ -46,7 +46,7 @@ The project has two pipelines that meet at Qdrant:
    ┌──────────────────────┐                            │
    │  Qdrant collection   │◄───── nearest chunks ──────┘
    │  "ams_policies"      │       (step ② reads from here)
-   │  258 chunks (points) │
+   │  239 chunks (points) │
    └──────────────────────┘
 ```
 
@@ -64,17 +64,17 @@ The project has two pipelines that meet at Qdrant:
 
 Script: [`ingest.py`](ingest.py) · Run: `uv run python ingest.py`
 
-The documents are 11 fictional policies for a company called AMS (leave
+The documents are 10 fictional policies for a company called AMS (leave
 in India and the US, holidays, travel, benefits, remote work, conduct,
-onboarding and exit, an FAQ, and one deliberately outdated leave policy).
+onboarding and exit, and an FAQ).
 We follow **section 4.1 of `leave_policy_india.txt`** through every step.
 
 ### ① Load: [`parser.py`](src/basic_rag/parser.py) → `list_documents()`, `load_document()`
 
 | | |
 |---|---|
-| **In** | every `.txt` file in `documents/policies/` (11 files) |
-| **Out** | one string per document (59,940 characters in total; `leave_policy_india.txt` is 9,874) |
+| **In** | every `.txt` file in `documents/policies/` (10 files) |
+| **Out** | one string per document (56,406 characters in total; `leave_policy_india.txt` is 9,874) |
 | **Settings** | `POLICIES_DIR` |
 
 Nothing clever here: read each file as text. The file name is kept,
@@ -85,7 +85,7 @@ because it becomes every chunk's `source`.
 | | |
 |---|---|
 | **In** | one document string at a time |
-| **Out** | a list of chunk dicts: 258 in total, 35 from `leave_policy_india.txt` |
+| **Out** | a list of chunk dicts: 239 in total, 35 from `leave_policy_india.txt` |
 | **Settings** | `CHUNK_SIZE`, `CHUNK_OVERLAP` (in characters) |
 
 Each document is chunked separately, so a chunk never mixes text from two
@@ -103,8 +103,8 @@ Two phases:
 
 Every chunk also gets the document's title and version, read from the
 file's header (lines 2–3). Without it, only the INTRODUCTION chunk would
-say "INDIA" or "Version 2.1", and section 4.1 would look the same in the
-India, US, and old v2.0 policies.
+say "INDIA" or "Version 2.1", and the carry-over rule in section 4.1
+would look much the same in the India and US leave policies.
 
 Section 4.1 becomes:
 
@@ -129,14 +129,15 @@ Section 4.1 becomes:
 
 | | |
 |---|---|
-| **In** | the 258 chunk dicts |
+| **In** | the 239 chunk dicts |
 | **Out** | the same dicts, each with an added `"embedding"` (384 numbers) |
 | **Settings** | `EMBEDDING_MODEL` (served by Ollama) |
 
-Before embedding, each chunk gets its section heading added in front.
-This text is what gets embedded:
+Before embedding, each chunk gets its document title and section
+heading added in front. This text is what gets embedded:
 
 ```text
+Document: EMPLOYEE LEAVE POLICY (INDIA), Version 2.1
 Section: 4.1 Standard carry-over limit
 Parent section: 4. ANNUAL LEAVE CARRY-OVER
 
@@ -144,12 +145,12 @@ Employees may carry over up to 5 unused annual-leave days from one leave
 year into the next leave year.
 ```
 
-Result: a vector of 384 numbers, starting `[0.023, -0.037, 0.084, 0.010, …]`.
+Result: a vector of 384 numbers, starting `[0.002, -0.016, 0.052, -0.011, …]`.
 
-Why add the heading? The sentence alone never says "annual leave
-carry-over" as a topic; the heading does. Adding it makes the vector
-closer to questions about carry-over. Only the embedding sees this
-prefix; the stored text stays plain.
+Why add them? The sentence alone never says "annual leave carry-over" as
+a topic, or that it's the India policy; the heading and title do. Adding
+them makes the vector closer to questions about India carry-over. Only
+the embedding sees this prefix; the stored text stays plain.
 
 ### ④ Reset: [`vector_store.py`](src/basic_rag/vector_store.py) → `get_client()`, `recreate_collection()`
 
@@ -167,7 +168,7 @@ earlier run survive. Only `ingest.py` calls `recreate_collection()`.
 | | |
 |---|---|
 | **In** | each document's embedded chunks + its file name as `source` |
-| **Out** | 258 points in Qdrant |
+| **Out** | 239 points in Qdrant |
 
 Each chunk becomes a **point** with three parts:
 
@@ -176,10 +177,10 @@ id       4e6676fc-fca4-501d-a0a4-ad25d188eeca
          uuid5("leave_policy_india.txt#4.1#0"), the same every run;
          the US policy's 4.1 gets a different ID
 
-vector   [0.023, -0.037, 0.084, 0.010, …]   (384 numbers, for matching)
+vector   [0.002, -0.016, 0.052, -0.011, …]   (384 numbers, for matching)
 
-payload  {text, source, section, section_id, section_title,
-          parent_section, chunk_index, document_type}
+payload  {text, source, document_title, section, section_id,
+          section_title, parent_section, chunk_index, document_type}
          (returned with search results)
 ```
 
@@ -191,8 +192,7 @@ Script: [`query.py`](query.py) · Run: `uv run python query.py`
 
 We follow the question **"How many unused annual-leave days can an
 India-based employee normally carry over?"** The correct answer, from the
-current India policy (`leave_policy_india.txt` section 4.1), is **5 days**.
-This run shows a real failure, which makes it a useful example.
+India policy (`leave_policy_india.txt` section 4.1), is **5 days**.
 
 ### ① Embed: [`embedder.py`](src/basic_rag/embedder.py) → `generate_embedding()`
 
@@ -211,19 +211,19 @@ embedded as typed.
 | **In** | the question vector |
 | **Out** | the `TOP_K` nearest chunks, best first (3 in this run) |
 
-Qdrant compares the question vector with all 258 chunk vectors (cosine
+Qdrant compares the question vector with all 239 chunk vectors (cosine
 similarity: 1.0 = same direction) and returns the closest:
 
 | Rank | Document | Section | Score |
 |---|---|---|---|
-| 1 | `leave_policy_india_v2_0.txt` (superseded) | 4.1 Standard carry-over limit | 0.680 ⚠️ |
-| 2 | `leave_policy_india.txt` (current) | 4.1 Standard carry-over limit | 0.670 ✅ |
-| 3 | `leave_policy_us.txt` | 4.1 Carry-over limit | 0.603 |
+| 1 | `leave_policy_india.txt` | 4.1 Standard carry-over limit | 0.828 ✅ |
+| 2 | `leave_policy_india.txt` | 2 Leave year and general rules | 0.744 |
+| 3 | `leave_policy_india.txt` | 3.1 Standard entitlement | 0.741 |
 
-The right section was retrieved, but the **outdated version ranked
-first**. Both texts are almost identical apart from the number, so vector
-search can't tell which one is current. The US policy's 4.1 also came in,
-because it's about the same topic.
+The right section ranked first. All three come from the India policy:
+the question says "India-based", and every chunk's embedding text now
+starts with its document title, so the US policy's similar 4.1 rule
+scores lower.
 
 ### ③ Prompt: [`prompts.py`](src/basic_rag/prompts.py) → `build_prompt()`
 
@@ -239,15 +239,18 @@ The prompt has three parts:
             apply numbers to the user's scenario, say so if the answer
             isn't in the context ...
 
-[context]   the text of the 3 chunks, separated by blank lines
+[context]   the 3 chunks, each under a label naming its document and
+            section, separated by blank lines:
+            [EMPLOYEE LEAVE POLICY (INDIA), Version 2.1 | 4.1 Standard
+            carry-over limit]
+            Employees may carry over up to 5 unused annual-leave days...
 
 [question]  How many unused annual-leave days can an India-based
             employee normally carry over?
 ```
 
-Note that the context is only chunk text. The document name and "STATUS:
-SUPERSEDED" line aren't included, so the model has no way to know which
-chunk is outdated.
+The labels let the model tell apart similar rules from different
+documents, e.g. India's 5-day and the US policy's 10-day carry-over.
 
 `evals/evaluate_answers.py` uses this same function, so the eval tests
 the real prompt.
@@ -260,17 +263,13 @@ the real prompt.
 | **Out** | the answer text (~8–10 seconds on an M4 Mac) |
 | **Settings** | `LLM_MODEL`, `TEMPERATURE` |
 
-> An India-based employee may normally carry over up to 8 unused
-> annual-leave days from one leave year into the next leave year.
+> Eligible permanent full-time employees receive 20 days of annual leave
+> for each complete leave year. Employees may carry over up to 5 unused
+> annual-leave days from one leave year into the next leave year. The
+> leave year runs from 1 January through 31 December.
 
-❌ **Wrong.** The current limit is 5 days; 8 days comes from the
-superseded 2024 version, which ranked first.
-
-This is exactly the kind of failure the expanded dataset was built to
-expose (see the `outdated` question category in § 4). Possible fixes to
-test as experiments: filter out superseded documents at search time
-(experiment C), add the document name and status to the prompt context,
-or stop ingesting superseded documents.
+✅ **Correct** (5 days), though it adds two sentences the question didn't
+ask for, because chunks 2 and 3 were in the context.
 
 ---
 
@@ -332,7 +331,7 @@ overwritten), see [README.md → Run the evaluations](README.md#run-the-evaluati
 ### The evaluation questions
 
 [`documents/evaluation_questions.csv`](documents/evaluation_questions.csv)
-holds 150 questions with these columns:
+holds 148 questions with these columns:
 
 | Column | Example |
 |---|---|
@@ -340,7 +339,7 @@ holds 150 questions with these columns:
 | `expected_answer` | Yes, on flights scheduled for more than 6 hours; otherwise economy. |
 | `expected_source` | `travel_expense_policy.txt#4.1`. Every section that contains the answer, as `document#section`, separated by `;` |
 | `category` | one of the 8 below |
-| `split` | `dev` (90 questions, for tuning) or `test` (60, for the final check) |
+| `split` | `dev` (89 questions, for tuning) or `test` (59, for the final check) |
 
 | Category | Count | What it tests |
 |---|---|---|
@@ -350,12 +349,12 @@ holds 150 questions with these columns:
 | `confusable` | 20 | similar-sounding rules (carry-over vs carry-forward, …) |
 | `two_document` | 20 | the answer needs two documents |
 | `casual` | 15 | informal wording ("can i chill at home on fridays?") |
-| `outdated` | 10 | the current rule, not the superseded 2024 one |
+| `outdated` | 8 | India leave rules that changed between policy versions; the old version is no longer ingested, so these are now ordinary lookups |
 | `unanswerable` | 15 | not in any document; the right answer is "I can't tell" |
 
 Unanswerable questions have no `expected_source`, so the retrieval
-scripts skip them (135 questions are scored). `evaluate_answers.py` uses
-all 150. The scripts don't use the `split` column yet.
+scripts skip them (133 questions are scored). `evaluate_answers.py` uses
+all 148. The scripts don't use the `split` column yet.
 
 ### The two kinds of measurement
 
@@ -366,7 +365,7 @@ chunks (3) are retrieved.
 
 | Metric | Meaning | Example |
 |---|---|---|
-| Hit Rate | % of questions where any expected section is retrieved | 119 of 135 → 88.1% |
+| Hit Rate | % of questions where any expected section is retrieved | 119 of 133 → 89.5% |
 | Recall | share of expected sections found, averaged | expects 4.1 + 4.3, finds 4.1 → 0.5 |
 | MRR | 1 / rank of the first correct chunk, averaged | 1st → 1.0, 2nd → 0.5, 3rd → 0.33 |
 
@@ -383,16 +382,21 @@ prompt or the LLM, and a bad retrieval score points at steps ①–②.
 This is the only place the baseline is recorded; update it whenever a
 change is promoted into the pipeline (see § 6).
 
-Measured on the AMS dataset (11 documents, 258 chunks, 150 questions):
+Measured on the AMS dataset (10 documents, 239 chunks, 148 questions):
 
 | Measure | Result |
 |---|---|
-| Retrieval (vector search, @3, 135 scored questions) | Hit Rate 88.1%, Recall 0.81, MRR 0.80 |
+| Retrieval (vector search, @3, 133 scored questions) | Hit Rate 89.5%, Recall 0.83, MRR 0.83 |
 | Answer quality | not yet measured on this dataset |
 
-Retrieval was Hit Rate 86.7%, Recall 0.79, MRR 0.78 before chunks got
-their document title (in the embedding text and in the prompt).
-Cutting only at line or sentence ends left these numbers unchanged.
+How retrieval got here (same questions within each step):
+- Hit Rate 86.7%, Recall 0.79, MRR 0.78: the first AMS run, with 11
+  documents, including a superseded 2024 India leave policy.
+- No change from cutting chunks only at line or sentence ends.
+- 88.1%, 0.81, 0.80 after chunks got their document title (in the
+  embedding text and in the prompt).
+- 89.5%, 0.83, 0.83 after removing the superseded policy and its 2
+  questions (so these last numbers are on 133 questions, not 135).
 
 The answer prompt contains no examples taken from the evaluation
 questions, so these scores aren't inflated.

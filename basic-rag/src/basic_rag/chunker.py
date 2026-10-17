@@ -20,8 +20,8 @@ two phases:
 Every chunk also carries the document's title and version, read from
 the file's own header (e.g. "EMPLOYEE LEAVE POLICY (INDIA), Version
 2.1"). Otherwise only the INTRODUCTION chunk would say which document,
-country, or version a rule belongs to, and "4.1 Standard carry-over
-limit" would look the same in the India, US, and old v2.0 policies.
+country, or version a rule belongs to, and a carry-over rule in section
+4.1 would look much the same in the India and US leave policies.
 
 The chunker doesn't know the file name; ingest.py adds it as `source`
 when storing the chunk. Title and section metadata are stored in Qdrant

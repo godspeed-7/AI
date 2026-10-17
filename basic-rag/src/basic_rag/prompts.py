@@ -41,7 +41,6 @@ Follow these rules in order:
 
 2. Find the statement in the context that directly answers the question.
    Use that statement as the primary evidence for your answer.
-   If several versions of the same document appear, use the highest version.
 
 3. If the context explicitly states a number of days per leave year
    for the leave type asked about, treat that as the entitlement for
