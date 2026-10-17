@@ -1,31 +1,26 @@
 """Baseline retrieval evaluation: does plain vector search find the
 right policy section?
 
-Run from the basic-rag/ folder (no LLM needed, takes seconds):
-    uv run python evals/evaluate_retrieval.py
+For every question in documents/evaluation_questions.csv, retrieve the
+TOP_K chunks and compare them with the question's expected sections,
+written as "document#section" (e.g. "leave_policy_us.txt#4.1"). No LLM
+is involved, so it takes seconds. This is the baseline the other
+retrieval experiments compare against.
 
-For each question in documents/evaluation_questions.csv:
-    1. Embed the question.
-    2. Retrieve the TOP_K nearest chunks from Qdrant.
-    3. Compare the retrieved chunks with the question's expected
-       sections. Sections are identified as "document#section", e.g.
-       "leave_policy_us.txt#4.1", because several documents have a 4.1.
-
-Questions with no expected source (the "unanswerable" category) are
-skipped: retrieval can't be right or wrong for them. They are used by
-evaluate_answers.py instead.
-
-Metrics (all "@3" because TOP_K = 3 chunks are retrieved):
+Out: three metrics (all "@TOP_K"), plus the questions that missed:
     Hit Rate  % of questions where at least one expected section was
               retrieved.
-    Recall    per question, the fraction of expected sections retrieved
-              (1 of 2 expected -> 0.5), averaged over the scored
-              questions.
-    MRR       Mean Reciprocal Rank: 1 / position of the first correct
-              chunk (1st -> 1.0, 2nd -> 0.5, 3rd -> 0.33, none -> 0),
-              averaged. Rewards putting the right chunk first.
+    Recall    per question, the share of expected sections retrieved
+              (1 of 2 -> 0.5), averaged.
+    MRR       1 / rank of the first correct chunk (1st -> 1.0,
+              2nd -> 0.5, none -> 0), averaged. Rewards ranking the
+              right chunk first.
 
-This is the baseline the other retrieval experiments compare against.
+Caveats:
+- Unanswerable questions (no expected section) are skipped; only
+  evaluate_answers.py uses them.
+- INTRODUCTION chunks have no section number, so they never count as
+  a hit, even when they contain the answer.
 """
 
 import csv

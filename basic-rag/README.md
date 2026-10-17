@@ -81,7 +81,7 @@ curl http://localhost:11434/api/tags
 ollama list
 
 # if needed
-ollama pull all-minilm
+ollama pull nomic-embed-text
 ollama pull gemma3:4b
 ```
 
@@ -107,9 +107,10 @@ All settings live in [`src/basic_rag/config.py`](src/basic_rag/config.py):
 |---|---|---|
 | `QDRANT_URL` | `http://localhost:6333` | Qdrant connection |
 | `COLLECTION_NAME` | `ams_policies` | Qdrant collection |
-| `VECTOR_SIZE` | `384` | must match the embedding model |
+| `VECTOR_SIZE` | `768` | must match the embedding model |
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | embed + generate endpoints |
-| `EMBEDDING_MODEL` | `all-minilm` | document and question embeddings |
+| `EMBEDDING_MODEL` | `nomic-embed-text` | document and question embeddings |
+| `EMBED_DOCUMENT_PREFIX` / `EMBED_QUERY_PREFIX` | `search_document: ` / `search_query: ` | task prefixes nomic-embed-text expects |
 | `LLM_MODEL` | `gemma3:4b` | answers, query rewriting/expansion |
 | `JUDGE_MODEL` | `gemma3:4b` | grading answers in evals |
 | `RERANKER_MODEL` | `BAAI/bge-reranker-base` | reranking experiment |
@@ -121,7 +122,9 @@ All settings live in [`src/basic_rag/config.py`](src/basic_rag/config.py):
 File paths are built from the project root, so scripts work from any
 working directory.
 
-If you change `EMBEDDING_MODEL`, update `VECTOR_SIZE` and re-run ingestion.
+If you change `EMBEDDING_MODEL`, update `VECTOR_SIZE` and the two
+prefixes (check the model's page; many models need none), then re-run
+ingestion.
 Vectors from different embedding models are not compatible, even when
 their dimensions match. Changing the chunking settings also needs a
 re-ingest.

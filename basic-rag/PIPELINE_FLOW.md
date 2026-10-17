@@ -130,14 +130,15 @@ Section 4.1 becomes:
 | | |
 |---|---|
 | **In** | the 239 chunk dicts |
-| **Out** | the same dicts, each with an added `"embedding"` (384 numbers) |
-| **Settings** | `EMBEDDING_MODEL` (served by Ollama) |
+| **Out** | the same dicts, each with an added `"embedding"` (768 numbers) |
+| **Settings** | `EMBEDDING_MODEL` (`nomic-embed-text`, served by Ollama), `EMBED_DOCUMENT_PREFIX` |
 
-Before embedding, each chunk gets its document title and section
-heading added in front. This text is what gets embedded:
+Before embedding, each chunk gets the model's task prefix
+(`search_document:`), its document title, and its section heading
+added in front. This text is what gets embedded:
 
 ```text
-Document: EMPLOYEE LEAVE POLICY (INDIA), Version 2.1
+search_document: Document: EMPLOYEE LEAVE POLICY (INDIA), Version 2.1
 Section: 4.1 Standard carry-over limit
 Parent section: 4. ANNUAL LEAVE CARRY-OVER
 
@@ -145,12 +146,14 @@ Employees may carry over up to 5 unused annual-leave days from one leave
 year into the next leave year.
 ```
 
-Result: a vector of 384 numbers, starting `[0.002, -0.016, 0.052, -0.011, …]`.
+Result: a vector of 768 numbers, starting `[0.008, 0.041, -0.174, -0.020, …]`.
 
 Why add them? The sentence alone never says "annual leave carry-over" as
 a topic, or that it's the India policy; the heading and title do. Adding
-them makes the vector closer to questions about India carry-over. Only
-the embedding sees this prefix; the stored text stays plain.
+them makes the vector closer to questions about India carry-over. The
+`search_document:` prefix is required by nomic-embed-text, which was
+trained with it (questions get `search_query:` instead). Only the
+embedding sees these prefixes; the stored text stays plain.
 
 ### ④ Reset: [`vector_store.py`](src/basic_rag/vector_store.py) → `get_client()`, `recreate_collection()`
 
@@ -177,7 +180,7 @@ id       4e6676fc-fca4-501d-a0a4-ad25d188eeca
          uuid5("leave_policy_india.txt#4.1#0"), the same every run;
          the US policy's 4.1 gets a different ID
 
-vector   [0.002, -0.016, 0.052, -0.011, …]   (384 numbers, for matching)
+vector   [0.008, 0.041, -0.174, -0.020, …]   (768 numbers, for matching)
 
 payload  {text, source, document_title, section, section_id,
           section_title, parent_section, chunk_index, document_type}
@@ -199,10 +202,10 @@ India policy (`leave_policy_india.txt` section 4.1), is **5 days**.
 | | |
 |---|---|
 | **In** | the question string |
-| **Out** | a 384-number vector, starting `[0.025, 0.015, 0.003, 0.039, …]` |
+| **Out** | a 768-number vector, starting `[0.010, 0.042, -0.196, -0.017, …]` |
 
-Same model as ingestion step ③, but no heading prefix: the question is
-embedded as typed.
+Same model as ingestion step ③. The question gets only the model's
+`search_query:` prefix, no title or heading.
 
 ### ② Retrieve: [`vector_store.py`](src/basic_rag/vector_store.py) → `search()`
 
@@ -216,14 +219,18 @@ similarity: 1.0 = same direction) and returns the closest:
 
 | Rank | Document | Section | Score |
 |---|---|---|---|
-| 1 | `leave_policy_india.txt` | 4.1 Standard carry-over limit | 0.828 ✅ |
-| 2 | `leave_policy_india.txt` | 2 Leave year and general rules | 0.744 |
-| 3 | `leave_policy_india.txt` | 3.1 Standard entitlement | 0.741 |
+| 1 | `leave_policy_india.txt` | 4.1 Standard carry-over limit | 0.883 ✅ |
+| 2 | `leave_policy_india.txt` | 4.2 Conditions | 0.857 |
+| 3 | `leave_policy_india.txt` | 11 Quick reference table | 0.855 |
 
 The right section ranked first. All three come from the India policy:
 the question says "India-based", and every chunk's embedding text now
 starts with its document title, so the US policy's similar 4.1 rule
 scores lower.
+
+Scores are only comparable within one embedding model: nomic-embed-text
+scores everything higher than all-minilm did (a weak match here can
+still be ~0.6), so "0.88" doesn't mean the same as 0.88 elsewhere.
 
 ### ③ Prompt: [`prompts.py`](src/basic_rag/prompts.py) → `build_prompt()`
 
@@ -263,13 +270,12 @@ the real prompt.
 | **Out** | the answer text (~8–10 seconds on an M4 Mac) |
 | **Settings** | `LLM_MODEL`, `TEMPERATURE` |
 
-> Eligible permanent full-time employees receive 20 days of annual leave
-> for each complete leave year. Employees may carry over up to 5 unused
-> annual-leave days from one leave year into the next leave year. The
-> leave year runs from 1 January through 31 December.
+> According to the Employee Leave Policy (INDIA), Version 2.1, employees
+> may carry over up to 5 unused annual-leave days from one leave year
+> into the next. This carry-over must be used by 31 March of the
+> following year, subject to Section 4.3.
 
-✅ **Correct** (5 days), though it adds two sentences the question didn't
-ask for, because chunks 2 and 3 were in the context.
+✅ **Correct** (5 days), with the use-by deadline from section 4.2.
 
 ---
 
@@ -365,7 +371,7 @@ chunks (3) are retrieved.
 
 | Metric | Meaning | Example |
 |---|---|---|
-| Hit Rate | % of questions where any expected section is retrieved | 119 of 133 → 89.5% |
+| Hit Rate | % of questions where any expected section is retrieved | 124 of 133 → 93.2% |
 | Recall | share of expected sections found, averaged | expects 4.1 + 4.3, finds 4.1 → 0.5 |
 | MRR | 1 / rank of the first correct chunk, averaged | 1st → 1.0, 2nd → 0.5, 3rd → 0.33 |
 
@@ -386,8 +392,11 @@ Measured on the AMS dataset (10 documents, 239 chunks, 148 questions):
 
 | Measure | Result |
 |---|---|
-| Retrieval (vector search, @3, 133 scored questions) | Hit Rate 89.5%, Recall 0.83, MRR 0.83 |
+| Retrieval (vector search, @3, 133 scored questions) | Hit Rate 93.2%, Recall 0.86, MRR 0.85 |
 | Answer quality | not yet measured on this dataset |
+
+The weakest category is `casual` (Hit Rate 73%, 11 of 15): informal,
+vague wording like "how many leaves do i get".
 
 How retrieval got here (same questions within each step):
 - Hit Rate 86.7%, Recall 0.79, MRR 0.78: the first AMS run, with 11
@@ -396,7 +405,10 @@ How retrieval got here (same questions within each step):
 - 88.1%, 0.81, 0.80 after chunks got their document title (in the
   embedding text and in the prompt).
 - 89.5%, 0.83, 0.83 after removing the superseded policy and its 2
-  questions (so these last numbers are on 133 questions, not 135).
+  questions (from here on, 133 questions instead of 135).
+- 93.2%, 0.86, 0.85 after switching the embedding model from
+  all-minilm (384 numbers) to nomic-embed-text (768), with its
+  search_document: / search_query: prefixes.
 
 The answer prompt contains no examples taken from the evaluation
 questions, so these scores aren't inflated.

@@ -35,9 +35,6 @@ from basic_rag.logger import (
 
 def main():
     """Read a question, run the four query steps, and print the answer."""
-    # Note: the timer starts before input(), so the total time also
-    # includes how long you take to type the question.
-    start_time = time.perf_counter()
     # Created in step 2; set to None first so `finally` can tell whether
     # there is a connection to close.
     client = None
@@ -49,6 +46,9 @@ def main():
     if not question:
         error("Please enter a question.")
         return
+
+    # Start timing after input(), so typing time isn't counted.
+    start_time = time.perf_counter()
 
     try:
         # Step 1: Generate the question embedding.
@@ -77,12 +77,15 @@ def main():
 
         # Show exactly what the LLM will see. If the answer is wrong,
         # check here first: was the right section retrieved?
-        success(f"Retrieved {len(results)} relevant chunks")
+        # "Closest", not "relevant": search always returns TOP_K chunks,
+        # even for an off-topic question. A low score is the warning.
+        success(f"Retrieved the {len(results)} closest chunks")
         print("\n--- RETRIEVED CONTEXT ---")
 
         for i, point in enumerate(results, start=1):
             payload = point.payload or {}
-            print(f"\n[Chunk {i}]")
+            # Cosine similarity: closer to 1.0 = closer match.
+            print(f"\n[Chunk {i}] Score: {point.score:.3f}")
             print(f"Document: {payload.get('document_title')}")
             print(f"Section: {payload.get('section')}")
             print(payload.get("text", ""))

@@ -6,7 +6,7 @@ Run from the basic-rag/ folder:
 Steps:
     1. Load    read every .txt file in documents/policies/  (parser.py)
     2. Chunk   split each one into section-aware chunks     (chunker.py)
-    3. Embed   turn each chunk into a 384-number vector     (embedder.py)
+    3. Embed   turn each chunk into a 768-number vector     (embedder.py)
     4. Reset   connect to Qdrant and recreate the collection
     5. Store   save each document's chunks with its file name
                as the source                               (vector_store.py)

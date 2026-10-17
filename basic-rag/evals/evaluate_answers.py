@@ -1,25 +1,18 @@
 """Answer-quality evaluation: run the full pipeline and grade each answer.
 
-Run from the basic-rag/ folder (uses the LLM twice per question; takes
-about an hour for 150 questions):
-    uv run python -u evals/evaluate_answers.py
-(-u prints progress immediately instead of buffering it.)
+For every question in documents/evaluation_questions.csv, retrieve the
+chunks and generate an answer (same as query.py). Then a judge LLM
+compares that answer with the expected answer and the retrieved chunks,
+and scores it 0-2 on correctness, context_support, and completeness.
 
-For each question in documents/evaluation_questions.csv:
-    1. Embed the question and retrieve TOP_K chunks (same as query.py).
-    2. Build the prompt with prompts.build_prompt (same as query.py).
-    3. Generate the answer with LLM_MODEL.
-    4. Ask JUDGE_MODEL to grade it, from 0 to 2, on:
-         correctness      matches the reference answer?
-         context_support  every claim backed by the retrieved chunks?
-         completeness     includes the important details?
-       Total per question: 0-6.
+Out: evals/answer_evaluation_results.csv (one row per question) and
+     the average scores.
 
-Writes per-question results to evals/answer_evaluation_results.csv
-(overwritten on every run) and prints averages.
-
-Caveat: the judge is currently the same small model as the answerer
-(gemma3:4b), so treat small score differences as noise.
+Caveats:
+- Slow: two LLM calls per question, about an hour for the full set.
+- The results file is overwritten on every run.
+- The judge is the same small model as the answerer (gemma3:4b), so
+  treat small score differences as noise.
 """
 
 import csv

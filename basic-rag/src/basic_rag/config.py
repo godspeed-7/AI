@@ -22,7 +22,7 @@ QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "ams_policies"
 # Length of each embedding vector. Must match the output size of
 # EMBEDDING_MODEL; if you change the model, change this and re-ingest.
-VECTOR_SIZE = 384
+VECTOR_SIZE = 768
 
 # --- Ollama (local model server) ---------------------------------------
 OLLAMA_BASE_URL = "http://localhost:11434"
@@ -31,7 +31,12 @@ OLLAMA_GENERATE_URL = f"{OLLAMA_BASE_URL}/api/generate"
 
 # --- Models ------------------------------------------------------------
 # Turns text into vectors. Documents and questions must use the same one.
-EMBEDDING_MODEL = "all-minilm"
+EMBEDDING_MODEL = "nomic-embed-text"
+# nomic-embed-text was trained with a task prefix on every input, and
+# retrieves worse without it. Other models may need different prefixes,
+# or none ("").
+EMBED_QUERY_PREFIX = "search_query: "
+EMBED_DOCUMENT_PREFIX = "search_document: "
 # Writes the answers (and rewrites/expands queries in the evals).
 LLM_MODEL = "gemma3:4b"
 # Grades answers in evals/evaluate_answers.py. Kept separate from
@@ -52,7 +57,7 @@ CHUNK_OVERLAP = 0
 
 # --- Retrieval -----------------------------------------------------------
 # Number of chunks given to the LLM as context.
-TOP_K = 3
+TOP_K = 5
 # Wider first pass for reranking/hybrid: fetch this many, then narrow
 # down to TOP_K.
 CANDIDATE_K = 20
