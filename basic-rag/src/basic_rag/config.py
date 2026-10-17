@@ -45,9 +45,10 @@ TEMPERATURE = 0
 # --- Chunking (sizes are in characters, not tokens) ---------------------
 # Longest chunk the chunker will produce.
 CHUNK_SIZE = 500
-# Characters repeated at the start of the next chunk, so a sentence cut
-# at a chunk boundary still appears whole in one of the two chunks.
-CHUNK_OVERLAP = 100
+# Up to this many characters of whole lines/sentences repeated at the
+# start of the next chunk. 0 because the chunker only cuts at line or
+# sentence ends, so no sentence is ever broken across two chunks.
+CHUNK_OVERLAP = 0
 
 # --- Retrieval -----------------------------------------------------------
 # Number of chunks given to the LLM as context.

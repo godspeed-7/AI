@@ -13,13 +13,19 @@ and the answer-quality score would be inflated.
 def build_prompt(question: str, retrieved_chunks: list) -> str:
     """Build a focused prompt using the retrieved policy chunks.
 
-    `retrieved_chunks` are Qdrant points from vector_store.search; only
-    their payload "text" goes into the prompt, separated by blank lines.
+    `retrieved_chunks` are Qdrant points from vector_store.search. Each
+    chunk's text goes into the prompt under a label naming its document
+    and section, e.g.
+        [EMPLOYEE LEAVE POLICY (INDIA), Version 2.1 | 4.1 Standard ...]
+    so the model can tell apart similar rules from different documents
+    or versions. Chunks are separated by blank lines.
     """
 
-    # Join the chunk texts, skipping any point without text.
+    # Label and join the chunk texts, skipping any point without text.
     context = "\n\n".join(
-        point.payload["text"]
+        f"[{point.payload.get('document_title', '')} | "
+        f"{point.payload.get('section', '')}]\n"
+        f"{point.payload['text']}"
         for point in retrieved_chunks
         if point.payload and point.payload.get("text")
     )
@@ -35,6 +41,7 @@ Follow these rules in order:
 
 2. Find the statement in the context that directly answers the question.
    Use that statement as the primary evidence for your answer.
+   If several versions of the same document appear, use the highest version.
 
 3. If the context explicitly states a number of days per leave year
    for the leave type asked about, treat that as the entitlement for

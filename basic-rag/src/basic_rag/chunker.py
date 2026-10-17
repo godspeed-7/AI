@@ -11,16 +11,23 @@ two phases:
 
   Phase 2 - Split long sections into chunks
       A section longer than chunk_size characters is cut into pieces.
-      Cuts happen at spaces so words stay whole, and consecutive pieces
-      overlap by about `overlap` characters so a sentence split at a
-      boundary still appears whole in one of them.
+      Cuts only happen at the end of a line or a sentence (or, for a
+      single sentence longer than chunk_size, between words), so each
+      piece starts and ends on a complete thought. With `overlap` > 0,
+      a piece also repeats the last whole lines/sentences of the
+      previous one, up to `overlap` characters.
 
-Every chunk carries its section metadata. The chunker doesn't know the
-document's name; ingest.py adds it as `source` when storing the chunk.
-Section metadata and source are stored in Qdrant with the chunk. The
-section metadata also enriches the embedding text (embedder.py), and the
-evals use source + section to check which part of which document was
-retrieved.
+Every chunk also carries the document's title and version, read from
+the file's own header (e.g. "EMPLOYEE LEAVE POLICY (INDIA), Version
+2.1"). Otherwise only the INTRODUCTION chunk would say which document,
+country, or version a rule belongs to, and "4.1 Standard carry-over
+limit" would look the same in the India, US, and old v2.0 policies.
+
+The chunker doesn't know the file name; ingest.py adds it as `source`
+when storing the chunk. Title and section metadata are stored in Qdrant
+with the chunk, are added to the embedding text (embedder.py), and are
+shown to the LLM (prompts.py). The evals use source + section to check
+which part of which document was retrieved.
 """
 
 import re
@@ -36,6 +43,8 @@ def chunk_text(
     """Split text into chunks that know which section they came from.
 
     Returns a list of dicts, each with:
+        document_title  "EMPLOYEE LEAVE POLICY (INDIA), Version 2.1"
+                        ("" if the file has no recognisable header)
         section         "3.1 Standard entitlement"
         section_id      "3.1"  ("" for text before the first heading)
         section_title   "Standard entitlement"
@@ -130,52 +139,142 @@ def chunk_text(
     # --- Phase 2: split each section into chunks ---------------------
 
     chunks = []
+    document_title = _read_document_title(text)
 
     for section in sections:
-        section_text = section["text"]
-
-        if not section_text:
+        if not section["text"]:
             continue
 
-        # Slide a window of up to chunk_size characters along the
-        # section. Short sections become exactly one chunk.
-        start = 0
-        chunk_index = 0
+        # Short sections become exactly one piece.
+        units = _split_into_units(section["text"], chunk_size)
+        pieces = _pack_units(units, chunk_size, overlap)
 
-        while start < len(section_text):
-            end = min(start + chunk_size, len(section_text))
-
-            # Prefer a word boundary when splitting long sections.
-            if end < len(section_text):
-                boundary = section_text.rfind(" ", start, end)
-
-                if boundary > start:
-                    end = boundary
-
-            chunk = section_text[start:end].strip()
-
-            if chunk:
-                chunks.append({
-                    "section": section["section"],
-                    "section_id": section["section_id"],
-                    "section_title": section["section_title"],
-                    "parent_section": section["parent_section"],
-                    "chunk_index": chunk_index,
-                    "text": chunk,
-                })
-
-                chunk_index += 1
-
-            if end >= len(section_text):
-                break
-
-            # Start the next chunk `overlap` characters before this one
-            # ended, moved forward to the next word boundary. The
-            # max(start + 1, ...) guarantees progress, so the loop always
-            # ends.
-            next_start = max(start + 1, end - overlap)
-            next_space = section_text.find(" ", next_start, end)
-
-            start = next_space + 1 if next_space != -1 else end
+        for chunk_index, piece in enumerate(pieces):
+            chunks.append({
+                "document_title": document_title,
+                "section": section["section"],
+                "section_id": section["section_id"],
+                "section_title": section["section_title"],
+                "parent_section": section["parent_section"],
+                "chunk_index": chunk_index,
+                "text": piece,
+            })
 
     return chunks
+
+
+def _read_document_title(text: str) -> str:
+    """Return "<title>, Version <n>" from the document's header.
+
+    Every AMS file starts with the company name, then the title, then
+    an ID line containing "Version: <n>":
+        AMS
+        EMPLOYEE LEAVE POLICY (INDIA)
+        Policy ID: HR-LEAVE-IN-2026 | Version: 2.1 | ...
+    Returns "" if the first lines don't follow that layout.
+    """
+    lines = [
+        line.strip() for line in text.splitlines()[:10] if line.strip()
+    ]
+
+    for i, line in enumerate(lines):
+        match = re.search(r"Version:\s*([\w.]+)", line)
+
+        # The title is the line just above the version line.
+        if match and i > 0:
+            return f"{lines[i - 1]}, Version {match.group(1)}"
+
+    return ""
+
+
+def _split_into_units(text: str, chunk_size: int) -> list[tuple[str, str]]:
+    """Break a section's text into the units a cut may fall between.
+
+    Tries the largest natural unit first: a whole line. A line longer
+    than chunk_size is broken into sentences, and a sentence that is
+    still too long into words (rare).
+
+    Each unit is (separator, text). The separator is "\\n" when the unit
+    starts a new line and " " when it continues the previous one, so
+    _join() can rebuild the original layout.
+    """
+    units = []
+
+    for line in text.split("\n"):
+        line = line.strip()
+
+        if not line:
+            continue
+
+        if len(line) <= chunk_size:
+            units.append(("\n", line))
+        else:
+            units.extend(_split_long_line(line, chunk_size))
+
+    return units
+
+
+def _split_long_line(line: str, chunk_size: int) -> list[tuple[str, str]]:
+    """Units for a line longer than chunk_size: its sentences, or the
+    words of any sentence that is itself longer than chunk_size."""
+    units = []
+
+    # A sentence ends at . ! or ? followed by whitespace.
+    for sentence in re.split(r"(?<=[.!?])\s+", line):
+        if len(sentence) <= chunk_size:
+            units.append((" ", sentence))
+        else:
+            units.extend((" ", word) for word in sentence.split())
+
+    # The line's first unit starts a new line.
+    units[0] = ("\n", units[0][1])
+    return units
+
+
+def _join(units: list[tuple[str, str]]) -> str:
+    """Rebuild text from units, e.g. [("\\n", "A."), (" ", "B.")] ->
+    "A. B."."""
+    text = "".join(separator + unit for separator, unit in units)
+    # Drop the first unit's separator; a chunk never starts with one.
+    return text[1:]
+
+
+def _pack_units(
+    units: list[tuple[str, str]],
+    chunk_size: int,
+    overlap: int,
+) -> list[str]:
+    """Group consecutive units into pieces of at most chunk_size chars.
+
+    A piece is closed when the next unit doesn't fit. The next piece
+    then starts with the closed piece's last whole units, up to
+    `overlap` characters in total (overlap = 0 means no repetition).
+    """
+    pieces = []
+    current = []
+
+    for unit in units:
+        if current and len(_join(current + [unit])) > chunk_size:
+            pieces.append(_join(current))
+
+            # Carry trailing units, newest first, while they fit in the
+            # overlap budget.
+            carried = []
+
+            for previous in reversed(current):
+                if len(_join([previous] + carried)) > overlap:
+                    break
+                carried.insert(0, previous)
+
+            # Drop the carry if it would leave no room for this unit.
+            if len(_join(carried + [unit])) > chunk_size:
+                carried = []
+
+            current = carried
+
+        current.append(unit)
+
+    if current:
+        pieces.append(_join(current))
+
+    return pieces

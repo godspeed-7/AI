@@ -51,12 +51,13 @@ def embed_chunks(chunks: list[dict]) -> list[dict]:
     embedded_chunks = []
 
     for chunk in chunks:
-        # Add section context to improve semantic retrieval.
+        # Add document and section context to improve retrieval.
         # A chunk like "Employees may carry over up to 5 days..." doesn't
-        # say it's about annual leave; its heading does. Only this
-        # embedding text gets the prefix; the stored chunk text stays
-        # plain.
+        # say it's about annual leave in the India policy; its heading
+        # and document title do. Only this embedding text gets the
+        # prefix; the stored chunk text stays plain.
         embedding_text = (
+            f"Document: {chunk['document_title']}\n"
             f"Section: {chunk['section_id']} {chunk['section_title']}\n"
             f"Parent section: {chunk['parent_section']}\n\n"
             f"{chunk['text']}"

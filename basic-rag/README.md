@@ -115,7 +115,7 @@ All settings live in [`src/basic_rag/config.py`](src/basic_rag/config.py):
 | `JUDGE_MODEL` | `gemma3:4b` | grading answers in evals |
 | `RERANKER_MODEL` | `BAAI/bge-reranker-base` | reranking experiment |
 | `TEMPERATURE` | `0` | repeatable LLM output |
-| `CHUNK_SIZE` / `CHUNK_OVERLAP` | `500` / `100` | chunking (characters) |
+| `CHUNK_SIZE` / `CHUNK_OVERLAP` | `500` / `0` | chunking (characters) |
 | `TOP_K` | `3` | chunks passed to the LLM |
 | `CANDIDATE_K` / `RRF_K` | `20` / `60` | reranking and hybrid experiments |
 

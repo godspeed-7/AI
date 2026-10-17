@@ -83,7 +83,8 @@ def main():
         for i, point in enumerate(results, start=1):
             payload = point.payload or {}
             print(f"\n[Chunk {i}]")
-            print(f"Section: {payload.get('section_title')}")
+            print(f"Document: {payload.get('document_title')}")
+            print(f"Section: {payload.get('section')}")
             print(payload.get("text", ""))
 
         print("\n--- END OF RETRIEVED CONTEXT ---")

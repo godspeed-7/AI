@@ -96,14 +96,21 @@ Two phases:
 1. **Split by heading.** Every numbered heading (`4.`, `4.1`, …) starts a
    section. Sub-sections remember their parent.
 2. **Split long sections.** Sections longer than `CHUNK_SIZE` are cut into
-   pieces at word boundaries, each overlapping the previous one by about
-   `CHUNK_OVERLAP` characters. Most sections are short and stay as one
-   chunk.
+   pieces, but only at the end of a line or a sentence, so every chunk
+   starts and ends on a complete thought. `CHUNK_OVERLAP` is 0: with clean
+   cuts, no sentence is split across two chunks, so nothing needs
+   repeating. Most sections are short and stay as one chunk.
+
+Every chunk also gets the document's title and version, read from the
+file's header (lines 2–3). Without it, only the INTRODUCTION chunk would
+say "INDIA" or "Version 2.1", and section 4.1 would look the same in the
+India, US, and old v2.0 policies.
 
 Section 4.1 becomes:
 
 ```python
 {
+    "document_title": "EMPLOYEE LEAVE POLICY (INDIA), Version 2.1",
     "section":        "4.1 Standard carry-over limit",
     "section_id":     "4.1",
     "section_title":  "Standard carry-over limit",
@@ -359,7 +366,7 @@ chunks (3) are retrieved.
 
 | Metric | Meaning | Example |
 |---|---|---|
-| Hit Rate | % of questions where any expected section is retrieved | 117 of 135 → 86.7% |
+| Hit Rate | % of questions where any expected section is retrieved | 119 of 135 → 88.1% |
 | Recall | share of expected sections found, averaged | expects 4.1 + 4.3, finds 4.1 → 0.5 |
 | MRR | 1 / rank of the first correct chunk, averaged | 1st → 1.0, 2nd → 0.5, 3rd → 0.33 |
 
@@ -380,8 +387,12 @@ Measured on the AMS dataset (11 documents, 258 chunks, 150 questions):
 
 | Measure | Result |
 |---|---|
-| Retrieval (vector search, @3, 135 scored questions) | Hit Rate 86.7%, Recall 0.79, MRR 0.78 |
+| Retrieval (vector search, @3, 135 scored questions) | Hit Rate 88.1%, Recall 0.81, MRR 0.80 |
 | Answer quality | not yet measured on this dataset |
+
+Retrieval was Hit Rate 86.7%, Recall 0.79, MRR 0.78 before chunks got
+their document title (in the embedding text and in the prompt).
+Cutting only at line or sentence ends left these numbers unchanged.
 
 The answer prompt contains no examples taken from the evaluation
 questions, so these scores aren't inflated.

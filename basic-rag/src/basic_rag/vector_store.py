@@ -9,8 +9,8 @@ Ingestion step 4-5 and query step 2. Functions, from safe to dangerous:
                            only ingest.py should call this
 
 Each stored item is a "point": an ID, a vector, and a payload (a dict
-with the chunk text, the document it came from as `source`, and its
-section metadata).
+with the chunk text, the file it came from as `source`, the document's
+title and version as `document_title`, and its section metadata).
 """
 
 import uuid
@@ -105,6 +105,7 @@ def insert_chunks(
                 payload={
                     "text": chunk["text"],
                     "source": source,
+                    "document_title": chunk["document_title"],
                     "section": chunk["section"],
                     "section_id": chunk["section_id"],
                     "section_title": chunk["section_title"],
