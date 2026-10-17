@@ -9,7 +9,8 @@ Ingestion step 4-5 and query step 2. Functions, from safe to dangerous:
                            only ingest.py should call this
 
 Each stored item is a "point": an ID, a vector, and a payload (a dict
-with the chunk text and its section metadata).
+with the chunk text, the document it came from as `source`, and its
+section metadata).
 """
 
 import uuid
@@ -133,7 +134,9 @@ def search(
 
     Each result is a Qdrant point with `.payload` (chunk text and
     metadata) and `.score` (cosine similarity, higher = closer). Pass
-    `query_filter` to restrict the search, e.g. to one section_id.
+    `query_filter` to restrict the search, e.g. to one document
+    (`source`). Filtering on section_id alone matches that section
+    number in every document that has it.
     """
     return client.query_points(
         collection_name=COLLECTION_NAME,

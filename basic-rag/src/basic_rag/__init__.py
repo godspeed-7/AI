@@ -3,7 +3,8 @@
 How the modules fit together:
 
 Ingestion (run by ingest.py)
-    parser.load_document          load the policy text
+    parser.list_documents         find every .txt in documents/policies/
+    parser.load_document          load each document's text
     -> chunker.chunk_text         split it into section-aware chunks
     -> embedder.embed_chunks      turn each chunk into a vector
     -> vector_store               recreate the collection, store chunks

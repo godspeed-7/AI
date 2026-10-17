@@ -22,7 +22,9 @@ from basic_rag.vector_store import get_client, search
 from qdrant_client import models
 
 
-# The original evaluation question plus three ways of rephrasing it.
+# The question being diagnosed (worded as in the original 25-question
+# set; the current CSV says "the India leave policy") plus three
+# rephrasings.
 QUESTIONS = [
     {
         "label": "Original",

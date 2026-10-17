@@ -1,7 +1,9 @@
-"""Ingestion step 2: split the document into section-aware chunks.
+"""Ingestion step 2: split one document into section-aware chunks.
 
-The policy is organised by numbered headings ("3. ANNUAL LEAVE",
-"3.1 Standard entitlement", ...). Chunking happens in two phases:
+ingest.py calls chunk_text() once per document. Every document is
+organised by numbered headings (in the India leave policy, for example,
+"3. ANNUAL LEAVE", "3.1 Standard entitlement", ...). Chunking happens in
+two phases:
 
   Phase 1 - Split into sections
       Every numbered heading starts a new section. Each section
@@ -13,9 +15,12 @@ The policy is organised by numbered headings ("3. ANNUAL LEAVE",
       overlap by about `overlap` characters so a sentence split at a
       boundary still appears whole in one of them.
 
-Every chunk carries its section metadata. That metadata is stored in
-Qdrant with the chunk, used to enrich the embedding text (embedder.py),
-and used by the evals to check which section was retrieved.
+Every chunk carries its section metadata. The chunker doesn't know the
+document's name; ingest.py adds it as `source` when storing the chunk.
+Section metadata and source are stored in Qdrant with the chunk. The
+section metadata also enriches the embedding text (embedder.py), and the
+evals use source + section to check which part of which document was
+retrieved.
 """
 
 import re

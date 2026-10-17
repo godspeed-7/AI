@@ -19,7 +19,8 @@ Metrics (all "@3" because TOP_K = 3 chunks are retrieved):
     Hit Rate  % of questions where at least one expected section was
               retrieved.
     Recall    per question, the fraction of expected sections retrieved
-              (1 of 2 expected -> 0.5), averaged over all questions.
+              (1 of 2 expected -> 0.5), averaged over the scored
+              questions.
     MRR       Mean Reciprocal Rank: 1 / position of the first correct
               chunk (1st -> 1.0, 2nd -> 0.5, 3rd -> 0.33, none -> 0),
               averaged. Rewards putting the right chunk first.

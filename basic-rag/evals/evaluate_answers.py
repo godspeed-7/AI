@@ -1,7 +1,7 @@
 """Answer-quality evaluation: run the full pipeline and grade each answer.
 
 Run from the basic-rag/ folder (uses the LLM twice per question; takes
-about 8-10 minutes):
+about an hour for 150 questions):
     uv run python -u evals/evaluate_answers.py
 (-u prints progress immediately instead of buffering it.)
 

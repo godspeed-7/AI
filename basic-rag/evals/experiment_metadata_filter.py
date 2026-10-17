@@ -26,7 +26,8 @@ TARGET_SECTION_ID = "4.1"
 
 
 def print_results(title, points):
-    """Print rank, section, title, and the first 200 characters."""
+    """Print rank, document, section, title, and the first 200
+    characters of each result."""
     print(f"\n--- {title} ---")
 
     if not points:

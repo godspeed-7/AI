@@ -1,4 +1,5 @@
-"""Query pipeline: ask one question and get an answer from the policy.
+"""Query pipeline: ask one question and get an answer from the AMS policy
+documents.
 
 Run from the basic-rag/ folder (after ingest.py has been run once):
     uv run python query.py

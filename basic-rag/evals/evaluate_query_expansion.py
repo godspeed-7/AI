@@ -1,6 +1,7 @@
 """Experiment: does searching with several phrasings improve retrieval?
 
-Run from the basic-rag/ folder (uses the LLM; takes a few minutes):
+Run from the basic-rag/ folder (uses the LLM; roughly 10-20 minutes for
+the full question set):
     uv run python evals/evaluate_query_expansion.py
 
 Query expansion asks the LLM for NUM_ALTERNATIVES other ways to phrase
