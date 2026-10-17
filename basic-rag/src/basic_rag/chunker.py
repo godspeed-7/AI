@@ -1,33 +1,20 @@
 """Ingestion step 2: split one document into section-aware chunks.
 
-ingest.py calls chunk_text() once per document. Every document is
-organised by numbered headings (in the India leave policy, for example,
-"3. ANNUAL LEAVE", "3.1 Standard entitlement", ...). Chunking happens in
-two phases:
+In:  one document's full text (ingest.py calls chunk_text() per file).
+Out: a list of chunk dicts: the chunk text plus its document title,
+     section id/title, and parent section (see chunk_text() for the
+     exact fields).
 
-  Phase 1 - Split into sections
-      Every numbered heading starts a new section. Each section
-      remembers its id ("3.1"), title, and parent ("3. ANNUAL LEAVE").
+Strategy: structure-aware. Every numbered heading ("4.", "4.1") starts a
+section, and most sections become exactly one chunk. A section longer
+than CHUNK_SIZE is split, but only at the end of a line or sentence.
 
-  Phase 2 - Split long sections into chunks
-      A section longer than chunk_size characters is cut into pieces.
-      Cuts only happen at the end of a line or a sentence (or, for a
-      single sentence longer than chunk_size, between words), so each
-      piece starts and ends on a complete thought. With `overlap` > 0,
-      a piece also repeats the last whole lines/sentences of the
-      previous one, up to `overlap` characters.
-
-Every chunk also carries the document's title and version, read from
-the file's own header (e.g. "EMPLOYEE LEAVE POLICY (INDIA), Version
-2.1"). Otherwise only the INTRODUCTION chunk would say which document,
-country, or version a rule belongs to, and a carry-over rule in section
-4.1 would look much the same in the India and US leave policies.
-
-The chunker doesn't know the file name; ingest.py adds it as `source`
-when storing the chunk. Title and section metadata are stored in Qdrant
-with the chunk, are added to the embedding text (embedder.py), and are
-shown to the LLM (prompts.py). The evals use source + section to check
-which part of which document was retrieved.
+Caveats:
+- Any line starting with a number ("5 days ...") is read as a heading.
+- Text before the first heading becomes an "INTRODUCTION" chunk.
+- The title comes from the file header (a title line followed by a
+  "Version:" line); a file without that header gets an empty title.
+- The file name isn't known here; ingest.py adds it as `source`.
 """
 
 import re
