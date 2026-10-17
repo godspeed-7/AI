@@ -1,25 +1,18 @@
 """Rerank retrieved chunks with a cross-encoder (used by evals only).
 
-Two kinds of model compare a question with a chunk:
+In:  the question + candidate chunks from vector search (CANDIDATE_K).
+Out: the best top_n chunks as (chunk, score) pairs, highest first.
 
-  Bi-encoder (the embedding model)
-      Embeds the question and the chunk separately, then compares the
-      vectors. Fast, because chunk vectors are computed once at
-      ingestion, but less precise.
+Strategy: the embedding model embeds question and chunk separately:
+fast, but less precise. A cross-encoder reads them together and scores
+relevance directly: more precise, but too slow to run on every chunk,
+so it only re-scores the candidates vector search already found.
 
-  Cross-encoder (this module)
-      Reads the question and the chunk together and outputs one
-      relevance score. More precise, but must run once per
-      (question, chunk) pair at query time, so it's too slow to score
-      every chunk.
-
-The usual pattern: vector search fetches a wide set of candidates
-(CANDIDATE_K), the cross-encoder re-scores them, and the best TOP_K are
-kept. Reranking can only reorder candidates; it can't find a chunk that
-vector search missed.
-
-Requires sentence-transformers (PyTorch). The model is downloaded from
-Hugging Face on first use.
+Caveats:
+- It can only reorder candidates, never find a chunk that vector
+  search missed.
+- Needs sentence-transformers (PyTorch); RERANKER_MODEL is downloaded
+  from Hugging Face on first use.
 """
 
 from sentence_transformers import CrossEncoder

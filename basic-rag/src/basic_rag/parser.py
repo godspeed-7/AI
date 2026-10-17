@@ -1,8 +1,13 @@
-"""Ingestion step 1: load documents from disk.
+"""Ingestion step 1: find and load the documents from disk.
 
-Only plain-text files are supported for now. Another format (PDF, DOCX)
-would need its own loader that returns the same thing: one string with
-the whole document.
+In:  a folder (list_documents, default POLICIES_DIR) or one file path
+     (load_document).
+Out: the folder's .txt files sorted by name, or one file's full text
+     as a single string.
+
+Caveats:
+- Only plain-text (.txt) files are supported. Another format (PDF,
+  DOCX) would need its own loader that returns the same: one string.
 """
 
 from pathlib import Path

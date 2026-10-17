@@ -1,14 +1,20 @@
-"""Ingestion step 3 (and query step 1): turn text into embedding vectors.
+"""Ingestion step 3 and query step 1: turn text into embedding vectors.
 
-An embedding is a list of numbers (384 for all-minilm) that captures the
-meaning of a text. Texts with similar meaning get vectors that point in
-similar directions, which is how Qdrant finds relevant chunks for a
-question.
+In:  chunk dicts from chunker.py (embed_chunks), or one question string
+     (generate_embedding).
+Out: the same chunk dicts with an "embedding" key added, or one vector
+     (384 numbers for all-minilm) that captures the text's meaning.
 
-Documents and questions must be embedded with the same model, otherwise
-their vectors are not comparable.
+Strategy: each chunk is embedded with its document title and section
+heading in front, so the vector also reflects where the text comes
+from. Questions are embedded as typed. Calls Ollama's /api/embed with
+EMBEDDING_MODEL.
 
-Calls Ollama's /api/embed endpoint using only the standard library.
+Caveats:
+- Chunks and questions must use the same model, or their vectors can't
+  be compared. A new model means updating VECTOR_SIZE and re-ingesting.
+- One request per chunk: fine for hundreds of chunks, slow for
+  thousands.
 """
 
 import json

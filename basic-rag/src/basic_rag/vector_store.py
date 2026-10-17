@@ -1,16 +1,21 @@
-"""Everything that talks to Qdrant, the vector database.
+"""Everything that talks to Qdrant (ingestion steps 4-5, query step 2).
 
-Ingestion step 4-5 and query step 2. Functions, from safe to dangerous:
+In:  embedded chunk dicts + their file name (insert_chunks), or a query
+     vector (search).
+Out: search() returns the nearest points, best first. Each point has a
+     .score and a .payload (text, source, document_title, section
+     metadata).
 
+Functions, from safe to dangerous:
     get_client()           connect; changes nothing, safe anywhere
     search()               find the chunks nearest to a query vector
     insert_chunks()        store embedded chunks (upsert)
     recreate_collection()  DELETE all chunks and start fresh;
                            only ingest.py should call this
 
-Each stored item is a "point": an ID, a vector, and a payload (a dict
-with the chunk text, the file it came from as `source`, the document's
-title and version as `document_title`, and its section metadata).
+Caveats:
+- Point IDs come from "source#section_id#chunk_index", so the same
+  chunk gets the same ID on every run.
 """
 
 import uuid

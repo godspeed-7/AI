@@ -1,13 +1,15 @@
-"""Simple fixed-size chunker (not used by the pipeline yet).
+"""Simple fixed-size chunker (not used by the pipeline).
 
-The most basic chunking strategy: cut the text every
-`chunk_size - overlap` characters, ignoring headings, sentences, and
-words. Kept as an alternative to chunker.py, e.g. to measure how much
-section-aware chunking actually helps.
+In:  a text string.
+Out: a list of plain-string chunks.
 
-Note: this returns plain strings, while chunker.py returns dicts with
-section metadata. To use it in the pipeline, embedder.embed_chunks and
-vector_store.insert_chunks would need chunks in the dict format.
+Strategy: cut the text every `chunk_size - overlap` characters,
+ignoring headings, sentences, and words. Kept as a baseline, e.g. to
+measure how much section-aware chunking (chunker.py) actually helps.
+
+Caveats:
+- Returns strings, not chunk dicts with section metadata, so
+  embedder.py and vector_store.py can't use it without adapting it.
 """
 
 

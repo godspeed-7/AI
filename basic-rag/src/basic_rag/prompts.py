@@ -1,12 +1,14 @@
-"""Query step 3: the prompt that turns question + chunks into an answer.
+"""Query step 3: build the prompt the LLM answers from.
 
-query.py and evals/evaluate_answers.py both import build_prompt from
-here, so the evaluation always tests the exact prompt that real queries
-use.
+In:  the question + the chunks returned by vector_store.search().
+Out: one prompt string: the answering rules, then each chunk under a
+     [document title | section] label, then the question.
 
-When editing the rules: don't use the evaluation questions (or their
-answers) as examples. The model would then be shown the test answers,
-and the answer-quality score would be inflated.
+Caveats:
+- query.py and evals/evaluate_answers.py share build_prompt, so the
+  eval always tests the real prompt.
+- Don't use evaluation questions (or their answers) as examples in the
+  rules; that shows the model the test answers and inflates the score.
 """
 
 

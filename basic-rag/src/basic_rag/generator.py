@@ -1,7 +1,10 @@
-"""Query final step: send the finished prompt to the LLM and get the answer.
+"""Query step 4: send the finished prompt to the LLM.
 
-Calls Ollama's /api/generate endpoint with LLM_MODEL (gemma3:4b) using
-only the standard library. The prompt itself is built in prompts.py.
+In:  one prompt string (built by prompts.py).
+Out: the LLM's answer text.
+
+Calls Ollama's /api/generate with LLM_MODEL (gemma3:4b) and TEMPERATURE
+0, so the same prompt gives the same answer.
 """
 
 import json
