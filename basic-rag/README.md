@@ -107,7 +107,7 @@ All settings live in [`src/basic_rag/config.py`](src/basic_rag/config.py):
 | Setting | Value | Used for |
 |---|---|---|
 | `QDRANT_URL` | `http://localhost:6333` | Qdrant connection |
-| `COLLECTION_NAME` | `hr_leave_policy` | Qdrant collection |
+| `COLLECTION_NAME` | `ams_policies` | Qdrant collection |
 | `VECTOR_SIZE` | `384` | must match the embedding model |
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | embed + generate endpoints |
 | `EMBEDDING_MODEL` | `all-minilm` | document and question embeddings |
@@ -214,8 +214,6 @@ Things to know before running them:
   top chunks as context.
 - **Ingestion rebuilds everything every time.** Changing one document
   re-embeds all of them. Fine at 258 chunks, slow at thousands.
-- **The collection is still named `hr_leave_policy`**, although it now
-  holds all AMS documents.
 - **One embedding request per chunk.** Ollama's `/api/embed` endpoint can
   take a batch.
 - **No streaming.** The answer appears only after generation finishes.

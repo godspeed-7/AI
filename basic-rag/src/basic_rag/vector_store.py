@@ -109,7 +109,7 @@ def insert_chunks(
                     "section_title": chunk["section_title"],
                     "parent_section": chunk["parent_section"],
                     "chunk_index": chunk["chunk_index"],
-                    "document_type": "hr_policy",
+                    "document_type": "company_policy",
                 },
             )
         )

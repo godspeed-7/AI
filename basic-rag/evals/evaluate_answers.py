@@ -68,7 +68,7 @@ def judge_answer(
     # answerer was given, and the generated answer.
     judge_prompt = f"""
 You are evaluating the quality of an answer produced by a RAG system
-for an HR leave policy.
+for AMS company policies.
 
 Evaluate the generated answer using the question, reference answer,
 and retrieved policy context.

@@ -43,7 +43,7 @@ def main():
     """Run all five ingestion steps and print a summary with timings."""
     start_time = time.perf_counter()
 
-    heading("HR POLICY RAG INGESTION")
+    heading("AMS POLICY RAG INGESTION")
 
     # Step 1: Load documents
     progress(f"[1/5] Loading documents from {POLICIES_DIR}...")

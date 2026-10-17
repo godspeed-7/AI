@@ -69,8 +69,9 @@ def section_key(point) -> str:
 def expand_query(question: str) -> list[str]:
     """Generate alternative search queries without answering the question."""
     prompt = f"""
-You generate alternative search queries for semantic search over an
-HR leave policy.
+You generate alternative search queries for semantic search over AMS
+company policies (leave, holidays, travel and expenses, benefits,
+remote work, conduct, onboarding and exit).
 
 Generate exactly {NUM_ALTERNATIVES} alternative ways to search for
 the information requested in the user's question.

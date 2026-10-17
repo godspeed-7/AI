@@ -1,4 +1,4 @@
-"""basic_rag: a from-scratch RAG pipeline over an HR leave policy.
+"""basic_rag: a from-scratch RAG pipeline over AMS company policies.
 
 How the modules fit together:
 

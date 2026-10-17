@@ -19,7 +19,7 @@ EVALS_DIR = PROJECT_ROOT / "evals"
 
 # --- Qdrant (vector database) ------------------------------------------
 QDRANT_URL = "http://localhost:6333"
-COLLECTION_NAME = "hr_leave_policy"
+COLLECTION_NAME = "ams_policies"
 # Length of each embedding vector. Must match the output size of
 # EMBEDDING_MODEL; if you change the model, change this and re-ingest.
 VECTOR_SIZE = 384

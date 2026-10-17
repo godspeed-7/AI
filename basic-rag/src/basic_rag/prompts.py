@@ -25,8 +25,8 @@ def build_prompt(question: str, retrieved_chunks: list) -> str:
     )
 
     prompt = f"""
-You are an HR policy assistant. Answer the user's question using
-only the policy context provided below.
+You are an assistant for AMS employees. Answer the user's question
+using only the company policy context provided below.
 
 Follow these rules in order:
 

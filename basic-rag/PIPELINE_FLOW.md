@@ -45,7 +45,7 @@ The project has two pipelines that meet at Qdrant:
           ▼                                            ▲
    ┌──────────────────────┐                            │
    │  Qdrant collection   │◄───── nearest chunks ──────┘
-   │  "hr_leave_policy"   │       (step ② reads from here)
+   │  "ams_policies"      │       (step ② reads from here)
    │  258 chunks (points) │
    └──────────────────────┘
 ```

@@ -65,7 +65,9 @@ def rewrite_query(question: str) -> str:
     # The rules keep the rewrite faithful: same intent, same numbers,
     # no answering, no invented policy facts.
     prompt = f"""
-You rewrite questions for semantic search over an HR leave policy.
+You rewrite questions for semantic search over AMS company policies
+(leave, holidays, travel and expenses, benefits, remote work, conduct,
+onboarding and exit).
 
 Your job is to make the question self-contained and easy to match to
 the relevant policy passage, while preserving exactly what the user is

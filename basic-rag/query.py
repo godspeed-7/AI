@@ -41,7 +41,7 @@ def main():
     # there is a connection to close.
     client = None
 
-    heading("HR POLICY RAG SYSTEM")
+    heading("AMS POLICY RAG SYSTEM")
 
     question = input("\nEnter your question: ").strip()
 
