@@ -47,9 +47,11 @@ basic-rag/
 │   ├── embedder.py                 # Ollama embeddings
 │   ├── vector_store.py             # Qdrant: connect, recreate, insert, search
 │   ├── generator.py                # Ollama answer generation
-│   ├── reranker.py                 # cross-encoder reranker (used by evals)
+│   ├── reranker.py                 # cross-encoder reranker (experiments only)
 │   └── logger.py                   # coloured console output
-├── evals/                          # experiments and evaluations
+├── evals/                          # measure the pipeline (retrieval, answers)
+├── experiments/                    # try a change and compare to the baseline
+├── tools/                          # investigate one specific problem
 ├── ingest.py                       # build the vector collection
 ├── query.py                        # ask a question
 ├── README.md                       # setup and running (this file)
@@ -162,18 +164,25 @@ uv run python query.py
 ```
 
 Type a question about the leave policy. The script prints the retrieved
-chunks, then the answer, with timings for each step. Expect about 10
-seconds, most of it answer generation. The total time includes the time
-spent typing the question, because the timer starts before `input()`.
+chunks with their similarity scores, then the answer, with timings for
+each step. Expect about 10 seconds, most of it answer generation.
 
-### Run the evaluations
+### Run the evaluations, experiments, and tools
 
 ```bash
-uv run python evals/<script>.py
+uv run python evals/<script>.py         # measure the current pipeline
+uv run python experiments/<script>.py   # try a change, compare to baseline
+uv run python tools/<script>.py         # investigate one problem
 ```
 
-`evals/` is a sandbox for testing retrieval strategies. Each script is
-self-contained on purpose, and a strategy moves into the main pipeline
+| Folder | Scripts |
+|---|---|
+| `evals/` | `evaluate_retrieval.py`, `evaluate_answers.py` |
+| `experiments/` | `evaluate_query_rewriting.py`, `evaluate_query_expansion.py`, `evaluate_hybrid_search.py`, `evaluate_reranking.py`, `experiment_metadata_filter.py` |
+| `tools/` | `diagnose_retrieval.py` |
+
+`experiments/` is a sandbox for testing retrieval strategies. Each script
+is self-contained on purpose, and a strategy moves into the main pipeline
 only after it proves itself there. What each script tests, and which
 pipeline step it changes, is described in
 [PIPELINE_FLOW.md § 4](PIPELINE_FLOW.md#4-where-the-experiments-plug-in).

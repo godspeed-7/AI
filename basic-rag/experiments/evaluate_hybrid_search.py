@@ -1,22 +1,20 @@
 """Experiment: does hybrid search (vector + keyword) improve retrieval?
 
-Run from the basic-rag/ folder (no LLM needed):
-    uv run python evals/evaluate_hybrid_search.py
-
 Two kinds of search find different things:
     Vector search   matches meaning ("time off" ~ "leave"), but can miss
                     exact terms like "31 March" or "Section 4.3".
     BM25 (keyword)  scores chunks by shared words, weighting rare words
                     higher. Good at exact terms, blind to synonyms.
 
-Hybrid search runs both, takes the top CANDIDATE_K (20) from each, and
+Hybrid search runs both, takes the top CANDIDATE_K from each, and
 merges them with Reciprocal Rank Fusion (RRF), keeping the top TOP_K.
 
-Compared against plain vector search, using Hit Rate, Recall, and MRR @3
-(defined in evaluate_retrieval.py).
+Out: Hit Rate, Recall, and MRR @TOP_K for plain vector search and for
+     hybrid search (defined in evaluate_retrieval.py).
 
-The BM25 index is built in memory from the chunks already in Qdrant on
-every run. Nothing in Qdrant or the pipeline is changed.
+Caveats:
+- The BM25 index is rebuilt in memory from the chunks in Qdrant on
+  every run; nothing in Qdrant or the pipeline is changed.
 """
 
 import csv

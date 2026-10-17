@@ -1,9 +1,5 @@
 """Experiment: does rewriting the question with an LLM improve retrieval?
 
-Run from the basic-rag/ folder (uses the LLM; roughly 10-20 minutes for
-the full question set):
-    uv run python evals/evaluate_query_rewriting.py
-
 Users phrase questions casually ("can I keep my unused days?"), while the
 policies use formal terms ("carry over unused annual leave"). Before
 searching, the LLM rewrites each question into one clearer search query
@@ -13,9 +9,13 @@ Runs every question twice and compares:
     Baseline    search with the original question.
     Rewritten   search with the LLM's rewritten query.
 
-Metrics: Hit Rate, Recall, and MRR @3 (defined in
-evaluate_retrieval.py). The rewritten queries are printed so you can
-check whether a change in score came from a sensible rewrite.
+Out: Hit Rate, Recall, and MRR @TOP_K for both runs (defined in
+     evaluate_retrieval.py), plus the rewritten queries, so you can
+     check whether a change in score came from a sensible rewrite.
+
+Caveats:
+- Uses the LLM once per question: roughly 10-20 minutes for the full
+  question set.
 """
 
 import csv

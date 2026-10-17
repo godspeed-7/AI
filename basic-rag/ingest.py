@@ -1,8 +1,5 @@
 """Ingestion pipeline: turn the policy documents into searchable vectors.
 
-Run from the basic-rag/ folder:
-    uv run python ingest.py
-
 Steps:
     1. Load    read every .txt file in documents/policies/  (parser.py)
     2. Chunk   split each one into section-aware chunks     (chunker.py)
@@ -11,11 +8,11 @@ Steps:
     5. Store   save each document's chunks with its file name
                as the source                               (vector_store.py)
 
-WARNING: step 4 deletes everything in the collection before storing
-the new chunks. Re-run this script whenever a document, the chunking
-settings, or the embedding model change.
-
-Needs Ollama (embeddings) and Qdrant running; see README.md.
+Caveats:
+- Step 4 deletes everything in the collection before storing the new
+  chunks. Re-run this script whenever a document, the chunking
+  settings, or the embedding model change.
+- Needs Ollama (embeddings) and Qdrant running; see README.md.
 """
 
 import time

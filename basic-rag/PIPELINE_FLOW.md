@@ -281,9 +281,14 @@ the real prompt.
 
 ## 4. Where the experiments plug in
 
-Everything in [`evals/`](evals/) is an **experiment**: none of it is part
-of `query.py` yet. Each one changes or inspects one step of the query
-pipeline, then measures the effect.
+Scripts live in three folders:
+- [`evals/`](evals/) **measures** the current pipeline (retrieval and
+  answer quality).
+- [`experiments/`](experiments/) **tries a change** to one step of the
+  query pipeline and measures the effect. None of them is part of
+  `query.py` yet.
+- [`tools/`](tools/) **investigates** one specific problem, without
+  measuring or changing anything.
 
 ```text
    question
@@ -322,17 +327,17 @@ pipeline, then measures the effect.
 
 | | Experiment | Script | Changes which step | Measured by | LLM? |
 |---|---|---|---|---|---|
-| — | **Baseline** | `evaluate_retrieval.py` | nothing (plain pipeline) | retrieval metrics | no |
-| A | Query rewriting | `evaluate_query_rewriting.py` | before ① | retrieval metrics vs baseline | yes |
-| B | Query expansion | `evaluate_query_expansion.py` | before ①, and merges ② | retrieval metrics + run time | yes |
-| C | Metadata filter | `experiment_metadata_filter.py` | ② (filter) | printed results, one question | no |
-| D | Hybrid search | `evaluate_hybrid_search.py` | ② (adds BM25 + RRF) | retrieval metrics vs baseline | no |
-| E | Reranking | `evaluate_reranking.py` | after ② (`CANDIDATE_K` → `TOP_K`) | retrieval metrics vs baseline | no |
-| F | Diagnose | `diagnose_retrieval.py` | none (inspects ②) | similarity + rank, 4 phrasings | no |
-| — | **Answer quality** | `evaluate_answers.py` | nothing (whole pipeline) | LLM judge, 0–6 per question | yes |
+| — | **Baseline** | `evals/evaluate_retrieval.py` | nothing (plain pipeline) | retrieval metrics | no |
+| A | Query rewriting | `experiments/evaluate_query_rewriting.py` | before ① | retrieval metrics vs baseline | yes |
+| B | Query expansion | `experiments/evaluate_query_expansion.py` | before ①, and merges ② | retrieval metrics + run time | yes |
+| C | Metadata filter | `experiments/experiment_metadata_filter.py` | ② (filter) | printed results, one question | no |
+| D | Hybrid search | `experiments/evaluate_hybrid_search.py` | ② (adds BM25 + RRF) | retrieval metrics vs baseline | no |
+| E | Reranking | `experiments/evaluate_reranking.py` | after ② (`CANDIDATE_K` → `TOP_K`) | retrieval metrics vs baseline | no |
+| F | Diagnose | `tools/diagnose_retrieval.py` | none (inspects ②) | similarity + rank, 4 phrasings | no |
+| — | **Answer quality** | `evals/evaluate_answers.py` | nothing (whole pipeline) | LLM judge, 0–6 per question | yes |
 
 For run times and side effects (which scripts are slow, which file gets
-overwritten), see [README.md → Run the evaluations](README.md#run-the-evaluations).
+overwritten), see [README.md → Run the evaluations, experiments, and tools](README.md#run-the-evaluations-experiments-and-tools).
 
 ### The evaluation questions
 
@@ -440,14 +445,14 @@ also affect results, but changing any of them means **re-running
 How a winning experiment becomes part of `query.py`:
 
 ```text
- 1. Experiment     write or tweak the script in evals/
+ 1. Experiment     write or tweak the script in experiments/
         │
         ▼
  2. Compare        run it against the baseline on the same questions
         │          (more data → more trustworthy comparison)
         ▼
  3. Decide         clearly better on the metrics, and worth the extra
-        │          time/complexity? If not, it stays in evals/
+        │          time/complexity? If not, it stays in experiments/
         ▼
  4. Promote        move the strategy's code into src/basic_rag/ and call
         │          it from query.py

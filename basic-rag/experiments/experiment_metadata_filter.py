@@ -1,8 +1,5 @@
 """Experiment: what does a metadata filter do to vector search?
 
-Run from the basic-rag/ folder (no LLM needed):
-    uv run python evals/experiment_metadata_filter.py
-
 Searches one fixed question twice and prints both result lists:
     1. Normal vector search across all chunks.
     2. The same search restricted to chunks whose payload has

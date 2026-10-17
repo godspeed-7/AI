@@ -61,8 +61,11 @@ Follow these rules in order:
    approval requirements, and limits. Do not invent conditions or
    exceptions that are not in the context.
 
-7. If the answer genuinely is not supported by the context, say that
-   you cannot determine it from the available policy context.
+7. Only answer if the context directly addresses the question. If it
+   only covers something related, say that you cannot determine the
+   answer from the available policy context. Never claim that the
+   policy does not cover something; only that the provided context
+   does not.
 
 8. Before responding, check your draft:
    - Does it directly answer the question?

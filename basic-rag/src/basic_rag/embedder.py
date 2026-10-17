@@ -36,7 +36,7 @@ def generate_embedding(
 ) -> list[float]:
     """Return the embedding vector for one piece of text.
 
-    The default prefix is the question one, so query.py and the evals
+    The default prefix is the question one, so query.py and the scripts
     can call generate_embedding(question) as is. embed_chunks passes
     the document prefix instead.
     """

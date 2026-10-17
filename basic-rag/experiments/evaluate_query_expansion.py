@@ -1,9 +1,5 @@
 """Experiment: does searching with several phrasings improve retrieval?
 
-Run from the basic-rag/ folder (uses the LLM; roughly 10-20 minutes for
-the full question set):
-    uv run python evals/evaluate_query_expansion.py
-
 Query expansion asks the LLM for NUM_ALTERNATIVES other ways to phrase
 the question. The original plus each alternative is searched separately
 (TOP_K results each), and the results are merged:
@@ -16,9 +12,13 @@ Unlike rewriting (evaluate_query_rewriting.py), the original question is
 always searched too, so expansion can only add candidates, not lose the
 original's results before merging.
 
-Metrics: Hit Rate, Recall, and MRR @3 (defined in
-evaluate_retrieval.py), plus total run time, since each extra query
-costs an LLM call and more searches.
+Out: Hit Rate, Recall, and MRR @TOP_K for the baseline and for
+     expansion (defined in evaluate_retrieval.py), plus total run time,
+     since each extra query costs an LLM call and more searches.
+
+Caveats:
+- Uses the LLM once per question: roughly 10-20 minutes for the full
+  question set.
 """
 
 import csv

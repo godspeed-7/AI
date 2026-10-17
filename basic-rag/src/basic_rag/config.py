@@ -37,7 +37,7 @@ EMBEDDING_MODEL = "nomic-embed-text"
 # or none ("").
 EMBED_QUERY_PREFIX = "search_query: "
 EMBED_DOCUMENT_PREFIX = "search_document: "
-# Writes the answers (and rewrites/expands queries in the evals).
+# Writes the answers (and rewrites/expands queries in experiments/).
 LLM_MODEL = "gemma3:4b"
 # Grades answers in evals/evaluate_answers.py. Kept separate from
 # LLM_MODEL so the judge can be changed on its own.
@@ -57,7 +57,7 @@ CHUNK_OVERLAP = 0
 
 # --- Retrieval -----------------------------------------------------------
 # Number of chunks given to the LLM as context.
-TOP_K = 5
+TOP_K = 3
 # Wider first pass for reranking/hybrid: fetch this many, then narrow
 # down to TOP_K.
 CANDIDATE_K = 20

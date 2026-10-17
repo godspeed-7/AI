@@ -1,4 +1,4 @@
-"""Rerank retrieved chunks with a cross-encoder (used by evals only).
+"""Rerank retrieved chunks with a cross-encoder (experiments only).
 
 In:  the question + candidate chunks from vector search (CANDIDATE_K).
 Out: the best top_n chunks as (chunk, score) pairs, highest first.

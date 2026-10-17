@@ -1,21 +1,19 @@
 """Experiment: does a cross-encoder reranker improve retrieval?
 
-Run from the basic-rag/ folder (no LLM needed; the reranker model is
-downloaded from Hugging Face on the first run):
-    uv run python evals/evaluate_reranking.py
-
 Compares two retrieval flows on every evaluation question:
-    Baseline   vector search returns the top TOP_K (3) chunks directly.
+    Baseline   vector search returns the top TOP_K chunks directly.
     Reranked   vector search returns CANDIDATE_K (20) candidates, the
                cross-encoder re-scores each one against the question,
                and the best TOP_K are kept.
 
-Metrics: Hit Rate, Recall, and MRR @3, as defined in
-evaluate_retrieval.py. See basic_rag/reranker.py for how a cross-encoder
-differs from the embedding model.
+Out: Hit Rate, Recall, and MRR @TOP_K for both flows (defined in
+     evaluate_retrieval.py). See basic_rag/reranker.py for how a
+     cross-encoder differs from the embedding model.
 
-Reranking can only reorder the 20 candidates; it can't recover a chunk
-that vector search didn't fetch.
+Caveats:
+- Reranking can only reorder the candidates; it can't recover a chunk
+  that vector search didn't fetch.
+- The reranker model is downloaded from Hugging Face on the first run.
 """
 
 import csv

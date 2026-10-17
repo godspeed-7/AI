@@ -1,8 +1,5 @@
 """Diagnostic: why does section 7.1 rank where it does?
 
-Run from the basic-rag/ folder (no LLM needed):
-    uv run python evals/diagnose_retrieval.py
-
 The question "Does the policy specify a fixed number of parental-leave
 days?" should retrieve section 7.1 (parental leave) of the India leave
 policy. This script tries the original wording and three rephrasings,

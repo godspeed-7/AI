@@ -1,19 +1,18 @@
 """Query pipeline: ask one question and get an answer from the AMS policy
 documents.
 
-Run from the basic-rag/ folder (after ingest.py has been run once):
-    uv run python query.py
-
 Steps:
     1. Embed      turn the question into a vector         (embedder.py)
     2. Retrieve   find the TOP_K most similar chunks      (vector_store.py)
     3. Prompt     combine question + chunks into a prompt (prompts.py)
     4. Generate   ask the LLM for the answer              (generator.py)
 
-The retrieved chunks are printed before the answer, so you can see what
-the model was given. This script only reads from Qdrant.
+The retrieved chunks are printed with their scores before the answer,
+so you can see what the model was given. This script only reads from
+Qdrant.
 
-Needs Ollama and Qdrant running; see README.md.
+Caveats:
+- Run ingest.py first; needs Ollama and Qdrant running (see README.md).
 """
 
 import time

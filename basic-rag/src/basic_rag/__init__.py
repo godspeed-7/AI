@@ -18,6 +18,6 @@ Query (run by query.py)
 Supporting modules
     config             every setting: URLs, model names, sizes, paths
     logger             coloured console output used by the scripts
-    reranker           cross-encoder reranking (used by evals only)
+    reranker           cross-encoder reranking (experiments only)
     character_chunker  simple fixed-size chunker (kept as an option)
 """
