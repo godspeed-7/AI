@@ -1,6 +1,7 @@
 from sentence_transformers import CrossEncoder
 
-RERANKER_MODEL = "BAAI/bge-reranker-base"
+from basic_rag.config import RERANKER_MODEL
+
 _reranker = None
 
 

@@ -5,15 +5,16 @@ import time
 from rank_bm25 import BM25Okapi
 from qdrant_client import QdrantClient
 
+from basic_rag.config import (
+    CANDIDATE_K,
+    COLLECTION_NAME,
+    EVALUATION_FILE,
+    QDRANT_URL,
+    RRF_K,
+    TOP_K,
+)
 from basic_rag.embedder import generate_embedding
 from basic_rag.logger import heading, info, error
-from basic_rag.vector_store import COLLECTION_NAME
-
-EVALUATION_FILE = "documents/evaluation_questions.csv"
-QDRANT_URL = "http://localhost:6333"
-CANDIDATE_K = 20
-FINAL_K = 3
-RRF_K = 60
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -101,7 +102,7 @@ def evaluate_vector_baseline(client: QdrantClient, questions: list[dict]) -> dic
         points = client.query_points(
             collection_name=COLLECTION_NAME,
             query=embedding,
-            limit=FINAL_K,
+            limit=TOP_K,
             with_payload=True,
         ).points
         retrieved_ids = [sid for sid in map(section_id, points) if sid]
@@ -167,7 +168,7 @@ def evaluate_hybrid(
 
         # RRF combines ranks, not the raw scores from either search.
         fused = reciprocal_rank_fusion([vector_candidates, keyword_candidates])
-        final_points = [point for point, _score in fused[:FINAL_K]]
+        final_points = [point for point, _score in fused[:TOP_K]]
         retrieved_ids = [sid for sid in map(section_id, final_points) if sid]
 
         details.append({
@@ -185,9 +186,9 @@ def evaluate_hybrid(
 def print_summary(label: str, result: dict) -> None:
     heading(label)
     print(f"Questions   : {result['total']}")
-    print(f"Hit Rate@{FINAL_K} : {result['hit_rate']:.2f}%")
-    print(f"Recall@{FINAL_K}   : {result['recall']:.4f}")
-    print(f"MRR@{FINAL_K}      : {result['mrr']:.4f}")
+    print(f"Hit Rate@{TOP_K} : {result['hit_rate']:.2f}%")
+    print(f"Recall@{TOP_K}   : {result['recall']:.4f}")
+    print(f"MRR@{TOP_K}      : {result['mrr']:.4f}")
     if result["failures"]:
         print("\nQuestions with no expected source in the final top 3:")
         for failure in result["failures"]:
@@ -247,12 +248,12 @@ def main() -> None:
             difference = after - before
             if metric == "hit_rate":
                 print(
-                    f"Hit Rate@{FINAL_K}: {before:.2f}% -> {after:.2f}% "
+                    f"Hit Rate@{TOP_K}: {before:.2f}% -> {after:.2f}% "
                     f"({difference:+.2f} percentage points)"
                 )
             else:
                 print(
-                    f"{metric.upper()}@{FINAL_K}: {before:.4f} -> {after:.4f} "
+                    f"{metric.upper()}@{TOP_K}: {before:.4f} -> {after:.4f} "
                     f"({difference:+.4f})"
                 )
 

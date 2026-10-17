@@ -1,6 +1,7 @@
 
 import time
 
+from basic_rag.config import COLLECTION_NAME, DOCUMENT_PATH
 from basic_rag.parser import load_document
 from basic_rag.chunker import chunk_text
 from basic_rag.embedder import embed_chunks
@@ -17,7 +18,7 @@ def main():
     progress("[1/5] Loading HR policy document...")
     step_start = time.perf_counter()
 
-    text = load_document("documents/hr_leave_policy.txt")
+    text = load_document(DOCUMENT_PATH)
 
     success(f"Loaded {len(text)} characters")
     timing("Document loading", time.perf_counter() - step_start)
@@ -58,7 +59,7 @@ def main():
     insert_chunks(client, embedded_chunks)
 
     count = client.count(
-        collection_name="hr_leave_policy",
+        collection_name=COLLECTION_NAME,
         exact=True,
     ).count
 

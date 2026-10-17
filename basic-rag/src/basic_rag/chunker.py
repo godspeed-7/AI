@@ -1,11 +1,13 @@
 
 import re
 
+from basic_rag.config import CHUNK_OVERLAP, CHUNK_SIZE
+
 
 def chunk_text(
     text: str,
-    chunk_size: int = 500,
-    overlap: int = 100,
+    chunk_size: int = CHUNK_SIZE,
+    overlap: int = CHUNK_OVERLAP,
 ) -> list[dict]:
     if chunk_size <= 0:
         raise ValueError("chunk_size must be positive")

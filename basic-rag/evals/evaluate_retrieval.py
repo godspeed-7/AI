@@ -2,14 +2,15 @@
 import csv
 import re
 
+from basic_rag.config import (
+    COLLECTION_NAME,
+    EVALUATION_FILE,
+    QDRANT_URL,
+    TOP_K,
+)
 from basic_rag.embedder import generate_embedding
 from qdrant_client import QdrantClient
-from basic_rag.vector_store import COLLECTION_NAME
 from basic_rag.logger import heading, progress, success, info, error
-
-
-EVALUATION_FILE = "documents/evaluation_questions.csv"
-TOP_K = 3
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -26,7 +27,7 @@ def main():
     heading("RAG RETRIEVAL EVALUATION")
 
     questions = load_questions(EVALUATION_FILE)
-    client = QdrantClient(url="http://localhost:6333")
+    client = QdrantClient(url=QDRANT_URL)
 
     total = len(questions)
     hits = 0

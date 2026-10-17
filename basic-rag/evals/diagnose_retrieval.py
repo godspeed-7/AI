@@ -1,6 +1,6 @@
 
+from basic_rag.config import COLLECTION_NAME, QDRANT_URL
 from basic_rag.embedder import generate_embedding
-from basic_rag.vector_store import COLLECTION_NAME
 from qdrant_client import QdrantClient, models
 
 
@@ -23,6 +23,7 @@ QUESTIONS = [
     },
 ]
 
+# Deliberately wider than config.TOP_K to see near-miss ranks.
 TOP_K = 5
 TARGET_SECTION_ID = "7.1"
 
@@ -63,7 +64,7 @@ def cosine_similarity(vector_a, vector_b):
 
 
 def main():
-    client = QdrantClient(url="http://localhost:6333")
+    client = QdrantClient(url=QDRANT_URL)
 
     print("Connected to Qdrant")
     print(f"Collection: {COLLECTION_NAME}")

@@ -2,10 +2,7 @@
 import json
 from urllib.request import Request, urlopen
 
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "gemma3:4b"
-TEMPERATURE = 0
+from basic_rag.config import LLM_MODEL, OLLAMA_GENERATE_URL, TEMPERATURE
 
 
 def generate_answer(prompt: str) -> str:
@@ -13,7 +10,7 @@ def generate_answer(prompt: str) -> str:
 
     # Prepare the request body
     request_data = {
-        "model": MODEL_NAME,
+        "model": LLM_MODEL,
         "prompt": prompt,
         "stream": False,
         "options": {
@@ -26,7 +23,7 @@ def generate_answer(prompt: str) -> str:
 
     # Create the HTTP request
     request = Request(
-        url=OLLAMA_URL,
+        url=OLLAMA_GENERATE_URL,
         data=request_body,
         headers={"Content-Type": "application/json"},
         method="POST",

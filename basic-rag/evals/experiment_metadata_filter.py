@@ -2,12 +2,8 @@
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
+from basic_rag.config import COLLECTION_NAME, QDRANT_URL, TOP_K
 from basic_rag.embedder import generate_embedding
-from basic_rag.vector_store import COLLECTION_NAME
-
-
-QDRANT_URL = "http://localhost:6333"
-TOP_K = 3
 
 
 def print_results(title, points):

@@ -1,9 +1,7 @@
 import json
 from urllib.request import Request, urlopen
 
-
-OLLAMA_EMBED_URL = "http://localhost:11434/api/embed"
-EMBEDDING_MODEL = "all-minilm"
+from basic_rag.config import EMBEDDING_MODEL, OLLAMA_EMBED_URL
 
 
 def generate_embedding(text: str) -> list[float]:

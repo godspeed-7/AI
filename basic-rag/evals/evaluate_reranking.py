@@ -5,16 +5,18 @@ import time
 from qdrant_client import QdrantClient
 from sentence_transformers import CrossEncoder
 
+from basic_rag.config import (
+    CANDIDATE_K,
+    COLLECTION_NAME,
+    EMBEDDING_MODEL,
+    EVALUATION_FILE,
+    QDRANT_URL,
+    RERANKER_MODEL,
+    TOP_K,
+)
 from basic_rag.embedder import generate_embedding
 from basic_rag.logger import heading, info, error
-from basic_rag.reranker import RERANKER_MODEL, rerank_chunks
-from basic_rag.vector_store import COLLECTION_NAME
-
-
-EVALUATION_FILE = "documents/evaluation_questions.csv"
-QDRANT_URL = "http://localhost:6333"
-CANDIDATE_K = 20
-FINAL_K = 3
+from basic_rag.reranker import rerank_chunks
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -83,7 +85,7 @@ def evaluate_baseline(client: QdrantClient, questions: list[dict]) -> dict:
         chunks = client.query_points(
             collection_name=COLLECTION_NAME,
             query=embedding,
-            limit=FINAL_K,
+            limit=TOP_K,
             with_payload=True,
         ).points
 
@@ -128,7 +130,7 @@ def evaluate_with_reranking(
         ranked = rerank_chunks(
             question=question,
             chunks=candidates,
-            top_n=FINAL_K,
+            top_n=TOP_K,
             model=reranker,
         )
         retrieved_ids = [
@@ -166,9 +168,9 @@ def evaluate_with_reranking(
 def print_summary(label: str, result: dict) -> None:
     heading(label)
     print(f"Questions   : {result['total']}")
-    print(f"Hit Rate@{FINAL_K} : {result['hit_rate']:.2f}%")
-    print(f"Recall@{FINAL_K}   : {result['recall']:.4f}")
-    print(f"MRR@{FINAL_K}      : {result['mrr']:.4f}")
+    print(f"Hit Rate@{TOP_K} : {result['hit_rate']:.2f}%")
+    print(f"Recall@{TOP_K}   : {result['recall']:.4f}")
+    print(f"MRR@{TOP_K}      : {result['mrr']:.4f}")
 
     if result["failures"]:
         print("\nQuestions with no expected source in the final top 3:")
@@ -186,12 +188,12 @@ def print_comparison(baseline: dict, reranked: dict) -> None:
         difference = after - before
         if metric == "hit_rate":
             print(
-                f"Hit Rate@{FINAL_K}: {before:.2f}% -> {after:.2f}% "
+                f"Hit Rate@{TOP_K}: {before:.2f}% -> {after:.2f}% "
                 f"({difference:+.2f} percentage points)"
             )
         else:
             print(
-                f"{metric.upper()}@{FINAL_K}: {before:.4f} -> {after:.4f} "
+                f"{metric.upper()}@{TOP_K}: {before:.4f} -> {after:.4f} "
                 f"({difference:+.4f})"
             )
 
@@ -206,10 +208,10 @@ def main() -> None:
     client = QdrantClient(url=QDRANT_URL)
     try:
         info(f"Evaluation questions: {len(questions)}")
-        info("Embedding model: all-minilm")
+        info(f"Embedding model: {EMBEDDING_MODEL}")
         info(f"Reranker model: {RERANKER_MODEL}")
-        info(f"Baseline: Qdrant top {FINAL_K}")
-        info(f"Reranking: Qdrant top {CANDIDATE_K}, then keep top {FINAL_K}")
+        info(f"Baseline: Qdrant top {TOP_K}")
+        info(f"Reranking: Qdrant top {CANDIDATE_K}, then keep top {TOP_K}")
 
         print("\nRunning baseline evaluation...")
         baseline_start = time.perf_counter()

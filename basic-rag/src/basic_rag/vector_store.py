@@ -1,13 +1,11 @@
 
 from qdrant_client import QdrantClient, models
 
-
-COLLECTION_NAME = "hr_leave_policy"
-VECTOR_SIZE = 384
+from basic_rag.config import COLLECTION_NAME, QDRANT_URL, VECTOR_SIZE
 
 
 def create_vector_store():
-    client = QdrantClient(url="http://localhost:6333")
+    client = QdrantClient(url=QDRANT_URL)
 
     collections = client.get_collections().collections
     collection_names = [

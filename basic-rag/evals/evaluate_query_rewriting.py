@@ -2,17 +2,18 @@ import csv
 import json
 from urllib.request import Request, urlopen
 
+from basic_rag.config import (
+    COLLECTION_NAME,
+    EMBEDDING_MODEL,
+    EVALUATION_FILE,
+    LLM_MODEL,
+    OLLAMA_GENERATE_URL,
+    QDRANT_URL,
+    TOP_K,
+)
 from basic_rag.embedder import generate_embedding
-from basic_rag.vector_store import COLLECTION_NAME
 from qdrant_client import QdrantClient
 from basic_rag.logger import heading, info, success, error
-
-
-EVALUATION_FILE = "documents/evaluation_questions.csv"
-TOP_K = 3
-
-OLLAMA_GENERATE_URL = "http://localhost:11434/api/generate"
-LLM_MODEL = "gemma3:4b"
 
 
 def load_questions(file_path: str) -> list[dict]:
@@ -236,10 +237,10 @@ def main():
         error(f"No evaluation questions found in {EVALUATION_FILE}")
         return
 
-    client = QdrantClient(url="http://localhost:6333")
+    client = QdrantClient(url=QDRANT_URL)
 
     info(f"Evaluation questions: {len(questions)}")
-    info("Embedding model: all-minilm")
+    info(f"Embedding model: {EMBEDDING_MODEL}")
     info(f"Rewrite model: {LLM_MODEL}")
     info(f"Retrieving top {TOP_K} chunks per question")
 

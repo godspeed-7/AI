@@ -1,7 +1,9 @@
 from pathlib import Path
 
+from basic_rag.config import DOCUMENT_PATH
 
-def load_document(file_path: str) -> str:
+
+def load_document(file_path: str | Path) -> str:
     path = Path(file_path)
 
     if not path.exists():
@@ -11,6 +13,6 @@ def load_document(file_path: str) -> str:
 
 
 if __name__ == "__main__":
-    text = load_document("documents/hr_leave_policy.txt")
+    text = load_document(DOCUMENT_PATH)
     print(f"Characters loaded: {len(text)}")
     print(text[:500])
