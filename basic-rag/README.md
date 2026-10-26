@@ -48,6 +48,8 @@ basic-rag/
 │   ├── vector_store.py             # Qdrant: connect, recreate, insert, search
 │   ├── generator.py                # Ollama answer generation
 │   ├── reranker.py                 # cross-encoder reranker (experiments only)
+│   ├── compressor.py               # context compression (experiments only)
+│   ├── judge.py                    # LLM judge, shared by evals + experiments
 │   └── logger.py                   # coloured console output
 ├── evals/                          # measure the pipeline (retrieval, answers)
 ├── experiments/                    # try a change and compare to the baseline
@@ -178,12 +180,14 @@ uv run python tools/<script>.py         # investigate one problem
 | Folder | Scripts |
 |---|---|
 | `evals/` | `evaluate_retrieval.py`, `evaluate_answers.py` |
-| `experiments/` | `evaluate_query_rewriting.py`, `evaluate_query_expansion.py`, `evaluate_hybrid_search.py`, `evaluate_reranking.py`, `experiment_metadata_filter.py` |
-| `tools/` | `diagnose_retrieval.py` |
+| `experiments/` | `evaluate_query_rewriting.py`, `evaluate_query_expansion.py`, `evaluate_hybrid_search.py`, `evaluate_reranking.py`, `experiment_metadata_filter.py`, `evaluate_context_compression.py` |
+| `tools/` | `diagnose_retrieval.py`, `test_context_compressor.py` |
 
-`experiments/` is a sandbox for testing retrieval strategies. Each script
-is self-contained on purpose, and a strategy moves into the main pipeline
-only after it proves itself there. What each script tests, and which
+`experiments/` is a sandbox for testing pipeline strategies (retrieval
+and context). Each script keeps its own helper code on purpose; only the
+LLM judge (`src/basic_rag/judge.py`) is shared, so answer scores stay
+comparable. A strategy moves into the main pipeline only after it proves
+itself there. What each script tests, and which
 pipeline step it changes, is described in
 [PIPELINE_FLOW.md § 4](PIPELINE_FLOW.md#4-where-the-experiments-plug-in).
 
@@ -196,6 +200,7 @@ Things to know before running them:
   - `evaluate_query_rewriting.py` and `evaluate_query_expansion.py` take
     10–20 minutes each
   - `evaluate_answers.py` takes about an hour
+  - `evaluate_context_compression.py` takes 1.5–2 hours (3 strategies)
 
   The others finish in under a minute.
 - **`evaluate_answers.py` overwrites `evals/answer_evaluation_results.csv`**

@@ -19,5 +19,7 @@ Supporting modules
     config             every setting: URLs, model names, sizes, paths
     logger             coloured console output used by the scripts
     reranker           cross-encoder reranking (experiments only)
+    compressor         context compression (experiments only)
+    judge              LLM judge that grades answers (evals + experiments)
     character_chunker  simple fixed-size chunker (kept as an option)
 """

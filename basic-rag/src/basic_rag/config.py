@@ -16,6 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 POLICIES_DIR = PROJECT_ROOT / "documents" / "policies"
 EVALUATION_FILE = PROJECT_ROOT / "documents" / "evaluation_questions.csv"
 EVALS_DIR = PROJECT_ROOT / "evals"
+EXPERIMENTS_DIR = PROJECT_ROOT / "experiments"
 
 # --- Qdrant (vector database) ------------------------------------------
 QDRANT_URL = "http://localhost:6333"

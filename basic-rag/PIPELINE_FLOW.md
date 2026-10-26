@@ -311,6 +311,8 @@ Scripts live in three folders:
       ▼
    top chunks ══════════ 📏 RETRIEVAL METRICS measured here
       │                     Hit Rate · Recall · MRR
+      │       ◄╌╌ [G] Context compression ╌╌ shrink the chunks'
+      │                                       text before the prompt
       ▼
    ③ Prompt
       │
@@ -334,6 +336,7 @@ Scripts live in three folders:
 | D | Hybrid search | `experiments/evaluate_hybrid_search.py` | ② (adds BM25 + RRF) | retrieval metrics vs baseline | no |
 | E | Reranking | `experiments/evaluate_reranking.py` | after ② (`CANDIDATE_K` → `TOP_K`) | retrieval metrics vs baseline | no |
 | F | Diagnose | `tools/diagnose_retrieval.py` | none (inspects ②) | similarity + rank, 4 phrasings | no |
+| G | Context compression | `experiments/evaluate_context_compression.py` | between ② and ③ | LLM judge + context reduction + time, per strategy | yes |
 | — | **Answer quality** | `evals/evaluate_answers.py` | nothing (whole pipeline) | LLM judge, 0–6 per question | yes |
 
 For run times and side effects (which scripts are slow, which file gets
@@ -381,8 +384,9 @@ chunks (3) are retrieved.
 | MRR | 1 / rank of the first correct chunk, averaged | 1st → 1.0, 2nd → 0.5, 3rd → 0.33 |
 
 **Answer quality** (at "answer") asks: *was the final answer good?* A
-judge LLM scores each answer 0–2 on correctness, context support, and
-completeness.
+judge LLM ([`judge.py`](src/basic_rag/judge.py), shared by
+`evaluate_answers.py` and the compression experiment) scores each answer
+0–2 on correctness, context support, and completeness.
 
 Why both? If retrieval misses the right section, the answer can't be
 right, so a bad answer score with a good retrieval score points at the
@@ -393,15 +397,28 @@ prompt or the LLM, and a bad retrieval score points at steps ①–②.
 This is the only place the baseline is recorded; update it whenever a
 change is promoted into the pipeline (see § 6).
 
-Measured on the AMS dataset (10 documents, 239 chunks, 148 questions):
+Measured on the AMS dataset (10 documents, 239 chunks, 148 questions),
+with `TOP_K` = 3:
 
 | Measure | Result |
 |---|---|
 | Retrieval (vector search, @3, 133 scored questions) | Hit Rate 93.2%, Recall 0.86, MRR 0.85 |
-| Answer quality | not yet measured on this dataset |
+| Answer quality (all 148 questions) | 92.7% (5.56/6): correctness 1.83, context support 1.89, completeness 1.84; 125 answers perfect |
 
-The weakest category is `casual` (Hit Rate 73%, 11 of 15): informal,
-vague wording like "how many leaves do i get".
+The weakest category is `casual` (retrieval Hit Rate 73%, answers 70%):
+informal, vague wording like "how many leaves do i get". Next weakest
+is `unanswerable` (answers 79%): the model sometimes answers from a
+related chunk instead of saying it can't tell (e.g. sabbatical days).
+
+How answer quality got here (same 148 questions):
+- 93.8% with `TOP_K` = 5 and 94.0% with `TOP_K` = 3: no real
+  difference, so 3 was kept (shorter prompt, faster).
+- 92.7% after rewording prompt rule 7 ("only answer if the context
+  directly addresses the question"). Checking the answers that changed
+  showed one real fix (Austin restricted holidays) and no real
+  regressions; the lower score came from judge noise.
+- The judge's score for the same answer can vary by ±2 points, so
+  differences of 1–2% between runs are noise.
 
 How retrieval got here (same questions within each step):
 - Hit Rate 86.7%, Recall 0.79, MRR 0.78: the first AMS run, with 11

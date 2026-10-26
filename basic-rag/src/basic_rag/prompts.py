@@ -6,7 +6,9 @@ Out: one prompt string: the answering rules, then each chunk under a
 
 Caveats:
 - query.py and evals/evaluate_answers.py share build_prompt, so the
-  eval always tests the real prompt.
+  eval always tests the real prompt. Experiments that change the
+  context text (e.g. compression) use format_context and
+  build_prompt_from_context, so they get the same labels and rules.
 - Don't use evaluation questions (or their answers) as examples in the
   rules; that shows the model the test answers and inflates the score.
 """
@@ -15,22 +17,35 @@ Caveats:
 def build_prompt(question: str, retrieved_chunks: list) -> str:
     """Build a focused prompt using the retrieved policy chunks.
 
-    `retrieved_chunks` are Qdrant points from vector_store.search. Each
-    chunk's text goes into the prompt under a label naming its document
+    `retrieved_chunks` are Qdrant points from vector_store.search.
+    Same as build_prompt_from_context(question,
+    format_context(retrieved_chunks)).
+    """
+    return build_prompt_from_context(
+        question, format_context(retrieved_chunks)
+    )
+
+
+def format_context(retrieved_chunks: list) -> str:
+    """Join the chunks' texts, each under a label naming its document
     and section, e.g.
         [EMPLOYEE LEAVE POLICY (INDIA), Version 2.1 | 4.1 Standard ...]
     so the model can tell apart similar rules from different documents
-    or versions. Chunks are separated by blank lines.
+    or versions. Chunks are separated by blank lines; points without
+    text are skipped.
     """
-
-    # Label and join the chunk texts, skipping any point without text.
-    context = "\n\n".join(
+    return "\n\n".join(
         f"[{point.payload.get('document_title', '')} | "
         f"{point.payload.get('section', '')}]\n"
         f"{point.payload['text']}"
         for point in retrieved_chunks
         if point.payload and point.payload.get("text")
     )
+
+
+def build_prompt_from_context(question: str, context: str) -> str:
+    """Build the prompt from an already formatted context string: the
+    answering rules, then the context, then the question."""
 
     prompt = f"""
 You are an assistant for AMS employees. Answer the user's question
