@@ -17,13 +17,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_ROOT = PROJECT_ROOT.parent / "ams-data"
 # Every .txt file in this folder is ingested as one document.
 POLICIES_DIR = DATA_ROOT / "policies"
+# The questions both projects are scored on (evals/).
+EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
 
 
 # --- Models (served by Ollama on localhost:11434) -------------------
 # Embeds chunks and questions; 768 numbers per text. Same model as
-# basic-rag, but without nomic's "search_document: " /
-# "search_query: " prefixes (OllamaEmbeddings doesn't add them).
+# basic-rag.
 EMBEDDING_MODEL = "nomic-embed-text"
+# nomic was trained with a task prefix in front of every text: chunks
+# and questions get different ones. OllamaEmbeddings doesn't add them,
+# so vector_store.py does.
+EMBED_DOCUMENT_PREFIX = "search_document: "
+EMBED_QUERY_PREFIX = "search_query: "
 # Writes the answers; same model and temperature as basic-rag.
 LLM_MODEL = "gemma3:4b"
 # 0 = always pick the most likely next word, so answers are repeatable.
@@ -35,16 +41,6 @@ QDRANT_URL = "http://localhost:6333"
 # Not basic-rag's "ams_policies": both projects share one Qdrant server,
 # and ingestion deletes and recreates its collection.
 COLLECTION_NAME = "ams_policies_langchain"
-
-
-# --- Chunking (sizes are in characters, not tokens) -----------------
-# Same values as basic-rag, so the two pipelines are compared fairly.
-# Longest chunk the splitter will produce.
-CHUNK_SIZE = 500
-# Characters repeated at the start of the next chunk. 0 for now, to
-# match basic-rag; unlike basic-rag's chunker, this splitter can cut
-# mid-sentence, so overlap is worth trying later.
-CHUNK_OVERLAP = 0
 
 
 # --- Retrieval -------------------------------------------------------

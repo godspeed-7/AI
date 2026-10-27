@@ -3,8 +3,9 @@
 Steps:
     1. Load            read every .txt file in ams-data/policies/ as a
                        Document
-    2. Chunk           split each Document into chunks of up to
-                       CHUNK_SIZE characters (RecursiveCharacterTextSplitter)
+    2. Chunk           split each Document at blank lines: one chunk per
+                       block (in these docs, one top-level section),
+                       with the document title in front
     3. Embed + store   recreate the Qdrant collection, embed every chunk
                        with EMBEDDING_MODEL, and store it
                        (QdrantVectorStore.from_documents)
@@ -17,45 +18,62 @@ Caveats:
 - Each file type has its own loader in LOADERS; only .txt exists so far
   (plain pathlib, no LangChain loader). A file with no loader stops
   ingestion with an error instead of being skipped silently.
-- The splitter doesn't know about numbered sections (unlike
-  basic-rag's chunker): a chunk can hold the end of one section and the
-  start of the next, and chunks carry only the "source" metadata.
-- Chunks are embedded as plain text: no nomic task prefix and no
-  document/section header in front (both of which basic-rag adds).
+- Chunking relies on these docs putting a blank line between
+  sections. There is no size limit: a long block with no blank lines
+  becomes one big chunk (today's largest is 1,491 characters).
+- Each doc's title block and TRAINING NOTE become chunks too.
+- Chunks carry "source" and "title" metadata, no section number.
+- The "Document: <title>" line is part of the stored chunk text, so
+  the LLM sees it too (basic-rag adds its header to the embedded text
+  only). Embedding adds nomic's prefix (vector_store.py).
 - Step 3 deletes everything in COLLECTION_NAME before storing. Re-run
-  this script whenever a document, the chunking, or the model change.
+  this script whenever a document, the chunking, or the model changes.
 - Qdrant stores each chunk as {"page_content": ..., "metadata": {...}},
   so filters use "metadata.source" (basic-rag's payload is flat).
 - Needs Ollama (with EMBEDDING_MODEL pulled) and Qdrant running.
 """
 
+import re
 from collections import Counter
 from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_qdrant import QdrantVectorStore
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from ams_assistant.config import (
-    CHUNK_OVERLAP,
-    CHUNK_SIZE,
-    COLLECTION_NAME,
-    POLICIES_DIR,
-    QDRANT_URL,
-)
+from ams_assistant.config import COLLECTION_NAME, POLICIES_DIR, QDRANT_URL
 from ams_assistant.vector_store import get_embeddings
+
+
+def read_title(text: str) -> str:
+    """Return the document title: the line just above the first line
+    containing "Version:", or "" if there is none.
+
+    Every AMS file starts like this:
+        AMS
+        EMPLOYEE LEAVE POLICY (INDIA)
+        Policy ID: HR-LEAVE-IN-2026 | Version: 2.1 | ...
+    """
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+
+    for i, line in enumerate(lines[:10]):
+        if "Version:" in line and i > 0:
+            return lines[i - 1]
+
+    return ""
 
 
 def load_text_file(path: Path) -> list[Document]:
     """Load a UTF-8 text file as one Document.
 
-    page_content holds the full text; metadata["source"] holds the file
-    name, so every chunk made from it later knows where it came from.
+    page_content holds the full text; metadata holds the file name
+    ("source") and the title, so every chunk made from it later knows
+    where it came from.
     """
+    text = path.read_text(encoding="utf-8")
     return [
         Document(
-            page_content=path.read_text(encoding="utf-8"),
-            metadata={"source": path.name},
+            page_content=text,
+            metadata={"source": path.name, "title": read_title(text)},
         )
     ]
 
@@ -95,16 +113,32 @@ def load_documents(folder: Path = POLICIES_DIR) -> list[Document]:
 
 
 def split_documents(documents: list[Document]) -> list[Document]:
-    """Split Documents into chunks; each chunk copies its metadata.
+    """One chunk per blank-line block; in these docs, one top-level
+    section each. Each chunk copies its document's metadata.
 
-    Tries to cut at blank lines first, then line breaks, then spaces,
-    then anywhere, until every chunk fits in CHUNK_SIZE characters.
+    Each chunk starts with a "Document: <title>" line. Most sections
+    never name their document ("5. SICK LEAVE" doesn't say India), so
+    without it an India and a US chunk can look alike to the search.
+
+    Plain Python, not RecursiveCharacterTextSplitter: that splitter
+    always merges small blocks up to its chunk_size, and here every
+    section should stay a chunk of its own.
     """
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
-    )
-    return splitter.split_documents(documents)
+    chunks = []
+
+    for doc in documents:
+        title = doc.metadata["title"]
+        header = f"Document: {title}\n" if title else ""
+
+        # \n\s*\n = a blank line (even one holding stray spaces).
+        for block in re.split(r"\n\s*\n", doc.page_content):
+            if block.strip():
+                chunks.append(Document(
+                    page_content=header + block.strip(),
+                    metadata=dict(doc.metadata),
+                ))
+
+    return chunks
 
 
 def main():

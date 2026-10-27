@@ -10,8 +10,9 @@ so the first comparison between the two projects tests retrieval, not
 wording. From then on each project tunes its own prompt.
 
 Caveats:
-- Chunks are labelled with their file name only ([leave_policy_india.txt]);
-  they have no document title or section metadata, unlike basic-rag's.
+- Chunks are labelled with their file name ([leave_policy_india.txt]);
+  the document title is inside the chunk text (ingest.py), and there
+  is no section metadata, unlike basic-rag's.
 - basic-rag sends one string ending in "Answer:"; here the rules are a
   system message and the model replies in its own turn, so "Answer:"
   is dropped.

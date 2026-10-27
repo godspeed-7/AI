@@ -14,7 +14,6 @@ Caveats:
   Qdrant running.
 - Chunks are shown without similarity scores (the retriever drops
   them), so an off-topic question still shows TOP_K chunks.
-- The question is embedded without nomic's "search_query: " prefix.
 """
 
 from ams_assistant.chain import build_chain
