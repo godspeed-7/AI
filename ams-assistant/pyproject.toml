@@ -1,0 +1,17 @@
+[project]
+name = "ams-assistant"
+version = "0.1.0"
+description = "AMS policy RAG and HR agents, built with LangChain and LangGraph"
+readme = "README.md"
+authors = [
+    { name = "Ankit Singh", email = "ankitsingh80741@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+ams-assistant = "ams_assistant:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"

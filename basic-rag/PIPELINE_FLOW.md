@@ -298,16 +298,19 @@ Scripts live in three folders:
       │                            all are searched, results merged
       ▼
    ① Embed
+      │                ┌╌╌ [C] Metadata filter ╌╌ only search chunks with
+      ▼                ╎                          e.g. section_id = "4.1"
+   ② Retrieve ◄╌╌╌╌╌╌╌╌┤
+      │                ╎
+      │                └╌╌ [D] Hybrid search ╌╌╌╌ also run BM25 keyword search,
+      │                                           fuse both rankings (RRF)
       │
-      ▼
-   ② Retrieve ◄╌╌ [C] Metadata filter ╌╌ only search chunks with
-      │                                   e.g. section_id = "4.1"
-      │       ◄╌╌ [D] Hybrid search ╌╌╌╌ also run BM25 keyword search,
-      │                                   fuse both rankings (RRF)
-      │       ◄╌╌ [E] Reranking ╌╌╌╌╌╌╌╌ fetch CANDIDATE_K, cross-
-      │                                   encoder re-scores, keep TOP_K
       │       ◄╌╌ [F] Diagnose ╌╌╌╌╌╌╌╌╌ inspect why a section ranks
       │                                   where it does (no change)
+      │
+      │       ◄╌╌ [E] Reranking ╌╌╌╌╌╌╌╌ ② fetches CANDIDATE_K instead,
+      │                                   cross-encoder re-scores them,
+      │                                   keep TOP_K
       ▼
    top chunks ══════════ 📏 RETRIEVAL METRICS measured here
       │                     Hit Rate · Recall · MRR
