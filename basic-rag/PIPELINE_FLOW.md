@@ -24,7 +24,7 @@ The project has two pipelines that meet at Qdrant:
    run when the document changes              run for every question
    ─────────────────────────────              ─────────────────────────────
 
-   documents/policies/*.txt                   "How many unused annual-leave
+   ams-data/policies/*.txt                    "How many unused annual-leave
    (10 AMS documents)                          days can an India-based
           │                                    employee normally carry over?"
           ▼                                            │
@@ -73,7 +73,7 @@ We follow **section 4.1 of `leave_policy_india.txt`** through every step.
 
 | | |
 |---|---|
-| **In** | every `.txt` file in `documents/policies/` (10 files) |
+| **In** | every `.txt` file in `ams-data/policies/` (10 files) |
 | **Out** | one string per document (56,406 characters in total; `leave_policy_india.txt` is 9,874) |
 | **Settings** | `POLICIES_DIR` |
 
@@ -347,7 +347,7 @@ overwritten), see [README.md → Run the evaluations, experiments, and tools](RE
 
 ### The evaluation questions
 
-[`documents/evaluation_questions.csv`](documents/evaluation_questions.csv)
+[`ams-data/evaluation_questions.csv`](../ams-data/evaluation_questions.csv)
 holds 148 questions with these columns:
 
 | Column | Example |

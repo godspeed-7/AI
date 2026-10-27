@@ -1,7 +1,7 @@
 # AMS HR sample data
 
 Structured data about AMS employees, for future agent tools. The policy
-documents in `../documents/policies/` say what the rules are; this data
+documents in `../policies/` say what the rules are; this data
 says who the employees are and what they've done. Interesting questions
 need both: "can Rahul take 6 days off?" needs his balance and probation
 status (here) and the probation rule (policy).
@@ -10,10 +10,10 @@ Fictional, and consistent with the policies. **The data is as of
 16 November 2026** (`TODAY` in the script); use that date, not the real
 one, when reasoning about it.
 
-Rebuild all four files (same output every time):
+Rebuild all four files (same output every time), from `ams-data/`:
 
 ```bash
-uv run python data/build_hr_data.py
+uv run python db/build_hr_data.py
 ```
 
 The script checks every row against the policy rules before writing.

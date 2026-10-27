@@ -1,7 +1,7 @@
 """Ingestion pipeline: turn the policy documents into searchable vectors.
 
 Steps:
-    1. Load    read every .txt file in documents/policies/  (parser.py)
+    1. Load    read every .txt file in ams-data/policies/   (parser.py)
     2. Chunk   split each one into section-aware chunks     (chunker.py)
     3. Embed   turn each chunk into a 768-number vector     (embedder.py)
     4. Reset   connect to Qdrant and recreate the collection

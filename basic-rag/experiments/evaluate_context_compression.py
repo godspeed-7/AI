@@ -1,6 +1,6 @@
 """Experiment: does compressing the retrieved context help the answers?
 
-For every question in documents/evaluation_questions.csv, retrieve the
+For every question in ams-data/evaluation_questions.csv, retrieve the
 TOP_K chunks once, then for each strategy in STRATEGIES (see
 basic_rag/compressor.py):
     1. Compress the context (none = unchanged, the baseline).

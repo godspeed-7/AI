@@ -23,21 +23,28 @@ experiment plugs in, the metrics, and the current baseline), see
 
 ## Project layout
 
+The data sits next to this project, in `AI-demos/ams-data/`, and is
+shared with `ams-assistant` (the LangChain version), so both are
+measured on the same questions. If the data changes, re-run the evals
+in both projects; the scores below belong to the data at that commit.
+
 ```text
+ams-data/
+├── policies/                       # the 10 AMS documents that get ingested
+│   ├── company_overview.txt              # offices, grades, systems, contacts
+│   ├── leave_policy_india.txt            # Bengaluru and Pune leave (v2.1)
+│   ├── leave_policy_us.txt               # Austin leave (PTO)
+│   ├── holiday_calendar_2026.txt         # holidays per office
+│   ├── travel_expense_policy.txt         # travel limits by grade, forms
+│   ├── benefits_policy.txt               # insurance, learning, wellness
+│   ├── remote_hybrid_work_policy.txt     # office days, remote work
+│   ├── code_of_conduct.txt               # conduct, harassment, gifts
+│   ├── onboarding_exit_policy.txt        # probation, notice, settlement
+│   └── hr_faq.txt                        # practical everyday questions
+├── evaluation_questions.csv        # 148 questions with expected answers
+└── db/                             # HR records for future agents (unused here)
+
 basic-rag/
-├── documents/
-│   ├── policies/                   # the 10 AMS documents that get ingested
-│   │   ├── company_overview.txt          # offices, grades, systems, contacts
-│   │   ├── leave_policy_india.txt        # Bengaluru and Pune leave (v2.1)
-│   │   ├── leave_policy_us.txt           # Austin leave (PTO)
-│   │   ├── holiday_calendar_2026.txt     # holidays per office
-│   │   ├── travel_expense_policy.txt     # travel limits by grade, forms
-│   │   ├── benefits_policy.txt           # insurance, learning, wellness
-│   │   ├── remote_hybrid_work_policy.txt # office days, remote work
-│   │   ├── code_of_conduct.txt           # conduct, harassment, gifts
-│   │   ├── onboarding_exit_policy.txt    # probation, notice, settlement
-│   │   └── hr_faq.txt                    # practical everyday questions
-│   └── evaluation_questions.csv    # 148 questions with expected answers
 ├── src/basic_rag/
 │   ├── config.py                   # all settings: URLs, models, sizes, paths
 │   ├── prompts.py                  # answer prompt, shared by query + evals
@@ -143,7 +150,7 @@ Run every command from the `basic-rag/` directory.
 uv run python ingest.py
 ```
 
-It ingests every `.txt` file in `documents/policies/`. Run it once before
+It ingests every `.txt` file in `ams-data/policies/`. Run it once before
 the first query, then again whenever a document, the chunking settings,
 or the embedding model change. It takes a few seconds.
 
@@ -151,7 +158,7 @@ or the embedding model change. It takes a few seconds.
 > `ingest.py` calls `recreate_collection()`. Everything else connects with
 > `get_client()`, which never changes data.
 
-**To add a document**, save it as a `.txt` file in `documents/policies/`
+**To add a document**, save it as a `.txt` file in `ams-data/policies/`
 and re-run ingestion. The chunker splits on numbered headings, so:
 
 - Give every section a numbered heading on its own line (`3.`, `3.1`, …).

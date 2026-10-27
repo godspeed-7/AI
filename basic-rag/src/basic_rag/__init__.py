@@ -3,7 +3,7 @@
 How the modules fit together:
 
 Ingestion (run by ingest.py)
-    parser.list_documents         find every .txt in documents/policies/
+    parser.list_documents         find every .txt in ams-data/policies/
     parser.load_document          load each document's text
     -> chunker.chunk_text         split it into section-aware chunks
     -> embedder.embed_chunks      turn each chunk into a vector

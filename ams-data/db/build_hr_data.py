@@ -1,6 +1,6 @@
 """Build the AMS HR sample data as CSV files (for future agent tools).
 
-In:  the rules in documents/policies/ (entitlements, probation, expense
+In:  the rules in ../policies/ (entitlements, probation, expense
      limits) and the holiday dates in holiday_calendar_2026.txt.
 Out: four CSV files in this folder:
        employees.csv       40 employees in Bengaluru, Pune, and Austin
@@ -27,9 +27,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent
-HOLIDAY_FILE = (
-    DATA_DIR.parent / "documents" / "policies" / "holiday_calendar_2026.txt"
-)
+HOLIDAY_FILE = DATA_DIR.parent / "policies" / "holiday_calendar_2026.txt"
 
 # The fixed "current date" the data describes.
 TODAY = date(2026, 11, 16)

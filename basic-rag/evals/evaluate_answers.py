@@ -1,6 +1,6 @@
 """Answer-quality evaluation: run the full pipeline and grade each answer.
 
-For every question in documents/evaluation_questions.csv, retrieve the
+For every question in ams-data/evaluation_questions.csv, retrieve the
 chunks and generate an answer (same as query.py). Then a judge LLM
 compares that answer with the expected answer and the retrieved chunks,
 and scores it 0-2 on correctness, context_support, and completeness.

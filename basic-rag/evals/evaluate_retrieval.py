@@ -1,7 +1,7 @@
 """Baseline retrieval evaluation: does plain vector search find the
 right policy section?
 
-For every question in documents/evaluation_questions.csv, retrieve the
+For every question in ams-data/evaluation_questions.csv, retrieve the
 TOP_K chunks and compare them with the question's expected sections,
 written as "document#section" (e.g. "leave_policy_us.txt#4.1"). No LLM
 is involved, so it takes seconds. This is the baseline the other

@@ -12,9 +12,12 @@ from pathlib import Path
 # Anchored to the project root (two folders up from this file), so
 # scripts work no matter which directory you run them from.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# The data lives next to this project in AI-demos/ams-data/, shared
+# with ams-assistant so both are measured on the same questions.
+DATA_ROOT = PROJECT_ROOT.parent / "ams-data"
 # Every .txt file in this folder is ingested as one document.
-POLICIES_DIR = PROJECT_ROOT / "documents" / "policies"
-EVALUATION_FILE = PROJECT_ROOT / "documents" / "evaluation_questions.csv"
+POLICIES_DIR = DATA_ROOT / "policies"
+EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
 EVALS_DIR = PROJECT_ROOT / "evals"
 EXPERIMENTS_DIR = PROJECT_ROOT / "experiments"
 
