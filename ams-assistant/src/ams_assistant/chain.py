@@ -6,28 +6,50 @@ Out: build_chain().invoke(question) -> {"question": str,
 
 Strategy: the same three query steps as before (retrieve -> prompt ->
 generate), wired once with LCEL's | so callers make one invoke() call.
-query.py and (later) the evals both import this, so they always run
-the same pipeline.
+query.py and the evals both import this, so they always run the same
+pipeline.
 
 Caveats:
 - as_retriever() returns Documents without their similarity scores.
 - No StrOutputParser at the end: the answer stays an AIMessage, so the
   token counts (usage_metadata) survive. Read the text with .content.
+- use_reranker=True is an experiment switch (reranker.py), off by
+  default; query.py doesn't use it.
 """
 
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import ChatOllama
 
-from ams_assistant.config import LLM_MODEL, TEMPERATURE, TOP_K
+from ams_assistant.config import CANDIDATE_K, LLM_MODEL, TEMPERATURE, TOP_K
 from ams_assistant.prompts import PROMPT, format_docs
 from ams_assistant.vector_store import get_vector_store
 
 
-def build_chain():
-    """Connect to Qdrant and Ollama and return the ready-to-run chain."""
+def build_chain(use_reranker: bool = False):
+    """Connect to Qdrant and Ollama and return the ready-to-run chain.
+
+    use_reranker=True fetches CANDIDATE_K chunks and keeps the TOP_K the
+    cross-encoder scores highest, instead of the search's own TOP_K.
+    """
     # Step 1: Retrieve. A retriever is the vector store wrapped as a
-    # Runnable: invoke(question) -> the TOP_K closest Documents.
-    retriever = get_vector_store().as_retriever(search_kwargs={"k": TOP_K})
+    # Runnable: invoke(question) -> the closest Documents.
+    if use_reranker:
+        # Imported here, not at the top: it loads PyTorch, which takes
+        # seconds and isn't needed when the reranker is off.
+        from ams_assistant.reranker import rerank
+
+        candidates = get_vector_store().as_retriever(
+            search_kwargs={"k": CANDIDATE_K}
+        )
+
+        # A plain function in a chain becomes a step too.
+        def retriever(question: str):
+            return rerank(question, candidates.invoke(question))
+    else:
+        retriever = get_vector_store().as_retriever(
+            search_kwargs={"k": TOP_K}
+        )
+
     llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE)
 
     # Steps 2 + 3: Prompt and Generate. Receives {"question", "docs"},

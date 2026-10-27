@@ -12,6 +12,8 @@ Strategy: our chunks carry only "source", not a section number. So a
 chunk's sections are read from its text: every heading line in it
 ("4. ANNUAL LEAVE CARRY-OVER", "4.1 Standard carry-over limit") gives
 one, e.g. {"leave_policy_india.txt#4", "leave_policy_india.txt#4.1"}.
+The scoring lives in ams_assistant/evaluation.py, shared with
+experiments/.
 
 Caveats:
 - A chunk that continues a section without repeating its heading has
@@ -22,40 +24,14 @@ Caveats:
 - Run ingest.py first; needs Ollama and Qdrant running.
 """
 
-import csv
-import re
-
-from langchain_core.documents import Document
-
-from ams_assistant.config import EVALUATION_FILE, TOP_K
+from ams_assistant.config import TOP_K
+from ams_assistant.evaluation import (
+    expected_keys,
+    load_questions,
+    score,
+    summarize,
+)
 from ams_assistant.vector_store import get_vector_store
-
-
-# Same heading rule as basic-rag's chunker: a line starting with a
-# number like "4." or "4.1" followed by a title.
-HEADING_PATTERN = re.compile(r"(?m)^[ \t]*(\d+(?:\.\d+)*)\.?[ \t]+\S")
-
-
-def load_questions() -> list[dict]:
-    """Read the CSV; each row is a dict with keys question,
-    expected_answer, expected_source, category, and split."""
-    with open(EVALUATION_FILE, encoding="utf-8", newline="") as file:
-        return list(csv.DictReader(file))
-
-
-def expected_keys(expected_source: str) -> set[str]:
-    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
-    return {key.strip() for key in expected_source.split(";") if key.strip()}
-
-
-def chunk_keys(doc: Document) -> set[str]:
-    """Return the "document#section" keys of every heading in a chunk,
-    or an empty set if it has none."""
-    source = doc.metadata["source"]
-    return {
-        f"{source}#{number}"
-        for number in HEADING_PATTERN.findall(doc.page_content)
-    }
 
 
 def main():
@@ -66,40 +42,24 @@ def main():
 
     print(f"Scoring {len(questions)} questions, top {TOP_K} chunks each...")
 
-    # Running totals; divided by the question count at the end.
-    hits = 0
-    recall_sum = 0.0
-    mrr_sum = 0.0
+    scores = []
     failures = []
 
     for item in questions:
-        expected = expected_keys(item["expected_source"])
         docs = retriever.invoke(item["question"])
+        result = score(expected_keys(item["expected_source"]), docs)
+        scores.append(result)
 
-        # One set of keys per chunk, in rank order (needed for MRR).
-        keys_per_chunk = [chunk_keys(doc) for doc in docs]
-        retrieved = set().union(*keys_per_chunk)
-        matched = expected & retrieved
+        if not result["hit"]:
+            failures.append((item, docs, result["keys_per_chunk"]))
 
-        # Hit Rate: at least one expected section was retrieved.
-        if matched:
-            hits += 1
-        else:
-            failures.append((item, docs, keys_per_chunk))
-
-        # Recall: share of the expected sections retrieved.
-        recall_sum += len(matched) / len(expected)
-
-        # MRR: 1 / rank of the first chunk with an expected section.
-        for rank, keys in enumerate(keys_per_chunk, start=1):
-            if keys & expected:
-                mrr_sum += 1 / rank
-                break
-
-    total = len(questions)
-    print(f"\nHit Rate@{TOP_K} : {hits / total * 100:.2f}% ({hits}/{total})")
-    print(f"Recall@{TOP_K}   : {recall_sum / total:.4f}")
-    print(f"MRR@{TOP_K}      : {mrr_sum / total:.4f}")
+    summary = summarize(scores)
+    print(
+        f"\nHit Rate@{TOP_K} : {summary['hit_rate']:.2f}% "
+        f"({summary['hits']}/{summary['total']})"
+    )
+    print(f"Recall@{TOP_K}   : {summary['recall']:.4f}")
+    print(f"MRR@{TOP_K}      : {summary['mrr']:.4f}")
 
     print(f"\nMissed questions ({len(failures)}):")
 

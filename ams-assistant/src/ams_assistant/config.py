@@ -19,6 +19,11 @@ DATA_ROOT = PROJECT_ROOT.parent / "ams-data"
 POLICIES_DIR = DATA_ROOT / "policies"
 # The questions both projects are scored on (evals/).
 EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
+# The judge's instructions, shared so both projects grade answers the
+# same way (basic-rag still has its own identical copy in judge.py).
+JUDGE_PROMPT_FILE = DATA_ROOT / "judge_prompt.txt"
+# Where the answer eval writes its per-question results.
+EVALS_DIR = PROJECT_ROOT / "evals"
 
 
 # --- Models (served by Ollama on localhost:11434) -------------------
@@ -32,6 +37,9 @@ EMBED_DOCUMENT_PREFIX = "search_document: "
 EMBED_QUERY_PREFIX = "search_query: "
 # Writes the answers; same model and temperature as basic-rag.
 LLM_MODEL = "gemma3:4b"
+# Grades answers in evals/evaluate_answers.py. Kept separate from
+# LLM_MODEL so the judge can be changed on its own.
+JUDGE_MODEL = "gemma3:4b"
 # 0 = always pick the most likely next word, so answers are repeatable.
 TEMPERATURE = 0
 
@@ -46,3 +54,12 @@ COLLECTION_NAME = "ams_policies_langchain"
 # --- Retrieval -------------------------------------------------------
 # Chunks returned per question; same as basic-rag.
 TOP_K = 3
+# Query expansion (experiments/): LLM-written phrasings searched in
+# addition to the original question; same as basic-rag.
+NUM_ALTERNATIVES = 2
+# Reranking (experiments/): vector search fetches CANDIDATE_K chunks,
+# the cross-encoder re-scores them, and the best TOP_K are kept. Same
+# values as basic-rag. The model comes from Hugging Face (cached after
+# the first download).
+CANDIDATE_K = 20
+RERANKER_MODEL = "BAAI/bge-reranker-base"
