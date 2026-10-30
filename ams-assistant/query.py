@@ -12,8 +12,8 @@ what the model was given. Only reads from Qdrant.
 Caveats:
 - Run ingest.py first; needs Ollama (with both models pulled) and
   Qdrant running.
-- Chunks are shown without similarity scores (the retriever drops
-  them), so an off-topic question still shows TOP_K chunks.
+- An off-topic question still shows TOP_K chunks; only their lower
+  scores give it away.
 """
 
 from ams_assistant.chain import build_chain
@@ -37,7 +37,8 @@ def main():
     print(f"\nTop {len(docs)} chunks:")
 
     for rank, doc in enumerate(docs, start=1):
-        print(f"\n[{rank}] {doc.metadata['source']}")
+        score = doc.metadata["score"]
+        print(f"\n[{rank}] {score:.3f}  {doc.metadata['source']}")
         print(doc.page_content[:300])
 
     answer = result["answer"]

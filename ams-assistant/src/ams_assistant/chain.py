@@ -10,13 +10,16 @@ query.py and the evals both import this, so they always run the same
 pipeline.
 
 Caveats:
-- as_retriever() returns Documents without their similarity scores.
+- Each retrieved Document carries its vector similarity in
+  metadata["score"] (cosine: higher = closer). Scores bunch together
+  (~0.6-0.75 here), so compare gaps between chunks, not absolutes.
 - No StrOutputParser at the end: the answer stays an AIMessage, so the
   token counts (usage_metadata) survive. Read the text with .content.
 - use_reranker=True is an experiment switch (reranker.py), off by
   default; query.py doesn't use it.
 """
 
+from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import ChatOllama
 
@@ -31,24 +34,28 @@ def build_chain(use_reranker: bool = False):
     use_reranker=True fetches CANDIDATE_K chunks and keeps the TOP_K the
     cross-encoder scores highest, instead of the search's own TOP_K.
     """
-    # Step 1: Retrieve. A retriever is the vector store wrapped as a
-    # Runnable: invoke(question) -> the closest Documents.
+    # Step 1: Retrieve: question -> the closest Documents.
+    store = get_vector_store()
+
+    def search(question: str, k: int) -> list[Document]:
+        """Vector search that keeps each score (as_retriever() would
+        drop it) in doc.metadata["score"]."""
+        results = store.similarity_search_with_score(question, k=k)
+        for doc, score in results:
+            doc.metadata["score"] = score
+        return [doc for doc, _score in results]
+
+    # A plain function in a chain becomes a step too.
     if use_reranker:
         # Imported here, not at the top: it loads PyTorch, which takes
         # seconds and isn't needed when the reranker is off.
         from ams_assistant.reranker import rerank
 
-        candidates = get_vector_store().as_retriever(
-            search_kwargs={"k": CANDIDATE_K}
-        )
-
-        # A plain function in a chain becomes a step too.
         def retriever(question: str):
-            return rerank(question, candidates.invoke(question))
+            return rerank(question, search(question, CANDIDATE_K))
     else:
-        retriever = get_vector_store().as_retriever(
-            search_kwargs={"k": TOP_K}
-        )
+        def retriever(question: str):
+            return search(question, TOP_K)
 
     llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE)
 
