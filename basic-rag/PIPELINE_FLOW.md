@@ -9,6 +9,9 @@ For setup, commands, and the current value of every setting (`TOP_K`,
 `CHUNK_SIZE`, model names, …), see [README.md](README.md). This document
 refers to settings by name only.
 
+For the general choices behind those settings (chunking, metrics, search,
+and eval), see [RAG_CHEAT_SHEET.md](RAG_CHEAT_SHEET.md).
+
 The example data below (chunk text, vectors, scores, the answer) comes
 from one real run. It illustrates each step and may drift slightly if
 models or settings change.
