@@ -299,6 +299,8 @@ Scripts live in three folders:
       ├╌╌ [A] Query rewriting ╌╌╌╌ LLM rewrites the question first
       ├╌╌ [B] Query expansion ╌╌╌╌ LLM adds 2 alternative questions;
       │                            all are searched, results merged
+      ├╌╌ [H] Query routing ╌╌╌╌╌╌ LLM picks 1–2 policy files (or "all");
+      │                            ② searches only those (a filter as in [C])
       ▼
    ① Embed
       │                ┌╌╌ [C] Metadata filter ╌╌ only search chunks with
@@ -343,7 +345,15 @@ Scripts live in three folders:
 | E | Reranking | `experiments/evaluate_reranking.py` | after ② (`CANDIDATE_K` → `TOP_K`) | retrieval metrics vs baseline | no |
 | F | Diagnose | `tools/diagnose_retrieval.py` | none (inspects ②) | similarity + rank, 4 phrasings | no |
 | G | Context compression | `experiments/evaluate_context_compression.py` | between ② and ③ | LLM judge + context reduction + time, per strategy | yes |
+| H | Query routing | [`ams-assistant/experiments/evaluate_routing.py`](../ams-assistant/experiments/evaluate_routing.py) (ams-assistant only) | before ①, filters ② | retrieval metrics vs baseline + router accuracy | yes |
 | — | **Answer quality** | `evals/evaluate_answers.py` | nothing (whole pipeline) | LLM judge, 0–6 per question | yes |
+
+**H result** (ams-assistant, 31 October 2026, 133 questions): Hit Rate
+92.48% → 78.20%, 4 fixed / 23 broken. The router picked all expected
+files for 88 of 133, wrong files for 24, and never said "all". The main
+failure: a question naming India was sent to the India leave policy
+even when the answer was in travel or exit. Not promoted. Re-test once
+the dataset is larger.
 
 For run times and side effects (which scripts are slow, which file gets
 overwritten), see [README.md → Run the evaluations, experiments, and tools](README.md#run-the-evaluations-experiments-and-tools).
