@@ -12,9 +12,13 @@ difference between two runs comes from the retrieval, not the maths.
 Metrics are computed as in basic-rag/evals/evaluate_retrieval.py.
 
 Caveats:
-- Chunks carry no section number, so a chunk's sections are read from
-  the heading lines in its text ("4.1 Standard carry-over limit"). A
-  chunk with no heading line never counts as a hit.
+- A chunk's sections are read from the heading lines in its text
+  ("4.1 Standard carry-over limit"), since one chunk can hold several
+  (its subsections, a merged short section). A chunk with no heading
+  line never counts as a hit.
+- The handbooks repeat some facts in several chapters. The CSV's
+  also_correct column lists, per expected section, other sections that
+  state the same answer; finding one of those counts as finding it.
 """
 
 import csv
@@ -32,14 +36,31 @@ HEADING_PATTERN = re.compile(r"(?m)^[ \t]*(\d+(?:\.\d+)*)\.?[ \t]+\S")
 
 def load_questions() -> list[dict]:
     """Read the CSV; each row is a dict with keys question,
-    expected_answer, expected_source, category, and split."""
+    expected_answer, expected_source, category, split, department, and
+    also_correct."""
     with open(EVALUATION_FILE, encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
-def expected_keys(expected_source: str) -> set[str]:
-    """Turn "a.txt#4.1; b.txt#2" into {"a.txt#4.1", "b.txt#2"}."""
-    return {key.strip() for key in expected_source.split(";") if key.strip()}
+def split_list(text: str) -> list[str]:
+    """Turn "a; b" into ["a", "b"]."""
+    return [part.strip() for part in text.split(";") if part.strip()]
+
+
+def expected_groups(item: dict) -> list[set[str]]:
+    """Return one set per expected section: the section itself plus its
+    alternatives from also_correct ("expected=alternative" pairs).
+
+    expected_source "a.txt#4.1; b.txt#2" with also_correct
+    "a.txt#4.1=c.txt#3.2" -> [{"a.txt#4.1", "c.txt#3.2"}, {"b.txt#2"}]
+    """
+    groups = {key: {key} for key in split_list(item["expected_source"])}
+
+    for pair in split_list(item.get("also_correct", "")):
+        key, alternative = (part.strip() for part in pair.split("="))
+        groups[key].add(alternative)
+
+    return list(groups.values())
 
 
 def chunk_keys(doc: Document) -> set[str]:
@@ -52,26 +73,30 @@ def chunk_keys(doc: Document) -> set[str]:
     }
 
 
-def score(expected: set[str], docs: list[Document]) -> dict:
-    """Score one question's retrieved chunks (in rank order).
+def score(expected: list[set[str]], docs: list[Document]) -> dict:
+    """Score one question's retrieved chunks (in rank order). expected
+    comes from expected_groups(): a section counts as found when it, or
+    one of its alternatives, was retrieved.
 
-    hit     at least one expected section was retrieved
-    recall  share of the expected sections retrieved (1 of 2 -> 0.5)
+    hit     at least one expected section was found
+    recall  share of the expected sections found (1 of 2 -> 0.5)
     rr      1 / rank of the first chunk with an expected section
             (1st -> 1.0, 2nd -> 0.5, none -> 0.0)
     """
     keys_per_chunk = [chunk_keys(doc) for doc in docs]
-    matched = expected & set().union(*keys_per_chunk)
+    retrieved = set().union(*keys_per_chunk)
+    found = [group for group in expected if group & retrieved]
+    any_expected = set().union(*expected)
 
     rr = 0.0
     for rank, keys in enumerate(keys_per_chunk, start=1):
-        if keys & expected:
+        if keys & any_expected:
             rr = 1 / rank
             break
 
     return {
-        "hit": bool(matched),
-        "recall": len(matched) / len(expected),
+        "hit": bool(found),
+        "recall": len(found) / len(expected),
         "rr": rr,
         "keys_per_chunk": keys_per_chunk,
     }

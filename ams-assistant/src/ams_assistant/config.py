@@ -58,8 +58,10 @@ TOP_K = 3
 # addition to the original question; same as basic-rag.
 NUM_ALTERNATIVES = 2
 # Reranking (experiments/): vector search fetches CANDIDATE_K chunks,
-# the cross-encoder re-scores them, and the best TOP_K are kept. Same
-# values as basic-rag. The model comes from Hugging Face (cached after
-# the first download).
-CANDIDATE_K = 20
-RERANKER_MODEL = "BAAI/bge-reranker-base"
+# the cross-encoder re-scores them, and the best TOP_K are kept. The
+# model comes from Hugging Face (cached after the first download).
+# v2-m3 replaced basic-rag's bge-reranker-base: with 10 candidates it
+# kept the right section in the top 3 more often (96.2% vs 95.4%),
+# mostly on casual questions, at ~0.85 s vs ~0.25 s per question.
+CANDIDATE_K = 10
+RERANKER_MODEL = "BAAI/bge-reranker-v2-m3"

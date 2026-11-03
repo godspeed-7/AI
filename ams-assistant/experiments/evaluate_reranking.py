@@ -21,7 +21,7 @@ import time
 
 from ams_assistant.config import CANDIDATE_K, TOP_K
 from ams_assistant.evaluation import (
-    expected_keys,
+    expected_groups,
     load_questions,
     print_comparison,
     score,
@@ -55,7 +55,7 @@ def main():
     reranked = []
 
     for item, docs, docs_b in zip(questions, candidates, reranked_docs):
-        expected = expected_keys(item["expected_source"])
+        expected = expected_groups(item)
         # The search's own top TOP_K = the plain baseline.
         baseline.append(score(expected, docs[:TOP_K]))
         reranked.append(score(expected, docs_b))

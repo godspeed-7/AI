@@ -22,7 +22,7 @@ import time
 
 from ams_assistant.config import TOP_K
 from ams_assistant.evaluation import (
-    expected_keys,
+    expected_groups,
     load_questions,
     print_comparison,
     score,
@@ -62,7 +62,7 @@ def main():
     expanded = []
 
     for item, docs_a, docs_b in zip(questions, baseline_docs, expanded_docs):
-        expected = expected_keys(item["expected_source"])
+        expected = expected_groups(item)
         baseline.append(score(expected, docs_a))
         expanded.append(score(expected, docs_b))
 

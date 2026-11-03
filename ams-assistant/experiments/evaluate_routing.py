@@ -23,7 +23,7 @@ import time
 
 from ams_assistant.config import TOP_K
 from ams_assistant.evaluation import (
-    expected_keys,
+    expected_groups,
     load_questions,
     print_comparison,
     score,
@@ -60,7 +60,7 @@ def main():
     accuracy = {"all": 0, "right": 0, "partly": 0, "wrong": 0}
 
     for item, text, route in zip(questions, texts, routes):
-        expected = expected_keys(item["expected_source"])
+        expected = expected_groups(item)
         plain_docs = store.similarity_search(text, k=TOP_K)
         routed_docs = store.similarity_search(
             text, k=TOP_K, filter=route_filter(route)

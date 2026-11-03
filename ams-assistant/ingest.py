@@ -3,9 +3,9 @@
 Steps:
     1. Load            read every .txt file in ams-data/policies/ and its
                        department folders as a Document
-    2. Chunk           split each Document at blank lines: one chunk per
-                       block (in these docs, one top-level section),
-                       with the document title in front
+    2. Chunk           one chunk per handbook section (e.g. 6.2), with a
+                       header naming its handbook, chapter and section
+                       and a one-line summary of its chapter
     3. Embed + store   recreate the Qdrant collection, embed every chunk
                        with EMBEDDING_MODEL, and store it
                        (QdrantVectorStore.from_documents)
@@ -18,18 +18,16 @@ Caveats:
 - Each file type has its own loader in LOADERS; only .txt exists so far
   (plain pathlib, no LangChain loader). A file with no loader stops
   ingestion with an error instead of being skipped silently.
-- Chunking relies on these docs putting a blank line between
-  sections. There is no size limit: a long block with no blank lines
-  becomes one big chunk (today's largest is 1,491 characters).
-- Each doc's title block and TRAINING NOTE become chunks too.
+- Chunking relies on the handbook layout: numbered chapters and
+  sections, a blank line after every section. There is no size limit
+  (today's largest section is 1,500 characters); tiny sections such as
+  "CONTACT" join the chunk before them. Details: split_documents.
 - Each subfolder is a department (policies/finance/...); its name is
   stored as "department". A file whose owner line names another
   department prints a warning (it is probably in the wrong folder).
-- Chunks carry "source", "title" and "department" metadata, no section
-  number.
-- The "Document: <title>" line is part of the stored chunk text, so
-  the LLM sees it too (basic-rag adds its header to the embedded text
-  only). Embedding adds nomic's prefix (vector_store.py).
+- The header is part of the stored chunk text, so the LLM sees it too
+  (basic-rag adds its header to the embedded text only). Embedding
+  adds nomic's prefix (vector_store.py).
 - Step 3 deletes everything in COLLECTION_NAME before storing. Re-run
   this script whenever a document, the chunking, or the model changes.
 - Qdrant stores each chunk as {"page_content": ..., "metadata": {...}},
@@ -54,8 +52,8 @@ def read_title(text: str) -> str:
 
     Every AMS file starts like this:
         AMS
-        EMPLOYEE LEAVE POLICY (INDIA)
-        Policy ID: HR-LEAVE-IN-2026 | Version: 2.1 | ...
+        FINANCE HANDBOOK
+        Document ID: FIN-HBK-2026 | Version: 1.0 | ...
     """
     lines = [line.strip() for line in text.splitlines() if line.strip()]
 
@@ -155,31 +153,195 @@ def load_documents(folder: Path = POLICIES_DIR) -> list[Document]:
     return documents
 
 
-def split_documents(documents: list[Document]) -> list[Document]:
-    """One chunk per blank-line block; in these docs, one top-level
-    section each. Each chunk copies its document's metadata.
+# Handbook layout (see any file in ams-data/policies/):
+#   "6. PARKING AND TRANSPORT POLICY"          chapter heading
+#   "Reference: FAC-TRN-2026 | Version: ..."   chapter reference line
+#   "6.2 PARKING IN BENGALURU"                 section heading
+#   "6.2.1 Two-wheelers"                       subsection heading
+CHAPTER_PATTERN = re.compile(r"(\d+)\. [A-Z]")
+SECTION_PATTERN = re.compile(r"(\d+\.\d+) (.+)")
+SUBSECTION_PATTERN = re.compile(r"\d+\.\d+\.\d+ ")
+# Section 1.3 "How this handbook is organised": "Chapter 6: Parking ...".
+TOC_PATTERN = re.compile(r"(?m)^Chapter (\d+): (.+)$")
+# "Document ID: FAC-HBK-2026" (handbook) or "Reference: FAC-TRN-2026"
+# (chapter).
+REFERENCE_PATTERN = re.compile(r"(?:Document ID|Reference): ([^ |]+)")
 
-    Each chunk starts with a "Document: <title>" line. Most sections
-    never name their document ("5. SICK LEAVE" doesn't say India), so
-    without it an India and a US chunk can look alike to the search.
+# A section shorter than this (e.g. "6.6 CONTACT") joins the chunk
+# before it instead of becoming a chunk of its own.
+MIN_SECTION_CHARS = 150
+# The chapter summary takes whole sentences until it is this long.
+MIN_SUMMARY_CHARS = 80
+
+# Title Case rules for upper-case headings.
+SMALL_WORDS = {"a", "an", "and", "at", "by", "for", "in", "of", "on",
+               "or", "the", "to"}
+ACRONYMS = {"AI": "AI", "AMS": "AMS", "CCTV": "CCTV", "MFA": "MFA",
+            "NDAS": "NDAs", "PTO": "PTO", "SERVICEDESK": "ServiceDesk",
+            "VPN": "VPN"}
+
+
+def nice_title(title: str) -> str:
+    """Turn an upper-case heading into Title Case:
+    "PARKING IN BENGALURU" -> "Parking in Bengaluru". A heading that
+    is already mixed case ("Who this handbook applies to") is kept.
+    """
+    if not title.isupper():
+        return title
+
+    words = title.split()
+    result = []
+
+    for i, word in enumerate(words):
+        core = word.strip("(),:")
+        following = words[i + 1] if i + 1 < len(words) else ""
+
+        if core in ACRONYMS:
+            result.append(word.replace(core, ACRONYMS[core]))
+        # "IT" is the department ("IT AND ACCESS", "OFFICE IT DESKS"),
+        # otherwise the word "it" ("HOW IT WORKS").
+        elif core == "IT" and following in ("AND", "DESKS"):
+            result.append(word)
+        elif i > 0 and core.lower() in SMALL_WORDS:
+            result.append(word.lower())
+        elif not any(char.isalpha() for char in word):
+            result.append(word)  # a number such as "2026"
+        else:
+            # Capitalise the first letter, even after a "(".
+            word = word.lower()
+            first = next(j for j, char in enumerate(word) if char.isalpha())
+            result.append(word[:first] + word[first].upper()
+                          + word[first + 1:])
+
+    return " ".join(result)
+
+
+def chapter_summary(lines: list[str]) -> str:
+    """Return the opening sentences of a chapter's first block (its
+    first section, or an intro paragraph), until at least
+    MIN_SUMMARY_CHARS long. Heading lines are skipped.
+
+    Most chapters open with one sentence that sums them up: "This
+    policy gives the detailed rules for AMS corporate cards." Some
+    first sentences are short ("AMS provides a safe and healthy
+    workplace."), so a second one is added.
+    """
+    body = [
+        line for line in lines
+        if not (SECTION_PATTERN.match(line) or SUBSECTION_PATTERN.match(line))
+    ]
+    sentences = re.split(r"(?<=\.)\s+", " ".join(body))
+    summary = ""
+
+    for sentence in sentences:
+        summary = f"{summary} {sentence}".strip()
+        if len(summary) >= MIN_SUMMARY_CHARS:
+            break
+
+    return summary
+
+
+def split_documents(documents: list[Document]) -> list[Document]:
+    """One chunk per section ("6.2 PARKING IN BENGALURU" and its
+    subsections). In these handbooks a blank line ends every section.
+
+    Every chunk starts with a header that places it in its handbook:
+        Administration and Facilities Handbook > Chapter 6: Parking
+        and Transport Policy > 6.2 Parking in Bengaluru
+        About this chapter: This policy explains parking at each AMS
+        office and the company cab service in India.
+    Most sections never repeat what they are about ("5.3 LIMITS" never
+    says "card"), so the header carries that context. The section the
+    summary is taken from gets no "About" line (it would repeat itself).
+
+    Also:
+    - Text before chapter 1 (title block, TRAINING NOTE) is dropped.
+    - A section under MIN_SECTION_CHARS joins the chunk before it, in
+      the same chapter; the chunk keeps that earlier section's metadata.
+    - Metadata: source, department, handbook, reference, chapter,
+      chapter_title, section, section_title. Chapter 1 has no
+      Reference line, so it uses the handbook's Document ID.
 
     Plain Python, not RecursiveCharacterTextSplitter: that splitter
-    always merges small blocks up to its chunk_size, and here every
-    section should stay a chunk of its own.
+    merges blocks up to its chunk_size regardless of sections.
     """
     chunks = []
 
     for doc in documents:
-        title = doc.metadata["title"]
-        header = f"Document: {title}\n" if title else ""
+        text = doc.page_content
+        handbook = nice_title(doc.metadata["title"])
+        chapter_titles = {
+            int(number): title for number, title in TOC_PATTERN.findall(text)
+        }
+        handbook_id = REFERENCE_PATTERN.search(text).group(1)
+        chapter = None
 
         # \n\s*\n = a blank line (even one holding stray spaces).
-        for block in re.split(r"\n\s*\n", doc.page_content):
-            if block.strip():
-                chunks.append(Document(
-                    page_content=header + block.strip(),
-                    metadata=dict(doc.metadata),
-                ))
+        for block in re.split(r"\n\s*\n", text):
+            lines = block.strip().splitlines()
+            if not lines:
+                continue
+
+            # A new chapter: read its heading and reference line, then
+            # its summary from the section that follows them.
+            heading = CHAPTER_PATTERN.match(lines[0])
+            if heading:
+                chapter = int(heading.group(1))
+                chapter_title = chapter_titles.get(
+                    chapter, nice_title(lines[0].split(" ", 1)[1])
+                )
+                lines = lines[1:]
+                reference = handbook_id
+                if lines[0].startswith("Reference:"):
+                    reference = REFERENCE_PATTERN.match(lines[0]).group(1)
+                    lines = lines[1:]
+                summary = chapter_summary(lines)
+                is_first_section = True
+
+                # An intro paragraph before the first section (only the
+                # HR FAQ has one) is the summary itself, not a chunk.
+                if not SECTION_PATTERN.match(lines[0]):
+                    is_first_section = False
+                    continue
+
+            if chapter is None:
+                continue
+
+            section = SECTION_PATTERN.match(lines[0])
+            if section is None:
+                raise ValueError(
+                    f"{doc.metadata['source']}: block does not start "
+                    f"with a section heading: {lines[0]!r}"
+                )
+            body = "\n".join(lines)
+            previous = chunks[-1].metadata if chunks else {}
+
+            if (len(body) < MIN_SECTION_CHARS
+                    and previous.get("source") == doc.metadata["source"]
+                    and previous.get("chapter") == chapter):
+                chunks[-1].page_content += "\n\n" + body
+                continue
+
+            number, title = section.group(1), nice_title(section.group(2))
+            header = (f"{handbook} > Chapter {chapter}: {chapter_title} "
+                      f"> {number} {title}\n")
+            if not is_first_section:
+                header += f"About this chapter: {summary}\n"
+            is_first_section = False
+
+            chunks.append(Document(
+                page_content=header + body,
+                metadata={
+                    "source": doc.metadata["source"],
+                    "department": doc.metadata["department"],
+                    "handbook": handbook,
+                    "reference": reference,
+                    "chapter": chapter,
+                    "chapter_title": chapter_title,
+                    "section": number,
+                    "section_title": title,
+                },
+            ))
 
     return chunks
 

@@ -3,30 +3,31 @@ section?
 
 In:  ams-data/evaluation_questions.csv; each answerable question lists
      its expected sections as "document#section" (e.g.
-     "leave_policy_india.txt#4.1").
-Out: Hit Rate, Recall and MRR (all "@TOP_K"), computed exactly as in
+     "employee_handbook.txt#4.4.1"), and optionally other sections that
+     state the same answer (also_correct).
+Out: Hit Rate, Recall and MRR (all "@TOP_K"), computed as in
      basic-rag/evals/evaluate_retrieval.py, plus the questions that
      missed. No LLM is involved, so it takes seconds.
 
-Strategy: our chunks carry only "source", not a section number. So a
-chunk's sections are read from its text: every heading line in it
-("4. ANNUAL LEAVE CARRY-OVER", "4.1 Standard carry-over limit") gives
-one, e.g. {"leave_policy_india.txt#4", "leave_policy_india.txt#4.1"}.
-The scoring lives in ams_assistant/evaluation.py, shared with
-experiments/.
+Strategy: a chunk's sections are read from its text: every heading
+line in it ("4.4 ANNUAL LEAVE CARRY-OVER", "4.4.1 Standard carry-over
+limit") gives one, e.g. {"employee_handbook.txt#4.4",
+"employee_handbook.txt#4.4.1"}. The scoring lives in
+ams_assistant/evaluation.py, shared with experiments/.
 
 Caveats:
-- A chunk that continues a section without repeating its heading has
-  no section, so it never counts as a hit, even when it holds the
-  answer. A chunk that only has a heading at its end still counts.
-  The scores are therefore close to, not equal to, basic-rag's.
+- A chunk with no heading line never counts as a hit, even when it
+  holds the answer.
+- An also_correct section counts as finding the expected section it
+  stands in for. basic-rag ignores that column, so its scores are
+  stricter than these.
 - Unanswerable questions (no expected section) are skipped.
 - Run ingest.py first; needs Ollama and Qdrant running.
 """
 
 from ams_assistant.config import TOP_K
 from ams_assistant.evaluation import (
-    expected_keys,
+    expected_groups,
     load_questions,
     score,
     summarize,
@@ -47,7 +48,7 @@ def main():
 
     for item in questions:
         docs = retriever.invoke(item["question"])
-        result = score(expected_keys(item["expected_source"]), docs)
+        result = score(expected_groups(item), docs)
         scores.append(result)
 
         if not result["hit"]:
