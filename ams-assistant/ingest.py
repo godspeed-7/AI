@@ -1,8 +1,8 @@
 """Ingestion pipeline (LangChain version): policies -> searchable vectors.
 
 Steps:
-    1. Load            read every .txt file in ams-data/policies/ as a
-                       Document
+    1. Load            read every .txt file in ams-data/policies/ and its
+                       department folders as a Document
     2. Chunk           split each Document at blank lines: one chunk per
                        block (in these docs, one top-level section),
                        with the document title in front
@@ -22,7 +22,11 @@ Caveats:
   sections. There is no size limit: a long block with no blank lines
   becomes one big chunk (today's largest is 1,491 characters).
 - Each doc's title block and TRAINING NOTE become chunks too.
-- Chunks carry "source" and "title" metadata, no section number.
+- Each subfolder is a department (policies/finance/...); its name is
+  stored as "department". A file whose owner line names another
+  department prints a warning (it is probably in the wrong folder).
+- Chunks carry "source", "title" and "department" metadata, no section
+  number.
 - The "Document: <title>" line is part of the stored chunk text, so
   the LLM sees it too (basic-rag adds its header to the embedded text
   only). Embedding adds nomic's prefix (vector_store.py).
@@ -86,15 +90,47 @@ LOADERS = {
 }
 
 
+# Owner line -> department folder, e.g. "Policy owner: Finance" ->
+# "finance". First matching prefix wins, so the L&D line comes before
+# plain "People Operations". Used only to spot a misplaced file.
+OWNER_FOLDERS = [
+    ("People Operations (Learning and Development)",
+     "learning_and_development"),
+    ("People Operations", "people"),
+    ("IT and Security", "it_and_security"),
+    ("Facilities", "administration_and_facilities"),
+    ("Finance", "finance"),
+    ("Legal and Compliance", "legal_and_compliance"),
+]
+OWNER_PATTERN = re.compile(r"(?:Policy|Document) owner: ([^|\n]+)")
+
+
+def owner_folder(text: str) -> str | None:
+    """Return the department folder named by the document's owner line,
+    or None if there is no owner line or it is not in OWNER_FOLDERS."""
+    match = OWNER_PATTERN.search(text)
+    if match is None:
+        return None
+
+    owner = match.group(1).strip()
+    for prefix, folder in OWNER_FOLDERS:
+        if owner.startswith(prefix):
+            return folder
+    return None
+
+
 def load_documents(folder: Path = POLICIES_DIR) -> list[Document]:
-    """Load every file in the folder, sorted by name, with its loader.
+    """Load every file in the folder and its subfolders, sorted by path,
+    with its loader. The subfolder name becomes metadata["department"]
+    ("" for a file directly in the folder).
 
     Hidden files (.DS_Store, ...) are skipped. Raises ValueError for a
     file type with no loader.
     """
     documents = []
 
-    for path in sorted(folder.iterdir()):
+    # rglob("*") walks every subfolder too (like a recursive readdir).
+    for path in sorted(folder.rglob("*")):
         if path.name.startswith(".") or not path.is_file():
             continue
 
@@ -106,8 +142,15 @@ def load_documents(folder: Path = POLICIES_DIR) -> list[Document]:
                 f"No loader for {path.name}; supported: {supported}"
             )
 
-        # extend adds every Document from the list (like JS push(...docs)).
-        documents.extend(loader(path))
+        department = path.parent.name if path.parent != folder else ""
+
+        for doc in loader(path):
+            expected = owner_folder(doc.page_content)
+            if department and expected and expected != department:
+                print(f"WARNING: {path.name} is in '{department}/' but "
+                      f"its owner line says '{expected}'")
+            doc.metadata["department"] = department
+            documents.append(doc)
 
     return documents
 

@@ -1,0 +1,211 @@
+AMS
+LEARNING AND DEVELOPMENT HANDBOOK
+Document ID: LD-HBK-2026 | Version: 1.0 | Effective: 1 April 2026
+Document owner: People Operations (Learning and Development) | Document type: Handbook | Applies to all AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company. Amounts are illustrative and nothing here is legal, tax, or immigration advice.
+
+1. ABOUT THIS HANDBOOK
+1.1 Purpose
+This handbook explains how AMS supports learning: the trainings everyone must complete, certifications, sponsorship for degrees, conferences, and mentoring. The personal learning budget itself is described in the Benefits chapter of the Employee Handbook.
+
+1.2 Who this handbook applies to
+It applies to all regular employees in India and the United States. Interns complete only the mandatory trainings assigned to them in AMS Learn.
+
+1.3 How this handbook is organised
+Chapter 1: About this handbook
+Chapter 2: Mandatory Training Policy
+Chapter 3: Certification Programme Guide
+Chapter 4: Higher Education Sponsorship Policy
+Chapter 5: Conference Attendance Policy
+Chapter 6: Mentoring Programme Guide
+
+1.4 Definitions
+Learning budget: each employee's personal yearly budget for courses, exams, conference tickets, and books (Employee Handbook, chapter 8).
+Mandatory training: a course in AMS Learn that must be completed by a deadline (chapter 2).
+Priority certification: a certification on the list in chapter 3 that earns a one-time award.
+Service agreement: an agreement to stay at AMS for a set time after AMS pays for costly learning.
+Cohort: a group of employees who start a programme together.
+AMS Learn: the training platform where courses are assigned and tracked.
+
+1.5 Roles and responsibilities
+Employees complete mandatory trainings on time and plan their own development.
+Managers approve learning requests and make sure their team's trainings are not overdue.
+Learning and Development, part of People Operations, owns this handbook and runs the programmes.
+Department heads approve exceptions, such as extra conferences or paying the rest of a priority certification.
+
+1.6 Revision history
+Version 1.0, 1 April 2026: first edition, bringing the separate learning policies and guides together as chapters.
+
+1.7 Questions
+If something is unclear or seems to conflict with another handbook, contact the owner of this handbook (People Operations (Learning and Development)). Where a chapter and the law disagree, the law applies.
+
+2. MANDATORY TRAINING POLICY
+Reference: LD-MAN-2026 | Version: 1.1 | Effective: 1 April 2026
+2.1 PURPOSE AND SCOPE
+This policy lists the trainings every AMS employee must complete, the deadlines, and what happens when a training is overdue. All mandatory trainings are assigned and tracked in AMS Learn.
+
+2.2 NEW JOINERS
+New joiners complete Code of Conduct, Information Security, and anti-harassment training within 30 days of joining, as set out in the Onboarding and Exit Policy (HR-ONX-2026). Anti-harassment training is the POSH course in India and the anti-harassment course in the United States.
+
+2.3 EVERY YEAR, FOR EVERYONE
+2.3.1 Code of Conduct
+Training and certification by 31 March each year.
+2.3.2 Information Security
+Refresher by 30 September each year.
+2.3.3 Anti-harassment
+POSH training (India) or anti-harassment training (United States) by 31 December each year. US managers also complete the managers' module.
+
+2.4 ROLE-BASED TRAININGS
+2.4.1 Anti-bribery
+Employees in Sales, Finance, and Delivery, and all employees at grade L5 and above: every year, by 31 December.
+2.4.2 Secure coding
+Employees in Engineering: within 60 days of joining, then every 2 years.
+2.4.3 People managers
+Employees who become people managers for the first time complete the "Managing at AMS" course within 90 days of their first direct report.
+2.4.4 Extra phishing course
+Employees assigned the extra phishing course after phishing simulations complete it within 14 days, as set out in the phishing guide (IT-GDE-PHISH).
+
+2.5 IF A TRAINING IS OVERDUE
+2.5.1 Reminders
+AMS Learn sends reminders 14 days and 3 days before a deadline. Managers receive a weekly list of overdue trainings in their team.
+2.5.2 Promotion
+An employee with any overdue mandatory training on the first day of a promotion cycle (1 April or 1 October) is not eligible for promotion in that cycle.
+2.5.3 Client access
+If Information Security training is overdue by more than 30 days, access to client systems is suspended until it is completed.
+
+2.6 TIME FOR TRAINING
+Mandatory trainings are done during working hours. They do not count against the learning budget in the Employee Benefits Policy (HR-BEN-2026).
+
+2.7 CONTACT
+Learning and Development: learning@ams.example.
+
+3. CERTIFICATION PROGRAMME GUIDE
+Reference: LD-GDE-CERT | Version: 1.2 | Last updated: 1 April 2026
+3.1 HOW CERTIFICATIONS ARE PAID FOR
+Certification exams and preparation courses are paid from the personal learning budget in section 8.4 of the Employee Handbook (Employee Benefits Policy, HR-BEN-2026): INR 50,000 per financial year in India and USD 1,500 per calendar year in the United States.
+
+3.2 STEP BY STEP
+Step 1: Check that the certification is relevant to your current or next role.
+Step 2: Request approval from your manager in AMS People before booking the exam or course.
+Step 3: Pay for the exam or course yourself.
+Step 4: After the exam, upload the receipt and the result or certificate in AMS People.
+Step 5: You are reimbursed with your next salary after People Operations checks the upload.
+
+3.3 RETAKES
+If you do not pass, one retake of the same certification per budget year is also paid from the learning budget. Further retakes are paid by the employee.
+
+3.4 PRIORITY CERTIFICATIONS
+3.4.1 The list
+AMS needs more people with certain certifications for client work. The current priority list is: AWS Certified Solutions Architect (Professional), Microsoft Certified: Azure Solutions Architect Expert, Google Professional Cloud Architect, Certified Kubernetes Administrator (CKA), Project Management Professional (PMP), and CISSP.
+3.4.2 Certification award
+Passing a priority certification earns a one-time award of INR 25,000 in India or USD 500 in the United States, paid with salary within 2 months. The award is paid once per certification per employee.
+3.4.3 Exam fees above the budget
+If a priority certification costs more than your remaining learning budget, your department head may approve paying the difference from the department's budget.
+
+3.5 COSTLY CERTIFICATIONS
+A single certification or course costing more than INR 1,00,000 or USD 2,000 needs a service agreement. If you resign within 12 months of completing it, you repay a prorated share of the cost, as set out in the Employee Benefits Policy.
+
+3.6 CERTIFICATIONS AND YOUR PROFILE
+Add every certification to your AMS People profile. Delivery managers search profiles when staffing client projects.
+
+3.7 CONTACT
+Learning and Development: learning@ams.example.
+
+4. HIGHER EDUCATION SPONSORSHIP POLICY
+Reference: LD-HES-2026 | Version: 1.0 | Effective: 1 April 2026
+4.1 PURPOSE AND SCOPE
+Degree programmes, such as an MBA or a master's degree, are not covered by the learning budget. This policy describes the separate higher education sponsorship scheme.
+
+4.2 ELIGIBILITY
+4.2.1 Grade and service
+Employees at grade L3 and above with at least 2 years of service at AMS on 1 April of the application year.
+4.2.2 Performance
+The employee's last performance rating is "meets expectations" or higher.
+4.2.3 Programme
+The programme is part-time, online, or on weekends, so that it does not affect work, and is offered by a recognised university. Full-time programmes are not sponsored.
+
+4.3 WHAT IS COVERED
+4.3.1 Share of fees
+AMS pays 50% of the tuition fees, up to INR 5,00,000 per programme in India or USD 15,000 per programme in the United States.
+4.3.2 Not covered
+Application fees, books, travel, and accommodation are not covered.
+4.3.3 Payment
+Fees are reimbursed each term after the employee uploads the fee receipt and proof of passing the previous term.
+
+4.4 HOW TO APPLY
+4.4.1 Application window
+Applications open each April, from 1 to 30 April, in AMS People, with the programme details, the fees, and the manager's support.
+4.4.2 Selection
+A committee of People Operations and department heads reviews applications in May. Places are limited by budget, and decisions are shared by 31 May.
+
+4.5 SERVICE AGREEMENT
+4.5.1 24 months
+Sponsored employees sign a service agreement to stay with AMS for 24 months after completing the programme.
+4.5.2 Repayment
+If the employee resigns before completing the programme, they repay all sponsorship received. If they resign within 24 months after completing it, they repay a prorated share.
+
+4.6 LEAVE FOR EXAMS
+Sponsored employees receive up to 5 days of paid exam leave per year, in addition to their normal leave.
+
+4.7 CONTACT
+Learning and Development: learning@ams.example.
+
+5. CONFERENCE ATTENDANCE POLICY
+Reference: LD-CNF-2026 | Version: 1.0 | Effective: 1 April 2026
+5.1 PURPOSE AND SCOPE
+This policy explains how AMS supports employees who attend or speak at conferences, meetups, and industry events.
+
+5.2 ATTENDING A CONFERENCE
+5.2.1 Ticket
+The conference ticket is paid from the employee's learning budget, after manager approval in AMS People, as set out in the Employee Benefits Policy (HR-BEN-2026).
+5.2.2 Travel and hotel
+Travel and accommodation are not paid from the learning budget. They are paid by AMS under the Travel and Expense Policy (FIN-TRV-2026) and need travel approval: manager approval for domestic travel, and form TRV-F-02 at least 21 calendar days before departure for international travel.
+5.2.3 Time
+Conference days count as working days, not leave.
+
+5.3 SPEAKING AT A CONFERENCE
+5.3.1 Approval
+Employees who are invited to speak ask their manager and send the slides to Legal and Compliance at least 10 working days before the talk, as required by the Social Media Policy (LEG-SOC-2026).
+5.3.2 Costs
+For approved speakers, AMS pays the ticket, travel, and hotel from the Learning and Development budget, not from the speaker's personal learning budget.
+5.3.3 Speaker fees
+Any speaker fee offered to an employee for a talk about their AMS work is paid to AMS or declined.
+
+5.4 AFTER THE CONFERENCE
+Attendees share what they learned with their team within 30 days, for example in a team meeting or a short write-up on the AMS intranet.
+
+5.5 LIMITS
+Each employee may attend at most two conferences with travel per year, unless their department head approves more. Online conferences and local meetups have no limit.
+
+5.6 CONTACT
+Learning and Development: learning@ams.example.
+
+6. MENTORING PROGRAMME GUIDE
+Reference: LD-GDE-MEN | Version: 1.0 | Last updated: 1 April 2026
+6.1 WHAT THE PROGRAMME IS
+The AMS mentoring programme pairs an employee (the mentee) with a more experienced colleague from another team (the mentor) for 6 months. It is different from the joiner buddy in the Onboarding and Exit Policy, who helps a new joiner settle in during their first 90 days.
+
+6.2 WHO CAN TAKE PART
+6.2.1 Mentees
+Any employee who has completed probation.
+6.2.2 Mentors
+Employees at grade L4 and above who have been at AMS for at least 1 year. A mentor has at most two mentees at a time.
+
+6.3 COHORTS
+The programme runs in two cohorts a year, starting in January and July. Sign-up opens in AMS Learn 4 weeks before each cohort starts.
+
+6.4 HOW IT WORKS
+Step 1: Sign up in AMS Learn and choose up to three goals, such as moving into management, client communication, or a technical skill.
+Step 2: Learning and Development matches you with a mentor outside your reporting line, within 2 weeks of sign-up closing.
+Step 3: Meet at least once a month for about an hour, in person or on AMS Meet.
+Step 4: At the end of 6 months, both sides complete a short feedback form in AMS Learn.
+
+6.5 GROUND RULES
+Conversations are confidential. Mentors do not take part in their mentee's performance review or promotion decision. Either side may end the pairing early by telling Learning and Development.
+
+6.6 RECOGNITION
+Mentors who complete a full cohort receive a certificate, and mentoring is recognised in their performance review.
+
+6.7 CONTACT
+Learning and Development: learning@ams.example.

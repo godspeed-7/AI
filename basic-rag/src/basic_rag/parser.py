@@ -29,11 +29,12 @@ def load_document(file_path: str | Path) -> str:
 
 
 def list_documents(folder: str | Path = POLICIES_DIR) -> list[Path]:
-    """Return every .txt file in the folder, sorted by name.
+    """Return every .txt file in the folder and its subfolders, sorted
+    by path.
 
     Sorting keeps the ingestion order the same on every run.
     """
-    return sorted(Path(folder).glob("*.txt"))
+    return sorted(Path(folder).rglob("*.txt"))
 
 
 # Run this file directly to check that the policy documents load:

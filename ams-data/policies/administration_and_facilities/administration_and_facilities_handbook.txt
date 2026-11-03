@@ -1,0 +1,322 @@
+AMS
+ADMINISTRATION AND FACILITIES HANDBOOK
+Document ID: FAC-HBK-2026 | Version: 1.1 | Last updated: 1 September 2026
+Document owner: Facilities | Document type: Handbook | Applies to all AMS employees, contractors, and interns in AMS offices
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company. Amounts are illustrative and nothing here is legal, tax, or immigration advice.
+
+1. ABOUT THIS HANDBOOK
+1.1 Purpose
+This handbook covers the AMS offices and how to use them: the buildings, access and badges, visitors, desks and meeting rooms, parking and transport, health and safety, and office closures.
+
+1.2 Who this handbook applies to
+It applies to everyone working in or visiting the Bengaluru, Pune, and Austin offices. Client sites follow the client's own rules.
+
+1.3 How this handbook is organised
+Chapter 1: About this handbook
+Chapter 2: Office Guide: Bengaluru, Pune, and Austin
+Chapter 3: Office Access and Badge Policy
+Chapter 4: Visitor Policy
+Chapter 5: How to Book Desks and Meeting Rooms
+Chapter 6: Parking and Transport Policy
+Chapter 7: Workplace Health and Safety Policy
+Chapter 8: Office Closures and Emergencies
+
+1.4 Definitions
+Base office: the office named in the employee's contract.
+Anchor days: Tuesday and Thursday, when all hybrid employees are expected in the office.
+Client project area (ODC): a floor set up for a single client with extra security (chapter 3).
+Host: the employee who invites and escorts a visitor (chapter 4).
+Hot desk: a desk booked per day in AMS Spaces (chapter 5).
+Near miss: an event that could have caused an injury but did not (chapter 7).
+AMS Spaces: the app for booking desks, meeting rooms, EV charging points, and company cabs.
+
+1.5 Roles and responsibilities
+Employees wear their badge, follow safety rules, and book space they use.
+Hosts register and escort their visitors.
+The Facilities team owns this handbook and runs the offices, badges, parking, and transport.
+Building security, available 24 hours a day at extension 2222, controls access and responds to emergencies.
+Fire wardens and first aiders on each floor lead evacuations and give first aid.
+
+1.6 Revision history
+Version 1.0, 1 April 2026: first edition, bringing the separate Facilities policies and guides together as chapters.
+Chapter 6 (Parking and Transport Policy, version 2.0): Bengaluru car parking changed from first-come, first-served to allocation by Facilities.
+Version 1.1, 1 September 2026: chapter 2 updated after the Pune cafeteria and medical room moved from the 1st floor to the 2nd floor.
+
+1.7 Questions
+If something is unclear or seems to conflict with another handbook, contact the owner of this handbook (Facilities). Where a chapter and the law disagree, the law applies.
+
+2. OFFICE GUIDE: BENGALURU, PUNE, AND AUSTIN
+Reference: FAC-GDE-OFF | Version: 1.3 | Last updated: 1 September 2026
+2.1 BENGALURU (HEADQUARTERS)
+2.1.1 Building
+The Bengaluru office occupies all six floors of AMS Tower on the Outer Ring Road.
+2.1.2 Floors
+Ground floor: reception, client meeting rooms, and the medical room.
+1st and 2nd floors: Engineering and Delivery.
+3rd floor: IT desk, People Operations, Finance, and Legal and Compliance.
+4th floor: client project areas (ODCs) for banking clients.
+5th floor: cafeteria, gym, and the town hall.
+2.1.3 Food
+The subsidised cafeteria serves lunch for INR 50 per meal. Breakfast and evening snacks are available at cost.
+2.1.4 Gym
+The gym on the 5th floor is free for employees, open 06:30 to 21:00 on working days.
+
+2.2 PUNE (DELIVERY CENTRE)
+2.2.1 Building
+The Pune office occupies three floors of the Hinjewadi Tech Park, building C.
+2.2.2 Floors
+Ground floor: reception, IT desk, and client meeting rooms.
+1st floor: Delivery teams and client project areas (ODCs) for retail clients.
+2nd floor: cafeteria, medical room, and Delivery teams.
+2.2.3 Food
+The subsidised cafeteria serves lunch for INR 50 per meal.
+2.2.4 No gym
+The Pune office has no gym. Pune employees can use the wellness allowance in the Employee Benefits Policy (HR-BEN-2026) for a gym membership.
+
+2.3 AUSTIN (CLIENT OFFICE)
+2.3.1 Building
+The Austin office is on the 4th floor of the Riverside Plaza building, near downtown Austin.
+2.3.2 Layout
+The office has a reception, two client rooms (including the Lone Star room), open-plan desks, and a kitchen. The IT desk is open on the Tuesday and Thursday anchor days.
+2.3.3 Food
+A catered lunch is provided on the Tuesday and Thursday anchor days. Coffee, tea, and snacks are free every day.
+2.3.4 Parking
+Free parking is available in the building garage.
+
+2.4 ALL OFFICES
+Opening hours are 07:00 to 22:00, Monday to Friday. Building security is available 24 hours a day at extension 2222. Each office has a wellness room, prayer space, and a nursing room.
+
+3. OFFICE ACCESS AND BADGE POLICY
+Reference: FAC-ACC-2026 | Version: 1.3 | Effective: 1 April 2026
+3.1 PURPOSE AND SCOPE
+This policy explains who may enter AMS offices, when, and how access badges work. It applies to the Bengaluru, Pune, and Austin offices. Client sites follow the client's own rules.
+
+3.2 ACCESS BADGES
+3.2.1 Badge types
+Every person in an AMS office must wear a badge where it can be seen. Badge colours show the holder's status:
+Blue: AMS employee.
+Green: contractor or vendor staff working on site.
+Orange: client staff.
+Red: visitor, who must be escorted at all times.
+3.2.2 Getting a badge
+Employees receive their badge on their first day. Contractor badges are requested by the hiring manager through Facilities at least 2 working days before the start date and expire on the contract end date.
+3.2.3 Lost or damaged badges
+A lost badge is reported to Facilities at facilities@ams.example on the same day so that it can be deactivated. Reception issues a temporary day badge. A replacement badge costs INR 500 in India or USD 15 in the United States and is deducted from salary. A damaged badge is replaced free of charge when the old badge is handed in.
+3.2.4 Forgotten badges
+An employee who forgets their badge receives a temporary day badge from reception after showing photo ID. The temporary badge stops working at midnight.
+
+3.3 OFFICE HOURS
+3.3.1 Standard hours
+AMS offices are open from 07:00 to 22:00, Monday to Friday, except public holidays in that office's holiday calendar.
+3.3.2 After-hours and weekend access
+Access outside standard hours needs an after-hours request in AMS People, approved by the manager by 17:00 on the previous working day. Employees working after hours must sign the security register at reception.
+3.3.3 Shift teams
+Teams that work in shifts, such as 24-hour support teams, have standing after-hours access approved by Facilities and reviewed every 6 months.
+
+3.4 CLIENT PROJECT AREAS
+3.4.1 What they are
+Some floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.
+3.4.2 Access
+ODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.
+3.4.3 Rules inside
+Personal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.
+
+3.5 TAILGATING
+Each person must tap their own badge. Letting someone follow you through a door without tapping (tailgating) is not allowed, even for colleagues you know. Report tailgating to building security.
+
+3.6 CCTV
+CCTV covers entrances, reception, corridors, and ODCs, but never washrooms, changing rooms, or the wellness room. Recordings are kept for 30 days, or longer during an investigation.
+
+3.7 CONTACT
+Facilities: facilities@ams.example. Building security is available 24 hours a day at extension 2222.
+
+4. VISITOR POLICY
+Reference: FAC-VIS-2026 | Version: 1.1 | Effective: 1 April 2026
+4.1 PURPOSE AND SCOPE
+This policy explains how visitors are registered, received, and escorted in AMS offices. A visitor is anyone who is not an AMS employee or a badged contractor, including clients, candidates for interview, suppliers, friends, and family members.
+
+4.2 REGISTERING A VISITOR
+4.2.1 When to register
+The host registers the visitor in AMS People by the end of the previous working day, with the visitor's name, company, and expected arrival time.
+4.2.2 Same-day visitors
+A visitor who was not registered in time may enter only if the host comes to reception, and only with approval from the office's Facilities manager.
+4.2.3 Groups
+Groups of more than 10 visitors, such as a client delegation or a college visit, are registered with Facilities at least 5 working days in advance.
+
+4.3 ARRIVAL
+4.3.1 Photo ID
+Visitors show government-issued photo ID at reception.
+4.3.2 Visitor agreement
+Business visitors sign the visitor confidentiality agreement at reception. Candidates for interview and personal visitors sign the shorter visitor declaration.
+4.3.3 Visitor badge
+Reception issues a red visitor badge, which must be visible at all times and returned when leaving.
+
+4.4 DURING THE VISIT
+4.4.1 Escort
+The host, or another AMS employee named by the host, escorts the visitor at all times, including to washrooms and the cafeteria.
+4.4.2 Restricted areas
+Visitors may not enter client project areas (ODCs), server rooms, or IT stores.
+4.4.3 Photos and recording
+Visitors may not take photos or recordings inside the office without approval from Facilities.
+
+4.5 PERSONAL VISITORS
+Friends and family may visit the reception area and the cafeteria only, for at most 2 hours, and not on the Tuesday and Thursday anchor days, when the offices are busiest. Children under 12 must stay with their parent at all times. The annual Family Day is the exception: on that day, family members may see the work floors outside ODCs.
+
+4.6 DELIVERIES
+Personal deliveries, such as food and parcels, are collected from reception; delivery staff are not allowed beyond reception. Facilities is not responsible for personal deliveries left uncollected after 20:00.
+
+4.7 CONTACT
+Facilities: facilities@ams.example.
+
+5. HOW TO BOOK DESKS AND MEETING ROOMS
+Reference: FAC-GDE-BOOK | Version: 1.1 | Last updated: 1 April 2026
+5.1 AMS SPACES
+AMS Spaces is the app for booking desks, meeting rooms, EV charging points, and company cabs. It is available on the AMS intranet and in the AMS Mobile app.
+
+5.2 BOOKING A DESK
+5.2.1 Hot desks
+Most desks are hot desks: nobody owns them, and they are booked per day. Employees with a medical need or a role that needs fixed equipment can ask Facilities for a fixed desk.
+5.2.2 How to book
+Step 1: Open AMS Spaces and choose Desks.
+Step 2: Pick the office, the date, and your team's neighbourhood.
+Step 3: Choose a free desk and confirm.
+Desks can be booked up to 14 days ahead.
+5.2.3 Anchor days
+On the Tuesday and Thursday anchor days, each team has a reserved neighbourhood so that the team can sit together. Book inside your neighbourhood on anchor days.
+5.2.4 Check-in
+Check in on AMS Spaces, or by scanning the QR code on the desk, by 11:00, the start of core collaboration hours. Desks without a check-in by 11:00 are released for others.
+5.2.5 Clear desk
+Desks must be cleared at the end of each day. Items left on a desk overnight are taken to the lost-and-found at reception.
+
+5.3 BOOKING A MEETING ROOM
+5.3.1 How to book
+Book meeting rooms in AMS Spaces or from the AMS Meet calendar. Rooms can be booked up to 30 days ahead, for at most 4 hours at a time.
+5.3.2 No-shows
+If nobody checks in on the room screen within 15 minutes of the start time, the booking is released.
+5.3.3 Client meetings
+Client meetings are held in the client rooms on the ground floor (Bengaluru and Pune) or in the Lone Star room (Austin). Tell reception the client's name by 17:00 on the previous working day, as required by the Visitor Policy (FAC-VIS-2026).
+5.3.4 Large rooms
+Rooms for more than 20 people, such as the Bengaluru town hall, are booked through Facilities, not AMS Spaces.
+
+5.4 QUIET ROOMS AND PHONE BOOTHS
+Phone booths cannot be booked and may be used for up to 1 hour. The wellness room is for rest, prayer, or nursing mothers and cannot be booked for meetings.
+
+5.5 PROBLEMS
+If AMS Spaces shows no free desks on an anchor day, contact Facilities at facilities@ams.example; overflow desks are opened on the cafeteria floor.
+
+6. PARKING AND TRANSPORT POLICY
+Reference: FAC-TRN-2026 | Version: 2.0 | Effective: 1 April 2026
+6.1 PURPOSE AND SCOPE
+This policy explains parking at each AMS office and the company cab service in India. Version 2.0 replaces the first-come, first-served car parking rule in Bengaluru with allocated parking (section 2.2).
+
+6.2 PARKING IN BENGALURU
+6.2.1 Two-wheelers
+Two-wheeler parking is free and needs no allocation. Two-wheelers must display the AMS parking sticker, available from Facilities.
+6.2.2 Cars
+Car parking spaces are limited and allocated by Facilities. Employees apply in AMS People. Car pools of three or more AMS employees get priority, followed by employees with a disability or a medical need, and then employees who live more than 20 km from the office.
+6.2.3 Allocation rounds
+Allocations are made twice a year, for January to June and July to December. Applications close on 15 December and 15 June.
+6.2.4 Unused spaces
+An allocated space that is not used on at least half of the employee's office days in a month may be given to the next person on the waiting list.
+6.2.5 Electric vehicles
+The Bengaluru office has 10 EV charging points, booked through the AMS Spaces app for up to 4 hours at a time. Charging is free.
+
+6.3 PARKING IN PUNE
+Two-wheeler and car parking is free on a first-come, first-served basis. On anchor days the car park is usually full by 10:00; the overflow car park is across the road.
+
+6.4 PARKING IN AUSTIN
+Free parking is available in the building garage. Employees register their vehicle with Facilities to receive a garage access tag.
+
+6.5 COMPANY CABS (INDIA)
+6.5.1 Who can use them
+In Bengaluru and Pune, a company cab is provided for employees whose working day ends after 20:00 or starts before 07:00 because of work, such as shift teams or late client calls.
+6.5.2 Booking
+Cabs are booked in the AMS Spaces app by 16:00 on the same day, with manager approval for the late working.
+6.5.3 Night travel safety
+For women employees, cabs after 20:00 always have a security guard on board, and the cab waits until the employee is inside their home. The cab route never drops a woman employee first unless she is the only passenger.
+6.5.4 Not covered
+Cabs are not provided for regular office hours or for personal travel. Taxis for business purposes are covered by the Travel and Expense Policy (FIN-TRV-2026).
+
+6.6 CONTACT
+Facilities: facilities@ams.example. Transport desk (India): transport@ams.example.
+
+7. WORKPLACE HEALTH AND SAFETY POLICY
+Reference: FAC-HSE-2026 | Version: 1.2 | Effective: 1 April 2026
+7.1 PURPOSE AND SCOPE
+AMS provides a safe and healthy workplace. This policy explains fire safety, first aid, reporting injuries, and ergonomics in AMS offices. Health and safety when working from home is covered in section 7.
+
+7.2 FIRE SAFETY
+7.2.1 Fire alarms
+When the fire alarm sounds, leave by the nearest marked exit immediately. Do not use lifts and do not collect belongings.
+7.2.2 Assembly points
+Bengaluru: the front lawn by the main gate. Pune: the open ground behind the car park. Austin: the plaza across the street from the building entrance.
+7.2.3 Fire wardens
+Each floor has at least two trained fire wardens, who wear yellow vests during an evacuation and check that the floor is empty. Employees can volunteer as fire wardens through Facilities.
+7.2.4 Fire drills
+Fire drills are held twice a year in each office, in January and July. Taking part is mandatory for everyone in the office.
+
+7.3 FIRST AID AND MEDICAL EMERGENCIES
+7.3.1 First aid kits
+Every floor has a first aid kit next to the lifts. Each office has a defibrillator (AED) at reception.
+7.3.2 First aiders
+Trained first aiders are listed on the noticeboard on each floor and in the AMS Spaces app.
+7.3.3 Medical room
+The Bengaluru and Pune offices have a medical room with a nurse from 09:00 to 18:00 on working days.
+7.3.4 Emergency numbers
+For an emergency, call 112 in India or 911 in the United States, then inform building security at extension 2222.
+
+7.4 REPORTING INJURIES AND NEAR MISSES
+7.4.1 What to report
+Report every injury at work, however small, and every near miss, such as a wet floor, a loose cable, or a broken chair.
+7.4.2 How and when
+Report through the safety report form in AMS People within 24 hours. A serious injury is also reported straight away to building security.
+7.4.3 Follow-up
+Facilities investigates every report within 5 working days.
+
+7.5 ERGONOMICS
+Any employee may ask Facilities for an ergonomic assessment of their office workstation. Equipment recommended in the assessment, such as a footrest or a different chair, is provided by Facilities. IT equipment, such as monitors, is requested through ServiceDesk under the IT Equipment Policy (IT-EQP-2026).
+
+7.6 NOT ALLOWED
+Smoking and vaping are allowed only in the marked outdoor areas. Personal heaters, kettles, and other personal electrical appliances are not allowed on work floors.
+
+7.7 WORKING FROM HOME
+Employees working from home are responsible for a safe home workspace. AMS supports this through the home office setup allowance in the Remote and Hybrid Work Policy (HR-RWP-2026). An injury while working from home is reported in the same way as an office injury.
+
+7.8 CONTACT
+Facilities: facilities@ams.example. Building security: extension 2222, 24 hours a day.
+
+8. OFFICE CLOSURES AND EMERGENCIES
+Reference: FAC-GDE-EMG | Version: 1.0 | Last updated: 1 April 2026
+8.1 WHEN AN OFFICE CLOSES
+An office may close because of severe weather, flooding, a power or water failure, a public order situation, or a building problem. Typical examples are heavy rain and waterlogging in Bengaluru during the monsoon, and winter storms or ice in Austin.
+
+8.2 WHO DECIDES AND HOW YOU ARE TOLD
+8.2.1 Decision
+The decision to close an office is made by the head of Facilities together with the office's location leader.
+8.2.2 Notification
+Employees are told by SMS and by an announcement in AMS Chat. For a closure on a working day, the message is sent by 06:30 local time whenever possible.
+8.2.3 Check before travelling
+On days with a weather warning, check AMS Chat before leaving home.
+
+8.3 WORKING ON A CLOSURE DAY
+8.3.1 Work from home
+On a closure day, employees in hybrid-eligible roles work from home as normal. A closure day is not leave and is not counted against the remote work allowances.
+8.3.2 If work is not possible
+If an employee cannot work, for example because of a power cut at home during the same event, the day is paid and recorded as "office closure" in AMS People, not as leave.
+8.3.3 Office-based roles
+Employees in office-based roles, such as Facilities and IT infrastructure, follow the instructions of their manager.
+
+8.4 EMERGENCIES IN THE OFFICE
+8.4.1 Fire or evacuation
+Follow the Workplace Health and Safety Policy (FAC-HSE-2026): leave by the nearest exit and go to the assembly point.
+8.4.2 Medical emergency
+Call 112 in India or 911 in the United States, then building security at extension 2222.
+8.4.3 Lockdown
+If security announces a lockdown, stay inside, move away from windows, lock the door if possible, and wait for the all-clear in AMS Chat.
+
+8.5 EMERGENCIES WHILE TRAVELLING
+Employees on business travel who are affected by an emergency call the travel desk emergency line, which is printed on every travel itinerary. AMS pays reasonable extra costs, such as an extra hotel night, under the Travel and Expense Policy (FIN-TRV-2026).
+
+8.6 KEEP YOUR DETAILS UP TO DATE
+Closure messages are sent to the mobile number in AMS People. Employees keep their mobile number and emergency contact up to date in AMS People.

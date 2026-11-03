@@ -1,0 +1,501 @@
+AMS
+IT AND SECURITY HANDBOOK
+Document ID: IT-HBK-2026 | Version: 1.1 | Last updated: 1 July 2026
+Document owner: IT and Security | Document type: Handbook | Applies to all AMS employees, contractors, and interns
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company. Amounts are illustrative and nothing here is legal, tax, or immigration advice.
+
+1. ABOUT THIS HANDBOOK
+1.1 Purpose
+This handbook explains how to use AMS computers, accounts, and information safely, which equipment employees receive, and how to get IT help. It contains the IT and Security policies (chapters 2 to 8) and the step-by-step guides (chapters 9 to 12).
+
+1.2 Who this handbook applies to
+It applies to everyone with an AMS account, on any device, in the office, at home, at client sites, and while travelling.
+
+1.3 How this handbook is organised
+Chapter 1: About this handbook
+Chapter 2: Acceptable Use Policy
+Chapter 3: IT Equipment Policy
+Chapter 4: Access and Accounts Policy
+Chapter 5: Password and Sign-in Standard
+Chapter 6: Data Handling Standard
+Chapter 7: Software and SaaS Approval Policy
+Chapter 8: Security Incident Policy
+Chapter 9: Your First Day: Laptop and Account Setup
+Chapter 10: How to Raise a ServiceDesk Ticket
+Chapter 11: AMS Connect VPN: Setup and Troubleshooting
+Chapter 12: How to Spot and Report Phishing
+
+1.4 Definitions
+AMS device: a laptop, phone, monitor, or security key owned by AMS.
+ServiceDesk: the IT support system, used for tickets in categories HW, ACC, SW, NET, SEC, and MOB (chapter 10).
+Security incident: any event that may harm the confidentiality, integrity, or availability of AMS or client information (chapter 8).
+Confidential and Restricted information: the two highest information classes (chapter 6).
+Privileged account: a separate account used to administer servers, cloud platforms, or databases.
+Two-step sign-in (MFA): signing in with a password plus AMS Authenticator or a hardware security key.
+Software Centre: the catalogue of pre-approved software on every AMS laptop.
+
+1.5 Roles and responsibilities
+Employees protect their devices, accounts, and information, and report incidents quickly.
+Managers approve access and equipment requests and review their team's access every quarter.
+IT ServiceDesk handles tickets, equipment, and access set-up.
+The IT and Security team, led by the Head of IT and Security, owns this handbook and leads the response to security incidents.
+System owners approve access to their systems and review access to Restricted systems every month.
+
+1.6 Revision history
+Version 1.0, 1 April 2026: first edition, bringing the separate IT and Security policies and guides together as chapters.
+Chapter 3 (IT Equipment Policy, version 2.0): the laptop refresh cycle changed from 3 years to 4 years, and employees can now buy their retired laptop.
+Chapter 5 (Password and Sign-in Standard, version 3.0): the rule that passwords expire every 90 days was removed.
+Version 1.1, 1 July 2026: chapter 11 updated after the SecureLink VPN was retired on 30 June 2026 and replaced by AMS Connect.
+
+1.7 Questions
+If something is unclear or seems to conflict with another handbook, contact the owner of this handbook (IT and Security). Where a chapter and the law disagree, the law applies.
+
+2. ACCEPTABLE USE POLICY
+Reference: IT-AUP-2026 | Version: 1.1 | Effective: 1 April 2026
+2.1 PURPOSE AND SCOPE
+This policy explains how AMS computers, accounts, networks, and data may be used. It protects AMS, its clients, and its employees from harm caused by careless or deliberate misuse. It applies to everyone with an AMS account, on any device, in the office or elsewhere. The Code of Conduct (LEG-COC-2026) sets the general rules on company assets; this policy gives the details for IT systems.
+
+2.2 BUSINESS USE AND PERSONAL USE
+2.2.1 Business use
+AMS laptops, accounts, and systems are provided for AMS business.
+2.2.2 Limited personal use
+Limited personal use is acceptable, for example reading the news, personal banking, or a short personal call, as long as it does not affect work, cost AMS money, or weaken security.
+2.2.3 Personal files
+Employees should not store personal photos, music, or videos on AMS laptops. AMS is not responsible for personal files when a laptop is repaired, wiped, or refreshed.
+
+2.3 NOT ALLOWED
+The following are never allowed on AMS systems:
+2.3.1 Illegal or offensive content
+Accessing, storing, or sharing illegal, sexually explicit, hateful, or harassing content.
+2.3.2 Harmful activity
+Cryptocurrency mining, peer-to-peer file sharing (torrents), hacking tools, and scanning networks without written approval from IT and Security.
+2.3.3 Weakening security
+Turning off or bypassing antivirus, disk encryption, the AMS Connect VPN, or device management; sharing passwords or AMS Authenticator codes; letting another person use your account.
+2.3.4 Moving data outside AMS
+Forwarding work email to a personal email address; saving work files to personal cloud storage, such as a personal Google Drive or Dropbox; using unapproved USB storage.
+2.3.5 Unapproved software
+Installing software or browser extensions that are not in the Software Centre or approved under the Software and SaaS Approval Policy (IT-SWA-2026).
+
+2.4 EMAIL, CHAT, AND MEETINGS
+2.4.1 Work accounts only
+Work communication with colleagues and clients uses AMS Mail, AMS Chat, and AMS Meet. Personal messaging apps, such as WhatsApp, may be used with clients only if the client requires it and the client engagement letter allows it, and never for Confidential or Restricted information.
+2.4.2 Recording meetings
+Meetings may be recorded only after telling all participants at the start. Client meetings may be recorded only with the client's agreement.
+
+2.5 GENERATIVE AI TOOLS
+AMS Copilot, the company's approved AI assistant, may be used with information up to Confidential. Restricted information must not be entered into any AI tool. Public AI tools, such as free chatbots, must not be used with Confidential or Restricted information. The Data Handling Standard (IT-DAT-2026) explains the information classes.
+
+2.6 MONITORING
+AMS monitors its devices, networks, and accounts for security purposes, for example to detect malware, data leaks, and unusual sign-ins, as permitted by law in India and the United States. AMS does not monitor personal use for any other purpose. Access to monitoring data is limited to the IT and Security team and, during an investigation, Legal and Compliance.
+
+2.7 BREACHES
+Breaches of this policy are handled under the Code of Conduct. Depending on the seriousness, consequences range from a warning to dismissal. Accidental breaches that are reported promptly are treated as a learning matter, not as misconduct.
+
+2.8 CONTACT
+Questions about this policy go to IT and Security through a ServiceDesk ticket or security@ams.example.
+
+3. IT EQUIPMENT POLICY
+Reference: IT-EQP-2026 | Version: 2.0 | Effective: 1 April 2026
+3.1 PURPOSE AND SCOPE
+This policy explains which laptop and accessories AMS employees receive, how equipment is refreshed and repaired, what to do when a device is lost or stolen, and how equipment is returned when an employee leaves. It applies to all AMS-owned devices, including laptops, monitors, headsets, and phones issued for on-call work. Version 2.0 replaces version 1.3 and changes the refresh cycle (section 4).
+
+3.2 STANDARD LAPTOPS
+3.2.1 Standard build
+Employees at grades L1 to L3 receive the Standard build: a 14-inch Windows 11 laptop with 16 GB of memory and a 512 GB encrypted drive.
+3.2.2 Lead build
+Employees at grade L4 and above receive the Lead build: a 14-inch Windows 11 laptop with 32 GB of memory and a 1 TB encrypted drive. A MacBook Pro may be chosen instead of the Lead build at grade L4 and above.
+3.2.3 Developer build
+Employees in Engineering and Delivery roles who build or test software may request the Developer build at any grade: a 16-inch laptop with 32 GB of memory, a 1 TB encrypted drive, and local virtualisation enabled. The request needs manager approval and is raised as a ServiceDesk hardware request (category HW).
+3.2.4 One laptop per employee
+Each employee has one AMS laptop. A second laptop is issued only for client work that requires a client-specific device, with approval from the department head.
+
+3.3 ACCESSORIES
+Every employee may request one external monitor, a keyboard, a mouse, and a headset through ServiceDesk (category HW). A second monitor needs manager approval. Ergonomic equipment recommended by a doctor or an ergonomic assessment is provided without manager approval. Accessories for home use are covered by the same request; the home office setup allowance in the Remote and Hybrid Work Policy (HR-RWP-2026) is for furniture, not for IT equipment.
+
+3.4 REFRESH CYCLE
+3.4.1 Four-year cycle
+From 1 April 2026, AMS laptops are replaced after 4 years of use. This applies to all laptops, including laptops issued before 1 April 2026. For example, a laptop issued in May 2023 is due for replacement in May 2027.
+3.4.2 Developer build exception
+Developer build laptops stay on a 3-year refresh cycle.
+3.4.3 How refresh works
+IT contacts the employee about 30 days before the refresh date. The employee does not need to raise a ticket. Data is moved to the new laptop by the employee using AMS OneDrive; IT does not copy local files.
+3.4.4 Early replacement
+A laptop may be replaced before its refresh date only if it fails repeatedly (three repair tickets within 6 months) or no longer meets the needs of the role, with approval from IT and Security.
+
+3.5 REPAIRS AND DAMAGE
+3.5.1 Reporting a fault
+Faults are reported through a ServiceDesk ticket (category HW). IT aims to repair the laptop or give a replacement within 2 working days.
+3.5.2 Loan laptops
+If a repair takes longer, the employee receives a loan laptop from the office IT desk. Austin employees who work remotely receive a loan laptop by courier.
+3.5.3 Accidental damage
+The first accidental damage within any 12-month period is repaired at no cost. For a second accidental damage within 12 months, AMS may recover the repair cost from the employee, up to INR 15,000 in India or USD 200 in the United States, if the damage was caused by negligence.
+
+3.6 LOST OR STOLEN DEVICES
+3.6.1 Report within 24 hours
+A lost or stolen AMS device must be reported to IT ServiceDesk within 24 hours, by a ticket (category SEC), at it-helpdesk@ams.example, or through the IT help line (extension 4357). IT then locks and remotely wipes the device.
+3.6.2 Police report
+A stolen device must also be reported to the police within 3 days: a First Information Report (FIR) in India or a police report in the United States. The report number is added to the ServiceDesk ticket.
+3.6.3 Cost of replacement
+AMS pays for the replacement. If the loss was not reported within 24 hours, or was caused by clear negligence (for example, a laptop left unattended in a car), AMS may recover up to INR 30,000 in India or USD 400 in the United States.
+3.6.4 Lost devices are also security incidents
+A lost or stolen device is handled under the Security Incident Policy (IT-SIR-2026). For a device, the 24-hour reporting time in this section applies.
+
+3.7 RETURNING EQUIPMENT
+3.7.1 When leaving AMS
+The laptop and all accessories must be returned on or before the last working day, as set out in the Onboarding and Exit Policy. Access to AMS systems ends at 18:00 local time on the last working day.
+3.7.2 Remote employees
+Employees who do not work near an office receive a prepaid return kit and must ship the equipment no later than the last working day.
+3.7.3 Equipment not returned
+If equipment is not returned, its current book value is deducted from the final settlement.
+3.7.4 Buying a retired laptop
+When a laptop is refreshed, the employee may buy the old laptop for INR 5,000 in India or USD 75 in the United States, after IT has wiped it. Laptops are not sold to employees who are leaving AMS.
+
+3.8 CONTACT
+For questions about this policy, raise a ServiceDesk ticket or email it-helpdesk@ams.example.
+
+4. ACCESS AND ACCOUNTS POLICY
+Reference: IT-ACC-2026 | Version: 1.2 | Effective: 1 April 2026
+4.1 PURPOSE AND SCOPE
+This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed. It follows the principle of least privilege: each person gets only the access they need for their current role. It covers AMS systems (such as AMS People, AMS Expense, and AMS Mail) and client systems that AMS employees use on client projects.
+
+4.2 NEW JOINERS
+4.2.1 Standard access
+Before the first day, IT creates the joiner's AMS account and gives the standard access for their role: AMS Mail, AMS Chat, AMS Meet, AMS People, AMS Expense, AMS Learn, and AMS OneDrive.
+4.2.2 Project and client access
+Access to client projects is not part of standard access. The manager requests it through ServiceDesk (category ACC) once the joiner is assigned to a project.
+4.2.3 Contractors and interns
+Contractor and intern accounts expire automatically on the end date in their contract and can be extended only by the hiring manager.
+
+4.3 REQUESTING ACCESS
+4.3.1 How to request
+Additional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.
+4.3.2 Approvals
+Every access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.
+4.3.3 Timing
+Approved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days.
+
+4.4 ADMIN AND PRIVILEGED ACCESS
+4.4.1 No admin rights by default
+Employees do not have local administrator rights on their laptops. Software is installed through the Software Centre.
+4.4.2 Developer exception
+Employees with a Developer build laptop may request temporary local administrator rights through ServiceDesk (category ACC), with manager and IT and Security approval. Admin rights expire after 90 days and must be requested again.
+4.4.3 Privileged accounts
+People who administer servers, cloud platforms, or databases use a separate privileged account, never their everyday account. Privileged accounts must use a hardware security key, as set out in the Password and Sign-in Standard (IT-PWD-2026).
+
+4.5 CHANGING ROLES
+When an employee moves to a new team or project, access needed only for the old role is removed within 5 working days of the move. The new manager requests any new access. Keeping old access "just in case" is not allowed.
+
+4.6 LEAVING AMS
+Access to all AMS systems ends at 18:00 local time on the last working day. For a dismissal, access is removed immediately when the employee is told. Client system access is removed by the client on AMS's request on the same day.
+
+4.7 ACCESS REVIEWS
+4.7.1 Quarterly reviews
+Managers review their team's access every quarter, in January, April, July, and October. Access that is no longer needed is removed within 10 working days of the review.
+4.7.2 Restricted systems
+Access to Restricted systems is reviewed every month by the system owner.
+
+4.8 SHARED AND SERVICE ACCOUNTS
+Shared accounts, where several people use one username and password, are not allowed. Automated processes use service accounts, which have a named owner and are reviewed every quarter.
+
+4.9 CONTACT
+Questions about access go to IT ServiceDesk at it-helpdesk@ams.example.
+
+5. PASSWORD AND SIGN-IN STANDARD
+Reference: IT-PWD-2026 | Version: 3.0 | Effective: 1 April 2026
+5.1 PURPOSE AND SCOPE
+This standard sets the rules for passwords and sign-in for every AMS account. Version 3.0 removes the old rule that passwords must be changed every 90 days.
+
+5.2 PASSWORDS
+5.2.1 Length
+Passwords must be at least 14 characters long. AMS recommends a passphrase of four or more unrelated words, for example "lamp river cotton seventy".
+5.2.2 No forced changes
+Passwords do not expire. A password must be changed only if it may have been seen or stolen, or if IT and Security asks for it.
+5.2.3 Blocked passwords
+The sign-in page rejects passwords found in known data leaks and passwords that contain "AMS", the employee's name, or the current year.
+5.2.4 Never share
+Passwords must never be shared, including with managers or IT. AMS IT will never ask for your password by email, chat, or phone.
+
+5.3 PASSWORD MANAGER
+Employees store work passwords in AMS Vault, the approved password manager. Passwords must not be kept in documents, spreadsheets, notes apps, or browsers on personal devices.
+
+5.4 TWO-STEP SIGN-IN (MFA)
+5.4.1 Required for everyone
+Every AMS account uses two-step sign-in: the password plus approval in the AMS Authenticator app.
+5.4.2 Hardware security keys
+A hardware security key is required instead of the app for employees at grade L5 and above, for privileged accounts, and for employees in Finance and People Operations with payroll access. IT issues the key.
+5.4.3 No SMS codes
+Text message (SMS) codes are not accepted.
+5.4.4 Unexpected approval requests
+If AMS Authenticator asks you to approve a sign-in you did not start, deny it and report it as a security incident.
+
+5.5 LOCKOUTS AND RESETS
+5.5.1 Lockout
+An account is locked for 15 minutes after 3 failed sign-in attempts.
+5.5.2 Self-service reset
+A forgotten password is reset with the self-service reset link on the AMS sign-in page, using AMS Authenticator to confirm identity.
+5.5.3 IT reset
+If self-service does not work, raise a ServiceDesk ticket (category ACC) or call the IT help line (extension 4357). IT confirms identity by video call before resetting.
+
+5.6 NEW PHONE OR LOST SECURITY KEY
+A new phone must be set up in AMS Authenticator before the old phone is reset. If the old phone is lost, call the IT help line to move AMS Authenticator to the new phone. A lost hardware security key is reported the same day through ServiceDesk (category SEC); a replacement is issued within 2 working days.
+
+5.7 CONTACT
+Questions about this standard go to IT ServiceDesk at it-helpdesk@ams.example.
+
+6. DATA HANDLING STANDARD
+Reference: IT-DAT-2026 | Version: 1.0 | Effective: 1 April 2026
+6.1 PURPOSE AND SCOPE
+The Code of Conduct (LEG-COC-2026) classifies AMS information as Public, Internal, Confidential, or Restricted. This standard explains what each class means and how to store, share, and dispose of information in each class. When unsure, treat information as the higher class.
+
+6.2 THE FOUR CLASSES
+6.2.1 Public
+Information approved for anyone to see, such as the AMS website, published job adverts, and press releases.
+6.2.2 Internal
+Information for AMS employees only, whose leak would cause little harm, such as internal policies, the office holiday calendar, and team meeting notes without client details.
+6.2.3 Confidential
+Information whose leak would harm AMS, a client, or an employee, such as client project documents, contracts, proposals, pricing, salaries, and performance ratings. Client data is at least Confidential.
+6.2.4 Restricted
+The most sensitive information, such as client production data, personal data of a client's customers or patients, bank or health records, passwords, and encryption keys.
+
+6.3 STORING INFORMATION
+6.3.1 Approved places
+Internal and Confidential information is stored in AMS OneDrive, AMS project sites, or the client's own systems. Restricted information is stored only in systems approved for Restricted data, which are listed in the client engagement letter.
+6.3.2 Not allowed
+Confidential and Restricted information must never be stored on personal devices, in personal email, or in personal cloud storage.
+6.3.3 USB storage
+USB storage is blocked on AMS laptops. An exception for an encrypted AMS-issued USB drive can be requested through ServiceDesk (category SEC) and lasts 30 days.
+
+6.4 SHARING INFORMATION
+6.4.1 Inside AMS
+Confidential information is shared only with people who need it for their work.
+6.4.2 Outside AMS
+Confidential information is shared outside AMS only through AMS Share links with an expiry date of at most 30 days, and only when a contract or non-disclosure agreement is in place. Restricted information is never sent by email; it is shared only through the client-approved transfer method.
+6.4.3 AI tools
+AMS Copilot may be used with information up to Confidential. Restricted information must not be entered into any AI tool, and public AI tools must not be used with Confidential or Restricted information.
+
+6.5 PRINTING AND PAPER
+Confidential documents are printed only on AMS secure printers, which release a print job only after the employee taps their access badge. Restricted information is not printed. Paper with Confidential information goes in the locked shredding bins.
+
+6.6 DISPOSAL
+Files are deleted from AMS systems when they are no longer needed, following the client's retention rules. Laptops and drives are wiped by IT before reuse or disposal; employees must not wipe or dispose of AMS devices themselves.
+
+6.7 MISTAKES
+Information sent to the wrong person, or stored in the wrong place, is reported as a security incident within 1 hour under the Security Incident Policy (IT-SIR-2026).
+
+6.8 CONTACT
+Questions about classification go to IT and Security at security@ams.example.
+
+7. SOFTWARE AND SAAS APPROVAL POLICY
+Reference: IT-SWA-2026 | Version: 1.1 | Effective: 1 April 2026
+7.1 PURPOSE AND SCOPE
+This policy explains which software and online services (SaaS) may be used for AMS work and how to request new ones. Unapproved tools can leak client data or bring in malware, so every tool used for work must be approved first. Open-source libraries used inside client code follow the client's own rules and are not covered here.
+
+7.2 THE SOFTWARE CENTRE
+7.2.1 Pre-approved software
+The Software Centre on every AMS laptop lists software that is already approved, such as AMS Mail, AMS Chat, AMS Meet, AMS Connect, AMS Vault, web browsers, PDF tools, and common developer tools.
+7.2.2 Installing
+Employees install software from the Software Centre themselves. No ticket is needed.
+
+7.3 REQUESTING NEW SOFTWARE
+7.3.1 How to request
+Software that is not in the Software Centre is requested through ServiceDesk (category SW), with the product name, what it will be used for, and the type of information it will handle.
+7.3.2 Review
+IT and Security reviews the request within 5 working days. Tools that will handle Confidential or Restricted information also need approval from Legal and Compliance, which can add up to 10 working days.
+7.3.3 Paid software
+Paid software also needs budget approval from the department head and is bought by Finance through a purchase request. Employees must not buy software with a personal card or a corporate card and claim it in AMS Expense.
+7.3.4 Free trials
+Free trials of online services count as new software and need the same approval, because they often ask for company data.
+
+7.4 NOT ALLOWED
+7.4.1 Using an online service for AMS work that has not been approved.
+7.4.2 Signing up for a work tool with a personal email address, or with an AMS email address without approval.
+7.4.3 Installing browser extensions that are not on the approved list in the Software Centre.
+7.4.4 Using a client's software licence for non-client work.
+
+7.5 CLIENT-PROVIDED SOFTWARE
+Software that a client requires for its project may be installed after the client confirms it in writing and the project manager raises a ServiceDesk request (category SW). It is removed when the project ends.
+
+7.6 REMOVAL
+IT and Security may remove software that is unapproved, unused for 6 months, or found to be unsafe. Employees are told before removal, except when the software is a security risk.
+
+7.7 CONTACT
+Questions about software go to IT ServiceDesk at it-helpdesk@ams.example.
+
+8. SECURITY INCIDENT POLICY
+Reference: IT-SIR-2026 | Version: 1.3 | Effective: 1 April 2026
+8.1 PURPOSE AND SCOPE
+This policy explains what a security incident is, how and when to report one, and how AMS handles it. Fast reporting limits the damage, so every employee is expected to report anything suspicious, even if they are not sure it is an incident.
+
+8.2 WHAT IS A SECURITY INCIDENT
+A security incident is any event that may harm the confidentiality, integrity, or availability of AMS or client information or systems. Examples:
+8.2.1 Clicking a link or opening an attachment in a suspicious email, or entering a password on a suspicious page.
+8.2.2 Sending Confidential or Restricted information to the wrong person.
+8.2.3 A sign-in approval request in AMS Authenticator that you did not start.
+8.2.4 Malware warnings, ransom messages, or a laptop behaving strangely.
+8.2.5 A lost or stolen laptop, phone, or hardware security key.
+8.2.6 Someone asking for passwords, codes, or client data while pretending to be IT, a manager, or a client.
+
+8.3 HOW AND WHEN TO REPORT
+8.3.1 Report within 1 hour
+Suspected incidents must be reported as soon as possible and no later than 1 hour after you notice them.
+8.3.2 Lost or stolen devices
+For a lost or stolen device, the reporting time is 24 hours, as set out in the IT Equipment Policy (IT-EQP-2026).
+8.3.3 Where to report
+Report through ServiceDesk (category SEC), by email to security@ams.example, or by calling the IT help line (extension 4357), which is available 24 hours a day. Suspicious emails are reported with the Report Phishing button in AMS Mail.
+8.3.4 Data leaks
+A suspected leak of client or personal data is also reported to Legal and Compliance, as required by the Code of Conduct.
+
+8.4 WHAT NOT TO DO
+8.4.1 Do not switch off an affected laptop; disconnect it from Wi-Fi instead, so that evidence is kept.
+8.4.2 Do not try to investigate or clean the problem yourself.
+8.4.3 Do not forward a suspicious email to colleagues to ask whether it is real.
+8.4.4 Do not delete anything until IT and Security says so.
+
+8.5 SEVERITY LEVELS
+8.5.1 SEV1 (Critical)
+Client or personal data is confirmed exposed, ransomware is active, or many people or systems are affected. The response starts at once, 24 hours a day.
+8.5.2 SEV2 (High)
+One account or device with access to Confidential or Restricted data is compromised but contained. The response starts within 4 hours.
+8.5.3 SEV3 (Low)
+An attempt is blocked, a phishing email is reported without a click, or an encrypted device is lost. The response starts within 1 working day.
+
+8.6 HOW AMS RESPONDS
+8.6.1 Response team
+Incidents are handled by the Security Incident Response Team (SIRT), led by the Head of IT and Security. For SEV1 and SEV2, Legal and Compliance and the affected client's account director join the SIRT.
+8.6.2 Steps
+The SIRT follows four steps: assess and contain, investigate, recover, and review. A written review with lessons learned is completed within 10 working days of closing a SEV1 or SEV2 incident.
+8.6.3 Regulators
+In India, Legal and Compliance reports qualifying cyber security incidents to CERT-In within 6 hours of becoming aware of them, as required by Indian law.
+8.6.4 Clients
+Clients are told about incidents affecting their data within the time set in their contract, and never later than 72 hours after the incident is confirmed.
+
+8.7 NO BLAME FOR REPORTING
+Employees who report an incident quickly, including their own mistake, will not be disciplined for the mistake itself. Hiding or delaying an incident is a breach of the Code of Conduct.
+
+8.8 CONTACT
+IT and Security: security@ams.example or the IT help line (extension 4357).
+
+9. YOUR FIRST DAY: LAPTOP AND ACCOUNT SETUP
+Reference: IT-GDE-DAY1 | Version: 1.2 | Last updated: 1 April 2026
+9.1 BEFORE YOUR FIRST DAY
+About 3 working days before you join, you receive a welcome email at your personal email address with your AMS username and a one-time password. The one-time password works only for your first sign-in and expires 7 days after your joining date.
+
+9.2 COLLECTING YOUR LAPTOP
+Bengaluru and Pune: collect your laptop from the office IT desk at 09:30 on your first day, before the company induction. Bring photo ID.
+Austin: your laptop is shipped to your home address to arrive before your first day. If it has not arrived, go to the Austin IT desk on the next anchor day (Tuesday or Thursday).
+Fully remote joiners: your laptop is shipped by courier; IT contacts you to agree a delivery date.
+
+9.3 SETTING UP YOUR ACCOUNT
+Step 1: Start the laptop and sign in with your AMS username and the one-time password.
+Step 2: Create your own password of at least 14 characters, following the Password and Sign-in Standard (IT-PWD-2026).
+Step 3: Install AMS Authenticator on your phone and scan the code shown on screen. This sets up two-step sign-in.
+Step 4: Open AMS Vault and save your new password.
+Step 5: If you are not in an AMS office, connect to AMS Connect (see the VPN guide, IT-GDE-VPN).
+Step 6: Optional: install the AMS Mobile app on your phone to read work email and chat. This is the only approved way to use work email on a personal phone.
+
+9.4 YOUR FIRST WEEK
+9.4.1 Mandatory training
+The Onboarding and Exit Policy gives you 30 days to complete the mandatory trainings in AMS Learn. Do the Information Security training first: your access to client systems is not approved until it is complete.
+9.4.2 Project access
+Your manager requests access to client projects through ServiceDesk (category ACC) once you are assigned to a project.
+9.4.3 Accessories
+Request a monitor, keyboard, mouse, or headset through ServiceDesk (category HW).
+
+9.5 COMMON FIRST-DAY PROBLEMS
+The one-time password does not work: it may have expired. Call the IT help line (extension 4357); IT confirms your identity by video call and sends a new one.
+AMS Authenticator does not show a code: check that your phone's date and time are set automatically.
+You cannot see AMS People or AMS Expense: your account is created before your first day, but some systems take until 12:00 on day one to show your profile.
+
+10. HOW TO RAISE A SERVICEDESK TICKET
+Reference: IT-GDE-SD | Version: 1.4 | Last updated: 1 April 2026
+10.1 WHAT SERVICEDESK IS FOR
+ServiceDesk is the IT support system. Use it for laptop problems, access requests, software requests, network and VPN problems, and anything security-related. HR questions go to People Operations through AMS People, and office questions, such as badges and parking, go to Facilities.
+
+10.2 HOW TO RAISE A TICKET
+Step 1: Open ServiceDesk from the AMS intranet or the AMS Mobile app. If you cannot sign in, email it-helpdesk@ams.example or call the IT help line (extension 4357).
+Step 2: Choose a category (section 3).
+Step 3: Describe the problem: what you were doing, the exact error message or error code, and when it started. A screenshot helps.
+Step 4: Submit. You receive a ticket number in the format SD-123456 by email. Quote it in every follow-up.
+
+10.3 CATEGORIES
+HW: hardware, such as a broken laptop, monitor, or headset, or a request for new equipment.
+ACC: access, such as a new system, a password reset, or temporary admin rights.
+SW: software, such as a request for software that is not in the Software Centre.
+NET: network and VPN problems, including AMS Connect error codes.
+SEC: security, such as a lost device, a suspicious sign-in, or data sent to the wrong person.
+MOB: the AMS Mobile app and AMS Authenticator on phones.
+
+10.4 PRIORITIES AND RESPONSE TIMES
+IT sets the priority from the description. Times are in working hours and working days unless stated.
+P1 (Critical): many people cannot work, or a security incident is in progress. First response within 30 minutes, 24 hours a day; target fix within 4 hours.
+P2 (High): one person cannot work at all, for example a laptop that does not start. First response within 2 hours; target fix within 2 working days.
+P3 (Medium): work is possible with a workaround, for example a slow laptop or one application failing. First response within 1 working day; target fix within 5 working days.
+P4 (Low): requests, such as a second monitor or new software. First response within 2 working days; target completion within 10 working days.
+
+10.5 SERVICEDESK HOURS
+Bengaluru and Pune: 08:00 to 20:00 IST, Monday to Friday. Austin: 08:00 to 18:00 Central Time, Monday to Friday. Outside these hours, only P1 tickets and security incidents are handled, through the IT help line (extension 4357).
+
+10.6 OFFICE IT DESKS
+Bengaluru: 3rd floor, open 09:30 to 18:00 on working days. Pune: ground floor, open 09:30 to 18:00 on working days. Austin: open on the Tuesday and Thursday anchor days only, 09:00 to 17:00. IT desks hand out loan laptops and accessories and help with problems in person, but every visit still needs a ticket.
+
+10.7 ESCALATION
+If a ticket misses its target time, reply to the ticket email with "ESCALATE" in the subject. The ServiceDesk team lead responds within 1 working day.
+
+11. AMS CONNECT VPN: SETUP AND TROUBLESHOOTING
+Reference: IT-GDE-VPN | Version: 2.0 | Last updated: 1 July 2026
+11.1 WHEN YOU NEED THE VPN
+AMS Connect is the AMS VPN. The Remote and Hybrid Work Policy requires it whenever you work outside an AMS office, and on public Wi-Fi it must be connected before you open any AMS system. In the office, you do not need it. AMS Connect replaced the old SecureLink VPN on 30 June 2026; SecureLink no longer works.
+
+11.2 SETTING UP AMS CONNECT
+Step 1: Open the Software Centre and install AMS Connect. New laptops already have it.
+Step 2: Open AMS Connect and sign in with your AMS email address and password.
+Step 3: Approve the sign-in in AMS Authenticator within 60 seconds.
+Step 4: Choose "Automatic" as the gateway. AMS Connect picks the nearest gateway: Bengaluru, Pune, or Austin.
+Step 5: Wait for the status to show "Connected". AMS Connect reconnects automatically after sleep.
+
+11.3 ERROR CODES
+AC-101 Certificate expired: your laptop has not connected to the AMS network for more than 30 days. Connect once in an office, or raise a ServiceDesk ticket (category NET) to renew the certificate remotely.
+AC-203 Sign-in approval timed out: you did not approve the AMS Authenticator request within 60 seconds. Try again and approve faster.
+AC-305 Device not compliant: your laptop is missing security updates or disk encryption is off. Install pending updates from the Software Centre, restart, and try again.
+AC-410 Account disabled: your account has been disabled, for example after your last working day or during a security investigation. Contact your manager or IT ServiceDesk.
+AC-502 Gateway unreachable: the network you are on blocks VPN traffic, which happens on some hotel and airport Wi-Fi. Use a phone hotspot instead.
+Error 809: this is an error from the old SecureLink VPN. It means SecureLink is still installed. Uninstall SecureLink and install AMS Connect from the Software Centre.
+
+11.4 SLOW CONNECTION
+If AMS Connect is slow, choose the nearest gateway manually instead of "Automatic". Video calls in AMS Meet do not go through the VPN, so a slow VPN does not affect calls.
+
+11.5 TRAVELLING ABROAD
+AMS Connect works in most countries. It does not work in countries on the Legal and Compliance restricted list, where working is not allowed anyway. Before an approved trip abroad, connect once in the office so that the certificate does not expire while you travel.
+
+11.6 GETTING HELP
+If none of these steps work, raise a ServiceDesk ticket (category NET) with the error code, or call the IT help line (extension 4357).
+
+12. HOW TO SPOT AND REPORT PHISHING
+Reference: IT-GDE-PHISH | Version: 1.1 | Last updated: 1 April 2026
+12.1 WHAT PHISHING IS
+Phishing is a message that pretends to come from someone you trust, such as IT, a manager, a client, or a delivery company, to make you click a link, open an attachment, share a password, or send money or data. It can arrive by email, chat, text message, or phone call.
+
+12.2 WARNING SIGNS
+12.2.1 Urgency or pressure, such as "your account will be closed today" or a senior leader asking for an urgent favour.
+12.2.2 A sender address that looks almost right, such as ams-example.com instead of ams.example.
+12.2.3 A request for a password, an AMS Authenticator code, gift cards, or a change of bank details.
+12.2.4 Unexpected attachments or links to sign-in pages.
+12.2.5 External email from outside AMS shows an "EXTERNAL" label at the top in AMS Mail. A message that claims to be from AMS but carries this label is suspicious.
+
+12.3 HOW TO REPORT
+Step 1: In AMS Mail, select the message and click Report Phishing. The message is sent to IT and Security and removed from your inbox.
+Step 2: For a suspicious chat message, phone call, or text message, report it through ServiceDesk (category SEC) or to security@ams.example.
+Step 3: Do not forward the message to colleagues, and do not reply to it.
+
+12.4 IF YOU CLICKED OR ENTERED YOUR PASSWORD
+Step 1: Disconnect your laptop from Wi-Fi. Do not switch it off.
+Step 2: Call the IT help line (extension 4357) straight away. This is a security incident, which must be reported within 1 hour under the Security Incident Policy (IT-SIR-2026).
+Step 3: If you entered your password, change it from another device, or let IT reset it during the call.
+You will not be disciplined for clicking a phishing link if you report it quickly.
+
+12.5 PHISHING SIMULATIONS
+IT and Security sends practice phishing emails every month. Clicking one only shows a short training page. Employees who click two practice emails within 6 months are assigned an extra 20-minute course in AMS Learn, which must be completed within 14 days.
+
+12.6 MONEY AND BANK DETAILS
+Requests to change a supplier's or employee's bank details, or to make an urgent payment, are always confirmed by phone using a number already known to AMS, never a number given in the message. Finance does not change bank details based on email alone.

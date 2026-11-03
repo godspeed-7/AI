@@ -1,7 +1,7 @@
 """Build the AMS HR sample data as CSV files (for future agent tools).
 
 In:  the rules in ../policies/ (entitlements, probation, expense
-     limits) and the holiday dates in holiday_calendar_2026.txt.
+     limits) and the holiday dates in the Employee Handbook (chapter 6).
 Out: four CSV files in this folder:
        employees.csv       40 employees in Bengaluru, Pune, and Austin
        leave_balances.csv  2026 entitlement, carry-over, used, pending
@@ -27,7 +27,11 @@ from datetime import date, timedelta
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent
-HOLIDAY_FILE = DATA_DIR.parent / "policies" / "holiday_calendar_2026.txt"
+HOLIDAY_FILE = (
+    DATA_DIR.parent / "policies" / "people" / "employee_handbook.txt"
+)
+# The holiday calendar is chapter 6 of the Employee Handbook.
+HOLIDAY_CHAPTER = 6
 
 # The fixed "current date" the data describes.
 TODAY = date(2026, 11, 16)
@@ -167,7 +171,11 @@ def us_daily_allowance(grade: str) -> int:
 # --- Helpers -------------------------------------------------------------
 def load_holidays() -> dict[str, set[date]]:
     """Read each office's fixed holidays from the holiday calendar."""
-    sections = {"Bengaluru": "3.1", "Pune": "4.1", "Austin": "6.1"}
+    sections = {
+        office: f"{HOLIDAY_CHAPTER}.{section}"
+        for office, section in {"Bengaluru": "3.1", "Pune": "4.1",
+                                "Austin": "6.1"}.items()
+    }
     lines = HOLIDAY_FILE.read_text(encoding="utf-8").splitlines()
     holidays = {}
 
@@ -179,7 +187,7 @@ def load_holidays() -> dict[str, set[date]]:
             match = re.search(r"\| (\d{1,2} \w+ \d{4}) \|", line)
             if match:
                 dates.add(_parse_date(match.group(1)))
-            elif re.match(r"\d+\.\d* ", line):
+            elif re.match(r"\d+\.\d+(?:\.\d+)* ", line):
                 break  # next section
         holidays[office] = dates
 

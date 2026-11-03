@@ -1,0 +1,336 @@
+AMS
+LEGAL AND COMPLIANCE HANDBOOK
+Document ID: LEG-HBK-2026 | Version: 1.0 | Effective: 1 April 2026
+Document owner: Legal and Compliance | Document type: Handbook | Applies to all AMS employees, interns, and contractors
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company. Amounts are illustrative and nothing here is legal, tax, or immigration advice.
+
+1. ABOUT THIS HANDBOOK
+1.1 Purpose
+This handbook sets out how everyone at AMS is expected to behave and the legal rules that protect employees, clients, and the company: the Code of Conduct, harassment, bribery, speaking up, privacy, public communication, and contracts.
+
+1.2 Who this handbook applies to
+It applies in all offices, at client sites, on business travel, at company events, and online when representing AMS. Chapter 3 applies to the India offices and chapter 4 to the United States.
+
+1.3 How this handbook is organised
+Chapter 1: About this handbook
+Chapter 2: Code of Conduct
+Chapter 3: Prevention of Sexual Harassment (POSH) Policy (India)
+Chapter 4: Equal Employment Opportunity and Anti-harassment Policy (united States)
+Chapter 5: Anti-bribery and Anti-corruption Policy
+Chapter 6: Whistleblower and Ethics Line Procedure
+Chapter 7: Employee Privacy Notice
+Chapter 8: Social Media and External Communications Policy
+Chapter 9: NDAs and Contracts: Who Can Sign What
+
+1.4 Definitions
+Conflict of interest: a situation where personal interests could conflict with AMS's interests (chapter 2).
+Gift or hospitality: anything of value given or received, such as presents, meals, travel, or tickets.
+Government official: anyone working for a government body, including employees of state-owned banks and hospitals (chapter 5).
+Internal Committee (IC): the committee that handles sexual harassment complaints in each India office (chapter 3).
+Retaliation: treating someone unfairly because they raised a concern or took part in an investigation.
+Personal data: any information about an identifiable person, such as an employee or a client's customer (chapter 7).
+
+1.5 Roles and responsibilities
+Employees follow this handbook and speak up about concerns.
+Managers who receive a concern pass it on promptly and never retaliate.
+Legal and Compliance owns this handbook, reviews contracts, approves gifts and NDAs, and investigates reports.
+The Internal Committees in Bengaluru and Pune handle sexual harassment complaints.
+The privacy officer handles requests about personal data. The Audit Committee of the AMS board handles reports about directors.
+
+1.6 Revision history
+Version 1.0, 1 April 2026: first edition, bringing the Code of Conduct (version 4.0) and the other Legal and Compliance policies and guides together as chapters.
+
+1.7 Questions
+If something is unclear or seems to conflict with another handbook, contact the owner of this handbook (Legal and Compliance). Where a chapter and the law disagree, the law applies.
+
+2. CODE OF CONDUCT
+Reference: LEG-COC-2026 | Version: 4.0 | Effective: 1 April 2026
+2.1 PURPOSE AND SCOPE
+This Code of Conduct sets out how everyone who works for or with AMS is expected to behave. It applies to employees, interns, and contractors in all offices, at client sites, at company events, and online when representing AMS.
+
+2.2 CORE PRINCIPLES
+AMS expects everyone to act with integrity, treat people with respect, protect information entrusted to us, and follow the law and company policies. When a situation is not covered by a policy, ask: is it legal, is it fair, and would I be comfortable if it were made public?
+
+2.3 CONFLICTS OF INTEREST
+2.3.1 Disclosure
+Employees must disclose any situation where personal interests could conflict with AMS's interests, such as outside employment, a directorship, a family member working for a vendor or client, or a financial interest in a vendor or competitor. Disclosures are made on form COI-F-01 within 15 days of the situation arising.
+2.3.2 Outside work
+Employees need written approval from their manager and Legal and Compliance before taking up any paid outside work. Outside work for a competitor or client of AMS is not allowed.
+
+2.4 GIFTS AND HOSPITALITY
+2.4.1 Accepting gifts
+Employees may accept gifts of modest value from a business contact, up to INR 2,500 or USD 50 in total per source per year. Cash or cash equivalents, such as gift cards, must never be accepted.
+2.4.2 Declaring gifts
+Any gift above the limit must be declared on form GIFT-F-04 within 7 days and either returned or handed to Legal and Compliance.
+2.4.3 Offering gifts
+Gifts to clients or government officials need prior approval from Legal and Compliance.
+
+2.5 RESPECTFUL WORKPLACE AND ANTI-HARASSMENT
+2.5.1 Zero tolerance
+AMS does not tolerate harassment, bullying, or discrimination of any kind, including sexual harassment. This applies in the office, while working remotely, on business travel, and at company events.
+2.5.2 Internal Committee (India offices)
+For complaints of sexual harassment in the India offices, AMS has an Internal Committee (IC). The IC is chaired by a senior woman employee and includes an external member. Complaints can be sent to internal-committee@ams.example.
+2.5.3 Making a complaint in India
+A complaint to the Internal Committee should be made in writing within 3 months of the incident, or of the last incident in a series. The IC may extend this by a further 3 months if there were reasons that prevented an earlier complaint. The IC aims to complete its inquiry within 90 days.
+2.5.4 Making a complaint in the United States
+Employees in the Austin office report harassment to People Operations (United States) or through the Ethics line. Complaints are investigated promptly by a trained investigator.
+2.5.5 Confidentiality and no retaliation
+Complaints and investigations are kept confidential to the extent possible. Retaliation against anyone who raises a concern in good faith, or who takes part in an investigation, is itself misconduct.
+
+2.6 SPEAKING UP
+Employees should report suspected fraud, bribery, data misuse, safety risks, or other breaches of this Code. Reports can be made to a manager, to Legal and Compliance, or through the Ethics line at ethics@ams.example. Reports to the Ethics line can be anonymous. AMS will not take action against anyone for a report made in good faith, even if the concern turns out to be unfounded.
+
+2.7 INFORMATION AND DATA PROTECTION
+2.7.1 Classification
+AMS information is classified as Public, Internal, Confidential, or Restricted. Client data is always Confidential or Restricted.
+2.7.2 Handling
+Confidential and Restricted information must be stored only on AMS-approved systems. It must not be copied to personal devices, personal email, or public AI tools.
+2.7.3 Data incidents
+Suspected data leaks must be reported to IT ServiceDesk and Legal and Compliance immediately.
+
+2.8 COMPANY ASSETS AND PUBLIC STATEMENTS
+2.8.1 Company assets
+Laptops, software, and accounts are provided for business use. Limited personal use is acceptable if it does not affect work or security.
+2.8.2 Social media and the press
+Only authorised spokespeople may speak on behalf of AMS. Employees must not share confidential information or client names on social media.
+
+2.9 CONSEQUENCES OF BREACHES
+Breaches of this Code may lead to disciplinary action, including a verbal warning, a written warning, a final written warning, or termination of employment. Serious misconduct, such as fraud, harassment, or deliberate data misuse, may lead to immediate termination.
+
+2.10 ANNUAL CERTIFICATION
+All employees must complete Code of Conduct training and certify that they have read this Code each year by 31 March in AMS Learn. New joiners complete the training within 30 days of joining.
+
+2.11 CONTACT
+For questions about this Code, contact Legal and Compliance or the Ethics line at ethics@ams.example.
+
+3. PREVENTION OF SEXUAL HARASSMENT (POSH) POLICY (INDIA)
+Reference: LEG-POSH-2026 | Version: 2.0 | Effective: 1 April 2026
+3.1 PURPOSE AND SCOPE
+This policy sets out how AMS prevents and handles sexual harassment of women at its India offices, in line with the Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013 (the POSH Act). It adds detail to section 2.5 (Code of Conduct, LEG-COC-2026). It covers the office, client sites, business travel, company transport, company events, and online communication. Harassment of anyone, of any gender, is also prohibited under the Code of Conduct.
+
+3.2 WHAT IS SEXUAL HARASSMENT
+Sexual harassment includes unwelcome physical contact or advances, a demand or request for sexual favours, sexually coloured remarks, showing pornography, and any other unwelcome physical, verbal, or non-verbal conduct of a sexual nature. Implied promises of better treatment, threats about a person's job, or creating a hostile work environment in connection with such conduct are also harassment.
+
+3.3 INTERNAL COMMITTEES
+3.3.1 One committee per office
+Bengaluru and Pune each have their own Internal Committee (IC), as the law requires for each office with 10 or more employees.
+3.3.2 Members
+Each IC is chaired by a senior woman employee (the Presiding Officer), has at least two employee members, and one external member from an organisation working on women's rights. At least half of the members are women. Members serve for up to 3 years.
+3.3.3 Contact
+Complaints are sent to internal-committee@ams.example. The names of IC members are on the noticeboard in each office and in AMS People.
+
+3.4 MAKING A COMPLAINT
+3.4.1 Time limit
+A complaint is made in writing within 3 months of the incident, or of the last incident in a series. The IC may extend this by a further 3 months if there were reasons that prevented an earlier complaint.
+3.4.2 Help with writing
+If the complainant cannot write the complaint, any IC member helps them to do so.
+3.4.3 Conciliation
+Before starting an inquiry, the IC may, at the complainant's request only, try to settle the matter through conciliation. No money settlement can be part of conciliation.
+
+3.5 THE INQUIRY
+3.5.1 Process
+Both sides are heard and may present witnesses and documents. Lawyers are not allowed to represent either side during the inquiry.
+3.5.2 Timelines
+The IC aims to complete its inquiry within 90 days. Its report goes to AMS within 10 days of completing the inquiry, and AMS acts on the recommendations within 60 days of receiving the report.
+3.5.3 Interim relief
+During the inquiry, the IC may recommend relief for the complainant, such as transfer of either person to another team or office, or paid leave of up to 3 months for the complainant, in addition to their normal leave.
+
+3.6 OUTCOMES AND APPEALS
+If the complaint is proven, the IC recommends action under the Code of Conduct, which can include termination of employment. Either side may appeal the recommendations within 90 days. A complaint that is found to be knowingly false or malicious may lead to action against the person who made it; a complaint that simply cannot be proven is not false.
+
+3.7 CONFIDENTIALITY AND NO RETALIATION
+The identities of the people involved and the details of the inquiry are confidential and are not published. Retaliation against a complainant or a witness is misconduct.
+
+3.8 AWARENESS AND TRAINING
+All India employees complete POSH training in AMS Learn every year. IC members receive additional training. AMS files an annual report on POSH complaints with the District Officer, as the law requires.
+
+4. EQUAL EMPLOYMENT OPPORTUNITY AND ANTI-HARASSMENT POLICY (UNITED STATES)
+Reference: LEG-EEO-US-2026 | Version: 1.1 | Effective: 1 April 2026
+4.1 PURPOSE AND SCOPE
+AMS provides equal employment opportunity and does not tolerate discrimination or harassment. This policy adds US-specific detail to section 2.5 (Code of Conduct, LEG-COC-2026). It covers hiring, pay, promotion, training, discipline, and every other part of employment.
+
+4.2 EQUAL OPPORTUNITY
+AMS makes employment decisions based on merit and business need. AMS does not discriminate on the basis of race, colour, religion, sex, pregnancy, sexual orientation, gender identity, national origin, age (40 and over), disability, genetic information, veteran status, or any other characteristic protected by federal, Texas, or local law.
+
+4.3 HARASSMENT
+Harassment is unwelcome conduct based on a protected characteristic that is severe or frequent enough to create an intimidating, hostile, or offensive work environment, or that is made a condition of employment. Sexual harassment includes unwelcome sexual advances, requests for sexual favours, and other verbal or physical conduct of a sexual nature.
+
+4.4 REASONABLE ACCOMMODATION
+AMS provides reasonable accommodation for qualified employees with disabilities, for pregnancy and related conditions, and for sincerely held religious beliefs, unless this would cause undue hardship. Requests go to People Operations (United States) at people-ops-us@ams.example.
+
+4.5 HOW TO REPORT
+4.5.1 Channels
+Employees report discrimination or harassment to People Operations (United States), to any manager, or through the Ethics line at ethics@ams.example, which can be anonymous.
+4.5.2 Managers
+A manager who receives a report, or sees harassment, must tell People Operations (United States) within 1 working day.
+
+4.6 INVESTIGATION
+A trained investigator starts the investigation within 5 working days of the report. Most investigations are completed within 30 days. Both sides are told the outcome, to the extent privacy allows.
+
+4.7 NO RETALIATION
+Retaliation against anyone who reports in good faith or takes part in an investigation is prohibited and is itself misconduct.
+
+4.8 OUTSIDE AGENCIES
+Employees may also file a charge with the US Equal Employment Opportunity Commission (EEOC), generally within 180 days of the incident, or with the Texas Workforce Commission. Using the internal process first is encouraged but not required.
+
+4.9 TRAINING
+All US employees complete anti-harassment training in AMS Learn every year, and managers complete an additional managers' module.
+
+5. ANTI-BRIBERY AND ANTI-CORRUPTION POLICY
+Reference: LEG-ABC-2026 | Version: 1.2 | Effective: 1 April 2026
+5.1 PURPOSE AND SCOPE
+AMS does not pay or accept bribes, in any country, for any reason. This policy explains what that means in practice. AMS must comply with India's Prevention of Corruption Act, 1988, the US Foreign Corrupt Practices Act (FCPA), and the laws of every country where it works.
+
+5.2 WHAT IS A BRIBE
+A bribe is anything of value offered, promised, given, or accepted to improperly influence a decision. "Anything of value" includes cash, gifts, meals, travel, jobs or internships for relatives, donations, and discounts.
+
+5.3 NOT ALLOWED
+5.3.1 Bribes
+Offering, paying, requesting, or accepting a bribe, directly or through someone else.
+5.3.2 Facilitation payments
+Small unofficial payments to speed up a routine government action, such as a visa, a licence, or a customs clearance. These are not allowed even where they are common. The only exception is a payment demanded under threat to someone's safety, which must be reported to Legal and Compliance within 24 hours.
+5.3.3 Political donations
+Donations to political parties or candidates on behalf of AMS.
+
+5.4 GIFTS AND HOSPITALITY
+5.4.1 Receiving
+The limits for receiving gifts are in section 2.4 (Code of Conduct): up to INR 2,500 or USD 50 in total per source per year, and never cash or gift cards.
+5.4.2 Giving to clients
+Gifts and hospitality to clients need prior approval from Legal and Compliance, as set out in the Code of Conduct. Client entertainment also follows the Travel and Expense Policy limits (form ENT-F-03).
+5.4.3 Government officials
+Nothing of value may be given to a government official, including employees of state-owned banks and hospitals, without prior written approval from Legal and Compliance. Many AMS clients in banking and healthcare are state-owned, so check before offering even a meal.
+5.4.4 During a tender
+No gifts or hospitality may be given to, or accepted from, anyone involved in a tender or contract decision while it is open.
+
+5.5 THIRD PARTIES
+Agents, consultants, and partners who deal with clients or government bodies on AMS's behalf are checked by Legal and Compliance before they are hired, and their contracts include anti-bribery terms.
+
+5.6 CHARITABLE DONATIONS
+Donations by AMS need approval from a director (grade L6) and Legal and Compliance, and are made only to registered charities.
+
+5.7 REPORTING
+Report any request for a bribe, or any suspected bribery, to Legal and Compliance or through the Ethics line at ethics@ams.example. Employees who refuse to pay a bribe will not be penalised, even if AMS loses business as a result.
+
+5.8 TRAINING
+Employees in Sales, Finance, and Delivery, and all employees at grade L5 and above, complete anti-bribery training in AMS Learn every year.
+
+6. WHISTLEBLOWER AND ETHICS LINE PROCEDURE
+Reference: LEG-WBL-2026 | Version: 1.1 | Effective: 1 April 2026
+6.1 PURPOSE AND SCOPE
+Section 2.6 (Code of Conduct, LEG-COC-2026) asks everyone to speak up about suspected wrongdoing. This procedure explains how reports through the Ethics line are received, investigated, and protected. Everyday workplace complaints, such as a disagreement about workload, go through the Grievance Policy (HR-GRV-2026) instead. Sexual harassment complaints in India go to the Internal Committee under the POSH Policy (LEG-POSH-2026).
+
+6.2 WHAT TO REPORT
+Fraud, bribery, theft, falsified records or expense claims, misuse of client or personal data, safety risks, serious breaches of law or AMS policies, and retaliation against someone who spoke up.
+
+6.3 HOW TO REPORT
+6.3.1 Channels
+By email to ethics@ams.example; through the anonymous web form on the AMS intranet; or by phone to the Ethics line number listed on the intranet. The web form and phone line are run by an independent provider and do not record the caller's identity unless they choose to give it.
+6.3.2 Anonymous reports
+Anonymous reports are accepted. Through the web form, the reporter receives a case number and password to read questions and updates without revealing who they are.
+
+6.4 WHAT HAPPENS NEXT
+6.4.1 Acknowledgement
+Reports are acknowledged within 5 working days.
+6.4.2 Assessment
+Legal and Compliance decides within 10 working days whether an investigation is needed and who will carry it out.
+6.4.3 Investigation
+Investigations aim to finish within 45 days. Complex cases can take longer, and the reporter is told if so.
+6.4.4 Senior leaders
+Reports about a director (grade L6) or a member of the leadership team go directly to the chair of the Audit Committee of the AMS board, not to Legal and Compliance.
+
+6.5 PROTECTION
+6.5.1 No retaliation
+Nobody may be dismissed, demoted, or treated unfairly for a report made in good faith, even if the concern turns out to be unfounded. Retaliation is serious misconduct.
+6.5.2 Confidentiality
+The reporter's identity is shared only with the people who need it for the investigation, and only with the reporter's consent unless the law requires otherwise.
+6.5.3 False reports
+A report that is knowingly false is a breach of the Code of Conduct.
+
+6.6 CONTACT
+Ethics line: ethics@ams.example.
+
+7. EMPLOYEE PRIVACY NOTICE
+Reference: LEG-PRV-2026 | Version: 1.0 | Effective: 1 April 2026
+7.1 PURPOSE AND SCOPE
+This notice explains what personal data AMS keeps about employees, why, who can see it, and what rights employees have. In India it follows the Digital Personal Data Protection Act, 2023. In the United States it follows the applicable federal and Texas laws. Client data is covered by the Data Handling Standard (IT-DAT-2026), not by this notice.
+
+7.2 WHAT AMS COLLECTS
+Identity and contact details; education and employment history; background verification results; bank and tax details; salary, bonus, and benefits; leave and attendance; performance ratings; emergency contacts and dependants for insurance; badge access logs; and IT security logs from AMS devices.
+
+7.3 WHY AMS USES IT
+To pay salaries and provide benefits, to meet legal duties (such as tax and provident fund in India, and payroll taxes in the United States), to manage performance and careers, to keep offices and systems secure, and to contact family in an emergency.
+
+7.4 WHO CAN SEE IT
+Personal data is seen only by people who need it: People Operations, Payroll, the employee's managers (not salary or medical details), IT and Security for security logs, and approved service providers such as the payroll processor and the insurer's third-party administrator. AMS does not sell personal data.
+
+7.5 HOW LONG IT IS KEPT
+Employee records are kept for 7 years after the employee leaves, or longer where the law requires. Job applicants' data is deleted 12 months after the application, unless the applicant agrees to a longer period. Badge access logs are kept for 1 year.
+
+7.6 YOUR RIGHTS
+Employees can ask to see their personal data, correct it, or, where the law allows, have it deleted. Most details can be seen and corrected directly in AMS People. Other requests go to the privacy officer, who replies within 30 days.
+
+7.7 MEDICAL INFORMATION
+Medical details are shared only through approved confidential channels and only to the extent necessary, as the leave policies require. Managers see only that an employee is on sick leave, not the reason.
+
+7.8 CONTACT
+Privacy officer: privacy@ams.example. Complaints that are not resolved can also be raised with the Data Protection Board of India by India employees.
+
+8. SOCIAL MEDIA AND EXTERNAL COMMUNICATIONS POLICY
+Reference: LEG-SOC-2026 | Version: 1.0 | Effective: 1 April 2026
+8.1 PURPOSE AND SCOPE
+Section 2.8.2 (Code of Conduct, LEG-COC-2026) says that only authorised spokespeople may speak for AMS and that employees must not share confidential information or client names on social media. This policy gives practical examples. It applies to personal social media accounts, blogs, forums, podcasts, and conference talks.
+
+8.2 PERSONAL POSTS
+8.2.1 Allowed
+You may say that you work at AMS and give your job title, share AMS's public posts, and write about your skills and general experience.
+8.2.2 Your own view
+When you write about the IT industry or AMS's field, make clear the view is your own, for example "views are my own".
+8.2.3 Not allowed
+Naming AMS clients or client projects, even on LinkedIn; posting photos taken inside the office that show screens, whiteboards, or client project areas; sharing internal information, such as unreleased results, reorganisations, or pricing; and posting anything that would breach the Code of Conduct, such as harassment.
+
+8.3 CLIENT NAMES
+Clients are named publicly only when Legal and Compliance has confirmed that the client agreed in writing. Case studies use the client's name only with that agreement.
+
+8.4 MEDIA AND PRESS
+Journalists' questions, even informal ones, are passed to the communications team at press@ams.example. Employees do not comment to the media on behalf of AMS.
+
+8.5 TALKS, ARTICLES, AND PODCASTS
+Employees who want to speak or write about their work at AMS ask their manager and send the slides or text to Legal and Compliance at least 10 working days before publication.
+
+8.6 MISTAKES
+If you post something by mistake, delete it and tell Legal and Compliance at legal@ams.example straight away.
+
+8.7 BREACHES
+Breaches are handled under the Code of Conduct.
+
+9. NDAS AND CONTRACTS: WHO CAN SIGN WHAT
+Reference: LEG-GDE-CTR | Version: 1.2 | Last updated: 1 April 2026
+9.1 THE BASIC RULE
+Only people with the right authority may sign documents that commit AMS. Signing without authority can make AMS liable and is a breach of the Code of Conduct. The Approval Matrix (FIN-DOA-2026) lists who may approve what.
+
+9.2 NON-DISCLOSURE AGREEMENTS (NDAS)
+9.2.1 Use the AMS template
+Start from the AMS mutual NDA template in the Legal section of the AMS intranet. A mutual NDA protects both sides' information.
+9.2.2 Approval and signing
+Every NDA is approved by Legal and Compliance. Once approved, it may be signed by any employee at grade L5 or above.
+9.2.3 The other side's template
+If a client or vendor insists on its own NDA, send it to Legal and Compliance at legal@ams.example. Review takes up to 3 working days.
+
+9.3 CLIENT CONTRACTS
+Client contracts, statements of work (SOWs), and change requests that change price or scope are reviewed by Legal and Compliance and signed only by a director (grade L6). Project managers may agree on day-to-day matters that do not change price, scope, or dates.
+
+9.4 VENDOR CONTRACTS
+Vendor contracts are reviewed by Legal and Compliance and approved under the purchase limits in the Procurement and Purchasing Policy (FIN-PRO-2026). Clicking "I agree" on an online service's terms is also signing a contract, so free online services need approval under the Software and SaaS Approval Policy (IT-SWA-2026).
+
+9.5 PERSONAL UNDERTAKINGS FOR CLIENTS
+Some clients, often banks, ask each team member to sign a personal confidentiality undertaking before working on their project. Employees may sign one only after Legal and Compliance has reviewed the client's text. Ask your project manager whether it has already been reviewed.
+
+9.6 TIMELINES FOR LEGAL REVIEW
+NDAs on the AMS template: 1 working day.
+NDAs on the other side's template: up to 3 working days.
+Vendor contracts: up to 5 working days.
+Client contracts and SOWs: up to 10 working days.
+
+9.7 CONTACT
+Legal and Compliance: legal@ams.example.

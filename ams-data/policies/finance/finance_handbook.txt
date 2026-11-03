@@ -1,0 +1,339 @@
+AMS
+FINANCE HANDBOOK
+Document ID: FIN-HBK-2026 | Version: 1.0 | Effective: 1 April 2026
+Document owner: Finance | Document type: Handbook | Applies to all AMS employees
+
+TRAINING NOTE: This is a fictional document for RAG-learning exercises only. AMS is not a real company. Amounts are illustrative and nothing here is legal, tax, or immigration advice.
+
+1. ABOUT THIS HANDBOOK
+1.1 Purpose
+This handbook explains how money is spent and approved at AMS: who approves what, business travel and expenses, corporate cards, buying from vendors, paying vendors, and salary advances.
+
+1.2 Who this handbook applies to
+It applies to all employees in all offices. Amounts for India-based employees are in Indian rupees (INR) and for US-based employees in US dollars (USD).
+
+1.3 How this handbook is organised
+Chapter 1: About this handbook
+Chapter 2: Approval Matrix (delegation of Authority)
+Chapter 3: Travel and Expense Policy
+Chapter 4: How to Submit an Expense Claim
+Chapter 5: Corporate Card Policy
+Chapter 6: Procurement and Purchasing Policy
+Chapter 7: Vendor Invoices and Payments
+Chapter 8: Salary Advance Policy (India)
+
+1.4 Definitions
+Business trip: travel away from the base office for work (chapter 3).
+Expense claim: a request to be repaid for a business expense, made in AMS Expense on form EXP-F-07.
+Purchase request and purchase order (PO): the approval (form PUR-F-01) and the order that must exist before a vendor delivers anything (chapter 6).
+Vendor: a supplier of goods or services to AMS.
+Corporate card: a company card issued to employees at grade L5 and above (chapter 5).
+Financial year: 1 April to 31 March.
+AMS Expense: the system for travel approvals, expense claims, card reconciliation, and purchase requests.
+
+1.5 Roles and responsibilities
+Employees spend company money responsibly, get approval first, and claim on time.
+Managers approve travel, claims, and purchases within their limits (chapter 2).
+Department heads approve larger purchases, late claims, software, and corporate cards.
+The Chief Financial Officer (CFO) approves purchases above INR 5,00,000 or USD 10,000.
+The Finance help desk, the procurement team, and accounts payable run the processes in this handbook. Finance owns this handbook.
+
+1.6 Revision history
+Version 1.0, 1 April 2026: first edition, bringing the Travel and Expense Policy (version 3.0) and the other Finance policies and guides together as chapters.
+
+1.7 Questions
+If something is unclear or seems to conflict with another handbook, contact the owner of this handbook (Finance). Where a chapter and the law disagree, the law applies.
+
+2. APPROVAL MATRIX (DELEGATION OF AUTHORITY)
+Reference: FIN-DOA-2026 | Version: 1.4 | Effective: 1 April 2026
+2.1 PURPOSE AND SCOPE
+This matrix lists who may approve common decisions that spend money or commit AMS. It summarises other policies; where a policy gives more detail, that policy applies. An approver may not approve their own request; it goes to their own manager instead.
+
+2.2 TRAVEL AND EXPENSES
+Domestic business travel: manager, in AMS Expense, before booking.
+International business travel: department head and Finance, on form TRV-F-02, at least 21 calendar days before departure.
+Expense claims: manager, in AMS Expense.
+Claims submitted more than 30 days after the expense: department head.
+Client entertainment: manager, on form ENT-F-03, before the event.
+
+2.3 PURCHASES
+Up to INR 50,000 or USD 1,000: manager.
+Up to INR 5,00,000 or USD 10,000: department head.
+Above INR 5,00,000 or USD 10,000: department head and CFO.
+Software of any amount: department head, after IT and Security approval.
+
+2.4 CONTRACTS
+2.4.1 Client contracts
+Client contracts and statements of work are signed only by a director (grade L6) after review by Legal and Compliance.
+2.4.2 Non-disclosure agreements
+NDAs are approved by Legal and Compliance and may be signed by any employee at grade L5 or above, using the AMS template.
+2.4.3 Vendor contracts
+Vendor contracts follow the purchase approval limits in section 3, after Legal and Compliance review.
+
+2.5 PEOPLE DECISIONS
+New hires within the approved headcount plan: department head.
+Hires outside the plan: department head and CFO.
+Salary advances (India): People Operations and Finance.
+Paid outside work: manager and Legal and Compliance.
+
+2.6 CARDS AND PAYMENTS
+Corporate cards (grade L5 and above): department head.
+Changes to a vendor's bank details: two people in Finance, after a phone call to a number already known to AMS.
+
+2.7 CONTACT
+Finance help desk: finance-help@ams.example.
+
+3. TRAVEL AND EXPENSE POLICY
+Reference: FIN-TRV-2026 | Version: 3.0 | Effective: 1 April 2026
+3.1 PURPOSE AND SCOPE
+This policy explains how to get travel approved, what AMS pays for during business travel, and how to claim expenses. It applies to all employees in all offices. Amounts for India-based employees are in Indian rupees (INR). Amounts for US-based employees are in US dollars (USD). The limits depend on the employee's job grade, as defined in the Company Overview.
+
+3.2 KEY TERMS
+3.2.1 City categories in India
+Tier A cities are Bengaluru, Chennai, Delhi NCR, Hyderabad, Kolkata, Mumbai, and Pune. All other Indian cities are Tier B.
+3.2.2 Business trip
+A business trip is travel away from the employee's base office for work. Travel within the base city is local travel and is covered in section 7.
+3.2.3 Day trip
+A day trip is a business trip that does not include an overnight stay.
+
+3.3 TRAVEL APPROVAL
+3.3.1 Domestic travel
+Domestic business travel needs manager approval in AMS Expense before any booking is made.
+3.3.2 International travel
+International business travel needs a travel request on form TRV-F-02, approved by the department head and by Finance. Employees must submit form TRV-F-02 at least 21 calendar days before the departure date. Employees are responsible for their passport; AMS supports business visa applications through the travel desk.
+3.3.3 Booking
+Flights, trains, and hotels are booked through the travel desk at travel-desk@ams.example. If an employee books directly, the cost is reimbursed only up to the fare the travel desk would have paid.
+
+3.4 TRAVEL CLASS
+3.4.1 Air travel
+All employees travel in economy class. Employees at grade L6 may travel in business class on flights with a scheduled duration of more than 6 hours.
+3.4.2 Rail travel in India
+Grades L1 to L3 travel in AC 2-tier. Grades L4 to L6 travel in AC first class.
+
+3.5 ACCOMMODATION
+3.5.1 Nightly limits in India (INR per night)
+Grade | Tier A city | Tier B city
+L1 and L2 | 4,500 | 3,000
+L3 and L4 | 6,500 | 4,500
+L5 and L6 | 9,000 | 6,000
+3.5.2 Nightly limits in the United States (USD per night)
+Grades L1 to L3 may spend up to USD 180 per night. Grades L4 to L6 may spend up to USD 250 per night.
+3.5.3 International hotels
+For other countries, the travel desk books hotels within the limit set by Finance for that city.
+
+3.6 DAILY ALLOWANCE
+3.6.1 Purpose
+The daily allowance covers meals, tips, and small incidental costs. Employees do not need receipts for the daily allowance.
+3.6.2 Daily allowance in India (INR per day)
+Grade | Tier A city | Tier B city
+L1 and L2 | 1,200 | 900
+L3 and L4 | 1,800 | 1,300
+L5 and L6 | 2,500 | 1,800
+3.6.3 Daily allowance in the United States
+Grades L1 to L3 receive USD 60 per day. Grades L4 to L6 receive USD 75 per day.
+3.6.4 International trips
+For international trips, the daily allowance is USD 70 per day unless Finance has published a different rate for the destination.
+3.6.5 Day trips
+For a day trip, the employee receives half of the daily allowance.
+
+3.7 LOCAL TRAVEL
+Taxis and ride-hailing for business purposes are reimbursed with receipts. Use of a personal car for business is reimbursed at INR 12 per kilometre in India and USD 0.70 per mile in the United States. Travel between home and the base office is not reimbursed.
+
+3.8 EXPENSE CLAIMS
+3.8.1 How to claim
+Employees claim business expenses in AMS Expense using form EXP-F-07.
+3.8.2 Deadline
+Claims must be submitted within 30 calendar days of the end of the trip or the date of the expense.
+3.8.3 Late claims
+Claims submitted after 30 days need approval from the department head. Claims submitted more than 90 days after the expense are not reimbursed.
+3.8.4 Receipts
+A receipt is required for every expense above INR 500 in India or USD 25 in the United States, except the daily allowance.
+3.8.5 Lost receipts
+If a receipt is lost, the employee completes a lost-receipt declaration on form EXP-F-09. A lost-receipt declaration can be used at most twice per financial year, for amounts up to INR 2,000 or USD 50 each.
+3.8.6 Payment
+Approved claims are paid to the employee's salary bank account within 10 working days of approval.
+
+3.9 NON-REIMBURSABLE EXPENSES
+AMS does not reimburse alcohol (except approved client entertainment), traffic or parking fines, flight or hotel upgrades, minibar charges, spa or personal entertainment, or expenses for family members travelling with the employee.
+
+3.10 CLIENT ENTERTAINMENT
+Client entertainment needs prior approval on form ENT-F-03. The limit is INR 3,000 per person in India and USD 100 per person in the United States, including the AMS employees present.
+
+3.11 CORPORATE CARDS
+Employees at grade L5 and above may receive a corporate card. Corporate card transactions must be reconciled in AMS Expense by the 10th of the following month. Personal use of the corporate card is not allowed.
+
+3.12 CONTACT
+For questions about this policy, contact the Finance help desk at finance-help@ams.example. For bookings, contact the travel desk at travel-desk@ams.example.
+
+4. HOW TO SUBMIT AN EXPENSE CLAIM
+Reference: FIN-GDE-EXP | Version: 2.0 | Last updated: 1 April 2026
+4.1 BEFORE YOU START
+Expense claims are made in AMS Expense on form EXP-F-07, as required by the Travel and Expense Policy (FIN-TRV-2026). Have your receipts ready: a receipt is needed for every expense above INR 500 in India or USD 25 in the United States. The daily allowance does not need receipts.
+
+4.2 SUBMITTING A CLAIM
+Step 1: Open AMS Expense and choose New Claim (form EXP-F-07).
+Step 2: Link the claim to the approved trip, if it is a travel claim.
+Step 3: Add each expense: date, category, amount, and currency. Photograph receipts with the AMS Expense mobile app, or upload a PDF.
+Step 4: For expenses in another currency, enter the amount as shown on the receipt. AMS Expense converts it using the exchange rate on the expense date, or the card statement rate for corporate card transactions.
+Step 5: Submit. Your manager receives the claim for approval.
+
+4.3 DEADLINES
+Submit within 30 calendar days of the end of the trip or the date of the expense. Late claims need department head approval, and claims more than 90 days old are not reimbursed.
+
+4.4 LOST RECEIPTS
+Use the lost-receipt declaration, form EXP-F-09. It can be used at most twice per financial year, for up to INR 2,000 or USD 50 each.
+
+4.5 AFTER YOU SUBMIT
+4.5.1 Status
+Track the claim in AMS Expense: Submitted, Approved by manager, Checked by Finance, Paid.
+4.5.2 Payment
+Approved claims are paid to your salary bank account within 10 working days of approval.
+4.5.3 Queries
+If Finance has a question, the claim returns to you with the status "Information requested". Reply within 7 days, or the claim is rejected and must be submitted again.
+
+4.6 COMMON REASONS FOR REJECTION
+4.6.1 A missing receipt for an expense above the receipt limit.
+4.6.2 Alcohol, upgrades, minibar charges, fines, or family members' costs, which are not reimbursed.
+4.6.3 Client entertainment without form ENT-F-03 approved before the event.
+4.6.4 Software or subscriptions, which must be bought through procurement, not claimed.
+4.6.5 The same receipt claimed twice, for example also on the corporate card.
+
+4.7 HELP
+Finance help desk: finance-help@ams.example.
+
+5. CORPORATE CARD POLICY
+Reference: FIN-CRD-2026 | Version: 1.2 | Effective: 1 April 2026
+5.1 PURPOSE AND SCOPE
+This policy gives the detailed rules for AMS corporate cards. Section 3.11 (Travel and Expense Policy, FIN-TRV-2026) sets the basic rules; this policy adds limits, the reconciliation process, and what to do when something goes wrong.
+
+5.2 ELIGIBILITY
+Employees at grade L5 and above may receive a corporate card, with approval from their department head. Cards are issued in the employee's name and are the property of AMS.
+
+5.3 LIMITS
+5.3.1 Monthly limits
+India: INR 2,00,000 per month. United States: USD 5,000 per month.
+5.3.2 Single transaction limit
+India: INR 75,000. United States: USD 2,000. Higher amounts, such as a group hotel booking, need a temporary limit increase from Finance.
+5.3.3 Cash withdrawals
+Cash withdrawals are blocked.
+
+5.4 ALLOWED USE
+The card is used for business travel and client entertainment allowed under the Travel and Expense Policy. Purchases from vendors go through the Procurement and Purchasing Policy (FIN-PRO-2026), not the card. Software is never bought on the card.
+
+5.5 RECONCILIATION
+5.5.1 Deadline
+Every card transaction is reconciled in AMS Expense by the 10th of the following month, with a receipt for every transaction above INR 500 or USD 25.
+5.5.2 Late reconciliation
+If reconciliation is late twice in 12 months, the card is suspended for 3 months.
+
+5.6 PERSONAL USE
+Personal use of the card is not allowed. An accidental personal charge is marked as personal in AMS Expense and repaid to AMS within 7 days. Deliberate personal use is a breach of the Code of Conduct.
+
+5.7 LOST OR STOLEN CARDS
+Call the card issuer's 24-hour number on the back of the card, or in the AMS Expense app, to block the card straight away. Then tell Finance at finance-help@ams.example on the same day. A replacement card arrives within 7 working days.
+
+5.8 LEAVING AMS OR CHANGING ROLE
+The card is cancelled and returned on or before the last working day, as required by the Onboarding and Exit Policy. All transactions must be reconciled before the last working day; unreconciled amounts are recovered from the final settlement.
+
+5.9 CONTACT
+Finance help desk: finance-help@ams.example.
+
+6. PROCUREMENT AND PURCHASING POLICY
+Reference: FIN-PRO-2026 | Version: 2.1 | Effective: 1 April 2026
+6.1 PURPOSE AND SCOPE
+This policy explains how AMS buys goods and services from suppliers (vendors), such as software, hardware, training providers, consultants, and office supplies. Business travel and personal expense claims are covered by the Travel and Expense Policy (FIN-TRV-2026), not by this policy.
+
+6.2 NO PURCHASE ORDER, NO PAYMENT
+Every purchase from a vendor needs an approved purchase request and a purchase order (PO) before the vendor starts work or delivers. Invoices without a PO number are returned to the vendor unpaid. Employees must not commit AMS to a purchase, verbally or in writing, before the PO is issued.
+
+6.3 RAISING A PURCHASE REQUEST
+6.3.1 Form
+Purchase requests are raised in AMS Expense on form PUR-F-01, with the vendor, the amount, the cost centre, and the business reason.
+6.3.2 Approval limits
+Up to INR 50,000 or USD 1,000: manager approval.
+Above INR 50,000 or USD 1,000, up to INR 5,00,000 or USD 10,000: department head approval.
+Above INR 5,00,000 or USD 10,000: department head and Chief Financial Officer (CFO) approval.
+6.3.3 Quotes
+Purchases above INR 50,000 or USD 1,000 need 2 written quotes. Purchases above INR 5,00,000 or USD 10,000 need 3 written quotes, unless the CFO approves a single supplier in writing.
+6.3.4 No splitting
+Splitting one purchase into smaller requests to stay under an approval limit is not allowed and is treated as a breach of the Code of Conduct.
+
+6.4 VENDORS
+6.4.1 Approved vendors
+Finance keeps a list of approved vendors in AMS Expense. Use an approved vendor where one exists.
+6.4.2 New vendors
+A new vendor is onboarded by Finance, which checks the vendor's tax registration and bank details. If the vendor will handle AMS or client data, IT and Security reviews it first. If a contract is needed, Legal and Compliance reviews it.
+6.4.3 Conflicts of interest
+Employees must not take part in choosing a vendor in which they or a family member have an interest, and must disclose the interest on form COI-F-01 under the Code of Conduct.
+
+6.5 SPECIAL CATEGORIES
+6.5.1 Software
+Software also needs approval under the Software and SaaS Approval Policy (IT-SWA-2026) before the purchase request is raised. Software purchases always need department head approval, even below INR 50,000 or USD 1,000.
+6.5.2 IT hardware
+Laptops and accessories are bought only by IT; employees request them through ServiceDesk.
+6.5.3 Training
+Individual courses and certifications paid from an employee's learning budget are not purchases under this policy; they follow the Employee Benefits Policy (HR-BEN-2026).
+
+6.6 CONTACT
+Procurement team: procurement@ams.example.
+
+7. VENDOR INVOICES AND PAYMENTS
+Reference: FIN-GDE-INV | Version: 1.1 | Last updated: 1 April 2026
+7.1 WHO THIS IS FOR
+This guide is for employees who manage a vendor, for example a training provider or a contractor agency. It explains how vendors get paid, so that you can answer their questions.
+
+7.2 SENDING INVOICES
+Vendors email invoices to invoices@ams.example. Every invoice must show the AMS purchase order (PO) number. Invoices from Indian vendors must also show AMS's GST number for the office that received the service. Invoices sent to individual employees are not processed.
+
+7.3 CONFIRMING DELIVERY
+Before an invoice is paid, the employee who raised the purchase request confirms in AMS Expense that the goods or services were received. Finance sends a reminder after 3 working days; the invoice cannot be paid until delivery is confirmed.
+
+7.4 PAYMENT TERMS
+7.4.1 India
+Vendors registered as micro or small enterprises (MSME) are paid within 45 days of accepting the goods or services, as required by Indian law. Other vendors in India are paid within 60 days of a correct invoice.
+7.4.2 United States
+Vendors in the United States are paid within 30 days of a correct invoice (net 30).
+7.4.3 Payment runs
+Finance makes vendor payments twice a week, on Tuesdays and Fridays.
+
+7.5 TAX DEDUCTIONS (INDIA)
+For many services in India, AMS deducts tax at source (TDS) before paying the vendor, as required by law. The vendor receives the amount after TDS and can claim the deducted tax using the TDS certificate that AMS issues every quarter.
+
+7.6 COMMON PROBLEMS
+7.6.1 Invoice without a PO number: returned to the vendor.
+7.6.2 Amount higher than the PO: held until the PO is increased with the right approval.
+7.6.3 Change of bank details: never accepted by email alone. Finance confirms by phone using a number already known to AMS.
+
+7.7 CONTACT
+Accounts payable: invoices@ams.example. Finance help desk: finance-help@ams.example.
+
+8. SALARY ADVANCE POLICY (INDIA)
+Reference: FIN-ADV-2026 | Version: 1.0 | Effective: 1 April 2026
+8.1 PURPOSE AND SCOPE
+A salary advance helps employees with an urgent personal need, such as a medical emergency or a family event. This policy applies only to employees on the India payroll. Salary advances are not offered on the US payroll; US employees facing hardship can contact the Employee Assistance Programme in the Employee Benefits Policy (HR-BEN-2026).
+
+8.2 ELIGIBILITY
+Employees on the India payroll may apply after confirmation, that is, after completing probation. Employees serving a notice period may not apply.
+
+8.3 AMOUNT AND FREQUENCY
+8.3.1 Amount
+The maximum advance is one month's net salary.
+8.3.2 Frequency
+One advance may be taken in any 12-month period, and a new advance is possible only after the previous one is fully repaid.
+8.3.3 Interest
+Salary advances are interest-free.
+
+8.4 HOW TO APPLY
+Apply in AMS People with the reason and the amount. The request is approved by People Operations and Finance, usually within 3 working days. The advance is paid to the salary bank account within 2 working days of approval.
+
+8.5 REPAYMENT
+8.5.1 Instalments
+The advance is repaid through salary deductions in up to 6 equal monthly instalments, starting from the month after payment.
+8.5.2 Leaving AMS
+Any amount still owed on leaving is recovered from the full and final settlement, as set out in the Onboarding and Exit Policy (HR-ONX-2026).
+
+8.6 CONFIDENTIALITY
+The reason for an advance is seen only by People Operations and Finance, not by the employee's manager.
+
+8.7 CONTACT
+Payroll: payroll@ams.example.
