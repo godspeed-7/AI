@@ -3,7 +3,7 @@
 An end-to-end walkthrough of the two pipelines in this project, step by
 step, following one real piece of the policy and one real question
 through the system. It also shows where each evaluation experiment plugs
-in.
+in, and (§ 7) which RAG technique belongs at which step.
 
 For setup, commands, and the current value of every setting (`TOP_K`,
 `CHUNK_SIZE`, model names, …), see [README.md](README.md). This document
@@ -493,3 +493,307 @@ How a winning experiment becomes part of `query.py`:
  5. New baseline   re-run evaluate_retrieval.py and evaluate_answers.py;
                    record the numbers in § 4 "Current baseline"
 ```
+
+---
+
+## 7. Which technique, at which step
+
+Every RAG technique worth knowing, hung on the step of the pipeline it
+changes, so you can see what exists at each step and pick by symptom.
+The diagram is the map; the notes below it say when to reach for each
+one.
+
+The steps are named, not numbered: there are more of them than the
+four in § 3, because many techniques add a step of their own (route,
+fuse, rerank, verify). Letters [A]–[H] are the experiments in § 4.
+
+Status, for **ams-assistant** (where the pipeline is being built)
+unless marked otherwise:
+
+| | |
+|---|---|
+| ✅ | in use |
+| 🧪 | tried in an experiment, not in the default pipeline |
+| ⏭ | next on the plan |
+| ⬜ | not tried yet |
+| ✗ | skipped, with the reason |
+
+### The map
+
+```text
+   INGESTION (offline)
+   ───────────────────
+   handbooks (.txt)
+      │
+      ▼
+   LOAD / PARSE
+      │     ├╌ Plain-text loader ................. ✅
+      │     └╌ PDF/Word/HTML loaders · OCR ....... ✗ every source is .txt
+      ▼
+   CHUNK
+      │     ├╌ Structure-aware (one section) ..... ✅
+      │     ├╌ Contextual chunk header ........... ✅ breadcrumb +
+      │     │                                         "About this chapter"
+      │     ├╌ Contextual retrieval (LLM-written)  ⬜
+      │     ├╌ Semantic chunking ................. ⬜
+      │     ├╌ Parent-child chunks ............... ⬜
+      │     ├╌ Fixed-size (+ overlap) ............ ✗ cuts rules in half
+      │     └╌ RAPTOR (tree of summaries) ........ ✗ handbooks are small
+      ▼
+   METADATA
+      │     ├╌ department · handbook · chapter ·
+      │     │  section · reference … (8 fields) .. ✅
+      │     ├╌ country (India / US / both) ....... ⏭ needed by self-query
+      │     └╌ Stable chunk IDs .................. ⬜ (basic-rag ✅)
+      ▼
+   EMBED
+      │     ├╌ Dense: nomic-embed-text + prefixes  ✅
+      │     ├╌ Sparse vectors (BM25 / SPLADE) .... ⏭ with hybrid search
+      │     └╌ Multi-vector · ColBERT ............ ✗ 370 chunks
+      ▼
+   INDEX (Qdrant)
+            ├╌ Exact / brute-force search ........ ✅ Qdrant scans all 370
+            ├╌ ANN: HNSW · IVF ................... ✗ built by Qdrant itself
+            │                                         on big collections
+            ├╌ Quantization ...................... ✗ fits in memory
+            ├╌ Payload index ..................... ⬜ once filters are used
+            └╌ Multi-tenancy ..................... ✗ one company, no users
+
+
+   QUERY (online)
+   ──────────────
+   question
+      │
+      ├╌╌ ROUTE / GUARD ╌╌╌╌╌╌╌╌╌╌╌╌ decide where, or whether, to search
+      │     ├╌ Router retrieval .................. 🧪 [H] stale: old file names
+      │     ├╌ Adaptive retrieval ................ ⬜
+      │     ├╌ Conversational query rewriting .... ⬜ query.py has no chat
+      │     │                                         history yet
+      │     ├╌ Federated retrieval ............... ⬜ when the HR database
+      │     │                                         joins the policies
+      │     └╌ Authorisation · injection guards .. ✗ trusted text, no users
+      │
+      ├╌╌ TRANSFORM THE QUESTION
+      │     ├╌ Query rewriting ................... 🧪 [A]
+      │     ├╌ Multi-query (+ merge) ............. 🧪 [B]
+      │     ├╌ Self-query (question → filter) .... ⏭ after hybrid search
+      │     ├╌ Query decomposition ............... ⬜
+      │     ├╌ Query normalization ............... ⬜
+      │     ├╌ Query expansion (keywords) ........ ⬜
+      │     ├╌ HyDE · Step-back prompting ........ ⬜
+      │     └╌ Query translation ................. ✗ English only
+      ▼
+   RETRIEVE
+      │     ├╌ Dense retrieval ................... ✅
+      │     ├╌ Sparse: BM25 · Full-text .......... ⬜ only as part of hybrid
+      │     ├╌ Hybrid: dense + sparse/BM25 ....... ⏭ next ([D] basic-rag)
+      │     ├╌ Metadata-filtered · Faceted ....... 🧪 [C] basic-rag, one
+      │     │                                         question
+      │     ├╌ Hierarchical · Parent-child ....... ⬜
+      │     ├╌ Multi-hop ......................... ⬜
+      │     ├╌ Time-aware ........................ ✗ one version per policy
+      │     └╌ Graph-based · Graph RAG ........... ✗ no entity links needed
+      ▼
+   FUSE (only when several result lists)
+      │     ├╌ Reciprocal Rank Fusion (RRF) ...... ⏭ with hybrid ([D] k=60)
+      │     ├╌ Deduplication ..................... 🧪 inside [B]
+      │     └╌ Weighted score fusion · DBSF ...... ⬜
+      ▼
+   RERANK
+      │     ├╌ Cross-encoder: BGE v2-m3, 10 → 3 .. 🧪 [E] best so far; on
+      │     │                                         with --rerank
+      │     ├╌ FlashRank ......................... ⬜
+      │     ├╌ LLM-based reranking ............... ⬜
+      │     ├╌ Cohere Reranker ................... ✗ paid API, we run local
+      │     └╌ ColBERT · Learning-to-Rank ........ ✗ 370 chunks / too few
+      │                                             labels
+      ▼
+   REFINE (what reaches the prompt)
+      │     ├╌ Top-K selection (3) ............... ✅
+      │     ├╌ Reranker score threshold .......... ⬜
+      │     ├╌ Similarity threshold .............. ⬜
+      │     ├╌ MMR · Diversity · Deduplication ... ⬜
+      │     ├╌ Parent document expansion ......... ⬜
+      │     └╌ Contextual compression ............ 🧪 [G] basic-rag
+      ▼
+   PROMPT + GENERATE
+      │     ├╌ Grounding rules (answer only from
+      │     │  context, say "can't tell") ........ ✅ rules are leave-centric:
+      │     │                                         refresh ⏭
+      │     ├╌ Labelled context (file name) ...... ✅
+      │     ├╌ Self-check before answering ....... ✅ rule 8
+      │     ├╌ Claim-level citations ............. ⏭
+      │     ├╌ Structured output (schema) ........ ⬜ (the judge uses it ✅)
+      │     └╌ Lost in the middle ordering ....... ✗ only 3 chunks
+      ▼
+   VERIFY
+      │     ├╌ Citation validation ............... ⬜
+      │     ├╌ Faithfulness / entailment check ... ⬜
+      │     ├╌ Corrective RAG (CRAG) ............. ⬜ LangGraph
+      │     ├╌ Iterative · Recursive retrieval ... ⬜ LangGraph
+      │     └╌ Self-RAG · Agentic retrieval ...... ⬜ LangGraph
+      ▼
+   answer
+
+
+   MEASURE
+   ───────
+   top chunks ══ Hit Rate · Recall · MRR ............ ✅ evaluate_retrieval.py
+             ══ Latency (ms per question) ........... 🧪 reranker comparison
+             ══ Precision@K ......................... ⬜
+             ══ MAP · nDCG .......................... ✗ labels are yes/no
+   answer ═════ LLM judge: correctness ·
+                context support (= faithfulness) ·
+                completeness ........................ ✅ evaluate_answers.py
+             ══ Judge checked against a human ....... ⬜
+             ══ Dev / test split .................... ⬜ column exists, unused
+   every run ══ Regression test / release gate ...... ⏭
+             ══ Tracing (LangSmith) ................. ⬜
+             ══ Cost ................................ ✗ all local: time is
+                                                        the cost
+```
+
+### When to use what
+
+Each note: the symptom that calls for it, and an example. Skipped (✗)
+techniques are left out; their reason is in the map.
+
+**Load / parse**
+- **PDF / Word / HTML loaders, OCR**: the sources stop being plain
+  text. A scanned PDF has no text layer at all, so it needs OCR first.
+
+**Chunk**
+- **Structure-aware**: the documents have headings. One section, one
+  rule: "6.4 Parking in Austin" stays whole instead of being cut.
+- **Contextual chunk header**: a chunk makes no sense on its own. "Up
+  to 5 unused annual-leave days" doesn't say for which country until
+  the header adds "Chapter 4: Employee Leave Policy (India)".
+- **Contextual retrieval**: the header isn't enough, and an LLM can
+  write one sentence of context per chunk before embedding. Costs one
+  LLM call per chunk at ingestion.
+- **Semantic chunking**: there are no headings, so cut where the topic
+  changes (where neighbouring sentences' embeddings drift apart).
+- **Parent-child chunks**: small chunks match well but answer badly.
+  Search a sentence-sized child, hand the LLM its whole section.
+
+**Metadata**
+- **Fields that can be filtered on**: a question names something a
+  chunk can be tagged with. "Austin" → country = US.
+- **Stable chunk IDs**: ingestion updates the collection instead of
+  rebuilding it, so the same chunk must keep the same ID and not be
+  stored twice.
+
+**Embed**
+- **Dense + prefixes**: always the base. The model's prefixes
+  (`search_document:` / `search_query:`) are part of how it was trained.
+- **Sparse vectors**: exact words matter: IDs, codes, names. Needed for
+  hybrid search.
+
+**Index**
+- **Payload index**: filters are used on a large collection; index the
+  field you filter on so the filter stays fast.
+
+**Route / guard**
+- **Router retrieval**: questions belong to clearly separate areas.
+  "the vendor hasn't been paid" → Finance only.
+- **Adaptive retrieval**: some messages need no search. "thanks!"
+  shouldn't fetch three chunks.
+- **Conversational query rewriting**: there is chat history. "and in
+  Pune?" after a leave question → "How many leave days in Pune?"
+- **Federated retrieval**: answers live in more than one system, e.g.
+  the policies plus the HR database.
+
+**Transform the question**
+- **Query rewriting**: questions are casual or vague. "hey when do i
+  get paid" → "When is salary paid?"
+- **Multi-query**: one phrasing misses; search three and merge.
+- **Self-query**: the question carries a filter value. "casual leave
+  in Austin" → search with country = US.
+- **Query decomposition**: one question needs two sections. "Do I get
+  more leave in Pune or Austin?" → one search per office.
+- **Query normalization**: users write abbreviations or typos the
+  documents don't. "WFH" → "work from home".
+- **Query expansion (keywords)**: users and documents use different
+  words. "sick day" → also "medical leave".
+- **HyDE**: questions are short and the documents formal. Embed a
+  made-up answer, which looks more like a policy than the question
+  does.
+- **Step-back prompting**: the answer needs a general rule first.
+  "Can I carry over 7 days?" → also fetch "carry-over rules".
+
+**Retrieve**
+- **Dense retrieval**: always the base: finds meaning. "time off"
+  finds "annual leave".
+- **Sparse / BM25 / full-text alone**: people search with exact
+  keywords, like a search box. Rarely enough on its own for questions.
+- **Hybrid search**: dense misses exact terms. "IT-AUP-2026" means
+  little as a vector; BM25 matches it exactly.
+- **Metadata-filtered / faceted**: results come from the wrong office
+  or department. Several filters at once is faceted (country + dept).
+- **Hierarchical / parent-child**: questions range from "what does
+  chapter 4 cover?" to one exact rule; search at the matching level.
+- **Multi-hop**: the first result points somewhere else. "see section
+  6.2" → fetch 6.2 too.
+
+**Fuse**
+- **RRF**: two or more ranked lists (dense + BM25, or several
+  queries). Uses ranks, not scores, so different scales don't matter.
+- **Deduplication**: the same chunk comes back from several searches.
+- **Weighted fusion / DBSF**: one list should count more than the
+  other, and its scores are worth trusting.
+
+**Rerank**
+- **Cross-encoder**: the right chunk is in the top 10 but not the top
+  3. Reads question and chunk together; slower, so only on candidates.
+- **FlashRank**: the cross-encoder is too slow; smaller and faster,
+  usually a little less accurate.
+- **LLM-based reranking**: the cross-encoder still orders badly.
+  Slowest: one LLM call per candidate.
+
+**Refine**
+- **Top-K**: always. How many chunks the LLM gets.
+- **Reranker / similarity threshold**: weak chunks get in. If the best
+  score is low, say "I can't tell" instead of answering from noise.
+- **MMR / diversity / dedup**: the top 3 say the same thing (a fact
+  repeated in two chapters), crowding out a second needed section.
+- **Parent document expansion**: the chunk found is right but too
+  small to answer from.
+- **Contextual compression**: chunks are long and mostly irrelevant;
+  keep only the sentences that matter.
+
+**Prompt + generate**
+- **Grounding rules**: always. Answer only from the context; say "I
+  can't tell" when it doesn't.
+- **Labelled context**: similar rules from different documents get
+  mixed up. The label shows which is India's and which is the US's.
+- **Claim-level citations**: answers mix up chunks. "Parking is free in
+  the building garage [Facilities 6.4]" can be checked.
+- **Structured output**: the answer feeds code (citations, scores),
+  not just a human.
+
+**Verify**
+- **Citation validation**: citations exist and must be checked. Does
+  6.4 really say that, and is it the office asked about (6.4 is
+  Austin, not Pune)?
+- **Faithfulness check**: the model adds things not in the chunks,
+  e.g. invented visitor rules. Drop unsupported claims.
+- **CRAG**: retrieval is sometimes weak. Grade the chunks; if poor,
+  rewrite and search again, or say "I can't tell".
+- **Iterative / recursive**: one search isn't enough, or a chunk
+  refers to another section.
+- **Self-RAG / agentic**: the model should decide itself when to
+  search and with which tool. The most flexible, and the hardest to
+  test.
+
+**Measure**
+- **Hit Rate, Recall, MRR**: always, before scoring answers.
+- **Precision@K**: you want to know how much noise the LLM sees.
+- **Latency**: a new step adds model calls (rerankers, LLM rewrites).
+- **LLM judge**: always for answers. **Check it against a human** on
+  ~20 answers before trusting a 1–2% change.
+- **Dev / test split**: tune on dev, report on test, so the final
+  number isn't one you tuned for.
+- **Regression test / release gate**: every new technique must keep
+  the baseline, e.g. Hit Rate ≥ 96.2%, or it isn't promoted.
+- **Tracing**: you need to see why one question failed without
+  re-running a script.

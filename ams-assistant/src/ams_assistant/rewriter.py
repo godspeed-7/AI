@@ -11,6 +11,10 @@ copy, rewriting lowered Hit Rate from 92.48% to 84.96%: its rule
 non-leave questions. So the rules now keep the user's key terms, forbid
 new topics, and leave clear questions unchanged. Only the search uses
 the rewrite; the answer prompt still gets the original question.
+For AMS v2 (6 handbooks) the prompt lists the handbooks and maps each
+office to its country, because chunks say "US payroll", never
+"Austin": the reranker scored a US probation chunk 0.011 for "in
+Austin?" and 0.920 for "on the US payroll?".
 
 Caveats:
 - One extra LLM call per question (slower, and gemma3:4b can drift
@@ -28,19 +32,27 @@ from ams_assistant.config import LLM_MODEL, TEMPERATURE
 
 
 REWRITE_PROMPT = ChatPromptTemplate.from_template("""\
-You rewrite questions for semantic search over AMS company policies
-(leave, holidays, travel and expenses, benefits, remote work, conduct,
-onboarding and exit).
+You rewrite questions for semantic search over the AMS company
+handbooks: People (the Employee Handbook), IT and Security, Finance,
+Legal and Compliance, Administration and Facilities, and Learning and
+Development.
 
 Your job is to make the question self-contained and easy to match to
 the relevant policy passage, while preserving exactly what the user is
 asking.
+
+AMS offices: Bengaluru and Pune are in India (India payroll); Austin is
+in the United States (US payroll).
 
 Rules:
 - If the question is already clear and formal, return it unchanged.
 - Preserve the user's intent exactly.
 - Keep the user's key terms word for word: names, places, job titles,
   form codes, numbers, and dates.
+- If the question names an AMS office, keep the office name and add
+  its country and payroll (for example "where's the mailroom in
+  Austin" -> "Where is the mailroom at the Austin office (United
+  States, US payroll)?").
 - Replace casual or slang wording with the plain terms a policy
   document would use (for example "get my money back for a cab" ->
   "reimbursement for taxi fares").
