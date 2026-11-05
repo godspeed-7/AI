@@ -15,20 +15,26 @@ Caveats:
   (~0.6-0.75 here), so compare gaps between chunks, not absolutes.
 - No StrOutputParser at the end: the answer stays an AIMessage, so the
   token counts (usage_metadata) survive. Read the text with .content.
-- use_reranker=True is an experiment switch (reranker.py), off by
-  default; query.py doesn't use it.
+- Reranking (reranker.py) follows config.USE_RERANKER unless
+  use_reranker is passed.
 """
 
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import ChatOllama
 
-from ams_assistant.config import CANDIDATE_K, LLM_MODEL, TEMPERATURE, TOP_K
+from ams_assistant.config import (
+    CANDIDATE_K,
+    LLM_MODEL,
+    TEMPERATURE,
+    TOP_K,
+    USE_RERANKER,
+)
 from ams_assistant.prompts import PROMPT, format_docs
 from ams_assistant.vector_store import get_vector_store
 
 
-def build_chain(use_reranker: bool = False):
+def build_chain(use_reranker: bool = USE_RERANKER):
     """Connect to Qdrant and Ollama and return the ready-to-run chain.
 
     use_reranker=True fetches CANDIDATE_K chunks and keeps the TOP_K the

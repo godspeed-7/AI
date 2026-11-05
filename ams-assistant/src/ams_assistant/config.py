@@ -19,6 +19,9 @@ DATA_ROOT = PROJECT_ROOT.parent / "ams-data"
 POLICIES_DIR = DATA_ROOT / "policies"
 # The questions both projects are scored on (evals/).
 EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
+# Company facts as "term -> also add" rules (glossary.py), from the
+# handbooks' own definitions; only experiments/ use it so far.
+GLOSSARY_FILE = DATA_ROOT / "glossary.csv"
 # The judge's instructions, shared so both projects grade answers the
 # same way (basic-rag still has its own identical copy in judge.py).
 JUDGE_PROMPT_FILE = DATA_ROOT / "judge_prompt.txt"
@@ -57,11 +60,28 @@ TOP_K = 3
 # Query expansion (experiments/): LLM-written phrasings searched in
 # addition to the original question; same as basic-rag.
 NUM_ALTERNATIVES = 2
-# Reranking (experiments/): vector search fetches CANDIDATE_K chunks,
-# the cross-encoder re-scores them, and the best TOP_K are kept. The
-# model comes from Hugging Face (cached after the first download).
+# Reranking: vector search fetches CANDIDATE_K chunks, the
+# cross-encoder re-scores them, and the best TOP_K are kept. On for the
+# chain (query.py), the answer eval and the experiments since
+# 2026-11-05 (top 3: 92.40% -> 96.58%); False searches TOP_K directly.
+USE_RERANKER = True
+# The model comes from Hugging Face (cached after the first download).
 # v2-m3 replaced basic-rag's bge-reranker-base: with 10 candidates it
 # kept the right section in the top 3 more often (96.2% vs 95.4%),
 # mostly on casual questions, at ~0.85 s vs ~0.25 s per question.
 CANDIDATE_K = 10
 RERANKER_MODEL = "BAAI/bge-reranker-v2-m3"
+# Contextual retrieval (experiments/): the LLM reads a whole handbook
+# to write each chunk's context line. Ollama's default context window
+# is a few thousand tokens; the Employee Handbook is about 14,000.
+CONTEXT_NUM_CTX = 16384
+# Its own collection, so the experiment never touches COLLECTION_NAME.
+CONTEXTUAL_COLLECTION_NAME = "ams_policies_contextual"
+# Glossary (experiments/): chunks with their "Glossary: ..." line, in
+# their own collection for the same reason.
+GLOSSARY_COLLECTION_NAME = "ams_policies_glossary"
+# Hypothetical questions (experiments/): the LLM writes this many
+# questions per chunk; each is stored as an extra point that leads
+# back to its chunk.
+NUM_HYPOTHETICAL_QUESTIONS = 3
+HYPOTHETICAL_COLLECTION_NAME = "ams_policies_hypothetical"
