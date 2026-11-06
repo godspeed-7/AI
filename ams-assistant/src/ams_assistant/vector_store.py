@@ -54,10 +54,11 @@ def get_embeddings() -> NomicEmbeddings:
     return NomicEmbeddings(model=EMBEDDING_MODEL)
 
 
-def get_vector_store() -> QdrantVectorStore:
-    """Connect to the collection that ingest.py created."""
+def get_vector_store(collection: str = COLLECTION_NAME) -> QdrantVectorStore:
+    """Connect to a collection: by default the one ingest.py created,
+    or an experiment's copy."""
     return QdrantVectorStore.from_existing_collection(
         embedding=get_embeddings(),
-        collection_name=COLLECTION_NAME,
+        collection_name=collection,
         url=QDRANT_URL,
     )

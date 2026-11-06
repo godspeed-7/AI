@@ -14,6 +14,8 @@ the same search, so only the ordering differs.
 
 Caveats:
 - No LLM; the cross-encoder runs on the CPU/GPU in this process.
+- Saved scores (reranker.py's cache) make the reranking time near
+  zero: delete RERANK_CACHE_FILE first to time real scoring.
 - Run ingest.py first; needs Ollama and Qdrant running.
 """
 

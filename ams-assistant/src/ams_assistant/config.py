@@ -20,13 +20,20 @@ POLICIES_DIR = DATA_ROOT / "policies"
 # The questions both projects are scored on (evals/).
 EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
 # Company facts as "term -> also add" rules (glossary.py), from the
-# handbooks' own definitions; only experiments/ use it so far.
+# handbooks' own definitions. ingest.py adds them to chunks; re-run it
+# after editing the file.
 GLOSSARY_FILE = DATA_ROOT / "glossary.csv"
 # The judge's instructions, shared so both projects grade answers the
 # same way (basic-rag still has its own identical copy in judge.py).
 JUDGE_PROMPT_FILE = DATA_ROOT / "judge_prompt.txt"
 # Where the answer eval writes its per-question results.
 EVALS_DIR = PROJECT_ROOT / "evals"
+# The reranker's saved scores (reranker.py); not in git. Deleting it is
+# always safe: scores are recomputed as needed.
+RERANK_CACHE_FILE = PROJECT_ROOT / ".cache" / "rerank_scores.sqlite"
+# Saved LLM replies (llm_cache.py): answers, judge grades, rewrites.
+# Also safe to delete.
+LLM_CACHE_FILE = PROJECT_ROOT / ".cache" / "llm_replies.sqlite"
 
 
 # --- Models (served by Ollama on localhost:11434) -------------------
@@ -60,12 +67,10 @@ TOP_K = 3
 # Query expansion (experiments/): LLM-written phrasings searched in
 # addition to the original question; same as basic-rag.
 NUM_ALTERNATIVES = 2
-# Reranking: vector search fetches CANDIDATE_K chunks, the
-# cross-encoder re-scores them, and the best TOP_K are kept. On for the
-# chain (query.py), the answer eval and the experiments since
-# 2026-11-05 (top 3: 92.40% -> 96.58%); False searches TOP_K directly.
-USE_RERANKER = True
-# The model comes from Hugging Face (cached after the first download).
+# Reranking (on or off: Pipeline.rerank in pipeline.py): vector search
+# fetches CANDIDATE_K chunks, the cross-encoder re-scores them, and the
+# best TOP_K are kept. The model comes from Hugging Face (cached after
+# the first download).
 # v2-m3 replaced basic-rag's bge-reranker-base: with 10 candidates it
 # kept the right section in the top 3 more often (96.2% vs 95.4%),
 # mostly on casual questions, at ~0.85 s vs ~0.25 s per question.

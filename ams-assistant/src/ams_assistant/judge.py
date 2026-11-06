@@ -24,6 +24,7 @@ from langchain_ollama import ChatOllama
 from pydantic import BaseModel
 
 from ams_assistant.config import JUDGE_MODEL, JUDGE_PROMPT_FILE
+from ams_assistant.llm_cache import get_llm_cache
 
 
 JUDGE_PROMPT = ChatPromptTemplate.from_template(
@@ -48,8 +49,10 @@ class Scores(BaseModel):
 
 def build_judge():
     """Return the chain: judge inputs -> Scores."""
-    # temperature 0 keeps grading repeatable.
-    llm = ChatOllama(model=JUDGE_MODEL, temperature=0)
+    # temperature 0 keeps grading repeatable, so a saved grade
+    # (llm_cache.py) is reused when the same answer comes back.
+    llm = ChatOllama(model=JUDGE_MODEL, temperature=0,
+                     cache=get_llm_cache())
 
     # with_structured_output sends Scores' JSON schema to Ollama, which
     # constrains the reply to it, then turns the JSON into a Scores.

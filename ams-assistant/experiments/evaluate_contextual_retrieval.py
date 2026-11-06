@@ -1,22 +1,20 @@
 """Experiment: does contextual retrieval (an LLM-written context line
 on top of every chunk) improve retrieval?
 
-In:  the handbooks (chunked exactly as ingest.py does) and the
+In:  the chunks exactly as ingest.py stores them (build_chunks) and the
      answerable questions in ams-data/evaluation_questions.csv.
 Out: experiments/contexts.json (one context line per chunk), then
-     Hit Rate, Recall and MRR @TOP_K for two runs, side by side:
-         Baseline     search COLLECTION_NAME (what ingest.py stored)
-         Contextual   search CONTEXTUAL_COLLECTION_NAME: the same
-                      chunks with "Context: <line>" on top
+     Hit Rate, Recall and MRR @TOP_K for two pipelines, side by side:
+         Baseline     PRODUCTION (pipeline.py)
+         Contextual   PRODUCTION searching CONTEXTUAL_COLLECTION_NAME:
+                      the same chunks with "Context: <line>" on top
      plus every question that flipped, with the context line of the
      new top chunk.
 
 Strategy: stage 1 writes the context lines (contextualizer.py),
 handbook by handbook, saving after every chunk; a rerun skips lines
 already in contexts.json. Stage 2 embeds the contextual chunks into
-their own collection and scores both runs with the same functions.
-With USE_RERANKER (config.py), both runs fetch CANDIDATE_K and the
-cross-encoder keeps TOP_K.
+their own collection; compare() (evaluation.py) scores both pipelines.
 
 Usage (from ams-assistant/):
     uv run python experiments/evaluate_contextual_retrieval.py --contexts-only
@@ -32,32 +30,26 @@ import argparse
 import json
 import sys
 import time
+from dataclasses import replace
 from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_qdrant import QdrantVectorStore
 
 from ams_assistant.config import (
-    CANDIDATE_K,
     CONTEXT_NUM_CTX,
     CONTEXTUAL_COLLECTION_NAME,
     QDRANT_URL,
-    TOP_K,
-    USE_RERANKER,
 )
 from ams_assistant.contextualizer import build_contextualizer, one_line
-from ams_assistant.evaluation import (
-    expected_groups,
-    load_questions,
-    print_comparison,
-    score,
-)
-from ams_assistant.vector_store import get_embeddings, get_vector_store
+from ams_assistant.evaluation import compare
+from ams_assistant.pipeline import PRODUCTION
+from ams_assistant.vector_store import get_embeddings
 
 # ingest.py sits in the project root, one folder up from this script,
 # and isn't part of the ams_assistant package: make it importable.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from ingest import load_documents, split_documents  # noqa: E402
+from ingest import build_chunks, load_documents  # noqa: E402
 
 CONTEXTS_FILE = Path(__file__).with_name("contexts.json")
 
@@ -134,14 +126,14 @@ def store_contextual(chunks: list[Document],
 
 
 def main():
-    """Write the context lines, then score both runs."""
+    """Write the context lines, then score both pipelines."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--contexts-only", action="store_true",
                         help="stop after writing the context lines")
     args = parser.parse_args()
 
     documents = load_documents()
-    chunks = split_documents(documents)
+    chunks = build_chunks(documents)
     keys = [chunk_key(c) for c in chunks]
     assert len(set(keys)) == len(keys), "two chunks share a key"
 
@@ -149,41 +141,11 @@ def main():
     if args.contexts_only:
         return
 
-    contextual_store = store_contextual(chunks, contexts)
-
-    questions = [q for q in load_questions() if q["expected_source"].strip()]
-    texts = [q["question"] for q in questions]
-    k = CANDIDATE_K if USE_RERANKER else TOP_K
-    baseline_docs = get_vector_store().as_retriever(
-        search_kwargs={"k": k}).batch(texts)
-    contextual_docs = contextual_store.as_retriever(
-        search_kwargs={"k": k}).batch(texts)
-
-    if USE_RERANKER:
-        # Imported here: loading PyTorch takes seconds, and it isn't
-        # needed when USE_RERANKER is off.
-        from ams_assistant.reranker import rerank
-
-        print(f"Reranking {CANDIDATE_K} -> {TOP_K} for both runs...")
-        baseline_docs = [rerank(t, d) for t, d in zip(texts, baseline_docs)]
-        contextual_docs = [
-            rerank(t, d) for t, d in zip(texts, contextual_docs)
-        ]
-
-    baseline = []
-    contextual = []
-    for item, docs_a, docs_b in zip(questions, baseline_docs,
-                                    contextual_docs):
-        expected = expected_groups(item)
-        baseline.append(score(expected, docs_a))
-        contextual.append(score(expected, docs_b))
-
-    # For a flipped question, show the new top chunk's context line.
-    details = [
-        f"top = {chunk_key(docs[0])}: {contexts[chunk_key(docs[0])]}"
-        for docs in contextual_docs
-    ]
-    print_comparison("Contextual", questions, baseline, contextual, details)
+    store_contextual(chunks, contexts)
+    compare(PRODUCTION, {
+        "Contextual": replace(PRODUCTION,
+                              collection=CONTEXTUAL_COLLECTION_NAME),
+    })
 
 
 if __name__ == "__main__":

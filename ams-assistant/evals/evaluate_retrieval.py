@@ -7,9 +7,12 @@ In:  ams-data/evaluation_questions.csv; each answerable question lists
      state the same answer (also_correct).
 Out: Hit Rate, Recall and MRR (all "@TOP_K"), computed as in
      basic-rag/evals/evaluate_retrieval.py, plus the questions that
-     missed. No LLM is involved, so it takes seconds.
+     missed. No LLM is involved; with the reranker's saved scores
+     (reranker.py) it takes seconds, about 6 minutes without them.
 
-Strategy: a chunk's sections are read from its text: every heading
+Strategy: retrieval is PRODUCTION (pipeline.py), the same as query.py
+and the answer eval, so this scores what the app really retrieves.
+A chunk's sections are read from its text: every heading
 line in it ("4.4 ANNUAL LEAVE CARRY-OVER", "4.4.1 Standard carry-over
 limit") gives one, e.g. {"employee_handbook.txt#4.4",
 "employee_handbook.txt#4.4.1"}. The scoring lives in
@@ -32,22 +35,22 @@ from ams_assistant.evaluation import (
     score,
     summarize,
 )
-from ams_assistant.vector_store import get_vector_store
+from ams_assistant.pipeline import PRODUCTION, retrieve
 
 
 def main():
     """Score the retriever on every question and print the metrics."""
     # Only questions with an expected source can be scored.
     questions = [q for q in load_questions() if q["expected_source"].strip()]
-    retriever = get_vector_store().as_retriever(search_kwargs={"k": TOP_K})
 
+    print(f"Pipeline: {PRODUCTION}")
     print(f"Scoring {len(questions)} questions, top {TOP_K} chunks each...")
+    found = retrieve([item["question"] for item in questions], PRODUCTION)
 
     scores = []
     failures = []
 
-    for item in questions:
-        docs = retriever.invoke(item["question"])
+    for item, docs in zip(questions, found):
         result = score(expected_groups(item), docs)
         scores.append(result)
 

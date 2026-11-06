@@ -5,7 +5,8 @@ In:  ams-data/evaluation_questions.csv; the Documents retrieved for a
      question.
 Out: load_questions() -> the CSV rows; score() -> one question's hit,
      recall and reciprocal rank; summarize() -> Hit Rate, Recall, MRR;
-     print_comparison() -> an experiment's report vs the baseline.
+     print_comparison() -> an experiment's report vs the baseline;
+     compare() -> runs pipelines (pipeline.py) and prints that report.
 
 Strategy: every script scores with these same functions, so a
 difference between two runs comes from the retrieval, not the maths.
@@ -27,6 +28,7 @@ import re
 from langchain_core.documents import Document
 
 from ams_assistant.config import EVALUATION_FILE
+from ams_assistant.pipeline import Pipeline, search_and_rerank, transform
 
 
 # Same heading rule as basic-rag's chunker: a line starting with a
@@ -151,3 +153,49 @@ def print_comparison(
             print(f"\n  Question : {item['question']}")
             print(f"  {label:9}: {detail}")
             print(f"  Expected : {item['expected_source']}")
+
+
+# Lines that ingestion-side experiments add to a chunk's text.
+ADDED_LINE_PREFIXES = ("Context: ", "Glossary: ")
+
+
+def describe(question: str, text: str, docs: list[Document]) -> str:
+    """One flipped question's details: the text it was searched with
+    (if changed), the top chunk, and why that chunk came up."""
+    top = docs[0]
+    parts = []
+    if text != question:
+        parts.append(f'searched "{text}"')
+    parts.append(f"top = {top.metadata['source']}#{top.metadata['section']}")
+    parts += [line for line in top.page_content.splitlines()
+              if line.startswith(ADDED_LINE_PREFIXES)]
+    if "matched_via" in top.metadata:
+        parts.append(f'matched via "{top.metadata["matched_via"]}"')
+    return "\n             ".join(parts)
+
+
+def compare(baseline: Pipeline, candidates: dict[str, Pipeline]) -> None:
+    """Run the baseline and every candidate on the answerable questions,
+    then print each candidate against the baseline. Labels (the keys)
+    should be at most 10 characters to fit the table."""
+    items = [q for q in load_questions() if q["expected_source"].strip()]
+    questions = [item["question"] for item in items]
+
+    def run(label: str, pipeline: Pipeline) -> tuple[list[dict], list[str]]:
+        print(f"Running {label}: {pipeline}", flush=True)
+        texts = transform(questions, pipeline)
+        found = search_and_rerank(texts, pipeline)
+        changed = sum(t != q for t, q in zip(texts, questions))
+        if changed:
+            print(f"  search text changed for {changed}/{len(texts)}")
+        scores = [score(expected_groups(item), docs)
+                  for item, docs in zip(items, found)]
+        details = [describe(q, t, docs)
+                   for q, t, docs in zip(questions, texts, found)]
+        return scores, details
+
+    baseline_scores, _details = run("baseline", baseline)
+    for label, pipeline in candidates.items():
+        scores, details = run(label, pipeline)
+        print(f"\n=== {label} ===")
+        print_comparison(label, items, baseline_scores, scores, details)

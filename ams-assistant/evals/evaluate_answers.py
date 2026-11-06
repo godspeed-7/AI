@@ -3,12 +3,13 @@
 In:  every question in ams-data/evaluation_questions.csv (unanswerable
      ones included: for those, "I can't tell from the policies" is the
      right answer).
-Out: evals/answer_evaluation_results[_reranked].csv (one row per
-     question, written as the run goes) and the average scores, overall,
-     per category and per department.
+Out: evals/answer_evaluation_results.csv (one row per question,
+     written as the run goes) and the average scores, overall, per
+     category and per department.
 
-Strategy: per question, build_chain() answers it (same pipeline as
-query.py), then the judge (judge.py) scores the answer 0-2 on
+Strategy: per question, build_chain() answers it with PRODUCTION
+(pipeline.py: the same retrieval as query.py and the experiments),
+then the judge (judge.py) scores the answer 0-2 on
 correctness, context_support and completeness, i.e. 0-6 in total.
 Each row also records whether retrieval found an expected section
 (retrieval_hit, scored as in evaluate_retrieval.py), so a low score
@@ -17,16 +18,18 @@ can be traced to the search (no hit) or to the answer (hit).
 Usage (from ams-assistant/):
     uv run python evals/evaluate_answers.py --limit 5   # quick check
     uv run python evals/evaluate_answers.py             # full run
-    uv run python evals/evaluate_answers.py --rerank    # with reranker
     uv run python evals/evaluate_answers.py --workers 2 # 2 at a time
 
 Caveats:
-- Slow: two LLM calls per question, about two hours for the full set.
+- Slow the first time: two LLM calls per question, about 70 minutes
+  with --workers 2. Replies are cached (llm_cache.py), so a rerun only
+  calls the LLM for questions whose prompt changed (e.g. new chunks).
 - --workers N grades N questions at the same time. Ollama only runs
   them at the same time if it was started with OLLAMA_NUM_PARALLEL=N;
   otherwise they queue and nothing gets faster.
 - retrieval_hit is empty for unanswerable questions (nothing to find).
-- The results file is overwritten on every run.
+- The results file is overwritten on every run (git keeps the older
+  ones).
 - A question that fails (e.g. a judge reply that doesn't fit Scores)
   is logged and skipped, so a long run isn't lost.
 """
@@ -41,6 +44,7 @@ from ams_assistant.chain import build_chain
 from ams_assistant.config import EVALS_DIR
 from ams_assistant.evaluation import expected_groups, load_questions, score
 from ams_assistant.judge import build_judge
+from ams_assistant.pipeline import PRODUCTION
 from ams_assistant.prompts import format_docs
 
 
@@ -102,8 +106,6 @@ def grade(item: dict, chain, judge) -> dict:
 def main():
     """Answer and grade every question, then print the averages."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--rerank", action="store_true",
-                        help="retrieve with the cross-encoder reranker")
     parser.add_argument("--limit", type=int,
                         help="only the first N questions (a quick check)")
     parser.add_argument("--workers", type=int, default=1,
@@ -112,11 +114,13 @@ def main():
     args = parser.parse_args()
 
     questions = load_questions()[:args.limit]
-    chain = build_chain(use_reranker=args.rerank)
+    chain = build_chain()
     judge = build_judge()
+    # Printed so a results file can be traced to the pipeline it came
+    # from.
+    print(f"Pipeline: {PRODUCTION}")
 
-    suffix = "_reranked" if args.rerank else ""
-    output_file = EVALS_DIR / f"answer_evaluation_results{suffix}.csv"
+    output_file = EVALS_DIR / "answer_evaluation_results.csv"
     rows = []
     failed = []
     start = time.perf_counter()

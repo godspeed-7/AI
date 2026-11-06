@@ -6,6 +6,9 @@ Steps:
     2. Chunk           one chunk per handbook section (e.g. 6.2), with a
                        header naming its handbook, chapter and section
                        and a one-line summary of its chapter
+       Enrich          chunks naming a glossary term get a last line
+                       "Glossary: ..." (glossary.py), e.g. a chunk
+                       saying "US payroll" gets "Austin office"
     3. Embed + store   recreate the Qdrant collection, embed every chunk
                        with EMBEDDING_MODEL, and store it
                        (QdrantVectorStore.from_documents)
@@ -43,6 +46,7 @@ from langchain_core.documents import Document
 from langchain_qdrant import QdrantVectorStore
 
 from ams_assistant.config import COLLECTION_NAME, POLICIES_DIR, QDRANT_URL
+from ams_assistant.glossary import enrich_chunk
 from ams_assistant.vector_store import get_embeddings
 
 
@@ -346,6 +350,16 @@ def split_documents(documents: list[Document]) -> list[Document]:
     return chunks
 
 
+def build_chunks(documents: list[Document]) -> list[Document]:
+    """Chunk + Enrich: the chunks exactly as COLLECTION_NAME stores
+    them. Experiments build their collections from this too, so they
+    differ from production only in the technique they test."""
+    # Enrich (promoted 2026-11-05, top 3: 96.58% -> 97.34%, 0 broken).
+    # Kept out of split_documents, so the glossary experiment can still
+    # get plain chunks.
+    return [enrich_chunk(chunk) for chunk in split_documents(documents)]
+
+
 def main():
     """Run the three ingestion steps and print what they made."""
     # Step 1: Load
@@ -353,13 +367,16 @@ def main():
     total_characters = sum(len(doc.page_content) for doc in documents)
     print(f"Loaded {len(documents)} documents ({total_characters} characters)")
 
-    # Step 2: Chunk
-    chunks = split_documents(documents)
+    # Step 2: Chunk + Enrich
+    chunks = build_chunks(documents)
     print(f"\nCreated {len(chunks)} chunks")
 
     # Chunks per document; Counter counts how often each source appears.
     for source, count in Counter(c.metadata["source"] for c in chunks).items():
         print(f"  {source}: {count} chunks")
+
+    enriched = sum("\nGlossary: " in c.page_content for c in chunks)
+    print(f"Glossary lines added to {enriched} chunks")
 
     # Step 3: Embed + store. from_documents does it all in one call:
     # deletes the old collection (force_recreate=True), creates a new one,

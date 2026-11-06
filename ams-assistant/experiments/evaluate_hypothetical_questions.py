@@ -1,23 +1,22 @@
 """Experiment: do hypothetical questions (LLM-written questions per
 chunk, each stored as an extra point) improve retrieval?
 
-In:  the handbooks (chunked exactly as ingest.py does) and the
+In:  the chunks exactly as ingest.py stores them (build_chunks) and the
      answerable questions in ams-data/evaluation_questions.csv.
 Out: experiments/questions.json (the questions per chunk), then Hit
-     Rate, Recall and MRR @TOP_K for two runs, side by side:
-         Baseline       search COLLECTION_NAME (what ingest.py stored)
-         Hypothetical   search HYPOTHETICAL_COLLECTION_NAME: every
-                        chunk's own point plus one per question, each
-                        question point swapped for its chunk
+     Rate, Recall and MRR @TOP_K for two pipelines, side by side:
+         Baseline       PRODUCTION (pipeline.py)
+         Hypothetical   PRODUCTION searching HYPOTHETICAL_COLLECTION_NAME
+                        (every chunk's own point plus one per question)
+                        with swap_to_parents on
      plus every question that flipped, with the point that matched.
 
 Strategy: stage 1 writes the questions (question_writer.py), saving
 as it goes; a rerun skips chunks already in questions.json. Stage 2
-stores the points and searches by hand: fetch FETCH_FACTOR times more
-points than needed, swap each for its parent chunk, drop repeats, keep
-the first k (what LangChain's MultiVectorRetriever does). With
-USE_RERANKER (config.py), k = CANDIDATE_K and the cross-encoder keeps
-TOP_K.
+stores the points; each carries "parent" = its chunk's key, and chunk
+points keep the chunk's metadata. pipeline.py's swap_to_parents does
+the search: fetch more points, swap each for its chunk, drop repeats
+(what LangChain's MultiVectorRetriever does).
 
 Usage (from ams-assistant/, as one line each):
     uv run python experiments/evaluate_hypothetical_questions.py
@@ -34,36 +33,24 @@ import argparse
 import json
 import sys
 import time
+from dataclasses import replace
 from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_qdrant import QdrantVectorStore
 
-from ams_assistant.config import (
-    CANDIDATE_K,
-    HYPOTHETICAL_COLLECTION_NAME,
-    QDRANT_URL,
-    TOP_K,
-    USE_RERANKER,
-)
-from ams_assistant.evaluation import (
-    expected_groups,
-    load_questions,
-    print_comparison,
-    score,
-)
+from ams_assistant.config import HYPOTHETICAL_COLLECTION_NAME, QDRANT_URL
+from ams_assistant.evaluation import compare
+from ams_assistant.pipeline import PRODUCTION
 from ams_assistant.question_writer import build_question_writer
-from ams_assistant.vector_store import get_embeddings, get_vector_store
+from ams_assistant.vector_store import get_embeddings
 
 # ingest.py sits in the project root, one folder up from this script,
 # and isn't part of the ams_assistant package: make it importable.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from ingest import load_documents, split_documents  # noqa: E402
+from ingest import build_chunks, load_documents  # noqa: E402
 
 QUESTIONS_FILE = Path(__file__).with_name("questions.json")
-# Several points can lead to the same chunk, so fetch this many times
-# more points than the chunks we need.
-FETCH_FACTOR = 4
 
 
 def chunk_key(chunk: Document) -> str:
@@ -107,14 +94,15 @@ def write_questions(chunks: list[Document]) -> dict[str, list[str]]:
 
 def store_points(chunks: list[Document],
                  questions: dict[str, list[str]]) -> QdrantVectorStore:
-    """Stage 2: one point per chunk and one per question, each with
-    "parent" = its chunk's key (collection recreated every run)."""
+    """Stage 2: one point per chunk (with the chunk's metadata) and one
+    per question, each with "parent" = its chunk's key (collection
+    recreated every run)."""
     points = []
     for chunk in chunks:
         key = chunk_key(chunk)
         points.append(Document(
             page_content=chunk.page_content,
-            metadata={"parent": key, "kind": "chunk"},
+            metadata={**chunk.metadata, "parent": key, "kind": "chunk"},
         ))
         points += [
             Document(page_content=q,
@@ -133,76 +121,27 @@ def store_points(chunks: list[Document],
     )
 
 
-def to_parents(points: list[Document], parents: dict[str, Document],
-               k: int) -> tuple[list[Document], list[Document]]:
-    """Swap each point for its chunk, drop repeats, keep the first k.
-    Also return the point that brought in each kept chunk."""
-    chunks, via = [], []
-    for point in points:
-        chunk = parents[point.metadata["parent"]]
-        if chunk not in chunks:
-            chunks.append(chunk)
-            via.append(point)
-        if len(chunks) == k:
-            break
-    return chunks, via
-
-
 def main():
-    """Write the questions, then score both runs."""
+    """Write the questions, then score both pipelines."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--questions-only", action="store_true",
                         help="stop after writing the questions")
     args = parser.parse_args()
 
-    chunks = split_documents(load_documents())
-    parents = {chunk_key(c): c for c in chunks}
-    assert len(parents) == len(chunks), "two chunks share a key"
+    chunks = build_chunks(load_documents())
+    keys = [chunk_key(c) for c in chunks]
+    assert len(set(keys)) == len(keys), "two chunks share a key"
 
     questions = write_questions(chunks)
     if args.questions_only:
         return
 
-    store = store_points(chunks, questions)
-
-    items = [q for q in load_questions() if q["expected_source"].strip()]
-    texts = [q["question"] for q in items]
-    k = CANDIDATE_K if USE_RERANKER else TOP_K
-    baseline_docs = get_vector_store().as_retriever(
-        search_kwargs={"k": k}).batch(texts)
-    found = store.as_retriever(
-        search_kwargs={"k": k * FETCH_FACTOR}).batch(texts)
-    swapped = [to_parents(points, parents, k) for points in found]
-    hypothetical_docs = [docs for docs, _via in swapped]
-
-    if USE_RERANKER:
-        # Imported here: loading PyTorch takes seconds, and it isn't
-        # needed when USE_RERANKER is off.
-        from ams_assistant.reranker import rerank
-
-        print(f"Reranking {CANDIDATE_K} -> {TOP_K} for both runs...")
-        baseline_docs = [rerank(t, d) for t, d in zip(texts, baseline_docs)]
-        hypothetical_docs = [
-            rerank(t, d) for t, d in zip(texts, hypothetical_docs)
-        ]
-
-    baseline = []
-    hypothetical = []
-    for item, docs_a, docs_b in zip(items, baseline_docs,
-                                    hypothetical_docs):
-        expected = expected_groups(item)
-        baseline.append(score(expected, docs_a))
-        hypothetical.append(score(expected, docs_b))
-
-    # For a flipped question: which point brought in the new top chunk.
-    details = []
-    for docs, (kept, via) in zip(hypothetical_docs, swapped):
-        top = docs[0]
-        point = via[kept.index(top)]
-        how = (f"question \"{point.page_content}\""
-               if point.metadata["kind"] == "question" else "its own text")
-        details.append(f"top = {chunk_key(top)}, matched via {how}")
-    print_comparison("Hypothet.", items, baseline, hypothetical, details)
+    store_points(chunks, questions)
+    compare(PRODUCTION, {
+        "Hypothet.": replace(PRODUCTION,
+                             collection=HYPOTHETICAL_COLLECTION_NAME,
+                             swap_to_parents=True),
+    })
 
 
 if __name__ == "__main__":

@@ -7,7 +7,8 @@ Out: build_chain().invoke(question) -> {"question": str,
 Strategy: the same three query steps as before (retrieve -> prompt ->
 generate), wired once with LCEL's | so callers make one invoke() call.
 query.py and the evals both import this, so they always run the same
-pipeline.
+pipeline. Retrieval is pipeline.py's retrieve(), the same one the
+experiments score, with the techniques PRODUCTION switches on.
 
 Caveats:
 - Each retrieved Document carries its vector similarity in
@@ -15,55 +16,30 @@ Caveats:
   (~0.6-0.75 here), so compare gaps between chunks, not absolutes.
 - No StrOutputParser at the end: the answer stays an AIMessage, so the
   token counts (usage_metadata) survive. Read the text with .content.
-- Reranking (reranker.py) follows config.USE_RERANKER unless
-  use_reranker is passed.
 """
 
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import ChatOllama
 
-from ams_assistant.config import (
-    CANDIDATE_K,
-    LLM_MODEL,
-    TEMPERATURE,
-    TOP_K,
-    USE_RERANKER,
-)
+from ams_assistant.config import LLM_MODEL, TEMPERATURE
+from ams_assistant.llm_cache import get_llm_cache
+from ams_assistant.pipeline import PRODUCTION, Pipeline, retrieve
 from ams_assistant.prompts import PROMPT, format_docs
-from ams_assistant.vector_store import get_vector_store
 
 
-def build_chain(use_reranker: bool = USE_RERANKER):
-    """Connect to Qdrant and Ollama and return the ready-to-run chain.
+def build_chain(pipeline: Pipeline = PRODUCTION):
+    """Connect to Qdrant and Ollama and return the ready-to-run chain,
+    retrieving with `pipeline` (default: what the app runs)."""
+    # Step 1: Retrieve: question -> the closest Documents. A plain
+    # function in a chain becomes a step too.
+    def retriever(question: str) -> list[Document]:
+        return retrieve([question], pipeline)[0]
 
-    use_reranker=True fetches CANDIDATE_K chunks and keeps the TOP_K the
-    cross-encoder scores highest, instead of the search's own TOP_K.
-    """
-    # Step 1: Retrieve: question -> the closest Documents.
-    store = get_vector_store()
-
-    def search(question: str, k: int) -> list[Document]:
-        """Vector search that keeps each score (as_retriever() would
-        drop it) in doc.metadata["score"]."""
-        results = store.similarity_search_with_score(question, k=k)
-        for doc, score in results:
-            doc.metadata["score"] = score
-        return [doc for doc, _score in results]
-
-    # A plain function in a chain becomes a step too.
-    if use_reranker:
-        # Imported here, not at the top: it loads PyTorch, which takes
-        # seconds and isn't needed when the reranker is off.
-        from ams_assistant.reranker import rerank
-
-        def retriever(question: str):
-            return rerank(question, search(question, CANDIDATE_K))
-    else:
-        def retriever(question: str):
-            return search(question, TOP_K)
-
-    llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE)
+    # cache: the same question with the same chunks gets its saved
+    # answer (llm_cache.py) instead of a new LLM call.
+    llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE,
+                     cache=get_llm_cache())
 
     # Steps 2 + 3: Prompt and Generate. Receives {"question", "docs"},
     # adds "context" (the labelled chunks), fills PROMPT, calls the LLM.

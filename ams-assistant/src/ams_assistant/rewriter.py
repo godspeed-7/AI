@@ -18,7 +18,7 @@ Austin?" and 0.920 for "on the US payroll?".
 
 Caveats:
 - One extra LLM call per question (slower, and gemma3:4b can drift
-  from the original meaning). An experiment for now; not in chain.py.
+  from the original meaning). Off in PRODUCTION (Pipeline.rewrite).
 - The new rules were written after seeing which eval questions broke,
   so an improvement here may not carry over to new questions. Never
   use wording from the eval questions as an example in the rules.
@@ -29,6 +29,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 
 from ams_assistant.config import LLM_MODEL, TEMPERATURE
+from ams_assistant.llm_cache import get_llm_cache
 
 
 REWRITE_PROMPT = ChatPromptTemplate.from_template("""\
@@ -73,7 +74,9 @@ Rewritten search query:
 
 def build_rewriter():
     """Return the chain: {"question"} -> rewritten query (a string)."""
-    llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE)
+    # cache: a question rewritten before gets its saved rewrite.
+    llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE,
+                     cache=get_llm_cache())
 
     # StrOutputParser turns the AIMessage into its text (.content), so
     # the result can go straight into the retriever. A plain function
