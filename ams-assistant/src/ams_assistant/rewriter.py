@@ -76,7 +76,7 @@ def build_rewriter():
     """Return the chain: {"question"} -> rewritten query (a string)."""
     # cache: a question rewritten before gets its saved rewrite.
     llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE,
-                     cache=get_llm_cache())
+                     cache=get_llm_cache(LLM_MODEL, TEMPERATURE))
 
     # StrOutputParser turns the AIMessage into its text (.content), so
     # the result can go straight into the retriever. A plain function

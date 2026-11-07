@@ -8,7 +8,8 @@ Out: PROMPT.invoke({"context": ..., "question": ...}) -> two chat
 Strategy: RULES began as a word-for-word copy of basic-rag's (leave
 only). Rewritten 2026-11-06 for the six handbooks, one rule per
 mistake type in the answer eval: base office first, every part
-answered, Yes/No first, current rule over a changed one, no headings.
+answered, a clear yes or no, current rule over a changed one, no
+headings.
 
 Caveats:
 - Chunks are labelled with their file name ([leave_policy_india.txt]);
@@ -42,9 +43,9 @@ using only the company policy context below.
 
 3. Answer every part of the question.
 
-4. If the question can be answered yes or no, begin with "Yes", "No"
-   or "It depends", then give the reason. Nothing after that may
-   contradict it.
+4. If the question asks whether something is allowed or applies,
+   say clearly whether it does, and make sure the rest of the answer
+   agrees.
 
 5. Apply the rule to the employee's own situation: compare their
    numbers, dates, grade and length of service with the limits and

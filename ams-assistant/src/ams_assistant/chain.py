@@ -20,26 +20,25 @@ Caveats:
 
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
-from langchain_ollama import ChatOllama
 
-from ams_assistant.config import LLM_MODEL, TEMPERATURE
-from ams_assistant.llm_cache import get_llm_cache
+from ams_assistant.config import ANSWER_MODEL, ANSWER_PROVIDER, TEMPERATURE
+from ams_assistant.llm import build_llm
 from ams_assistant.pipeline import PRODUCTION, Pipeline, retrieve
 from ams_assistant.prompts import PROMPT, format_docs
 
 
 def build_chain(pipeline: Pipeline = PRODUCTION):
-    """Connect to Qdrant and Ollama and return the ready-to-run chain,
-    retrieving with `pipeline` (default: what the app runs)."""
+    """Connect to Qdrant and the answering model (ANSWER_PROVIDER) and
+    return the ready-to-run chain, retrieving with `pipeline` (default:
+    what the app runs)."""
     # Step 1: Retrieve: question -> the closest Documents. A plain
     # function in a chain becomes a step too.
     def retriever(question: str) -> list[Document]:
         return retrieve([question], pipeline)[0]
 
-    # cache: the same question with the same chunks gets its saved
-    # answer (llm_cache.py) instead of a new LLM call.
-    llm = ChatOllama(model=LLM_MODEL, temperature=TEMPERATURE,
-                     cache=get_llm_cache())
+    # The model has a cache: the same question with the same chunks
+    # gets its saved answer (llm_cache.py) instead of a new LLM call.
+    llm = build_llm(ANSWER_PROVIDER, ANSWER_MODEL, TEMPERATURE)
 
     # Steps 2 + 3: Prompt and Generate. Receives {"question", "docs"},
     # adds "context" (the labelled chunks), fills PROMPT, calls the LLM.

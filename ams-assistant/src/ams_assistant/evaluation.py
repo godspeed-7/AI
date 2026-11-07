@@ -165,7 +165,9 @@ def describe(question: str, text: str, docs: list[Document]) -> str:
     top = docs[0]
     parts = []
     if text != question:
-        parts.append(f'searched "{text}"')
+        # A decomposed text has one sub-question per line.
+        parts.append("searched " + " + ".join(
+            f'"{part}"' for part in text.splitlines()))
     parts.append(f"top = {top.metadata['source']}#{top.metadata['section']}")
     parts += [line for line in top.page_content.splitlines()
               if line.startswith(ADDED_LINE_PREFIXES)]

@@ -45,11 +45,33 @@ EMBEDDING_MODEL = "nomic-embed-text"
 # so vector_store.py does.
 EMBED_DOCUMENT_PREFIX = "search_document: "
 EMBED_QUERY_PREFIX = "search_query: "
-# Writes the answers; same model and temperature as basic-rag.
+# Writes the answers; same model and temperature as basic-rag. Also
+# runs the experiments' LLM steps (query rewriting etc.), always on
+# Ollama.
 LLM_MODEL = "gemma3:4b"
+# Where the answers are written: "ollama" + LLM_MODEL (this Mac), or a
+# hosted model, e.g. "google" + "gemma-4-31b-it" (Run 2, 2026-11-07:
+# does a bigger model answer better?). Providers as for the judge.
+ANSWER_PROVIDER = "ollama"
+ANSWER_MODEL = LLM_MODEL
 # Grades answers in evals/evaluate_answers.py. Kept separate from
-# LLM_MODEL so the judge can be changed on its own.
-JUDGE_MODEL = "gemma3:4b"
+# LLM_MODEL so the judge can be changed on its own. Where it runs:
+# "ollama" (this Mac), "google" (AI Studio free tier; needs
+# GOOGLE_API_KEY) or "nvidia" (build.nvidia.com free tier; needs
+# NVIDIA_API_KEY). On a 40-answer key (2026-11-06): Nemotron 3 Ultra
+# (nvidia) 35/40, gemma-4-31b-it 30/36, gemma-4-26b-a4b-it 28/35,
+# gemma3:12b 29/40, gemma3:4b 20/40. Gemma 4 26B is the judge: free,
+# stable and a full run fits one sitting (NVIDIA's free quota runs
+# out mid-run). Switch with e.g. "nvidia" +
+# "nvidia/nemotron-3-ultra-550b-a55b", or "ollama" + "gemma3:12b".
+JUDGE_PROVIDER = "google"
+JUDGE_MODEL = "gemma-4-26b-a4b-it"
+GOOGLE_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
+# Google's free tier allows each Gemma 4 model 16,000 tokens a minute;
+# one grade sends ~1,200 (at most ~1,500), so each model gets at most
+# this many calls a minute.
+GOOGLE_CALLS_PER_MINUTE = 6
 # 0 = always pick the most likely next word, so answers are repeatable.
 TEMPERATURE = 0
 

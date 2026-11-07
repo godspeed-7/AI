@@ -4,8 +4,9 @@ In:  every question in ams-data/evaluation_questions.csv (unanswerable
      ones included: for those, "I can't tell from the policies" is the
      right answer).
 Out: evals/answer_evaluation_results.csv (one row per question,
-     written as the run goes) and the average scores, overall, per
-     category and per department.
+     written as the run goes; a --set other than "all" writes
+     answer_evaluation_results_<set>.csv) and the average scores,
+     overall, per category and per department.
 
 Strategy: per question, build_chain() answers it with PRODUCTION
 (pipeline.py: the same retrieval as query.py and the experiments),
@@ -17,13 +18,22 @@ can be traced to the search (no hit) or to the answer (hit).
 
 Usage (from ams-assistant/):
     uv run python evals/evaluate_answers.py --limit 5   # quick check
+    uv run python evals/evaluate_answers.py --set fast  # day-to-day
     uv run python evals/evaluate_answers.py             # full run
     uv run python evals/evaluate_answers.py --workers 2 # 2 at a time
 
+Sets (the CSV's split column): "dev" (171 questions) is for tuning;
+"test" (114) stays unseen until a change is promoted, so a gain that
+only holds on dev shows up as tuning to the questions. "fast" is every
+3rd dev question (57, every category), for day-to-day checks; "all"
+(285) decides promotions.
+
 Caveats:
-- Slow the first time: two LLM calls per question, about 70 minutes
-  with --workers 2. Replies are cached (llm_cache.py), so a rerun only
-  calls the LLM for questions whose prompt changed (e.g. new chunks).
+- Slow the first time: two LLM calls per question. Replies are cached
+  (llm_cache.py), so a rerun only calls the LLM for questions whose
+  prompt changed (e.g. new chunks). The hosted judge is paced (see
+  judge.py): a full run of new grades takes ~45 minutes, --set fast
+  ~10.
 - --workers N grades N questions at the same time. Ollama only runs
   them at the same time if it was started with OLLAMA_NUM_PARALLEL=N;
   otherwise they queue and nothing gets faster.
@@ -41,7 +51,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 from ams_assistant.chain import build_chain
-from ams_assistant.config import EVALS_DIR
+from ams_assistant.config import EVALS_DIR, JUDGE_MODEL, JUDGE_PROVIDER
 from ams_assistant.evaluation import expected_groups, load_questions, score
 from ams_assistant.judge import build_judge
 from ams_assistant.pipeline import PRODUCTION
@@ -103,6 +113,15 @@ def grade(item: dict, chain, judge) -> dict:
     }
 
 
+def pick(questions: list[dict], name: str) -> list[dict]:
+    """The questions of one set, in CSV order (see Sets above)."""
+    if name == "all":
+        return questions
+    if name == "fast":
+        return [q for q in questions if q["split"] == "dev"][::3]
+    return [q for q in questions if q["split"] == name]
+
+
 def main():
     """Answer and grade every question, then print the averages."""
     parser = argparse.ArgumentParser()
@@ -111,16 +130,22 @@ def main():
     parser.add_argument("--workers", type=int, default=1,
                         help="questions graded at the same time (needs "
                              "OLLAMA_NUM_PARALLEL set to the same number)")
+    parser.add_argument("--set", default="all",
+                        choices=["all", "dev", "fast", "test"],
+                        help="which questions (see Sets above)")
     args = parser.parse_args()
 
-    questions = load_questions()[:args.limit]
+    questions = pick(load_questions(), args.set)[:args.limit]
     chain = build_chain()
     judge = build_judge()
-    # Printed so a results file can be traced to the pipeline it came
-    # from.
+    # Printed so a results file can be traced to the pipeline and judge
+    # it came from.
     print(f"Pipeline: {PRODUCTION}")
+    print(f"Judge: {JUDGE_PROVIDER} {JUDGE_MODEL}, "
+          f"set: {args.set} ({len(questions)} questions)")
 
-    output_file = EVALS_DIR / "answer_evaluation_results.csv"
+    suffix = "" if args.set == "all" else f"_{args.set}"
+    output_file = EVALS_DIR / f"answer_evaluation_results{suffix}.csv"
     rows = []
     failed = []
     start = time.perf_counter()

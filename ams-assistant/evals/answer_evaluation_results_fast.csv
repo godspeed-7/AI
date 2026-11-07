@@ -1,0 +1,58 @@
+question,category,department,expected_answer,expected_source,retrieved_sources,retrieval_hit,generated_answer,correctness,context_support,completeness,total_score,explanation
+Can unused sick leave carry over into the next year for India-based employees?,lookup,People,No. Sick leave does not carry over under the India leave policy.,employee_handbook.txt#4.5.2,employee_handbook.txt#4.5; employee_handbook.txt#4.4; employee_handbook.txt#4.6,True,"<thought>*   User Question: ""Can unused sick leave carry over into the next year for India-based employees?""
+    *   Context: Provided sections from the Employee Handbook for India*   User Question: ""Can unused sick leave carry over into the next year for India-based employees?""
+    *   Context: Provided sections from the Employee Handbook for India (Sick Leave, Annual Leave Carry-over, Casual Leave).
+    *   Constraint: Use only the provided context. Follow specific rules (base office, evidence, answer all parts, clear yes/no, apply to situation, keep conditions, etc.).
+
+    *   Section 4.5.2 (Sick Leave): ""Unused sick leave does not carry over to the next leave year under this policy.""
+    *   Section 4.4.2 (Annual Leave Carry-over): ""Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.""
+
+    *   The employee is India-based.
+    *   The policy for India (Chapter 4) explicitly states that unused sick leave does not carry over to the next leave year.
+
+    *   Answer clearly whether it is allowed: No.
+    *   Evidence: ""Unused sick leave does not carry over to the next leave year under this policy.""
+    *   Length: 1-3 sentences.
+    *   No headings/labels.</thought>No, unused sick leave for India-based employees does not carry over to the next leave year under this policy.",2,2,2,6,"The generated answer is correct, directly supported by the provided context (Section 4.5.2), and fully answers the question."
+What should I do if my leave balance looks wrong?,lookup,People,Raise a request with People Operations and include the relevant dates and leave type.,employee_handbook.txt#4.10,employee_handbook.txt#4.10; employee_handbook.txt#13.1; employee_handbook.txt#4.2,True,"<thought>*   User Question: ""What should I do if my leave balance looks wrong?""
+    *   Context provided: Three sections from the Employee Handbook.
+    *   Constraint: Use only the provided context. Follow specific rules (base office, evidence, answer all parts, etc.).
+
+    *   Section 4.10 ""LEAVE BALANCE QUESTIONS AND CORRECTIONS"" states: ""The HR portal is the operational source for an employee's current displayed leave balance. Employees who believe the balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.""
+
+    *   Rule 1: Base office. The question doesn't specify a base office. However, the relevant section (4.10) is under ""Employee Leave Policy (India)"". The FAQ (13.1) mentions India and US. Since the specific instruction for balance corrections is only found in the India policy section, I should provide that rule. If the user's base office isn't mentioned, I should give each rule. But there is only one rule provided for balance corrections (in the India policy).
+    *   Rule 2: Find the statement. ""Employees who believe the balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.""
+    *   Rule 3: Answer every part. (Only one part).
+    *   Rule 4: Allowed/Applies. (Not applicable here).
+    *   Rule 5: Apply to situation. (No specific employee details provided).
+    *   Rule 6: Keep conditions/exceptions. (Include relevant dates and leave type).
+    *   Rule 7: Rule change. (None).
+    *   Rule 8: Answer if context answers. (It does).
+    *   Rule 9: Check consistency.
+
+    *   The policy for India employees states that those who believe their leave balance is incorrect should raise a request with People Operations, including the relevant dates and leave type.
+
+    *   The prompt says: ""If the question doesn't say where they are based, give each rule.""
+    *   The only rule for balance corrections is in ""Employee Leave Policy (India)"".
+    *   Is there a US rule? No.
+    *   So I provide the India rule.
+
+    *   ""For employees based in India, those who believe their leave balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.""
+
+    *   Wait, the prompt says ""If the question doesn't say where they are based, give each rule.""
+    *   Since only the India policy is provided for this specific issue, I will state the rule for India.
+
+    *   Draft: For employees based in India, those who believe their leave balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.
+
+    *   Check against constraints:
+        *   One to three sentences? Yes.
+        *   No headings/labels? Yes.
+        *   Only company policy context? Yes.
+        *   Base office handled? Yes.
+
+    *   Wait, let me double-check if there's any US-specific balance correction info.
+    *   Chapter 13.1.2 mentions PTO for US, but not balance corrections.
+    *   Chapter 13.1.5 mentions transfer from India to Austin, but not balance corrections.
+    *   So only the India rule exists.
+
+    *   Final Polish: For employees based in India, those who believe their leave balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.</thought>For employees based in India, those who believe their leave balance is incorrect should raise a request with People Operations and include the relevant dates and leave type.",2,2,2,6,"The generated answer is factually correct according to the provided context, specifically section 4.10. It correctly identifies the action (raise a request with People Operations) and the required details (relevant dates and leave type). It also appropriately handles the ambiguity of the user's location by specifying the rule applies to employees based in India, as that is the only policy provided for balance corrections."

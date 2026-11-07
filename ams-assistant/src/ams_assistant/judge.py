@@ -9,23 +9,31 @@ Strategy: the instructions come from ams-data/judge_prompt.txt (copied
 word for word from basic-rag's judge.py), so both projects are graded
 the same way. with_structured_output(Scores) makes the model reply in
 the shape of Scores and checks it, replacing basic-rag's hand-written
-JSON parsing and score validation.
+JSON parsing and score validation. The model is built by llm.py.
 
 Caveats:
-- The judge is the same small model as the answerer (gemma3:4b), so
-  treat score differences of 1-2% as noise.
+- "google" (Gemma 4 26B, the default): ~3 s per grade, but paced to
+  GOOGLE_CALLS_PER_MINUTE to stay under the free tier's tokens per
+  minute, so a full run takes ~45 minutes. On a 40-answer key it
+  agreed 28/35; it rarely gives partial marks and once passed a
+  confident "the policy doesn't cover it" that was wrong.
+- "nvidia" (Nemotron 3 Ultra) was the strictest (35/40), but its free
+  quota runs out after ~200 grades and returns hours later.
+- Only compare scores graded by the same judge.
 - Raises an error if the reply doesn't fit Scores (e.g. a score of 3).
 """
 
 from typing import Literal
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
 from pydantic import BaseModel
 
-from ams_assistant.config import JUDGE_MODEL, JUDGE_PROMPT_FILE
-from ams_assistant.llm_cache import get_llm_cache
-
+from ams_assistant.config import (
+    JUDGE_MODEL,
+    JUDGE_PROMPT_FILE,
+    JUDGE_PROVIDER,
+)
+from ams_assistant.llm import build_llm
 
 JUDGE_PROMPT = ChatPromptTemplate.from_template(
     JUDGE_PROMPT_FILE.read_text(encoding="utf-8")
@@ -51,9 +59,10 @@ def build_judge():
     """Return the chain: judge inputs -> Scores."""
     # temperature 0 keeps grading repeatable, so a saved grade
     # (llm_cache.py) is reused when the same answer comes back.
-    llm = ChatOllama(model=JUDGE_MODEL, temperature=0,
-                     cache=get_llm_cache())
+    llm = build_llm(JUDGE_PROVIDER, JUDGE_MODEL, temperature=0)
 
-    # with_structured_output sends Scores' JSON schema to Ollama, which
-    # constrains the reply to it, then turns the JSON into a Scores.
-    return JUDGE_PROMPT | llm.with_structured_output(Scores)
+    # with_structured_output sends Scores' JSON schema to the model,
+    # which constrains the reply to it, then turns the JSON into a
+    # Scores.
+    return JUDGE_PROMPT | llm.with_structured_output(
+        Scores, method="json_schema")
