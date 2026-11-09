@@ -12,7 +12,8 @@ use each one, and what happened when we tried it.
 ⬜ not tried · ✗ skipped or failed
 
 **Data**: v1 = the old 10 policy docs (133 questions). v2 = the 6
-handbooks (263 questions), from 3 Nov 2026. Their scores don't compare.
+handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
+2026. Their scores don't compare.
 
 ---
 
@@ -213,10 +214,12 @@ handbooks (263 questions), from 3 Nov 2026. Their scores don't compare.
    scores
 ```
 
-**Where we stand (v2)**
-- Retrieval, top 3: **92.4%** Hit Rate · with the reranker **96.6%**
-- Answers: **94.6%** (no reranker). 98% when retrieval hit, 53% when
-  it missed: retrieval is still the biggest lever.
+**Where we stand (v2, 7 Nov 2026)**
+- Retrieval, top 3: **92.4%** Hit Rate · with the reranker and glossary
+  rules **97.4%** (259 of 266)
+- Answers: **88.0%** (194 of 284 perfect), graded by Gemma 4 26B. 76 of
+  the 90 imperfect answers had the right chunk: the answer model is now
+  the biggest lever.
 
 ---
 
@@ -259,14 +262,14 @@ Cut each document into the pieces that get one vector each.
       │                                top of each chunk: "5 unused days" +
       │                                "Chapter 4: Employee Leave Policy
       │                                (India)"
+      ├╌╌ 🧪 Contextual retrieval ╌╌╌╌ an LLM reads the whole document and
+      │                                writes one line of context per chunk:
+      │                                "probation for India (Bengaluru, Pune)
+      │                                and US (Austin)"
       ├╌╌ ⬜ Semantic ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ cut where neighbouring sentences change
       │                                topic; for text without headings
       ├╌╌ ⬜ Parent-child ╌╌╌╌╌╌╌╌╌╌╌╌ search small pieces, hand the LLM the
       │                                bigger section they belong to
-      ├╌╌ ⬜ Contextual retrieval ╌╌╌╌ an LLM reads the whole document and
-      │                                writes one line of context per chunk:
-      │                                "probation for India (Bengaluru, Pune)
-      │                                and US (Austin)"
       ├╌╌ ✗  Fixed-size / recursive ╌╌ cut every N characters (recursive: at
       │                                the nearest paragraph or sentence); cuts
       │                                rules in half when headings exist
@@ -276,8 +279,10 @@ Cut each document into the pieces that get one vector each.
    chunks
 ```
 
-**Tried**: v1, fixed-size 78.9% → by section 89.5% → + title line and
-prefixes 92.5%
+**Tried**
+- v1, fixed-size 78.9% → by section 89.5% → + title line and prefixes
+  92.5%
+- v2, contextual retrieval: 97.34% → 97.72% (1 question); kept off
 
 [↑ Overview](#overview)
 
@@ -293,6 +298,9 @@ Fields stored with each chunk, for citations and filters.
       │
       ├╌╌ ✅ Payload fields ╌╌╌╌╌╌ labels stored next to each vector:
       │                            department, handbook, chapter, section …
+      ├╌╌ ✅ Glossary rules ╌╌╌╌╌╌ add a fact the chunk can't show, by a
+      │                            hand-written rule: says "US payroll" → add
+      │                            "Austin office"
       ├╌╌ ⬜ Filter fields ╌╌╌╌╌╌╌ values a search can narrow by: country = US;
       │                            only useful with self-query or a metadata
       │                            filter (steps 7–8)
@@ -302,15 +310,15 @@ Fields stored with each chunk, for citations and filters.
       ├╌╌ ⬜ Keyword enrichment ╌╌ an LLM reads the chunk and adds the words
       │                            users would use: "freelance, side job" for
       │                            legal 2.3.2 "Outside work"
-      ├╌╌ ⬜ Glossary rules ╌╌╌╌╌╌ add a fact the chunk can't show, by a
-      │                            hand-written rule: says "US payroll" → add
-      │                            "Austin office"
       ├╌╌ ⬜ Entity graph ╌╌╌╌╌╌╌╌ pull out things and the links between them:
       │                            HR-LEAVE-US-2026 → points to →
       │                            HR-LEAVE-IN-2026
       ▼
    chunks + payload
 ```
+
+**Tried**: v2 + reranker, glossary rules on the chunks: 96.58% →
+97.34% (2 fixed, 0 broken); in use
 
 [↑ Overview](#overview)
 
@@ -327,9 +335,7 @@ Turn each chunk into a vector, with the same model as the question.
       ├╌╌ ✅ Dense + prefixes ╌╌╌╌╌╌╌╌ a model turns text into a meaning
       │                                vector; nomic needs search_document: /
       │                                search_query: in front
-      ├╌╌ ⏭ Sparse (BM25) ╌╌╌╌╌╌╌╌╌╌╌ a vector of exact word counts: finds
-      │                                "IT-AUP-2026", "Journalists'"
-      ├╌╌ ⬜ Hypothetical questions ╌╌ an LLM writes questions each chunk
+      ├╌╌ 🧪 Hypothetical questions ╌╌ an LLM writes questions each chunk
       │                                answers; each is its own point pointing
       │                                back to the chunk: "How do I move to a
       │                                different team?" → 13.5
@@ -338,6 +344,8 @@ Turn each chunk into a vector, with the same model as the question.
       ├╌╌ ⬜ Other / fine-tuned ╌╌╌╌╌╌ swap the model, or train it on our
       │                                question → section pairs; means
       │                                re-embedding everything
+      ├╌╌ ✗  Sparse (BM25) ╌╌╌╌╌╌╌╌╌╌╌ a vector of exact word counts: finds
+      │                                "IT-AUP-2026", "Journalists'"
       ├╌╌ ✗  Multi-vector / ColBERT ╌╌ one vector per word, compared word by
       │                                word; accurate but heavy, for big
       │                                collections
@@ -345,7 +353,10 @@ Turn each chunk into a vector, with the same model as the question.
    vectors
 ```
 
-**Tried**: basic-rag v1, all-minilm → nomic: 89.5% → 93.2%
+**Tried**
+- basic-rag v1, all-minilm → nomic: 89.5% → 93.2%
+- v2, hypothetical questions: 97.34% → 97.72% (1 question); kept off
+- v2, BM25 (hand-written, for hybrid search): no gain, see step 8
 
 [↑ Overview](#overview)
 
@@ -418,14 +429,8 @@ Change the search text before it's embedded.
       ▼
    7 TRANSFORM
       │
-      ├╌╌ ⬜ Decomposition ╌╌╌╌╌╌ split a question that needs two answers into
-      │                           sub-questions, search each: "Pune or Austin?"
-      │                           → one search per office
       ├╌╌ ⬜ Normalization ╌╌╌╌╌╌ fix abbreviations and typos by rule: "WFH" →
       │                           "work from home"
-      ├╌╌ ⬜ Keyword expansion ╌╌ add related words to the same query (from an
-      │                           LLM or a glossary): "sick day" → also
-      │                           "medical leave"
       ├╌╌ ⬜ HyDE ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ an LLM writes a made-up answer; search with
       │                           that instead of the question
       ├╌╌ ⬜ Step-back ╌╌╌╌╌╌╌╌╌╌ also search a broader version: "carry over 7
@@ -433,6 +438,12 @@ Change the search text before it's embedded.
       ├╌╌ ⬜ Conversational ╌╌╌╌╌ turn a follow-up into a full question using
       │                           chat history: "and in Pune?" → "How many
       │                           leave days in Pune?"
+      ├╌╌ ✗  Decomposition ╌╌╌╌╌╌ split a question that needs two answers into
+      │                           sub-questions, search each: "Pune or Austin?"
+      │                           → one search per office
+      ├╌╌ ✗  Keyword expansion ╌╌ add related words to the same query (from an
+      │                           LLM or a glossary): "sick day" → also
+      │                           "medical leave"
       ├╌╌ ✗  Rewriting ╌╌╌╌╌╌╌╌╌╌ an LLM rewrites the question in clearer
       │                           words: "hey when do i get paid" → "When is
       │                           salary paid?"
@@ -451,6 +462,10 @@ Change the search text before it's embedded.
 - v1, multi-query: −0.75%, 120× slower
 - v2, rewriting + reranker: 96.6% → 91.3% (2 fixed, 16 broken)
 - v2, self-query: would fix ~1 of the 9 remaining misses; skipped
+- v2, decomposition: 97.34% → 96.58%; gemma split only 12 of 263
+  questions, and the halves lost context
+- v2, glossary on the question: on top of the chunk side, 1 fixed,
+  1 broken; kept off
 
 [↑ Overview](#overview)
 
@@ -467,9 +482,6 @@ Find the nearest chunks.
       ├╌╌ ✅ Dense, top 3 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ return the chunks whose vectors are
       │                                     closest to the question's: "time
       │                                     off" finds "annual leave"
-      ├╌╌ ⏭ Hybrid (dense + BM25) ╌╌╌╌╌╌╌╌ run meaning search and keyword
-      │                                     search, merge them (step 9):
-      │                                     catches "IT-AUP-2026"
       ├╌╌ ⬜ Metadata filter / faceted ╌╌╌╌ search only chunks whose fields
       │                                     match (faceted: several fields at
       │                                     once): country = US
@@ -482,6 +494,9 @@ Find the nearest chunks.
       ├╌╌ ⬜ Federated ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ search several systems and combine:
       │                                     policies + HR database (agents
       │                                     stage)
+      ├╌╌ ✗  Hybrid (dense + BM25) ╌╌╌╌╌╌╌╌ run meaning search and keyword
+      │                                     search, merge them (step 9):
+      │                                     catches "IT-AUP-2026"
       ├╌╌ ✗  Time-aware ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ prefer the version valid on the
       │                                     date asked; needs several versions
       │                                     of a policy
@@ -492,8 +507,12 @@ Find the nearest chunks.
    candidate chunks
 ```
 
-**Tried**: v1, the right chunk was in the top 3, 5 and 10 for 92.5%,
-95.5% and 97.7% → a ranking problem → reranking
+**Tried**
+- v1, the right chunk was in the top 3, 5 and 10 for 92.5%, 95.5% and
+  97.7% → a ranking problem → reranking
+- v2, hybrid (hand-written BM25 + RRF): 97.34% → 96.97%, 0 fixed,
+  1 broken; 4 of the 7 misses are in the dense top 10 but dropped by
+  the reranker
 
 [↑ Overview](#overview)
 
@@ -507,16 +526,19 @@ Merge two or more result lists.
       ▼
    9 FUSE
       │
-      ├╌╌ ⏭ RRF ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ score each chunk by its rank in every
-      │                                list, 1 / (60 + rank), and add up; the
-      │                                lists' score scales don't matter
       ├╌╌ ⬜ Weighted fusion / DBSF ╌╌ combine the raw scores, with one list
       │                                weighted higher
       ├╌╌ ⬜ Deduplication ╌╌╌╌╌╌╌╌╌╌╌ keep one copy when the same chunk comes
       │                                from several searches
+      ├╌╌ ✗  RRF ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ score each chunk by its rank in every
+      │                                list, 1 / (60 + rank), and add up; the
+      │                                lists' score scales don't matter
       ▼
    one list
 ```
+
+**Tried**: v2, RRF (k = 60) merged dense and BM25 for hybrid search;
+no gain, see step 8
 
 [↑ Overview](#overview)
 
@@ -530,10 +552,9 @@ Fetch more, score again with question + chunk together, keep the best.
       ▼
    10 RERANK
       │
-      ├╌╌ 🧪 BGE reranker v2-m3 ╌╌╌╌╌╌╌╌╌╌ a model reads question and chunk
-      │                                    together and scores them; on with
-      │                                    --rerank, promote after the answer
-      │                                    eval
+      ├╌╌ ✅ BGE reranker v2-m3 ╌╌╌╌╌╌╌╌╌╌ a model reads question and chunk
+      │                                    together and scores them; 10
+      │                                    candidates → best 3
       ├╌╌ ⬜ FlashRank ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ a smaller, faster reranker, for when
       │                                    ours is too slow
       ├╌╌ ⬜ LLM reranker ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ ask an LLM to score each candidate;
@@ -548,7 +569,7 @@ Fetch more, score again with question + chunk together, keep the best.
 ```
 
 **Tried**: v2, 10 → 3: none 92.4% · base 95.4% (0.24s) · v2-m3 96.6%
-(0.85s)
+(0.85s); v2-m3 in use since 5 Nov
 
 **Watch out**: when every score is near 0, the order is noise
 
@@ -566,8 +587,6 @@ Decide what reaches the prompt.
       │
       ├╌╌ ✅ Top-K = 3 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ pass the K best chunks; K = 5 gave no
       │                                  better answers (basic-rag)
-      ├╌╌ ⬜ Reranker score threshold ╌╌ drop chunks below a reranker score; if
-      │                                  none are left, say "I can't tell"
       ├╌╌ ⬜ Diversity / dedup ╌╌╌╌╌╌╌╌╌ skip chunks that repeat what's already
       │                                  picked: a fact repeated in two
       │                                  chapters
@@ -575,6 +594,8 @@ Decide what reaches the prompt.
       │                                  answer from for its whole section
       ├╌╌ ⬜ Compression ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ keep only the sentences that matter in
       │                                  each chunk
+      ├╌╌ ✗  Reranker score threshold ╌╌ drop chunks below a reranker score; if
+      │                                  none are left, say "I can't tell"
       ├╌╌ ✗  Similarity threshold ╌╌╌╌╌╌ drop chunks below a vector score; no
       │                                  clean cut-off (v1)
       ├╌╌ ✗  MMR ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ pick chunks that are relevant but
@@ -583,6 +604,10 @@ Decide what reaches the prompt.
       ▼
    chunks for the prompt
 ```
+
+**Tried**: v2, reranker score threshold: casual questions the handbooks
+cover scored lower (0.004) than ones they don't (0.22); no clean
+cut-off
 
 [↑ Overview](#overview)
 
@@ -601,11 +626,11 @@ Prompt the model with the chunks and the question.
       ├╌╌ ✅ Labelled context ╌╌╌╌╌╌╌ put each chunk's source above it, so
       │                               India's rule isn't mixed with the US one
       ├╌╌ ✅ Self-check ╌╌╌╌╌╌╌╌╌╌╌╌╌ the model re-reads its answer against the
-      │                               chunks before replying (rule 8)
+      │                               chunks before replying (rule 9)
+      ├╌╌ ✅ Prompt refresh ╌╌╌╌╌╌╌╌╌ rewrite the rules for all 6 handbooks:
+      │                               one rule per mistake type
       ├╌╌ ⏭ Claim-level citations ╌╌ tag each claim with its section: "free in
       │                               the garage [Facilities 6.4]"
-      ├╌╌ ⏭ Prompt refresh ╌╌╌╌╌╌╌╌╌ rewrite the rules for all 6 handbooks;
-      │                               they are still leave-centric
       ├╌╌ ⬜ Structured output ╌╌╌╌╌╌ make the model return JSON of a fixed
       │                               shape, for code to read
       ├╌╌ ⬜ Streaming ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ show the answer word by word as it's
@@ -616,8 +641,14 @@ Prompt the model with the chunks and the question.
    answer
 ```
 
-**Tried**: v2, 9 wrong answers had the right chunk (payroll vs office,
-invented visitor rules) → citations + faithfulness check
+**Tried**
+- v2, 9 wrong answers had the right chunk (payroll vs office, invented
+  visitor rules) → citations + faithfulness check
+- v2, prompt refresh: a draw (94.6% vs 95.1%, gemma3:4b judge), but
+  "Policy topic:" leaks 40 → 0; forcing "begin with Yes/No" backfired
+- v2, Gemma 4 judge: 76 of 90 imperfect answers had the right chunk;
+  most say the wrong yes/no (14) or make up an answer instead of "I
+  can't tell" (6) → the small answer model is now the biggest lever
 
 [↑ Overview](#overview)
 
@@ -661,20 +692,22 @@ Score the chunks first, then the answer.
    14 MEASURE
       │
       ├╌╌ ✅ Hit Rate · Recall · MRR ╌╌ did an expected section come back, how
-      │                                 many, how high: 254 of 263 → 96.6%
+      │                                 many, how high: 259 of 266 → 97.4%
       ├╌╌ ✅ LLM judge ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ a second LLM scores each answer 0–2 on
       │                                 correctness, context support and
-      │                                 completeness
+      │                                 completeness: Gemma 4 26B (Google,
+      │                                 free)
+      ├╌╌ ✅ Judge vs human ╌╌╌╌╌╌╌╌╌╌╌ hand-score answers to check the judge
+      │                                 before trusting a 1–2% change: a
+      │                                 40-answer key
+      ├╌╌ ✅ Dev / test split ╌╌╌╌╌╌╌╌╌ tune on one set of questions, report on
+      │                                 the other: dev 171 · test 114
       ├╌╌ ⏭ Regression gate ╌╌╌╌╌╌╌╌╌╌ block a change that drops below the
-      │                                 baseline: Hit Rate ≥ 96.6%
+      │                                 baseline: Hit Rate ≥ 97.4%
       ├╌╌ 🧪 Latency ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ time per question, per step: the
       │                                 reranker adds 0.85s
       ├╌╌ ⬜ Precision@K ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ share of returned chunks that are
       │                                 useful: 1 of 3 → 0.33
-      ├╌╌ ⬜ Judge vs human ╌╌╌╌╌╌╌╌╌╌╌ hand-score ~20 answers to check the
-      │                                 judge before trusting a 1–2% change
-      ├╌╌ ⬜ Dev / test split ╌╌╌╌╌╌╌╌╌ tune on one set of questions, report on
-      │                                 the other
       ├╌╌ ⬜ Tracing ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ record every step of one question to
       │                                 see why it failed (LangSmith)
       ├╌╌ ✗  MAP / NDCG ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ ranking scores that need graded labels;
@@ -684,7 +717,13 @@ Score the chunks first, then the answer.
 ```
 
 **Rules**: a 1–2% swing is judge noise. Fix the labels before the
-pipeline (also_correct: 87.8% → 92.4% with no code change)
+pipeline (also_correct: 87.8% → 92.4% with no code change). Only
+compare scores from the same judge: on the same answers gemma3:4b gave
+94.4%, Gemma 4 26B 87.9%
+
+**Tried**: v2, judges vs the 40-answer key: gemma3:4b 20/40 ·
+gemma3:12b 29/40 · Gemma 4 26B 28/35 · Nemotron 3 Ultra 35/40; Gemma 4
+picked (free, and a full run fits one sitting)
 
 [↑ Overview](#overview)
 
