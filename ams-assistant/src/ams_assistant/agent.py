@@ -16,8 +16,10 @@ Caveats:
 - A bad tool input (e.g. leave_type="vacation") goes back to the model
   as the tool's result; any other tool error stops the run, as in
   agent_by_hand.py.
+- TRACING (config.py) sends every run to LangSmith.
 """
 
+import os
 import re
 
 from langchain.agents import create_agent
@@ -29,6 +31,7 @@ from ams_assistant.config import (
     AGENT_PROVIDER,
     AGENT_THINKING,
     TODAY,
+    TRACING,
 )
 from ams_assistant.hr_tools import (
     HRContext,
@@ -40,6 +43,12 @@ from ams_assistant.hr_tools import (
 )
 from ams_assistant.llm import build_llm
 from ams_assistant.policy_tools import search_policies
+
+if TRACING:
+    # LangChain reads this before each run and, when "true", sends the
+    # run to LangSmith (config.py). Set here, at import, so the app,
+    # chat.py and the evals all follow the one flag.
+    os.environ["LANGSMITH_TRACING"] = "true"
 
 # The tools the model may ask for: the HR database, then the handbooks.
 AGENT_TOOLS = [

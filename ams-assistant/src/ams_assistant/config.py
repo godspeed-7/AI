@@ -106,6 +106,12 @@ AGENT_MAX_STEPS = 5
 # The web app (app.py): True shows every step live under each question
 # (model calls, thinking, tools, times); False shows only the answer.
 SHOW_AGENT_STEPS = True
+# LangSmith tracing: True records every run (model calls, tool calls,
+# inputs, outputs, times) in LangSmith; needs the LANGSMITH_* lines
+# in ~/.zshrc. Off by default: the free plan allows 5,000 traces a
+# month. LANGSMITH_TRACING=true in front of one command still traces
+# just that run.
+TRACING = False
 
 
 # --- Qdrant ----------------------------------------------------------
