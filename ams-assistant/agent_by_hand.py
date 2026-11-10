@@ -28,7 +28,7 @@ from langchain.tools import ToolRuntime
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from pydantic import ValidationError
 
-from ams_assistant.agent import AGENT_TOOLS, INSTRUCTIONS, split_thinking
+from ams_assistant.agent import AGENT_TOOLS, instructions_for, split_thinking
 from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
@@ -80,7 +80,7 @@ def run_agent(question: str, employee_id: str) -> str | None:
     llm_with_tools = llm.bind_tools(list(TOOLS.values()))
 
     name = get_employee_name(employee_id)
-    messages = [SystemMessage(INSTRUCTIONS.format(name=name)),
+    messages = [SystemMessage(instructions_for(name)),
                 HumanMessage(question)]
 
     for round_number in range(1, AGENT_MAX_STEPS + 1):

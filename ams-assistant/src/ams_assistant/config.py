@@ -5,6 +5,7 @@ changing a setting means editing one line. Import what you need, e.g.
 `from ams_assistant.config import POLICIES_DIR`.
 """
 
+from datetime import date
 from pathlib import Path
 
 
@@ -40,6 +41,10 @@ HR_DATA_DIR = DATA_ROOT / "db"
 # The agent's HR database (hr_tools.py reads it); not in git. Safe to
 # delete: re-run build_hr_db.py for a fresh copy of the CSVs.
 HR_DB_FILE = PROJECT_ROOT / ".cache" / "hr.sqlite"
+# The date the HR data describes (TODAY in ams-data/db/build_hr_data.py).
+# The agent works with it, never the real clock: the tools count from
+# it (e.g. time at AMS) and the model is told it.
+TODAY = date(2026, 11, 16)
 
 
 # --- Models (served by Ollama on localhost:11434) -------------------
@@ -95,6 +100,9 @@ AGENT_MODEL = "qwen3:8b"
 AGENT_THINKING = True
 # Model replies per question before the loop gives up.
 AGENT_MAX_STEPS = 5
+# The web app (app.py): True shows every step live under each question
+# (model calls, thinking, tools, times); False shows only the answer.
+SHOW_AGENT_STEPS = True
 
 
 # --- Qdrant ----------------------------------------------------------

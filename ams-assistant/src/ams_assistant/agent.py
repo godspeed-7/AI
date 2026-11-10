@@ -28,6 +28,7 @@ from ams_assistant.config import (
     AGENT_MODEL,
     AGENT_PROVIDER,
     AGENT_THINKING,
+    TODAY,
 )
 from ams_assistant.hr_tools import (
     HRContext,
@@ -35,22 +36,32 @@ from ams_assistant.hr_tools import (
     get_my_leave_balance,
     get_my_leave_requests,
     get_my_profile,
+    get_my_team,
 )
 from ams_assistant.llm import build_llm
 
 # The tools the model may ask for.
 AGENT_TOOLS = [
     get_my_profile,
+    get_my_team,
     get_my_leave_balance,
     get_my_leave_requests,
     get_my_expense_claims,
 ]
 
 INSTRUCTIONS = (
-    "You are the AMS HR assistant, helping {name}. Use the tools to look "
-    "up their records. Answer only from what the tools return; if they "
-    "don't cover the question, say you can't tell. Keep answers short."
+    "You are the AMS HR assistant, helping {name}. Today is {today}. Use "
+    "the tools to look up their records. Answer only from what the tools "
+    "return; if they don't cover the question, say you can't tell. Keep "
+    "answers short."
 )
+
+
+def instructions_for(name: str) -> str:
+    """The system message for the employee called `name`."""
+    # %-d: the day without a leading zero (16 November 2026).
+    return INSTRUCTIONS.format(name=name,
+                               today=TODAY.strftime("%-d %B %Y"))
 
 # AGENT_MAX_STEPS model replies with a tool round after each, + 1.
 RECURSION_LIMIT = 2 * AGENT_MAX_STEPS + 1
@@ -78,6 +89,6 @@ def build_agent(name: str):
     return create_agent(
         llm,
         tools=AGENT_TOOLS,
-        system_prompt=INSTRUCTIONS.format(name=name),
+        system_prompt=instructions_for(name),
         context_schema=HRContext,
     )
