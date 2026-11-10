@@ -34,6 +34,12 @@ RERANK_CACHE_FILE = PROJECT_ROOT / ".cache" / "rerank_scores.sqlite"
 # Saved LLM replies (llm_cache.py): answers, judge grades, rewrites.
 # Also safe to delete.
 LLM_CACHE_FILE = PROJECT_ROOT / ".cache" / "llm_replies.sqlite"
+# The HR records (employees, leave, expenses) as CSVs, shared in
+# ams-data. build_hr_db.py copies them into HR_DB_FILE.
+HR_DATA_DIR = DATA_ROOT / "db"
+# The agent's HR database (hr_tools.py reads it); not in git. Safe to
+# delete: re-run build_hr_db.py for a fresh copy of the CSVs.
+HR_DB_FILE = PROJECT_ROOT / ".cache" / "hr.sqlite"
 
 
 # --- Models (served by Ollama on localhost:11434) -------------------
@@ -74,6 +80,21 @@ NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 GOOGLE_CALLS_PER_MINUTE = 6
 # 0 = always pick the most likely next word, so answers are repeatable.
 TEMPERATURE = 0
+# The agent's model (agent_by_hand.py): picks the tools and writes the
+# reply. Providers as for the judge. Local, so test runs have no daily
+# limit and the judge keeps Google's quota; needs a model with tool
+# support (gemma3 has none). On 2026-11-10 Google's Gemma 4 failed
+# every call with tools (500) and Gemini's free limits were unclear;
+# "google" + "gemini-3.5-flash-lite" passed a tool test (second
+# opinion).
+AGENT_PROVIDER = "ollama"
+AGENT_MODEL = "qwen3:8b"
+# qwen3 thinks before it replies. True prints the thinking in the log
+# (~13 s a round); False skips it (~2 s). Both picked the right tool
+# in a test. Ollama only.
+AGENT_THINKING = True
+# Model replies per question before the loop gives up.
+AGENT_MAX_STEPS = 5
 
 
 # --- Qdrant ----------------------------------------------------------

@@ -53,13 +53,22 @@ def get_pacer(model: str, per_minute: int) -> InMemoryRateLimiter:
                                max_bucket_size=1)
 
 
-def build_llm(provider: str, model: str,
-              temperature: float) -> BaseChatModel:
-    """Return the chat model `model` on `provider`, with its cache."""
-    llm_cache = get_llm_cache(model, temperature)
+def build_llm(provider: str, model: str, temperature: float,
+              reasoning: bool | None = None) -> BaseChatModel:
+    """Return the chat model `model` on `provider`, with its cache.
+
+    reasoning (Ollama thinking models such as qwen3 only): True returns
+    the thinking apart from the reply, in
+    additional_kwargs["reasoning_content"]; False switches thinking
+    off; None leaves the model's default.
+    """
+    # ChatOllama's cache key ignores `reasoning`, but replies with and
+    # without thinking differ, so it goes into the model label.
+    label = model if reasoning is None else f"{model} reasoning={reasoning}"
+    llm_cache = get_llm_cache(label, temperature)
     if provider == "ollama":
         return ChatOllama(model=model, temperature=temperature,
-                          cache=llm_cache)
+                          reasoning=reasoning, cache=llm_cache)
 
     base_url, key_name, per_minute = HOSTED[provider]
     pacer = get_pacer(model, per_minute) if per_minute else None

@@ -34,9 +34,15 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
       ▼
    🟦 1 LOAD
       │
-      ├╌╌ 🟢 Loaders
+      ├╌╌ 🟢 Loaders (picked by file type)
       │     ├╌ plain text
-      │     ├╌ PDF · Word · HTML
+      │     └╌ PDF · Word · HTML
+      ├╌╌ 🟢 Parsers (read inside the file)
+      │     ├╌ plain: text only
+      │     └╌ layout-aware: text · tables · images
+      ├╌╌ 🟢 Tables and images
+      │     ├╌ table rows → sentences
+      │     ├╌ image descriptions (vision model)
       │     └╌ OCR (scanned pages)
       ├╌╌ 🟢 Cleaning
       │     └╌ strip headers, footers, page numbers
@@ -49,10 +55,11 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
       │     ├╌ recursive
       │     ├╌ by section (structure-aware)
       │     ├╌ semantic
-      │     └╌ hierarchical: parent-child · RAPTOR
+      │     └╌ hierarchical: parent-child · sentence-window · RAPTOR
       ├╌╌ 🟢 Add context to each chunk
       │     ├╌ chunk header (breadcrumb)
-      │     └╌ contextual retrieval (LLM-written line)
+      │     ├╌ contextual retrieval (LLM-written line)
+      │     └╌ late chunking (embed first, then cut)
       ▼
    🟦 3 METADATA
       │
@@ -91,6 +98,9 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
       │     ├╌ quantization
       │     ├╌ payload index
       │     └╌ multi-tenancy
+      ├╌╌ 🟢 Keep it up to date
+      │     ├╌ full rebuild
+      │     └╌ incremental (changed chunks only)
       ▼
    searchable collection
 
@@ -109,7 +119,9 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
       │     ├╌ adaptive retrieval
       │     └╌ semantic cache (answered before?)
       ├╌╌ 🟢 Guard
-      │     └╌ permissions · treat retrieved text as untrusted
+      │     ├╌ permissions · treat retrieved text as untrusted
+      │     ├╌ PII redaction (mask personal data)
+      │     └╌ guardrails: check questions and answers
       ▼
    🟦 7 TRANSFORM
       │
@@ -172,12 +184,15 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
       ▼
    🟦 12 GENERATE
       │
+      ├╌╌ 🟢 Model
+      │     └╌ answer model: size · local or hosted · thinking
       ├╌╌ 🟢 Prompt rules
       │     ├╌ grounding · abstain ("I can't tell")
       │     └╌ self-check
       ├╌╌ 🟢 Context layout
       │     ├╌ labelled context
-      │     └╌ lost-in-the-middle ordering
+      │     ├╌ lost-in-the-middle ordering
+      │     └╌ context budget · compression
       ├╌╌ 🟢 Output
       │     ├╌ claim-level citations
       │     ├╌ structured output
@@ -200,16 +215,21 @@ handbooks (266 answerable questions; 263 until 7 Nov 2026), from 3 Nov
 
    🟦 14 MEASURE
       │
+      ├╌╌ 🟢 Test set
+      │     └╌ hand-written · synthetic (Ragas, Giskard)
       ├╌╌ 🟢 Retrieval
       │     ├╌ Hit Rate · Recall · MRR · Precision@K
-      │     └╌ MAP · NDCG
+      │     ├╌ MAP · NDCG
+      │     └╌ LLM-judged context precision / recall
       ├╌╌ 🟢 Answer
-      │     ├╌ LLM judge
-      │     └╌ judge checked against a human
+      │     ├╌ LLM judge · judge model choice
+      │     ├╌ judge checked against a human
+      │     └╌ RAGAS: faithfulness · answer relevance
       ├╌╌ 🟢 Process
       │     ├╌ dev / test split · regression gate
-      │     ├╌ latency · cost
-      │     └╌ tracing · feedback loop
+      │     ├╌ latency · cost · reply cache
+      │     ├╌ tracing · feedback loop
+      │     └╌ A/B test · online eval
       ▼
    scores
 ```
@@ -233,16 +253,31 @@ Read each file into text; keep the file name as the source.
       ▼
    1 LOAD
       │
-      ├╌╌ ✅ Plain-text loader ╌╌ read .txt files as they are; every source is
-      │                           .txt
-      ├╌╌ ✗  PDF / Word / HTML ╌╌ pull the text out of other file types,
-      │                           keeping headings and tables
-      ├╌╌ ✗  OCR ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ turn images of text into text: scanned pages
-      ├╌╌ ✗  Cleaning ╌╌╌╌╌╌╌╌╌╌╌ strip parser junk: page headers, footers,
-      │                           page numbers
+      ├╌╌ ✅ Plain-text loader ╌╌╌╌ read .txt files as they are; every source
+      │                             is .txt
+      ├╌╌ ✗  PDF / Word / HTML ╌╌╌╌ one loader per file type, picked by the
+      │                             extension; it uses a parser inside
+      ├╌╌ ✗  Layout-aware parser ╌╌ label each piece: heading, paragraph,
+      │                             table, picture; can chunk by structure
+      │                             (Docling, Unstructured)
+      ├╌╌ ✗  Table rows ╌╌╌╌╌╌╌╌╌╌╌ one sentence per row, never cut mid-row:
+      │                             "L3, Tier A city: INR 1,800 per day"
+      ├╌╌ ✗  Image descriptions ╌╌╌ a vision model describes each picture:
+      │                             floor map → "gym on the 5th floor"
+      ├╌╌ ✗  OCR ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ turn images of text into text: scanned
+      │                             pages
+      ├╌╌ ✗  Cleaning ╌╌╌╌╌╌╌╌╌╌╌╌╌ strip parser junk: page headers, footers,
+      │                             page numbers
       ▼
    text
 ```
+
+**Which PDF loader** (LangChain)
+- text only → `PyPDFLoader`
+- + images, simple tables → `PyPDFLoader` with `extract_images=True`
+  and an `images_parser` (OCR, or a vision model describes them)
+- real tables, messy layout → `DoclingLoader`: parses and chunks in one
+  step; slower
 
 [↑ Overview](#overview)
 
@@ -269,7 +304,13 @@ Cut each document into the pieces that get one vector each.
       ├╌╌ ⬜ Semantic ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ cut where neighbouring sentences change
       │                                topic; for text without headings
       ├╌╌ ⬜ Parent-child ╌╌╌╌╌╌╌╌╌╌╌╌ search small pieces, hand the LLM the
-      │                                bigger section they belong to
+      │                                bigger section they belong to;
+      │                                sentence-window: embed each sentence,
+      │                                hand over ±2 sentences around it
+      ├╌╌ ⬜ Late chunking ╌╌╌╌╌╌╌╌╌╌╌ embed the whole document once, then cut
+      │                                its token vectors into chunks, so each
+      │                                keeps the document's context; no LLM,
+      │                                but needs token vectors (not Ollama)
       ├╌╌ ✗  Fixed-size / recursive ╌╌ cut every N characters (recursive: at
       │                                the nearest paragraph or sentence); cuts
       │                                rules in half when headings exist
@@ -372,8 +413,13 @@ Where vectors live and how the nearest are found.
       │
       ├╌╌ ✅ Exact scan, cosine ╌╌ compare the question with every vector; fine
       │                            up to tens of thousands of chunks
+      ├╌╌ ✅ Full rebuild ╌╌╌╌╌╌╌╌ delete and re-embed everything on each
+      │                            ingest; fine for 370 chunks (seconds)
       ├╌╌ ⬜ Payload index ╌╌╌╌╌╌╌ an index on a filter field, so filters stay
       │                            fast on a big collection
+      ├╌╌ ⬜ Incremental ╌╌╌╌╌╌╌╌╌ re-embed only chunks whose text hash
+      │                            changed, delete the ones that disappeared;
+      │                            needs stable chunk IDs (step 3)
       ├╌╌ ✗  HNSW / IVF ╌╌╌╌╌╌╌╌╌╌ skip most vectors (a graph or clusters) to
       │                            search fast; can miss a neighbour; Qdrant
       │                            switches on its own
@@ -405,6 +451,13 @@ Decide where to search, or whether to search at all.
       ├╌╌ ⬜ Intent routing ╌╌╌ send each request to the right tool: policy
       │                         search, small talk or the HR database
       │                         (LangGraph)
+      ├╌╌ ⬜ PII redaction ╌╌╌╌ mask personal data before storing it or
+      │                         sending it to a hosted model:
+      │                         rahul.verma@ams.example → <EMAIL_1>
+      ├╌╌ ⬜ Guardrails ╌╌╌╌╌╌╌ check the question before search and the
+      │                         answer before sending: off-topic, harmful,
+      │                         "ignore your rules" → polite refusal
+      │                         (NeMo Guardrails, Llama Guard)
       ├╌╌ ✗  Router ╌╌╌╌╌╌╌╌╌╌╌ an LLM picks which documents to search: "vendor
       │                         not paid" → Finance only; a wrong pick hides
       │                         the answer
@@ -631,6 +684,17 @@ Prompt the model with the chunks and the question.
       │                               one rule per mistake type
       ├╌╌ ⏭ Claim-level citations ╌╌ tag each claim with its section: "free in
       │                               the garage [Facilities 6.4]"
+      ├╌╌ ⬜ Answer model ╌╌╌╌╌╌╌╌╌╌╌ the biggest lever once search is good:
+      │                               gemma3:4b reads "lunch costs INR 50"
+      │                               and says "Yes, food is free". Compare
+      │                               by swapping only the model
+      ├╌╌ ⬜ Context budget ╌╌╌╌╌╌╌╌╌ rules + chunks + question + answer must
+      │                               fit the model's window, or Ollama cuts
+      │                               text without an error (we set 16,384
+      │                               for whole handbooks)
+      ├╌╌ ⬜ Prompt compression ╌╌╌╌╌ drop the words or sentences that don't
+      │                               help (LLMLingua); last resort: it can
+      │                               cut the answer
       ├╌╌ ⬜ Structured output ╌╌╌╌╌╌ make the model return JSON of a fixed
       │                               shape, for code to read
       ├╌╌ ⬜ Streaming ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ show the answer word by word as it's
@@ -649,6 +713,8 @@ Prompt the model with the chunks and the question.
 - v2, Gemma 4 judge: 76 of 90 imperfect answers had the right chunk;
   most say the wrong yes/no (14) or make up an answer instead of "I
   can't tell" (6) → the small answer model is now the biggest lever
+- v2, Gemma 4 31B (Google) as the answer model: writes its thinking
+  into the reply (`<thought>…`), can't be switched off; ~70 s per answer
 
 [↑ Overview](#overview)
 
@@ -697,19 +763,37 @@ Score the chunks first, then the answer.
       │                                 correctness, context support and
       │                                 completeness: Gemma 4 26B (Google,
       │                                 free)
+      ├╌╌ ✅ Judge model ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ bigger judges are stricter; don't let
+      │                                 the answer model grade itself:
+      │                                 gemma3:4b gave its own answers 94.4%,
+      │                                 Gemma 4 26B the same answers 87.9%
       ├╌╌ ✅ Judge vs human ╌╌╌╌╌╌╌╌╌╌╌ hand-score answers to check the judge
       │                                 before trusting a 1–2% change: a
       │                                 40-answer key
       ├╌╌ ✅ Dev / test split ╌╌╌╌╌╌╌╌╌ tune on one set of questions, report on
       │                                 the other: dev 171 · test 114
+      ├╌╌ ✅ Reply cache ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ save each LLM reply by its exact input;
+      │                                 re-runs only make the new calls. A new
+      │                                 model setting starts a fresh cache
       ├╌╌ ⏭ Regression gate ╌╌╌╌╌╌╌╌╌╌ block a change that drops below the
       │                                 baseline: Hit Rate ≥ 97.4%
       ├╌╌ 🧪 Latency ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ time per question, per step: the
       │                                 reranker adds 0.85s
       ├╌╌ ⬜ Precision@K ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ share of returned chunks that are
       │                                 useful: 1 of 3 → 0.33
+      ├╌╌ ⬜ RAGAS metrics ╌╌╌╌╌╌╌╌╌╌╌╌ faithfulness (≈ our context support) ·
+      │                                 answer relevance · context precision /
+      │                                 recall judged by an LLM, no labels
+      │                                 needed; 3–5 LLM calls per question
+      ├╌╌ ⬜ Synthetic test set ╌╌╌╌╌╌╌ an LLM writes questions + answers from
+      │                                 the chunks (Ragas, Giskard); check some
+      │                                 by hand: they reuse the handbook's
+      │                                 words, so search scores look too good
       ├╌╌ ⬜ Tracing ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ record every step of one question to
       │                                 see why it failed (LangSmith)
+      ├╌╌ ⬜ A/B test · online eval ╌╌╌ with real users, send half to the new
+      │                                 version; compare thumbs-up and "I can't
+      │                                 tell" rates; needs real traffic
       ├╌╌ ✗  MAP / NDCG ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ ranking scores that need graded labels;
       │                                 ours are yes/no
       ▼
@@ -754,6 +838,7 @@ picked (free, and a full run fits one sitting)
    iterative, recursive)
 7. **Retrieval evaluation** → 14
 
-**Beyond the catalogue**: chunking (2), hypothetical questions and
+**Beyond the catalogue**: loaders, parsers, tables and images (1),
+chunking (2), hypothetical questions and
 summaries (4), keyword enrichment and glossary rules (3), generation
 (12), verification (13), judge, tracing and gates (14).
