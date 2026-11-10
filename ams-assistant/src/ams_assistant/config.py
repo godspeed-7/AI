@@ -20,6 +20,9 @@ DATA_ROOT = PROJECT_ROOT.parent / "ams-data"
 POLICIES_DIR = DATA_ROOT / "policies"
 # The questions both projects are scored on (evals/).
 EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
+# The agent's test questions (evals/evaluate_agent.py): who asks, the
+# question, the expected answer and the tools it must use.
+AGENT_QUESTIONS_FILE = DATA_ROOT / "agent_questions.csv"
 # Company facts as "term -> also add" rules (glossary.py), from the
 # handbooks' own definitions. ingest.py adds them to chunks; re-run it
 # after editing the file.

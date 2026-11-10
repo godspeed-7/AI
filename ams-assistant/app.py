@@ -38,6 +38,7 @@ from ams_assistant.agent import (
 )
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, SHOW_AGENT_STEPS
 from ams_assistant.hr_tools import HRContext, get_employee_card
+from ams_assistant.policy_tools import search_policies
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
 
@@ -203,9 +204,12 @@ class Run:
         self.result_parts = {}
         for call in reply.tool_calls:
             self.tool_calls += 1
+            if call["name"] == search_policies.name:
+                where = "handbooks (Qdrant)"
+            else:
+                where = f"HR database ({self.employee_id})"
             self.trace.add(f"**{self.next_number()} Tool** "
-                           f"{call_text(call)} → HR database "
-                           f"({self.employee_id})")
+                           f"{call_text(call)} → {where}")
             self.result_parts[call["id"]] = self.trace.add("↳ running…")
         self.step_started = time.perf_counter()
 

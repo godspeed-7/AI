@@ -204,7 +204,7 @@ The same agent, with LangChain running the loop.
       │
       ├╌╌ ✅ create_agent() ╌╌╌╌╌╌ model + tools + system prompt; LangChain
       │                            runs the loop and streams each step
-      ├╌╌ ⬜ Agentic RAG ╌╌╌╌╌╌╌╌╌ search becomes a tool: "can Rahul take
+      ├╌╌ ✅ Agentic RAG ╌╌╌╌╌╌╌╌╌ search becomes a tool: "can Rahul take
       │                            6 days off?" → his balance (database)
       │                            + the probation rule (search)
       └╌╌ ✅ Database tools (+) ╌╌ we write fixed SQL per tool and the
@@ -231,6 +231,12 @@ The same agent, with LangChain running the loop.
   model reads each status). Rahul → "pending, waiting for Meera Joshi";
   Emily → "not paid yet". It still made up an input (`leave_type` on a
   tool that has none); the tool ignored it
+- B3: `search_policies` reuses `retrieve()` (vector search, reranker,
+  glossary). The model writes its own query ("annual leave carry-over")
+  and names real sections (4.4.1, 4.5). But it stops at the first facts
+  that look enough: Ananya's carry-over without her balance (right only
+  because 7 ≥ 5); Rahul's 6 days without his profile, so it missed the
+  probation limit. 54–73 s per question
 
 [↑ Overview](#overview)
 

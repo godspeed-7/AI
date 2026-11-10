@@ -39,20 +39,24 @@ from ams_assistant.hr_tools import (
     get_my_team,
 )
 from ams_assistant.llm import build_llm
+from ams_assistant.policy_tools import search_policies
 
-# The tools the model may ask for.
+# The tools the model may ask for: the HR database, then the handbooks.
 AGENT_TOOLS = [
     get_my_profile,
     get_my_team,
     get_my_leave_balance,
     get_my_leave_requests,
     get_my_expense_claims,
+    search_policies,
 ]
 
 INSTRUCTIONS = (
     "You are the AMS HR assistant, helping {name}. Today is {today}. Use "
-    "the tools to look up their records. Answer only from what the tools "
-    "return; if they don't cover the question, say you can't tell. Keep "
+    "the tools to look up their records and the company handbooks. "
+    "Answer only from what the tools return; if they don't cover the "
+    "question, say you can't tell. When you use a handbook rule, name its "
+    "handbook and section. Write dates like 24 December 2026. Keep "
     "answers short."
 )
 
@@ -74,16 +78,23 @@ def split_thinking(reply: AIMessage) -> tuple[str, str]:
     """Split a reply into (thinking, text); thinking is "" if none."""
     # qwen3 (reasoning=True): the thinking comes apart from the text.
     thinking = reply.additional_kwargs.get("reasoning_content", "")
-    match = THOUGHT.match(reply.content)
+    # .text: the reply's text, whether content is a string (Ollama,
+    # ChatOpenAI) or a list of parts (Gemini).
+    match = THOUGHT.match(reply.text)
     if match:  # Gemma 4: the thinking is inside the text
         return match.group(1).strip(), (match.group(2) or "").strip()
-    return thinking.strip(), reply.content.strip()
+    return thinking.strip(), reply.text.strip()
 
 
-def build_agent(name: str):
-    """Return the agent, ready to run for the employee called `name`."""
-    llm = build_llm(AGENT_PROVIDER, AGENT_MODEL, temperature=0,
-                    reasoning=AGENT_THINKING)
+def build_agent(name: str, provider: str = AGENT_PROVIDER,
+                model: str = AGENT_MODEL,
+                thinking: bool | None = AGENT_THINKING):
+    """Return the agent, ready to run for the employee called `name`.
+    The model comes from config.py unless given (the evals compare
+    others); `thinking` only applies to Ollama models."""
+    llm = build_llm(provider, model, temperature=0,
+                    reasoning=thinking if provider == "ollama" else None,
+                    with_tools=True)
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(
