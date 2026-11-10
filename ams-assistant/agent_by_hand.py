@@ -6,10 +6,10 @@ Out: every round printed (thinking, the tool asked for, its result),
      then the answer.
 
 Strategy: the model gets the instructions, the question and the tool
-list (bind_tools). While its reply asks for a tool, our code adds the
-employee ID, runs the tool and appends the result; a reply that asks
-for nothing is the answer. Stage B replaces this loop with LangChain's
-create_agent().
+list (bind_tools). While its reply asks for a tool, our code adds who
+is asking (the tool's runtime), runs the tool and appends the result;
+a reply that asks for nothing is the answer. chat.py runs the same
+tools and instructions (agent.py) with LangChain's create_agent().
 
 Caveats:
 - Gives up after AGENT_MAX_STEPS replies, so a confused model can't
@@ -22,47 +22,24 @@ Caveats:
 """
 
 import argparse
-import re
 import textwrap
 
-from langchain_core.messages import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage,
-    ToolMessage,
-)
+from langchain.tools import ToolRuntime
+from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from pydantic import ValidationError
 
+from ams_assistant.agent import AGENT_TOOLS, INSTRUCTIONS, split_thinking
 from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
     AGENT_PROVIDER,
     AGENT_THINKING,
 )
-from ams_assistant.hr_tools import get_employee_name, get_my_leave_balance
+from ams_assistant.hr_tools import HRContext, get_employee_name
 from ams_assistant.llm import build_llm
 
 # The tools the model may ask for, by name (the name the model uses).
-TOOLS = {t.name: t for t in [get_my_leave_balance]}
-
-INSTRUCTIONS = (
-    "You are the AMS HR assistant, helping {name}. Use the tools to look "
-    "up their records. Answer only from what the tools return; if they "
-    "don't cover the question, say you can't tell. Keep answers short."
-)
-
-# Gemma 4's thinking: "<thought>...</thought>", then the reply text.
-THOUGHT = re.compile(r"\s*<thought>(.*?)(?:</thought>(.*))?\Z", re.DOTALL)
-
-
-def split_thinking(reply: AIMessage) -> tuple[str, str]:
-    """Split a reply into (thinking, text); thinking is "" if none."""
-    # qwen3 (reasoning=True): the thinking comes apart from the text.
-    thinking = reply.additional_kwargs.get("reasoning_content", "")
-    match = THOUGHT.match(reply.content)
-    if match:  # Gemma 4: the thinking is inside the text
-        return match.group(1).strip(), (match.group(2) or "").strip()
-    return thinking.strip(), reply.content.strip()
+TOOLS = {t.name: t for t in AGENT_TOOLS}
 
 
 def run_tool(call: dict, employee_id: str) -> ToolMessage:
@@ -71,9 +48,13 @@ def run_tool(call: dict, employee_id: str) -> ToolMessage:
     if tool is None:
         return ToolMessage(f"Error: there is no tool named {call['name']}.",
                            tool_call_id=call["id"])
-    # The model filled in its inputs; our code adds who is asking (last,
-    # so it wins even if the model made up an employee_id).
-    call = {**call, "args": {**call["args"], "employee_id": employee_id}}
+    # The model filled in its inputs; our code adds who is asking, as
+    # the tool's `runtime`. create_agent() builds this for every tool
+    # call; our tools only read its context (HRContext).
+    runtime = ToolRuntime(state={}, context=HRContext(employee_id),
+                          config={}, stream_writer=lambda _: None,
+                          tool_call_id=call["id"], store=None)
+    call = {**call, "args": {**call["args"], "runtime": runtime}}
     try:
         # Given the whole call (not just the args), a tool returns a
         # ToolMessage tagged with the call's id, ready for the messages.

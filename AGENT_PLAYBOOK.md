@@ -160,17 +160,17 @@ One agent, by hand, so nothing is hidden.
 ```text
    A FOUNDATIONS
       │
-      ├╌╌ ⏭ What an agent is ╌╌╌╌╌╌╌╌ an LLM that picks its next step; our
+      ├╌╌ ✅ What an agent is ╌╌╌╌╌╌╌╌ an LLM that picks its next step; our
       │                                code still runs and checks every step
       ├╌╌ ✅ Tools ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ a Python function the model can ask
       │                                for; it sees the name, docstring and
       │                                inputs: get_my_leave_balance(leave_type)
-      ├╌╌ ⏭ Loop by hand ╌╌╌╌╌╌╌╌╌╌╌╌ the model asks for a tool → we run it
+      ├╌╌ ✅ Loop by hand ╌╌╌╌╌╌╌╌╌╌╌╌ the model asks for a tool → we run it
       │                                → it reads the result → repeat; stop
       │                                after N steps
-      ├╌╌ ⏭ ReAct ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ think → act → observe, until done; log
+      ├╌╌ ✅ ReAct ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ think → act → observe, until done; log
       │                                every step: it's what we debug and score
-      └╌╌ ⏭ Tool-calling model (+) ╌╌ gemma3 can't call tools at all; try
+      └╌╌ ✅ Tool-calling model (+) ╌╌ gemma3 can't call tools at all; try
                                        qwen3:8b, watch for wrong tools and
                                        made-up inputs
 ```
@@ -184,6 +184,14 @@ from the model.
 - A2: `build_hr_db.py` (4 CSVs → `.cache/hr.sqlite`) and
   `get_my_leave_balance(leave_type)`: the model sees only `leave_type`;
   our code adds the employee ID. Ananya → annual 7 · sick 10 · casual 6
+- A3: `agent_by_hand.py`, our loop (at most 5 rounds, each printed:
+  thinking → tool → result → answer). Ananya: "how many leaves?" → no
+  type, all 3 · "annual" → 7 · "hi" → no tool at all
+- A5: 10 Nov 2026, Google's Gemma 4 failed every call with tools (500);
+  Gemini 3.5 Flash and Flash-Lite passed; picked local qwen3:8b (no
+  limits). Thinking on ~13 s a round, off ~2 s
+- Habit: it adds sums nobody asked for: "total 23 days" (annual + sick
+  + casual, which can't be swapped)
 
 [↑ Overview](#overview)
 
@@ -194,17 +202,35 @@ The same agent, with LangChain running the loop.
 ```text
    B LANGCHAIN AGENT
       │
-      ├╌╌ ⬜ create_agent() ╌╌╌╌╌╌ model + tools + system prompt; LangChain
+      ├╌╌ ✅ create_agent() ╌╌╌╌╌╌ model + tools + system prompt; LangChain
       │                            runs the loop and streams each step
       ├╌╌ ⬜ Agentic RAG ╌╌╌╌╌╌╌╌╌ search becomes a tool: "can Rahul take
       │                            6 days off?" → his balance (database)
       │                            + the probation rule (search)
-      └╌╌ ⬜ Database tools (+) ╌╌ we write fixed SQL per tool and the
+      └╌╌ ✅ Database tools (+) ╌╌ we write fixed SQL per tool and the
                                    model only fills in the inputs; letting
                                    it write SQL is flexible but unsafe
 ```
 
 **Build**: one agent with the database tools and the policy-search tool.
+
+**Built**
+- B1: `agent.py` + `chat.py`: `create_agent(model, tools, instructions,
+  HRContext)`; tools read the ID from `runtime.context`. Same answers as
+  A3; 2 of 3 replayed from the reply cache, so the model got the exact
+  same input
+
+**Tried**
+- B2: 4 read tools (profile, balance, leave requests, expense claims).
+  Karthik → last day 24 Dec ✓. But the model turned the question's word
+  into a filter and filtered the answer away: "is my December leave
+  approved?" → status="approved" (it's pending); "has my Dallas trip
+  been paid?" → status="paid" → "no Dallas claims". 50–110 s per
+  question with thinking on
+- B2 fix: no status filter on those two tools (the lists are short; the
+  model reads each status). Rahul → "pending, waiting for Meera Joshi";
+  Emily → "not paid yet". It still made up an input (`leave_type` on a
+  tool that has none); the tool ignored it
 
 [↑ Overview](#overview)
 
