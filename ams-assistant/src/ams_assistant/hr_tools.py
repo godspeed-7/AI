@@ -1,15 +1,18 @@
 """HR tools: what the agent can look up in the HR database.
 
 In:  who is asking (HRContext, set by our code) + the inputs the model
-     fills in, e.g. get_my_leave_balance(leave_type="annual").
+     fills in, e.g. get_leave_balance(leave_type="annual").
 Out: a dict of facts; the model writes the sentence.
 
 Strategy: each tool is a plain function made into a LangChain tool by
 @tool. The model never sees the code, only the tool's name, docstring
 and the inputs it may fill in. A `runtime` argument is left out of
-what the model sees and filled by the agent; tools read the employee
-ID from runtime.context, so the model can't ask for anyone else's
-data.
+what the model sees and filled by the agent with who is asking
+(runtime.context), never from the chat. The model may name another
+employee (`employee`); permissions.py decides what the asker may see
+about them before anything is read. Each result names whose records
+it holds ("employee"), so the model can't present them as someone
+else's.
 
 Caveats:
 - Reads HR_DB_FILE; build it first with build_hr_db.py.
@@ -30,6 +33,13 @@ from typing import Literal
 from langchain.tools import ToolRuntime, tool
 
 from ams_assistant.config import HR_DB_FILE, TODAY
+from ams_assistant.permissions import (
+    NOT_ALLOWED,
+    Access,
+    access,
+    manager_view,
+    may_read,
+)
 
 
 @dataclass
@@ -94,6 +104,15 @@ TEAM_SQL = """
     ORDER BY name
 """
 
+# Who `employee` may mean: an ID, a full name or a first name, in any
+# case. permissions.py then decides which of them the asker may see.
+FIND_SQL = """
+    SELECT employee_id, name, manager_id
+    FROM employees
+    WHERE lower(employee_id) = :q OR lower(name) = :q
+       OR lower(name) LIKE :q || ' %'
+"""
+
 CLAIMS_SQL = """
     SELECT c.claim_id, c.trip_id, c.category, c.description, c.city,
            c.nights, c.amount, c.currency, c.expense_date,
@@ -137,6 +156,37 @@ def fetch(sql: str, employee_id: str) -> list[dict]:
              if value is not None} for row in rows]
 
 
+def whose(employee_id: str) -> str:
+    """Whose records a tool returns, e.g. 'Rahul Verma (AMS-1014)'.
+    Asked "How many leaves does Ananya have?", the model once got
+    Rahul's balance and wrote it up as Ananya's; with his name next to
+    the numbers, that mistake is plain to see."""
+    return f"{get_employee_name(employee_id)} ({employee_id})"
+
+
+def find_employee(runtime: ToolRuntime[HRContext], employee: str | None,
+                  record: str) -> tuple[str, Access] | None:
+    """Who `employee` means (an ID, full name or first name, as the
+    model wrote it; empty = the person asking) and the asker's access
+    to them, if that access may read `record`; else None. "Not found"
+    and "not allowed" both give None (permissions.py)."""
+    viewer_id = runtime.context.employee_id
+    if not employee or not employee.strip():
+        matches = [(viewer_id, "self")]
+    else:
+        with closing(connect()) as db:
+            rows = db.execute(FIND_SQL,
+                              {"q": employee.strip().lower()}).fetchall()
+        # Only the people the asker may see count as matches.
+        matches = [(row["employee_id"], level) for row in rows
+                   if (level := access(viewer_id, dict(row)))]
+    # Two such people with one first name: refuse rather than guess
+    # (no such pair in our data).
+    if len(matches) != 1 or not may_read(matches[0][1], record):
+        return None
+    return matches[0]
+
+
 def get_employee_card(employee_id: str) -> dict | None:
     """The employee's profile plus how many people report to them, for
     the app's sign-in card; None for an unknown ID."""
@@ -167,8 +217,10 @@ def time_since(start: str, end: date = TODAY) -> str:
 
 
 @tool(parse_docstring=True)
-def get_my_profile(runtime: ToolRuntime[HRContext]) -> dict:
-    """Get the profile of the employee you are helping.
+def get_profile(runtime: ToolRuntime[HRContext],
+                employee: str | None = None) -> dict:
+    """Get an employee's profile: by default, the employee you are
+    helping.
 
     Returns their name and employee ID, office and payroll country
     (India or US), department, grade (L1 to L6), job title, manager,
@@ -179,10 +231,19 @@ def get_my_profile(runtime: ToolRuntime[HRContext]) -> dict:
 
     Args:
         runtime: Added by the agent, never by the model.
+        employee: Whose profile, when the question is about someone
+            else: their name or employee ID. Leave it out for the
+            employee you are helping.
     """
-    rows = fetch(PROFILE_SQL, runtime.context.employee_id)
+    found = find_employee(runtime, employee, "profile")
+    if found is None:
+        return NOT_ALLOWED
+    employee_id, level = found
+    rows = fetch(PROFILE_SQL, employee_id)
     if not rows:
         return {"error": "No profile found for this employee."}
+    if level == "manager":
+        return manager_view(rows[0])
     profile = rows[0]
     # Code does the date maths, not the model.
     profile["time_at_ams"] = time_since(profile["join_date"])
@@ -202,18 +263,22 @@ def get_my_team(runtime: ToolRuntime[HRContext]) -> dict:
     Args:
         runtime: Added by the agent, never by the model.
     """
-    team = fetch(TEAM_SQL, runtime.context.employee_id)
+    employee_id = runtime.context.employee_id
+    team = fetch(TEAM_SQL, employee_id)
     # The count comes from code, so the model doesn't have to count.
-    return {"direct_reports": len(team), "team": team}
+    return {"employee": whose(employee_id), "direct_reports": len(team),
+            "team": team}
 
 
 @tool(parse_docstring=True)
-def get_my_leave_balance(
+def get_leave_balance(
     runtime: ToolRuntime[HRContext],
+    employee: str | None = None,
     leave_type: Literal["annual", "sick", "casual", "pto",
                         "floating"] | None = None,
 ) -> dict:
-    """Get this year's leave balance of the employee you are helping.
+    """Get this year's leave balance of an employee: by default, the
+    employee you are helping.
 
     Returns one entry per leave type: days entitled, carried over from
     last year, used, pending approval, and available now (entitled +
@@ -221,12 +286,19 @@ def get_my_leave_balance(
 
     Args:
         runtime: Added by the agent, never by the model.
+        employee: Whose balance, when the question is about someone
+            else: their name or employee ID. Leave it out for the
+            employee you are helping.
         leave_type: Only this type of leave. India offices have annual
             (vacation), sick and casual leave; the US office has pto
             (paid time off, vacation), sick and floating (floating
             holidays). Leave it out to get every type.
     """
-    rows = fetch(BALANCE_SQL, runtime.context.employee_id)
+    found = find_employee(runtime, employee, "leave")
+    if found is None:
+        return NOT_ALLOWED
+    employee_id = found[0]
+    rows = fetch(BALANCE_SQL, employee_id)
 
     # Problems go back to the model as a message it can act on, not as
     # an exception that ends the run.
@@ -237,16 +309,17 @@ def get_my_leave_balance(
         if not rows:
             return {"error": f"There is no {leave_type} leave for this "
                              "employee; leave it out to see every type."}
-    return {"balances": rows}
+    return {"employee": whose(employee_id), "balances": rows}
 
 
 # No status filter on the two lists below: given one, the model turned
 # "approved?" into status="approved" and filtered the answer away (a
 # pending request). The lists are short; the model reads each status.
 @tool(parse_docstring=True)
-def get_my_leave_requests(runtime: ToolRuntime[HRContext]) -> dict:
-    """List all of this year's leave requests of the employee you are
-    helping.
+def get_leave_requests(runtime: ToolRuntime[HRContext],
+                       employee: str | None = None) -> dict:
+    """List all of this year's leave requests of an employee: by
+    default, the employee you are helping.
 
     Returns each request's ID (e.g. LR-0189), leave type, start and end
     dates, working days (weekends and office holidays not counted; 0.5
@@ -255,9 +328,16 @@ def get_my_leave_requests(runtime: ToolRuntime[HRContext]) -> dict:
 
     Args:
         runtime: Added by the agent, never by the model.
+        employee: Whose requests, when the question is about someone
+            else: their name or employee ID. Leave it out for the
+            employee you are helping.
     """
-    return {"leave_requests": fetch(REQUESTS_SQL,
-                                    runtime.context.employee_id)}
+    found = find_employee(runtime, employee, "leave")
+    if found is None:
+        return NOT_ALLOWED
+    employee_id = found[0]
+    return {"employee": whose(employee_id),
+            "leave_requests": fetch(REQUESTS_SQL, employee_id)}
 
 
 def trip_totals(claims: list[dict]) -> list[dict]:
@@ -291,8 +371,10 @@ def trip_totals(claims: list[dict]) -> list[dict]:
 
 
 @tool(parse_docstring=True)
-def get_my_expense_claims(runtime: ToolRuntime[HRContext]) -> dict:
-    """List all expense claims of the employee you are helping.
+def get_expense_claims(runtime: ToolRuntime[HRContext],
+                       employee: str | None = None) -> dict:
+    """List all expense claims of an employee: by default, the employee
+    you are helping.
 
     Returns a summary per trip (city, total amount, number of items,
     dates, paid or not), then each expense item; items with the same
@@ -305,7 +387,15 @@ def get_my_expense_claims(runtime: ToolRuntime[HRContext]) -> dict:
 
     Args:
         runtime: Added by the agent, never by the model.
+        employee: Whose claims, when the question is about someone
+            else: their name or employee ID. Leave it out for the
+            employee you are helping.
     """
-    claims = fetch(CLAIMS_SQL, runtime.context.employee_id)
+    found = find_employee(runtime, employee, "expenses")
+    if found is None:
+        return NOT_ALLOWED
+    employee_id = found[0]
+    claims = fetch(CLAIMS_SQL, employee_id)
     # Totals come from code, so the model doesn't have to add up.
-    return {"trips": trip_totals(claims), "expense_claims": claims}
+    return {"employee": whose(employee_id), "trips": trip_totals(claims),
+            "expense_claims": claims}

@@ -11,8 +11,8 @@ results), and we print its messages.
 
 Caveats:
 - Gives up after AGENT_MAX_STEPS model replies (RECURSION_LIMIT).
-- Needs Ollama with AGENT_MODEL pulled, and the HR database
-  (build_hr_db.py).
+- Needs AGENT_MODEL reachable (GOOGLE_API_KEY for Google, or Ollama
+  with the model pulled), and the HR database (build_hr_db.py).
 """
 
 import argparse
@@ -64,7 +64,7 @@ def main():
     print(f"{name} ({args.employee_id}) asks: {question}\n"
           f"Model: {AGENT_PROVIDER} / {AGENT_MODEL}\n")
 
-    agent = build_agent(name)
+    agent = build_agent(args.employee_id)
     round_number = 0
     try:
         # Each step is {node name: its update}; both nodes ("model",

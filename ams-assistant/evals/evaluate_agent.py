@@ -8,10 +8,11 @@ Out: evals/agent_results_<model>.csv (one row per question, written as
 
 Strategy: per question, build_agent() (agent.py, the same agent as
 chat.py and the app) answers as that employee. Three scores:
-- answer: the judge (judge.py), 0-6, with every tool result as its
-  "retrieved context";
+- answer: the judge (judge.py), 0-6, with the sign-in facts (about(),
+  agent.py) and every tool result as its "retrieved context";
 - tools: were all the tools the question needs called? (code, no LLM;
-  extra calls aren't penalised, only counted);
+  extra calls aren't penalised, only counted; "a|b" in required_tools
+  means either will do);
 - cost: model calls, tool calls and seconds (the agent only, not the
   judge).
 
@@ -39,7 +40,12 @@ from collections import defaultdict
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langgraph.errors import GraphRecursionError
 
-from ams_assistant.agent import RECURSION_LIMIT, build_agent, split_thinking
+from ams_assistant.agent import (
+    RECURSION_LIMIT,
+    about,
+    build_agent,
+    split_thinking,
+)
 from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
@@ -50,7 +56,7 @@ from ams_assistant.config import (
     JUDGE_MODEL,
     JUDGE_PROVIDER,
 )
-from ams_assistant.hr_tools import HRContext, get_employee_name
+from ams_assistant.hr_tools import HRContext, get_employee_card
 from ams_assistant.judge import build_judge
 
 FIELDNAMES = [
@@ -64,8 +70,7 @@ FIELDNAMES = [
 def run_agent(item: dict, provider: str, model: str,
               thinking: bool) -> dict:
     """Answer one question as its employee; return what happened."""
-    agent = build_agent(get_employee_name(item["employee_id"]),
-                        provider, model, thinking)
+    agent = build_agent(item["employee_id"], provider, model, thinking)
     messages = []
     start = time.perf_counter()
     stopped = False
@@ -90,13 +95,16 @@ def run_agent(item: dict, provider: str, model: str,
         answer = f"(no answer: stopped after {AGENT_MAX_STEPS} rounds)"
     else:
         answer = split_thinking(replies[-1])[1]
+    # What the judge checks the answer against: what the model knew
+    # from the start (the sign-in facts), then every tool result under
+    # the tool's name (handbook chunks keep their [source]).
+    facts = about(get_employee_card(item["employee_id"]))
     return {
         "answer": answer,
         "called": [c["name"] for r in replies for c in r.tool_calls],
-        # What the judge checks the answer against: every tool result,
-        # under the tool's name (handbook chunks keep their [source]).
-        "context": "\n\n".join(f"[{m.name}]\n{m.content}"
-                               for m in results),
+        "context": "\n\n".join([f"[sign-in facts]\n{facts}"]
+                               + [f"[{m.name}]\n{m.content}"
+                                  for m in results]),
         "model_calls": len(replies),
         "tool_calls": len(results),
         "seconds": round(seconds, 1),
@@ -108,12 +116,16 @@ def evaluate(item: dict, run: dict, judge) -> dict:
     scores = judge.invoke({
         "question": item["question"],
         "expected_answer": item["expected_answer"],
-        "retrieved_context": run["context"] or "(no tools were called)",
+        "retrieved_context": run["context"],
         "generated_answer": run["answer"],
     })
     required = [t.strip() for t in item["required_tools"].split(";")
                 if t.strip()]
-    missing = [t for t in required if t not in run["called"]]
+    # "a|b": either tool is a right way in (M1: the team list, or the
+    # report's profile).
+    missing = [t for t in required
+               if not any(option.strip() in run["called"]
+                          for option in t.split("|"))]
     return {
         **{key: item[key] for key in ("id", "category", "employee_id",
                                       "question", "expected_answer",

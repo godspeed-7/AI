@@ -88,18 +88,19 @@ NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 GOOGLE_CALLS_PER_MINUTE = 6
 # 0 = always pick the most likely next word, so answers are repeatable.
 TEMPERATURE = 0
-# The agent's model (agent_by_hand.py): picks the tools and writes the
-# reply. Providers as for the judge. Local, so test runs have no daily
-# limit and the judge keeps Google's quota; needs a model with tool
-# support (gemma3 has none). On 2026-11-10 Google's Gemma 4 failed
-# every call with tools (500) and Gemini's free limits were unclear;
-# "google" + "gemini-3.5-flash-lite" passed a tool test (second
-# opinion).
-AGENT_PROVIDER = "ollama"
-AGENT_MODEL = "qwen3:8b"
-# qwen3 thinks before it replies. True prints the thinking in the log
-# (~13 s a round); False skips it (~2 s). Both picked the right tool
-# in a test. Ollama only.
+# The agent's model: picks the tools and writes the reply. Providers as
+# for the judge; needs tool support (gemma3 has none; Google's Gemma 4
+# failed every call with tools, 500, on 2026-11-10). Gemini 3.5
+# Flash-Lite: first agent eval (2026-11-10) 97.5% vs qwen3:8b's 90.8%,
+# and it takes the steps a question needs (fetches the claim before
+# comparing it with the limit), which qwen3:8b often doesn't. Needs the
+# internet and GOOGLE_API_KEY; the free tier has a daily limit. qwen3:8b
+# stays in the evals as the local comparison: "ollama" + "qwen3:8b".
+AGENT_PROVIDER = "google"
+AGENT_MODEL = "gemini-3.5-flash-lite"
+# qwen3 thinks before it replies. True shows the thinking (~13 s a
+# round); False skips it (~2 s) but answered much worse (79% vs 91%).
+# Ollama only.
 AGENT_THINKING = True
 # Model replies per question before the loop gives up.
 AGENT_MAX_STEPS = 5

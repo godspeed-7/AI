@@ -54,7 +54,7 @@ def quote(text: str) -> str:
 
 
 def call_text(call: dict) -> str:
-    """A tool call as code: get_my_leave_balance(leave_type='annual')."""
+    """A tool call as code: get_leave_balance(leave_type='annual')."""
     args = ", ".join(f"{k}={v!r}" for k, v in call["args"].items())
     return f"`{call['name']}({args})`"
 
@@ -84,7 +84,7 @@ def sign_in_screen() -> None:
         st.error(f"No employee with ID AMS-{digits}.")
         return
     st.session_state.card = card
-    st.session_state.agent = build_agent(card["name"])
+    st.session_state.agent = build_agent(card["employee_id"])
     st.session_state.history = []
     st.rerun()  # draw the chat screen
 
@@ -178,8 +178,10 @@ class Run:
         if piece:
             self.thinking += piece
             self.trace.set(self.thinking_part, quote(f"💭 {self.thinking}"))
-        if isinstance(chunk.content, str) and chunk.content:
-            self.text += chunk.content
+        # .text: the text whether content is a string (Ollama) or a
+        # list of parts (Gemini).
+        if chunk.text:
+            self.text += chunk.text
             self.answer_box.markdown(self.text + " ▌")
 
     def on_model_done(self, reply: AIMessage) -> None:

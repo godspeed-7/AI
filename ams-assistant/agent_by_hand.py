@@ -35,7 +35,11 @@ from ams_assistant.config import (
     AGENT_PROVIDER,
     AGENT_THINKING,
 )
-from ams_assistant.hr_tools import HRContext, get_employee_name
+from ams_assistant.hr_tools import (
+    HRContext,
+    get_employee_card,
+    get_employee_name,
+)
 from ams_assistant.llm import build_llm
 
 # The tools the model may ask for, by name (the name the model uses).
@@ -74,13 +78,15 @@ def show(label: str, text: str) -> None:
 def run_agent(question: str, employee_id: str) -> str | None:
     """Loop: model -> tool -> model ... until it answers (or gives up)."""
     llm = build_llm(AGENT_PROVIDER, AGENT_MODEL, temperature=0,
-                    reasoning=AGENT_THINKING)
+                    reasoning=(AGENT_THINKING if AGENT_PROVIDER == "ollama"
+                               else None),
+                    with_tools=True)
     # bind_tools: every call now also sends the tools' names,
     # descriptions and inputs (what the model sees).
     llm_with_tools = llm.bind_tools(list(TOOLS.values()))
 
-    name = get_employee_name(employee_id)
-    messages = [SystemMessage(instructions_for(name)),
+    card = get_employee_card(employee_id)
+    messages = [SystemMessage(instructions_for(card)),
                 HumanMessage(question)]
 
     for round_number in range(1, AGENT_MAX_STEPS + 1):
