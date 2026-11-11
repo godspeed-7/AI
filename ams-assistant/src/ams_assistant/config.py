@@ -120,6 +120,12 @@ AGENT_MODEL = "gemini-3.5-flash-lite"
 # round); False skips it (~2 s) but answered much worse (79% vs 91%).
 # Ollama only.
 AGENT_THINKING = True
+# When the agent's model fails (after its retries), the same call goes
+# to this one (stage E): slower and less accurate (90.8%), but local,
+# so it answers while Google is down. Thinking as AGENT_THINKING. None
+# for both: no fallback. The evals never fall back.
+AGENT_FALLBACK_PROVIDER: str | None = "ollama"
+AGENT_FALLBACK_MODEL: str | None = "qwen3:8b"
 # Model replies per question before the loop gives up.
 AGENT_MAX_STEPS = 5
 # The web app (app.py): True shows every step live under each question

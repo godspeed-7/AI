@@ -14,11 +14,19 @@ when the agent is built, so the model knows them before it picks a
 tool: e.g. that Rahul is on probation, before it searches the rules.
 
 Caveats:
-- The step limit is LangGraph's recursion_limit (RECURSION_LIMIT):
-  every model reply and every round of tool runs is one step.
+- At most AGENT_MAX_STEPS model calls per question (middleware, stage
+  E): one more raises ModelCallLimitExceededError, and each front end
+  says it stopped. LangGraph's own recursion_limit counts graph steps,
+  and every middleware hook adds one, so it stays at its default.
 - A bad tool input (e.g. leave_type="vacation") goes back to the model
-  as the tool's result; any other tool error stops the run, as in
-  agent_by_hand.py.
+  as the tool's result. A tool that fails while running (database or
+  Qdrant down) does too, as a fixed "couldn't check this" note
+  (middleware.py); in agent_by_hand.py it still stops the run.
+- A model call that fails after its retries goes to the fallback model
+  (AGENT_FALLBACK_MODEL: Qwen, local, slower), and the failure is
+  logged. It tries the main model first on every call.
+- An empty answer ("_") goes back to the model once, then becomes
+  CANT_ANSWER (middleware.py).
 - TRACING (config.py) sends every run to LangSmith.
 - The key facts are read once, at sign-in: a change in the database
   shows after signing in again.
@@ -29,9 +37,18 @@ import re
 from datetime import date
 
 from langchain.agents import create_agent
+from langchain.agents.middleware import (
+    AgentMiddleware,
+    ModelCallLimitMiddleware,
+    ModelFallbackMiddleware,
+    ToolErrorMiddleware,
+)
+from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
 
 from ams_assistant.config import (
+    AGENT_FALLBACK_MODEL,
+    AGENT_FALLBACK_PROVIDER,
     AGENT_MAX_STEPS,
     AGENT_MODEL,
     AGENT_PROVIDER,
@@ -53,6 +70,11 @@ from ams_assistant.hr_tools import (
 )
 from ams_assistant.leave_tools import submit_leave_request
 from ams_assistant.llm import build_llm
+from ams_assistant.middleware import (
+    answer_check,
+    log_model_failure,
+    tool_failed,
+)
 from ams_assistant.policy_tools import search_policies
 
 if TRACING:
@@ -129,8 +151,6 @@ def instructions_for(card: dict) -> str:
     return INSTRUCTIONS.format(name=card["name"], today=long_date(TODAY),
                                about=about(card))
 
-# AGENT_MAX_STEPS model replies with a tool round after each, + 1.
-RECURSION_LIMIT = 2 * AGENT_MAX_STEPS + 1
 
 # Gemma 4's thinking: "<thought>...</thought>", then the reply text.
 THOUGHT = re.compile(r"\s*<thought>(.*?)(?:</thought>(.*))?\Z", re.DOTALL)
@@ -148,25 +168,64 @@ def split_thinking(reply: AIMessage) -> tuple[str, str]:
     return thinking.strip(), reply.text.strip()
 
 
+def agent_llm(provider: str, model: str,
+              thinking: bool | None) -> BaseChatModel:
+    """A model for the agent: tools on, and the agent's shorter time
+    limit, since someone is waiting (config.py)."""
+    return build_llm(provider, model, temperature=0,
+                     reasoning=thinking if provider == "ollama" else None,
+                     with_tools=True, timeout=AGENT_TIMEOUT,
+                     retries=AGENT_RETRIES)
+
+
+def agent_middleware(provider: str, model: str,
+                     fallback: bool) -> list[AgentMiddleware]:
+    """The rules around the agent's calls, in order: before hooks run
+    first to last, after hooks last to first, and wrap hooks nest (the
+    first listed is the outermost)."""
+    middleware = [
+        # An empty answer ("_") goes back to the model once. First, so
+        # its after_model runs last: after the call counter has counted
+        # the call (a jump skips the after hooks still to run).
+        answer_check,
+        # Counts model calls per question (run_limit); "error" raises
+        # instead of answering with its own technical text, so each
+        # front end words the stop itself.
+        ModelCallLimitMiddleware(run_limit=AGENT_MAX_STEPS,
+                                 exit_behavior="error"),
+        # A tool that fails while running: the model is told it
+        # couldn't check, and answers the rest (middleware.py).
+        ToolErrorMiddleware(on_error=tool_failed),
+    ]
+    backup = (AGENT_FALLBACK_PROVIDER, AGENT_FALLBACK_MODEL)
+    if fallback and AGENT_FALLBACK_MODEL and (provider, model) != backup:
+        middleware += [
+            # A model call that fails goes to the backup model...
+            ModelFallbackMiddleware(agent_llm(*backup, AGENT_THINKING)),
+            # ...and, inside it, each model's failure is logged (the
+            # fallback logs nothing).
+            log_model_failure,
+        ]
+    return middleware
+
+
 def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
                 model: str = AGENT_MODEL,
-                thinking: bool | None = AGENT_THINKING):
+                thinking: bool | None = AGENT_THINKING,
+                fallback: bool = True):
     """Return the agent, ready to run for `employee_id` (ValueError if
     unknown). The model comes from config.py unless given (the evals
-    compare others); `thinking` only applies to Ollama models."""
+    compare others); `thinking` only applies to Ollama models.
+    fallback=False: a failed model call stays a failure (the evals)."""
     card = get_employee_card(employee_id)
     if card is None:
         raise ValueError(f"No employee with ID {employee_id}")
-    # Someone is waiting: the agent's calls give up sooner (config.py).
-    llm = build_llm(provider, model, temperature=0,
-                    reasoning=thinking if provider == "ollama" else None,
-                    with_tools=True, timeout=AGENT_TIMEOUT,
-                    retries=AGENT_RETRIES)
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(
-        llm,
+        agent_llm(provider, model, thinking),
         tools=AGENT_TOOLS,
         system_prompt=instructions_for(card),
         context_schema=HRContext,
+        middleware=agent_middleware(provider, model, fallback),
     )

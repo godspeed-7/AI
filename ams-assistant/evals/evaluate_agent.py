@@ -40,15 +40,12 @@ import runpy
 import time
 from collections import defaultdict
 
-from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
-from langgraph.errors import GraphRecursionError
-
-from ams_assistant.agent import (
-    RECURSION_LIMIT,
-    about,
-    build_agent,
-    split_thinking,
+from langchain.agents.middleware.model_call_limit import (
+    ModelCallLimitExceededError,
 )
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+
+from ams_assistant.agent import about, build_agent, split_thinking
 from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
@@ -74,7 +71,10 @@ FIELDNAMES = [
 def run_agent(item: dict, provider: str, model: str,
               thinking: bool) -> dict:
     """Answer one question as its employee; return what happened."""
-    agent = build_agent(item["employee_id"], provider, model, thinking)
+    # No fallback: a failed call stays a failure, so a score is one
+    # model's.
+    agent = build_agent(item["employee_id"], provider, model, thinking,
+                        fallback=False)
     messages = []
     start = time.perf_counter()
     stopped = False
@@ -84,12 +84,11 @@ def run_agent(item: dict, provider: str, model: str,
         for step in agent.stream(
             {"messages": [HumanMessage(item["question"])]},
             context=HRContext(employee_id=item["employee_id"]),
-            config={"recursion_limit": RECURSION_LIMIT},
             stream_mode="updates",
         ):
             for update in step.values():
                 messages.extend((update or {}).get("messages", []))
-    except GraphRecursionError:
+    except ModelCallLimitExceededError:
         stopped = True
     seconds = time.perf_counter() - start
 

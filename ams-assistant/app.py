@@ -31,24 +31,20 @@ import time
 from datetime import date
 
 import streamlit as st
-from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
-from langgraph.errors import GraphRecursionError
-
-from ams_assistant.agent import (
-    AGENT_TOOLS,
-    RECURSION_LIMIT,
-    build_agent,
-    split_thinking,
+from langchain.agents.middleware.model_call_limit import (
+    ModelCallLimitExceededError,
 )
+from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
+
+from ams_assistant.agent import AGENT_TOOLS, build_agent, split_thinking
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, SHOW_AGENT_STEPS
 from ams_assistant.hr_tools import HRContext, get_employee_card
+# CANT_ANSWER: what the user sees when a run fails; the details go to
+# the log (the terminal running the app), never to the page.
+from ams_assistant.middleware import CANT_ANSWER, answer_check
 from ams_assistant.policy_tools import search_policies
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
-# What the user sees when a run fails; the details go to the log (the
-# terminal running the app), never to the page.
-CANT_ANSWER = ("Sorry, I couldn't answer that right now. Please try "
-               "again in a moment.")
 logger = logging.getLogger(__name__)
 # A markdown image, ![text](address) or ![text][ref]. The browser loads
 # images by itself, so text injected into the data (e.g. a claim's
@@ -250,10 +246,23 @@ class Run:
             else:
                 self.trace.set(index, line)
 
+    def on_answer_check(self, message) -> None:
+        """The answer check found an empty answer: it asks the model
+        again (its note), or, the second time, gives CANT_ANSWER."""
+        if isinstance(message, HumanMessage):
+            self.messages_sent += 1
+            self.trace.add("↳ answer check: empty answer, asking again")
+            self.start_model_call()
+        else:
+            self.trace.add("↳ answer check: empty again, no answer")
+            self.answer = message.text
+            self.answer_box.markdown(self.answer)
+
     def handle(self, mode: str, data) -> None:
         """One stream event. "messages": a token as it's written;
-        "updates": a node ("model" or "tools") has finished, with its
-        new messages."""
+        "updates": a node ("model", "tools", or a middleware hook) has
+        finished, with its new messages; of the middleware, only the
+        answer check adds any."""
         if mode == "messages":
             chunk, _metadata = data
             if isinstance(chunk, AIMessageChunk):
@@ -266,6 +275,8 @@ class Run:
             elif node == "tools":
                 self.on_tools_done(messages)
                 self.start_model_call()
+            elif node.startswith(answer_check.name) and messages:
+                self.on_answer_check(messages[-1])
 
     def summary(self) -> str:
         seconds = time.perf_counter() - self.started
@@ -286,11 +297,10 @@ def ask(question: str) -> dict:
         for mode, data in st.session_state.agent.stream(
             {"messages": [HumanMessage(question)]},
             context=HRContext(employee_id=card["employee_id"]),
-            config={"recursion_limit": RECURSION_LIMIT},
             stream_mode=["messages", "updates"],
         ):
             run.handle(mode, data)
-    except GraphRecursionError:
+    except ModelCallLimitExceededError:
         run.answer = f"Stopped: no answer after {AGENT_MAX_STEPS} rounds."
         run.answer_box.markdown(run.answer)
     except Exception:

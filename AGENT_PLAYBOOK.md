@@ -402,22 +402,148 @@ Rules that run around every model call and tool call.
 ```text
    E MIDDLEWARE
       │
-      ├╌╌ ⬜ Hooks ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ before / after each model call, around
+      ├╌╌ ✅ Hooks ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ before / after each model call, around
       │                              each tool call: one place per rule
-      ├╌╌ ⬜ Retries · fallback ╌╌╌╌ retry a failed call; switch to a second
+      ├╌╌ ✅ Retries · fallback ╌╌╌╌ retry a failed call; switch to a second
       │                              model if the first keeps failing
-      ├╌╌ ⬜ Limits ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ max model calls, tool calls and time
+      ├╌╌ ✅ Limits ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ max model calls, tool calls and time
       │                              per run: stop a loop before it costs
       ├╌╌ ⬜ PII masking ╌╌╌╌╌╌╌╌╌╌╌ redact, mask, hash or block personal
       │                              data: rahul.verma@ams.example →
       │                              [REDACTED_EMAIL]
       ├╌╌ ⬜ Summarize long chats ╌╌ replace old messages with a summary
       │                              before the chat outgrows the window
-      └╌╌ ⬜ Custom middleware ╌╌╌╌╌ write your own hook; the order matters
+      └╌╌ ✅ Custom middleware ╌╌╌╌╌ write your own hook; the order matters
                                      when several run on the same call
 ```
 
-**Build**: call limits and PII masking on our agent.
+**Build**: a call limit, tool errors, a fallback model and an answer
+check on our agent. PII masking left out: our HR data has no emails,
+card numbers or the like.
+
+**Ready-made middleware**: the 17 that LangChain 1.4.9 ships. A
+middleware is code plugged into one or more of the 6 hooks:
+`before_agent` and `after_agent` (once per question), `before_model`,
+`wrap_model_call` and `after_model` (each model call), `wrap_tool_call`
+(each tool call). Shown short below: "before/after model", "wrap
+model", "wrap tool". AMS: whether our agent needs it.
+
+- Limits
+  - `ModelCallLimitMiddleware` (before/after model): stop after N model
+    calls, per question or per conversation. AMS: yes, built (E1)
+  - `ToolCallLimitMiddleware` (after model): cap tool calls, all or one
+    tool by name. AMS: low, submit is already idempotent
+- When something fails
+  - `ModelRetryMiddleware` (wrap model): retry a failed model call,
+    waiting longer each time. AMS: no, Gemini's client already retries
+  - `ModelFallbackMiddleware` (wrap model): the model failed → try the
+    next one in its list. AMS: yes, Gemini → Qwen, built (E3)
+  - `ToolRetryMiddleware` (wrap tool): retry a failed tool call. AMS:
+    low, a local database error rarely passes by waiting
+  - `ToolErrorMiddleware` (wrap tool): a tool crash becomes an error
+    message for the model, not the end of the run. AMS: yes, built
+    (E2)
+  - `ModelRefusalMiddleware` (wrap model): the provider marks a reply
+    as a safety refusal → raise an error code can handle, instead of
+    showing the refusal as an answer. AMS: low
+- Safety and control
+  - `HumanInTheLoopMiddleware` (after model, wrap tool): pause before
+    chosen tools run; a person approves, edits or rejects. AMS: later,
+    "Submit this leave?" before `submit_leave_request` (stage H)
+  - `PIIMiddleware` (before/after model): find emails, card numbers, IP
+    or MAC addresses, URLs or your own pattern; redact, mask, hash or
+    block it. AMS: little, our HR data has none of these
+- Keeping the conversation small
+  - `SummarizationMiddleware` (before model): a long chat's older
+    messages → a short summary. AMS: not now, each question goes to
+    the agent alone
+  - `ContextEditingMiddleware` (wrap model): context too big → clear
+    old tool results, keep the requests. AMS: not now, 1–4 tool calls
+- Many tools
+  - `LLMToolSelectorMiddleware` (wrap model): a small model picks the
+    few relevant tools before each call. AMS: not with 7; for dozens
+  - `ProviderToolSearchMiddleware` (wrap model): the same, with the
+    provider's own tool search. AMS: not now
+- Adds a tool, checks no calls
+  - `TodoListMiddleware`: a `write_todos` tool, a checklist the model
+    writes and ticks off on long jobs ("check 8 people's leave, find 2
+    free days, draft the invite"). AMS: no, our questions take 1–4
+    steps
+  - `FilesystemFileSearchMiddleware`: glob (files by name, `*.md`) and
+    grep (text inside files, like Ctrl+Shift+F) over one folder. AMS:
+    no, `search_policies` searches by meaning, not exact words
+  - `ShellToolMiddleware` (before/after agent, to open and close it): a
+    terminal; commands run on the host, in Docker or in a sandbox.
+    It's how coding agents work. AMS: never, one tricked command
+    (`sqlite3 hr.db …`) skips every permission check
+- Testing
+  - `LLMToolEmulator` (wrap tool): the tool never runs; a second model
+    invents a believable result, like mocking an API (MSW) before the
+    backend exists. AMS: no, our tools are real
+
+None of the 17 checks the answer itself ("_" in D5): our own
+`after_model` middleware.
+
+**Built**
+- E1: call limit. `ModelCallLimitMiddleware` in `build_agent`: at most
+  5 model calls per question (`AGENT_MAX_STEPS`). It replaces
+  LangGraph's `recursion_limit`, which counted graph steps: every
+  middleware hook adds a step (`model`, `tools`, `…before_model`,
+  `…after_model`), so 11 steps would have stopped questions after 3
+  model calls. `exit_behavior="error"`, not `"end"`: "end" answers with
+  its own text ("Model call limits exceeded: run limit (5/5)"); the
+  app, chat and eval catch the error and word it themselves. The old
+  limit allowed 6 calls (5 tool rounds + the answer), now 5 as
+  config.py says; no eval question has used more than 3. A fake model
+  that never answers → stopped after 5 calls, in chat and the eval;
+  Emily's Dallas question unchanged
+- E2: tool errors. `ToolErrorMiddleware` needs our own `on_error`
+  (`middleware.py`): a tool that fails while running (database or
+  Qdrant down) gives the model a fixed note, "couldn't run (a system
+  problem); tell them you couldn't check; don't guess, don't retry",
+  and the details go to the log. Any error, since the note never
+  holds the error's text (no SQL, paths or stack traces). Before, the
+  whole question failed. Test, HR database unreachable after sign-in:
+  "Has my Dallas trip been paid?" → "couldn't check this right now",
+  no guess; "…and the US hotel limit?" → couldn't check the trip, but
+  USD 180 a night from Finance Handbook 3.5. Database back → normal
+- E3: fallback. `ModelFallbackMiddleware`: a model call that fails
+  after Gemini's retries goes to Qwen (`AGENT_FALLBACK_MODEL`, local,
+  thinking on). It logs nothing, so our `log_model_failure` is listed
+  after it: wrap hooks nest (first listed = outermost), so ours sits
+  inside and sees each model's error before the fallback catches it;
+  the other way round, Gemini's failure would be swallowed unseen.
+  Still one call for the call limit. Evals: `fallback=False`, so a
+  score is one model's. Qwen took over mid-run from Gemini's tool
+  request without trouble. Test, main model a name that doesn't exist
+  (404): both rounds logged "gemini… failed", Qwen answered "not paid
+  yet" in 65 s (vs ~5 s); fallback off → fails in 1 s. Gemini is
+  tried first on every call (no memory it's down): with a hung Gemini
+  that's ~3 min a call before Qwen; a circuit breaker is stage K
+- E4: answer check, our own `after_model` middleware (`middleware.py`).
+  A final reply with no letter or digit ("", "_"; not "too short":
+  "5" is an answer) → a note, "Your last reply was empty…", and
+  `jump_to: "model"`; the note makes a new request, so the cache can't
+  replay the "_". Empty again → a fixed "Sorry, I couldn't answer
+  that right now…" (the app's text, now kept here), not an error, so
+  the eval grades it instead of skipping it. Order: after hooks run
+  last to first, and a jump skips those still to run, so the check is
+  listed first and runs after the call counter (listed last, the "_"
+  call went uncounted). The app shows the check as a step. Fake
+  models: "_" then an answer → the answer, 2 calls; "_" twice → the
+  fixed text; "5" untouched; 4 tool rounds + "_" → the retry stopped
+  by the limit (5/5); the same in the app
+- Eval after stage E, 11 Nov 2026, Gemini 3.5 Flash-Lite, 23 of 25
+  graded: 97.8% · 20 perfect · tools right 19 · 2.1 model calls · 7.8 s
+  a question. The stage D baseline held (96.5%, 24 graded). Not
+  graded, both the judge's fault: D5 (500, structured mode), X2 (timed
+  out). No middleware had to act: no empty answers, no failures, at
+  most 3 model calls. Tools: D11 as before; X1, X6, X7 skipped a
+  records tool (X1, X7 still 6/6). Gemini 3.5 ignores temperature 0
+  ("fixed sampling defaults"), so live answers vary between runs; most
+  questions ran live, not from the cache (the first replay after a
+  live run seems to miss round 2 once: D1 missed, then hit when asked
+  again)
 
 [↑ Overview](#overview)
 

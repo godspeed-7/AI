@@ -10,7 +10,7 @@ hands us each step as it finishes, "model" (a reply) or "tools" (the
 results), and we print its messages.
 
 Caveats:
-- Gives up after AGENT_MAX_STEPS model replies (RECURSION_LIMIT).
+- Gives up after AGENT_MAX_STEPS model replies (agent.py's limit).
 - Needs AGENT_MODEL reachable (GOOGLE_API_KEY for Google, or Ollama
   with the model pulled), and the HR database (build_hr_db.py).
 """
@@ -18,10 +18,12 @@ Caveats:
 import argparse
 import textwrap
 
+from langchain.agents.middleware.model_call_limit import (
+    ModelCallLimitExceededError,
+)
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
-from langgraph.errors import GraphRecursionError
 
-from ams_assistant.agent import RECURSION_LIMIT, build_agent, split_thinking
+from ams_assistant.agent import build_agent, split_thinking
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, AGENT_PROVIDER
 from ams_assistant.hr_tools import HRContext, get_employee_name
 
@@ -32,7 +34,8 @@ def show(label: str, text: str) -> None:
 
 
 def print_message(message, round_number: int) -> None:
-    """Print one message from a step: a model reply or a tool result."""
+    """Print one message from a step: a model reply, a tool result or
+    the answer check's note."""
     if isinstance(message, AIMessage):
         print(f"Round {round_number}")
         thinking, text = split_thinking(message)
@@ -45,6 +48,8 @@ def print_message(message, round_number: int) -> None:
             show("answer", text)
     elif isinstance(message, ToolMessage):
         show("result", message.content)
+    elif isinstance(message, HumanMessage):  # the answer check's note
+        show("check", message.content)
 
 
 def main():
@@ -72,15 +77,15 @@ def main():
         for step in agent.stream(
             {"messages": [HumanMessage(question)]},
             context=HRContext(employee_id=args.employee_id),
-            config={"recursion_limit": RECURSION_LIMIT},
             stream_mode="updates",
         ):
+            # Middleware steps (e.g. the call counter) add no messages.
             for update in step.values():
                 for message in (update or {}).get("messages", []):
                     if isinstance(message, AIMessage):
                         round_number += 1
                     print_message(message, round_number)
-    except GraphRecursionError:
+    except ModelCallLimitExceededError:
         print(f"Stopped: no answer after {AGENT_MAX_STEPS} rounds.")
 
 
