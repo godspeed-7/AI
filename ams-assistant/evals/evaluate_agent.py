@@ -25,6 +25,8 @@ Usage (from ams-assistant/):
     uv run python evals/evaluate_agent.py --only X2,X3 # some questions
 
 Caveats:
+- Starts by rebuilding the HR database from the CSVs (build_hr_db.py),
+  so every run sees the same data: leave booked in the app is wiped.
 - Replies and grades are cached (llm_cache.py): a rerun only calls the
   models for questions whose input changed.
 - Hosted seconds include Google's pacing (GOOGLE_CALLS_PER_MINUTE).
@@ -34,6 +36,7 @@ Caveats:
 
 import argparse
 import csv
+import runpy
 import time
 from collections import defaultdict
 
@@ -55,6 +58,7 @@ from ams_assistant.config import (
     EVALS_DIR,
     JUDGE_MODEL,
     JUDGE_PROVIDER,
+    PROJECT_ROOT,
 )
 from ams_assistant.hr_tools import HRContext, get_employee_card
 from ams_assistant.judge import build_judge
@@ -176,6 +180,12 @@ def main():
     print(f"Agent: {args.provider} {args.model} ({label}), "
           f"judge: {JUDGE_PROVIDER} {JUDGE_MODEL}, "
           f"{len(questions)} questions")
+
+    # A fresh HR database from the CSVs: leave booked in the app (the
+    # agent can write now) would change the answers.
+    print("Rebuilding the HR database:")
+    runpy.run_path(str(PROJECT_ROOT / "build_hr_db.py"),
+                   run_name="__main__")
 
     judge = build_judge()
     rows, failed = [], []

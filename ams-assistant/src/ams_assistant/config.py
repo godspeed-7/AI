@@ -88,6 +88,24 @@ NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 GOOGLE_CALLS_PER_MINUTE = 6
 # 0 = always pick the most likely next word, so answers are repeatable.
 TEMPERATURE = 0
+# Time limit (seconds) and retries for each hosted model call (Google,
+# NVIDIA). Retried only on errors that can pass (429 too busy, 500/503,
+# time-outs), waiting longer each time; the client libraries do that.
+# Until 2026-11-10 every call had 300 s x 5 tries (~25 minutes in an
+# outage). Not part of the reply cache's key (llm_cache.py): changing
+# them keeps saved replies.
+# The agent: someone is waiting, so ~3 minutes at most, then a plain
+# "couldn't answer".
+AGENT_TIMEOUT = 60
+AGENT_RETRIES = 2
+# Batch jobs (the judge, hosted RAG answers): nobody waits, and a grade
+# can take long (Gemma thinks first: D5, with a full claims list, took
+# over 90 s), so ~9 minutes at most per call.
+BATCH_TIMEOUT = 180
+BATCH_RETRIES = 2
+# Ollama on this Mac: no retries (a stuck local model won't recover by
+# asking again); qwen3 with thinking can take over a minute a call.
+LOCAL_TIMEOUT = 180
 # The agent's model: picks the tools and writes the reply. Providers as
 # for the judge; needs tool support (gemma3 has none; Google's Gemma 4
 # failed every call with tools, 500, on 2026-11-10). Gemini 3.5

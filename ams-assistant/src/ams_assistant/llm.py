@@ -18,8 +18,9 @@ Caveats:
 - Google's free tier limits tokens per minute for each model, so its
   calls are paced: one pacer per model, shared by every thread and
   chain (the answerer and the judge each have their own model).
-- ChatOpenAI's cache key includes its settings (timeout, retries,
-  address), so changing one re-runs every hosted call once.
+- ChatOpenAI's cache key includes its settings (e.g. the address), so
+  changing one re-runs every hosted call once; the time limit and
+  retries are left out of it (llm_cache.py).
 """
 
 import os
@@ -32,8 +33,11 @@ from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 
 from ams_assistant.config import (
+    BATCH_RETRIES,
+    BATCH_TIMEOUT,
     GOOGLE_BASE_URL,
     GOOGLE_CALLS_PER_MINUTE,
+    LOCAL_TIMEOUT,
     NVIDIA_BASE_URL,
 )
 from ams_assistant.llm_cache import get_llm_cache
@@ -57,7 +61,9 @@ def get_pacer(model: str, per_minute: int) -> InMemoryRateLimiter:
 
 def build_llm(provider: str, model: str, temperature: float,
               reasoning: bool | None = None,
-              with_tools: bool = False) -> BaseChatModel:
+              with_tools: bool = False,
+              timeout: float = BATCH_TIMEOUT,
+              retries: int = BATCH_RETRIES) -> BaseChatModel:
     """Return the chat model `model` on `provider`, with its cache.
 
     reasoning (Ollama thinking models such as qwen3 only): True returns
@@ -66,14 +72,20 @@ def build_llm(provider: str, model: str, temperature: float,
     off; None leaves the model's default.
     with_tools (Google only): the model will call tools (the agent), so
     use Google's own client; see below.
+    timeout, retries (hosted models): seconds before a call gives up,
+    and how many times it's tried again; batch values unless given
+    (the agent passes its shorter ones, config.py). Ollama always gets
+    LOCAL_TIMEOUT and no retries.
     """
     # ChatOllama's cache key ignores `reasoning`, but replies with and
     # without thinking differ, so it goes into the model label.
     label = model if reasoning is None else f"{model} reasoning={reasoning}"
     llm_cache = get_llm_cache(label, temperature)
     if provider == "ollama":
+        # client_kwargs go to Ollama's HTTP client; not in the cache key.
         return ChatOllama(model=model, temperature=temperature,
-                          reasoning=reasoning, cache=llm_cache)
+                          reasoning=reasoning, cache=llm_cache,
+                          client_kwargs={"timeout": LOCAL_TIMEOUT})
 
     base_url, key_name, per_minute = HOSTED[provider]
     pacer = get_pacer(model, per_minute) if per_minute else None
@@ -85,10 +97,10 @@ def build_llm(provider: str, model: str, temperature: float,
         return ChatGoogleGenerativeAI(
             model=model, temperature=temperature, cache=llm_cache,
             google_api_key=os.environ[key_name], rate_limiter=pacer,
-            timeout=300, max_retries=4)
+            timeout=timeout, max_retries=retries)
     # max_retries waits and retries on "too many requests" (429) and
     # on the free tiers' brief "overloaded" errors (500/503).
     return ChatOpenAI(model=model, temperature=temperature,
                       cache=llm_cache, base_url=base_url,
                       api_key=os.environ[key_name], rate_limiter=pacer,
-                      timeout=300, max_retries=4)
+                      timeout=timeout, max_retries=retries)

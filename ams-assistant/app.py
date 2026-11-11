@@ -20,8 +20,12 @@ Caveats:
 - Each question is answered on its own: no follow-ups until stage G.
 - A question asked before comes back from the reply cache at once,
   without typing out.
+- Everything shown goes through shown(): markdown images become text,
+  so injected text can't make the browser send data out.
 """
 
+import logging
+import re
 import textwrap
 import time
 from datetime import date
@@ -41,6 +45,23 @@ from ams_assistant.hr_tools import HRContext, get_employee_card
 from ams_assistant.policy_tools import search_policies
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
+# What the user sees when a run fails; the details go to the log (the
+# terminal running the app), never to the page.
+CANT_ANSWER = ("Sorry, I couldn't answer that right now. Please try "
+               "again in a moment.")
+logger = logging.getLogger(__name__)
+# A markdown image, ![text](address) or ![text][ref]. The browser loads
+# images by itself, so text injected into the data (e.g. a claim's
+# description) could make the model hide private data in an image's
+# address and send it out the moment the answer is shown.
+IMAGE = re.compile(r"!\[([^\]]*)\]\s*(\([^)]*\)|\[[^\]]*\])")
+
+
+def shown(text: str) -> str:
+    """Model, tool or user text, made safe to show as markdown: images
+    become plain text. (Raw HTML is already off: st.markdown escapes
+    it unless unsafe_allow_html=True.)"""
+    return IMAGE.sub(r"[image removed: \1]", text)
 
 
 def nice_date(iso: str) -> str:
@@ -139,7 +160,7 @@ class Trace:
 
     def draw(self) -> None:
         if self.box is not None:
-            self.box.markdown(self.text())
+            self.box.markdown(shown(self.text()))
 
 
 class Run:
@@ -182,7 +203,7 @@ class Run:
         # list of parts (Gemini).
         if chunk.text:
             self.text += chunk.text
-            self.answer_box.markdown(self.text + " ▌")
+            self.answer_box.markdown(shown(self.text) + " ▌")
 
     def on_model_done(self, reply: AIMessage) -> None:
         """The model call finished: a tool request or the answer."""
@@ -196,7 +217,7 @@ class Run:
         if not reply.tool_calls:
             self.trace.add(f"↳ answer · {seconds:.1f} s")
             self.answer = text
-            self.answer_box.markdown(text)
+            self.answer_box.markdown(shown(text))
             return
         if text:  # some models say something before asking for a tool
             self.trace.add(f"↳ says: {text}")
@@ -229,6 +250,23 @@ class Run:
             else:
                 self.trace.set(index, line)
 
+    def handle(self, mode: str, data) -> None:
+        """One stream event. "messages": a token as it's written;
+        "updates": a node ("model" or "tools") has finished, with its
+        new messages."""
+        if mode == "messages":
+            chunk, _metadata = data
+            if isinstance(chunk, AIMessageChunk):
+                self.on_token(chunk)
+            return
+        for node, update in data.items():
+            messages = (update or {}).get("messages", [])
+            if node == "model":
+                self.on_model_done(messages[-1])
+            elif node == "tools":
+                self.on_tools_done(messages)
+                self.start_model_call()
+
     def summary(self) -> str:
         seconds = time.perf_counter() - self.started
         calls = "call" if self.model_calls == 1 else "calls"
@@ -245,28 +283,21 @@ def ask(question: str) -> dict:
     run = Run(trace, st.empty(), card["employee_id"])
     run.start_model_call()
     try:
-        # "messages": every token as it's written; "updates": a node
-        # ("model" or "tools") has finished, with its new messages.
         for mode, data in st.session_state.agent.stream(
             {"messages": [HumanMessage(question)]},
             context=HRContext(employee_id=card["employee_id"]),
             config={"recursion_limit": RECURSION_LIMIT},
             stream_mode=["messages", "updates"],
         ):
-            if mode == "messages":
-                chunk, _metadata = data
-                if isinstance(chunk, AIMessageChunk):
-                    run.on_token(chunk)
-                continue
-            for node, update in data.items():
-                messages = (update or {}).get("messages", [])
-                if node == "model":
-                    run.on_model_done(messages[-1])
-                elif node == "tools":
-                    run.on_tools_done(messages)
-                    run.start_model_call()
+            run.handle(mode, data)
     except GraphRecursionError:
         run.answer = f"Stopped: no answer after {AGENT_MAX_STEPS} rounds."
+        run.answer_box.markdown(run.answer)
+    except Exception:
+        # A model call failed after its retries, timed out, or a tool
+        # broke: a plain message, never a stack trace.
+        logger.exception("Agent run failed")
+        run.answer = CANT_ANSWER
         run.answer_box.markdown(run.answer)
     summary = run.summary()
     trace.add(f"**Done** · {summary}")
@@ -280,18 +311,18 @@ def chat_screen() -> None:
     # Earlier questions: steps folded away, answer shown.
     for turn in st.session_state.history:
         with st.chat_message("user"):
-            st.markdown(turn["question"])
+            st.markdown(shown(turn["question"]))
         with st.chat_message("assistant"):
             if SHOW_AGENT_STEPS:
                 with st.expander(f"Steps · {turn['summary']}"):
-                    st.markdown(turn["steps"])
-            st.markdown(turn["answer"])
+                    st.markdown(shown(turn["steps"]))
+            st.markdown(shown(turn["answer"]))
 
     question = st.chat_input("Ask a question…")
     if not question:
         return
     with st.chat_message("user"):
-        st.markdown(question)
+        st.markdown(shown(question))
     with st.chat_message("assistant"):
         if SHOW_AGENT_STEPS:
             turn = ask(question)

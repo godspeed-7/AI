@@ -106,11 +106,13 @@ TEAM_SQL = """
 
 # Who `employee` may mean: an ID, a full name or a first name, in any
 # case. permissions.py then decides which of them the asker may see.
-FIND_SQL = """
+# :first_name is "<q> %" with q's own % and _ escaped (ESCAPE '\'), so
+# only the trailing % is a wildcard: "%" or "K%" match no one.
+FIND_SQL = r"""
     SELECT employee_id, name, manager_id
     FROM employees
     WHERE lower(employee_id) = :q OR lower(name) = :q
-       OR lower(name) LIKE :q || ' %'
+       OR lower(name) LIKE :first_name ESCAPE '\'
 """
 
 CLAIMS_SQL = """
@@ -174,9 +176,14 @@ def find_employee(runtime: ToolRuntime[HRContext], employee: str | None,
     if not employee or not employee.strip():
         matches = [(viewer_id, "self")]
     else:
+        q = employee.strip().lower()
+        # LIKE's wildcards (% and _) in the name become plain text.
+        escaped = (q.replace("\\", "\\\\").replace("%", "\\%")
+                   .replace("_", "\\_"))
         with closing(connect()) as db:
-            rows = db.execute(FIND_SQL,
-                              {"q": employee.strip().lower()}).fetchall()
+            rows = db.execute(FIND_SQL, {"q": q,
+                                         "first_name": f"{escaped} %"}
+                              ).fetchall()
         # Only the people the asker may see count as matches.
         matches = [(row["employee_id"], level) for row in rows
                    if (level := access(viewer_id, dict(row)))]

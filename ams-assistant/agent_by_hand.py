@@ -33,7 +33,9 @@ from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
     AGENT_PROVIDER,
+    AGENT_RETRIES,
     AGENT_THINKING,
+    AGENT_TIMEOUT,
 )
 from ams_assistant.hr_tools import (
     HRContext,
@@ -80,7 +82,8 @@ def run_agent(question: str, employee_id: str) -> str | None:
     llm = build_llm(AGENT_PROVIDER, AGENT_MODEL, temperature=0,
                     reasoning=(AGENT_THINKING if AGENT_PROVIDER == "ollama"
                                else None),
-                    with_tools=True)
+                    with_tools=True, timeout=AGENT_TIMEOUT,
+                    retries=AGENT_RETRIES)
     # bind_tools: every call now also sends the tools' names,
     # descriptions and inputs (what the model sees).
     llm_with_tools = llm.bind_tools(list(TOOLS.values()))

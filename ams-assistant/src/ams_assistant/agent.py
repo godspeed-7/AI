@@ -35,7 +35,9 @@ from ams_assistant.config import (
     AGENT_MAX_STEPS,
     AGENT_MODEL,
     AGENT_PROVIDER,
+    AGENT_RETRIES,
     AGENT_THINKING,
+    AGENT_TIMEOUT,
     TODAY,
     TRACING,
 )
@@ -49,6 +51,7 @@ from ams_assistant.hr_tools import (
     get_profile,
     time_since,
 )
+from ams_assistant.leave_tools import submit_leave_request
 from ams_assistant.llm import build_llm
 from ams_assistant.policy_tools import search_policies
 
@@ -58,7 +61,8 @@ if TRACING:
     # chat.py and the evals all follow the one flag.
     os.environ["LANGSMITH_TRACING"] = "true"
 
-# The tools the model may ask for: the HR database, then the handbooks.
+# The tools the model may ask for: the HR database (read), the
+# handbooks, then the one tool that writes.
 AGENT_TOOLS = [
     get_profile,
     get_my_team,
@@ -66,6 +70,7 @@ AGENT_TOOLS = [
     get_leave_requests,
     get_expense_claims,
     search_policies,
+    submit_leave_request,
 ]
 
 INSTRUCTIONS = (
@@ -152,9 +157,11 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     card = get_employee_card(employee_id)
     if card is None:
         raise ValueError(f"No employee with ID {employee_id}")
+    # Someone is waiting: the agent's calls give up sooner (config.py).
     llm = build_llm(provider, model, temperature=0,
                     reasoning=thinking if provider == "ollama" else None,
-                    with_tools=True)
+                    with_tools=True, timeout=AGENT_TIMEOUT,
+                    retries=AGENT_RETRIES)
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(

@@ -26,9 +26,14 @@ Caveats:
   fetched new weights), or another ChatOllama setting changes.
 - It freezes the first reply: to see how much an answer varies between
   runs, delete the file first.
+- The time limit and retries (WAIT_SETTINGS) are left out of the key:
+  they change how long we wait, not what the model says. (Until
+  2026-11-10 they were in it, so replies saved before then are missed
+  once.)
 """
 
 import hashlib
+import json
 import sqlite3
 import threading
 import warnings
@@ -78,6 +83,27 @@ def plain(generation: Generation) -> Generation:
     })
 
 
+# Model settings that change how long we wait, not the reply.
+WAIT_SETTINGS = ("timeout", "request_timeout", "max_retries", "retries")
+
+
+def reply_settings(llm_string: str) -> str:
+    """LangChain's llm_string without WAIT_SETTINGS. The hosted models'
+    is '<the model as JSON>---<call options>'; any other (ChatOllama's
+    has no JSON part) is returned as it is."""
+    model_json, separator, options = llm_string.partition("---")
+    try:
+        model = json.loads(model_json)
+    except ValueError:
+        return llm_string
+    settings = model.get("kwargs") if isinstance(model, dict) else None
+    if not isinstance(settings, dict):
+        return llm_string
+    for name in WAIT_SETTINGS:
+        settings.pop(name, None)
+    return json.dumps(model, sort_keys=True) + separator + options
+
+
 class SQLiteLLMCache(BaseCache):
     """BaseCache (LangChain's cache interface) for one model + setting,
     stored in one SQLite table: key -> the reply, serialized with
@@ -87,9 +113,10 @@ class SQLiteLLMCache(BaseCache):
         self.model_settings = f"{model} temperature={temperature}"
 
     def key(self, prompt: str, llm_string: str) -> str:
-        """A short fingerprint (SHA-256) of the model, its settings and
-        the prompt."""
-        text = f"{self.model_settings}\n{llm_string}\n{prompt}"
+        """A short fingerprint (SHA-256) of the model, the settings that
+        shape its reply, and the prompt."""
+        text = (f"{self.model_settings}\n{reply_settings(llm_string)}\n"
+                f"{prompt}")
         return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
     def lookup(self, prompt: str,
