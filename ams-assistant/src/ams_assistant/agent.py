@@ -30,6 +30,15 @@ Caveats:
 - TRACING (config.py) sends every run to LangSmith.
 - The key facts are read once, at sign-in: a change in the database
   shows after signing in again.
+- memory=True (the app, chat.py): the agent keeps each chat's
+  messages, so a follow-up ("and my Chicago one?") comes with the chat
+  so far, and a paused tool ("Confirm?") can carry on. Every run then
+  passes config={"configurable": {"thread_id": chat_id}}. Kept in
+  memory (InMemorySaver), one per agent, so per sign-in; lost when the
+  app stops. Every question re-sends the whole chat (no trimming yet).
+  It also brings long-term memory: their saved preferences
+  (preferences.py, on disk) go into the instructions at sign-in. Off
+  in the evals: each question alone, nothing remembered.
 """
 
 import os
@@ -45,7 +54,12 @@ from langchain.agents.middleware import (
 )
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
+from langgraph.checkpoint.memory import InMemorySaver
 
+from ams_assistant.approval_tools import (
+    decide_leave_requests,
+    get_requests_to_approve,
+)
 from ams_assistant.config import (
     AGENT_FALLBACK_MODEL,
     AGENT_FALLBACK_PROVIDER,
@@ -76,6 +90,12 @@ from ams_assistant.middleware import (
     tool_failed,
 )
 from ams_assistant.policy_tools import search_policies
+from ams_assistant.preferences import (
+    forget_preferences,
+    get_store,
+    read_preferences,
+    remember_preference,
+)
 
 if TRACING:
     # LangChain reads this before each run and, when "true", sends the
@@ -84,7 +104,9 @@ if TRACING:
     os.environ["LANGSMITH_TRACING"] = "true"
 
 # The tools the model may ask for: the HR database (read), the
-# handbooks, then the one tool that writes.
+# handbooks, the tools that change leave (each asks "Confirm?" first):
+# book leave, and decide the leave waiting for your approval; then how
+# they want answers (no "Confirm?": it only changes how answers look).
 AGENT_TOOLS = [
     get_profile,
     get_my_team,
@@ -93,6 +115,10 @@ AGENT_TOOLS = [
     get_expense_claims,
     search_policies,
     submit_leave_request,
+    get_requests_to_approve,
+    decide_leave_requests,
+    remember_preference,
+    forget_preferences,
 ]
 
 INSTRUCTIONS = (
@@ -146,10 +172,20 @@ def about(card: dict) -> str:
     return "\n".join(lines)
 
 
-def instructions_for(card: dict) -> str:
-    """The system message for the employee `card` describes."""
-    return INSTRUCTIONS.format(name=card["name"], today=long_date(TODAY),
+# Added when the agent has memory (the app): how they asked for answers
+# (preferences.py), over the defaults above.
+PREFERENCES_LINE = ("\n\nTheir saved preferences, which come before the "
+                    "defaults above: {preferences}.")
+
+
+def instructions_for(card: dict, preferences: str | None = None) -> str:
+    """The system message for the employee `card` describes; with their
+    saved preferences ("none" if none) when the agent has memory."""
+    text = INSTRUCTIONS.format(name=card["name"], today=long_date(TODAY),
                                about=about(card))
+    if preferences is not None:
+        text += PREFERENCES_LINE.format(preferences=preferences)
+    return text
 
 
 # Gemma 4's thinking: "<thought>...</thought>", then the reply text.
@@ -212,20 +248,30 @@ def agent_middleware(provider: str, model: str,
 def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
                 model: str = AGENT_MODEL,
                 thinking: bool | None = AGENT_THINKING,
-                fallback: bool = True):
+                fallback: bool = True, memory: bool = False):
     """Return the agent, ready to run for `employee_id` (ValueError if
     unknown). The model comes from config.py unless given (the evals
     compare others); `thinking` only applies to Ollama models.
-    fallback=False: a failed model call stays a failure (the evals)."""
+    fallback=False: a failed model call stays a failure (the evals).
+    memory=True: follow-ups see the chat so far (pass a thread_id)."""
     card = get_employee_card(employee_id)
     if card is None:
         raise ValueError(f"No employee with ID {employee_id}")
+    # Long-term memory: the shared store (tools get it as runtime.store)
+    # and their preferences, read now, by code.
+    store = get_store() if memory else None
+    preferences = read_preferences(store, employee_id) if store else None
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(
         agent_llm(provider, model, thinking),
         tools=AGENT_TOOLS,
-        system_prompt=instructions_for(card),
+        system_prompt=instructions_for(card, preferences),
         context_schema=HRContext,
         middleware=agent_middleware(provider, model, fallback),
+        # Saves the messages after every step, per thread_id (a chat);
+        # a run with the same thread_id starts from them. Its own
+        # saver per agent: this person's chats only.
+        checkpointer=InMemorySaver() if memory else None,
+        store=store,
     )

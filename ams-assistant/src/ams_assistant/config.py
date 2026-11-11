@@ -32,18 +32,24 @@ GLOSSARY_FILE = DATA_ROOT / "glossary.csv"
 JUDGE_PROMPT_FILE = DATA_ROOT / "judge_prompt.txt"
 # Where the answer eval writes its per-question results.
 EVALS_DIR = PROJECT_ROOT / "evals"
+# Files this project makes for itself; not in git.
+CACHE_DIR = PROJECT_ROOT / ".cache"
 # The reranker's saved scores (reranker.py); not in git. Deleting it is
 # always safe: scores are recomputed as needed.
-RERANK_CACHE_FILE = PROJECT_ROOT / ".cache" / "rerank_scores.sqlite"
+RERANK_CACHE_FILE = CACHE_DIR / "rerank_scores.sqlite"
 # Saved LLM replies (llm_cache.py): answers, judge grades, rewrites.
 # Also safe to delete.
-LLM_CACHE_FILE = PROJECT_ROOT / ".cache" / "llm_replies.sqlite"
+LLM_CACHE_FILE = CACHE_DIR / "llm_replies.sqlite"
 # The HR records (employees, leave, expenses) as CSVs, shared in
 # ams-data. build_hr_db.py copies them into HR_DB_FILE.
 HR_DATA_DIR = DATA_ROOT / "db"
 # The agent's HR database (hr_tools.py reads it); not in git. Safe to
 # delete: re-run build_hr_db.py for a fresh copy of the CSVs.
-HR_DB_FILE = PROJECT_ROOT / ".cache" / "hr.sqlite"
+HR_DB_FILE = CACHE_DIR / "hr.sqlite"
+# What the agent remembers about people across chats (preferences.py):
+# how they want answers. Not in git; not rebuilt by the evals.
+# Deleting it forgets everyone's preferences.
+MEMORY_FILE = CACHE_DIR / "memory.sqlite"
 # The date the HR data describes (TODAY in ams-data/db/build_hr_data.py).
 # The agent works with it, never the real clock: the tools count from
 # it (e.g. time at AMS) and the model is told it.

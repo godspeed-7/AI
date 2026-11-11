@@ -32,6 +32,8 @@ Caveats:
 - Hosted seconds include Google's pacing (GOOGLE_CALLS_PER_MINUTE).
 - Questions run one at a time (one local model at a time on this Mac).
 - A question that fails is logged and skipped, so a run isn't lost.
+- Booking leave pauses to ask the person (Confirm?); no one answers
+  here, so the answer recorded is that question, and nothing is saved.
 """
 
 import argparse
@@ -68,6 +70,30 @@ FIELDNAMES = [
 ]
 
 
+def collect_steps(agent, item: dict) -> tuple[list, bool, str | None]:
+    """Run the agent on the item's question, collecting the messages
+    step by step, so a run that stops early still shows which tools it
+    called. Returns the messages, whether the call limit stopped it,
+    and what a paused tool asks (None if none)."""
+    messages, asked = [], None
+    try:
+        for step in agent.stream(
+            {"messages": [HumanMessage(item["question"])]},
+            context=HRContext(employee_id=item["employee_id"]),
+            stream_mode="updates",
+        ):
+            for node, update in step.items():
+                # Booking leave pauses to ask the person (leave_tools.py):
+                # no one answers here, so the run ends; nothing is saved.
+                if node == "__interrupt__":
+                    asked = update[0].value["question"]
+                    continue
+                messages.extend((update or {}).get("messages", []))
+    except ModelCallLimitExceededError:
+        return messages, True, asked
+    return messages, False, asked
+
+
 def run_agent(item: dict, provider: str, model: str,
               thinking: bool) -> dict:
     """Answer one question as its employee; return what happened."""
@@ -75,26 +101,15 @@ def run_agent(item: dict, provider: str, model: str,
     # model's.
     agent = build_agent(item["employee_id"], provider, model, thinking,
                         fallback=False)
-    messages = []
     start = time.perf_counter()
-    stopped = False
-    try:
-        # Collect the messages step by step, so a run that hits the step
-        # limit still shows which tools it called.
-        for step in agent.stream(
-            {"messages": [HumanMessage(item["question"])]},
-            context=HRContext(employee_id=item["employee_id"]),
-            stream_mode="updates",
-        ):
-            for update in step.values():
-                messages.extend((update or {}).get("messages", []))
-    except ModelCallLimitExceededError:
-        stopped = True
+    messages, stopped, asked = collect_steps(agent, item)
     seconds = time.perf_counter() - start
 
     replies = [m for m in messages if isinstance(m, AIMessage)]
     results = [m for m in messages if isinstance(m, ToolMessage)]
-    if stopped or not replies:
+    if asked:
+        answer = f"(paused to ask them: {asked})"
+    elif stopped or not replies:
         answer = f"(no answer: stopped after {AGENT_MAX_STEPS} rounds)"
     else:
         answer = split_thinking(replies[-1])[1]

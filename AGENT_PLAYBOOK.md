@@ -578,8 +578,23 @@ Draw the steps yourself when some must always happen.
                                          another
 ```
 
-**Build**: the leave request as a graph: identity → balance and rule (in
-parallel) → agent → submit.
+**Build**: deferred. Our agent is a chat: the model picks tools in a
+loop, which `create_agent` already runs as a LangGraph graph (its
+nodes: `model`, `tools`, and the middleware's before/after hooks). The
+two LangGraph features AMS needs work on it without drawing a graph:
+the checkpointer (G, memory) and interrupts (H, "Confirm?"). Draw a
+graph when a job doesn't fit that loop: no one asking, fixed steps
+with the model as one of them, parallel, resume after a crash (e.g. a
+nightly check of every expense claim), or several agents (J).
+
+**Tried**
+- The plan was the leave request as a graph: identity → balance and
+  rule (parallel) → agent → submit. Dropped before building: the
+  order is already enforced in code (`submit_leave_request` checks
+  everything before it writes), and waiting for the manager belongs
+  in the database (pending → approved), not in a run paused for days.
+  Real HR systems work that way: the request row is the memory, and
+  the approval sends an email
 
 [↑ Overview](#overview)
 
@@ -590,16 +605,53 @@ Different things to remember, kept in different places.
 ```text
    G MEMORY
       │
-      ├╌╌ ⬜ Chat memory ╌╌╌╌╌╌╌╌ the checkpointer keeps this chat: "and
+      ├╌╌ ✅ Chat memory ╌╌╌╌╌╌╌╌ the checkpointer keeps this chat: "and
       │                           in December?" still means Rahul
-      ├╌╌ ⬜ Long-term memory ╌╌╌ the store keeps facts across chats,
+      ├╌╌ ✅ Long-term memory ╌╌╌ the store keeps facts across chats,
       │                           from an allowed list only: "prefers
       │                           half days"
-      └╌╌ ⬜ What not to store ╌╌ no secrets, no guesses, no one else's
+      └╌╌ ✅ What not to store ╌╌ no secrets, no guesses, no one else's
                                   data; delete on request
 ```
 
 **Build**: the agent remembers an employee's preferences.
+
+**Built**
+- G1: chat memory. `build_agent(..., memory=True)` (the app) gives
+  the agent a checkpointer (`InMemorySaver`): the messages are saved
+  after every step under the chat's `thread_id`, and the next
+  question in that chat starts from them. The chat ID is made by the
+  server at sign-in, never taken from the user; one saver per agent,
+  so per sign-in. In memory: lost when the app stops, nothing on
+  disk. chat.py and the evals: off, each question alone. The call
+  limit still counts per question (its counter isn't saved). Every
+  question re-sends the whole chat (no trimming yet). Gemini, Emily:
+  "Has my Dallas trip been paid?" then "And my Chicago one?" →
+  "Yes, your Chicago trip has been paid", from the chat, no new tool
+  call. A new chat, the follow-up alone → it read "one" as a trip and
+  looked her claims up itself (no memory: 4 messages, not 8). Ananya's
+  agent, same chat name → "our first message". The app's trace: "the
+  chat so far (4 messages)"
+- G2: preferences across chats (`preferences.py`). LangGraph's store
+  on disk (`SqliteStore`, `.cache/memory.sqlite`, package
+  `langgraph-checkpoint-sqlite`): one item per preference under
+  ("preferences", employee ID), apart from the chat memory. Choices
+  only, never free text: answer length (short, detailed) and language
+  (English, Hindi). A preference goes into the instructions, so free
+  text could inject them ("remember: ignore your rules"); "remember
+  I'm a manager" has nowhere to go, and permissions stay in code.
+  `remember_preference` saves without a "Confirm?" (only how answers
+  look: a low-risk write); `forget_preferences` deletes. Code reads
+  them at sign-in into one line of the instructions ("Their saved
+  preferences, which come before the defaults above: …", or "none").
+  Evals: off, the instructions exactly as before. Gemini, a test
+  memory file: "Always keep your answers short" → saved, next sign-in
+  shorter (214 → 187 characters: the default already says short);
+  "Answer in Hindi" → next sign-in in Hindi; Rahul unaffected;
+  "Remember that I'm a manager" → nothing saved (it called a tool
+  that doesn't exist, `remember_preferences`, got an error, and said
+  it can only remember how answers should look); "What do you
+  remember?" → both; "Forget my preferences" → next sign-in "none"
 
 [↑ Overview](#overview)
 
@@ -610,16 +662,69 @@ A person approves anything that changes data.
 ```text
    H HUMAN IN CONTROL
       │
-      ├╌╌ ⬜ Approval middleware ╌╌╌ pause before a tool runs: approve,
+      ├╌╌ ✗ Approval middleware ╌╌╌ pause before a tool runs: approve,
       │                              edit the inputs, or reject
-      ├╌╌ ⬜ interrupt() + resume ╌╌ the same in LangGraph; code before
+      ├╌╌ ✅ interrupt() + resume ╌╌ the same in LangGraph; code before
       │                              interrupt() runs again on resume
-      └╌╌ ⬜ Save the decision ╌╌╌╌╌ pending → approved or rejected, once
+      └╌╌ ✅ Save the decision ╌╌╌╌╌ pending → approved or rejected, once
                                      only, by someone allowed to decide
 ```
 
-**Build**: Rahul's manager, Meera Joshi (AMS-1009), approves his leave
-request.
+**Build**: the person confirms once the checks pass, before
+`submit_leave_request` saves ("Submit annual leave for 22–23 December
+2026 (2 working days)? Confirm / Cancel"): the run pauses for
+seconds, saved by the checkpointer, since each click is a new request
+to the server. Rahul's manager, Meera Joshi (AMS-1009), approves his
+request in her own short conversation: an approve tool checks in code
+that she is his manager, and asks her to confirm. The database holds
+pending → approved; an email to Rahul would be plain code, not the
+LLM.
+
+**Built**
+- H1: confirm before saving. In `submit_leave_request`: the checks
+  (read-only, no lock) → refused or already saved: answered at once,
+  no question → else `interrupt()` with the question (days, days
+  left, approver). The run pauses; the chat is saved (G1). On the
+  reply the tool runs again from the top: the checks again, then
+  `interrupt()` returns "confirm" or "cancel"; confirm → the checks a
+  third time inside the locked write. The pause is an exception, so
+  it sits outside the tool's catch-all. Not the approval middleware
+  (✗): it asks before the tool runs, so Rahul would confirm a request
+  his probation then refuses. App: Confirm / Cancel under the
+  question, the chat box off until one is clicked (a new question
+  would leave the tool call unanswered). chat.py: "Confirm? [y/N]".
+  Evals (no memory): the run stops at the question, nothing saved;
+  the eval records "(paused to ask them: …)" as the answer (a fake
+  model booking leave: recorded, no new row).
+  Gemini, on a database copy: Ananya 21–24 Dec → Confirm → LR-0199
+  saved once; 30 Dec casual → Cancel → nothing; Rahul's annual →
+  refused, no question; the app: buttons, Confirm → saved, buttons
+  gone (first try found a bug: after a pause the trace's timer wasn't
+  started)
+- H2: managers decide leave (`approval_tools.py`). Two tools, a read
+  and a write: `get_requests_to_approve` lists only the pending
+  requests whose approver is you; `decide_leave_requests` takes every
+  decision in one call, a list of (request ID, approve or reject),
+  since one per call meant one "Confirm?" per request, or several
+  pauses at once. The write checks each ID again, since the model
+  fills it in (typed, misremembered, injected), not the list:
+  `permissions.may_decide` (its approver, never your own; an unknown
+  ID gets the same "not allowed"), still pending (else "already
+  approved", nothing changes). One question for the whole list, then
+  one locked transaction, all or nothing: approve moves the days from
+  pending to used, reject releases them (used = approved days, pending
+  = pending days, as in the data). Safety net: several pauses at once
+  are asked together, one answer for all (app, chat.py). Gemini, on a
+  database copy: Meera "What's waiting?" → only LR-0189; "Approve it"
+  → one question → approved, Rahul's annual 3/2 → 5/0 (used/pending);
+  Rahul "Is my December leave approved?" → yes; her own LR-0191 and
+  Daniel's LR-0194 → not allowed; LR-0189 again → already approved;
+  Daniel "approve Rachel's, reject Michael's" → one question, both
+  saved; all 120 balance rows still add up; a fake model pausing two
+  bookings at once → both asked, one Confirm, both saved; the app →
+  question, Confirm, approved. Gemini once began an answer
+  "umoootYes, …": a garbled reply the answer check can't see (it has
+  letters)
 
 [↑ Overview](#overview)
 

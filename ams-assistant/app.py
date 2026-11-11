@@ -17,7 +17,11 @@ Caveats:
 - Streamlit re-runs this whole script on every click; who is signed in
   and the chat live in st.session_state (per browser tab, so a refresh
   signs you out).
-- Each question is answered on its own: no follow-ups until stage G.
+- Follow-ups work: the agent keeps this chat's messages (agent.py,
+  memory=True) under a chat ID the server makes at sign-in, never
+  taken from the user. Signing out or a refresh starts a new chat.
+- Booking leave pauses for Confirm / Cancel (leave_tools.py); the
+  chat box is off until one is clicked.
 - A question asked before comes back from the reply cache at once,
   without typing out.
 - Everything shown goes through shown(): markdown images become text,
@@ -28,6 +32,7 @@ import logging
 import re
 import textwrap
 import time
+import uuid
 from datetime import date
 
 import streamlit as st
@@ -35,6 +40,7 @@ from langchain.agents.middleware.model_call_limit import (
     ModelCallLimitExceededError,
 )
 from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
+from langgraph.types import Command
 
 from ams_assistant.agent import AGENT_TOOLS, build_agent, split_thinking
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, SHOW_AGENT_STEPS
@@ -43,8 +49,16 @@ from ams_assistant.hr_tools import HRContext, get_employee_card
 # the log (the terminal running the app), never to the page.
 from ams_assistant.middleware import CANT_ANSWER, answer_check
 from ams_assistant.policy_tools import search_policies
+from ams_assistant.preferences import forget_preferences, remember_preference
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
+# Where a tool looks, as the steps show it; every other tool reads the
+# HR database.
+WHERE = {
+    search_policies.name: "handbooks (Qdrant)",
+    remember_preference.name: "your preferences (memory)",
+    forget_preferences.name: "your preferences (memory)",
+}
 logger = logging.getLogger(__name__)
 # A markdown image, ![text](address) or ![text][ref]. The browser loads
 # images by itself, so text injected into the data (e.g. a claim's
@@ -101,7 +115,10 @@ def sign_in_screen() -> None:
         st.error(f"No employee with ID AMS-{digits}.")
         return
     st.session_state.card = card
-    st.session_state.agent = build_agent(card["employee_id"])
+    st.session_state.agent = build_agent(card["employee_id"], memory=True)
+    # This chat's ID: made here, on the server, so no one can name
+    # another person's chat.
+    st.session_state.chat_id = uuid.uuid4().hex
     st.session_state.history = []
     st.rerun()  # draw the chat screen
 
@@ -162,14 +179,24 @@ class Trace:
 class Run:
     """Turns the agent's stream events into steps and the answer."""
 
-    def __init__(self, trace: Trace, answer_box, employee_id: str):
+    def __init__(self, trace: Trace, answer_box, employee_id: str,
+                 earlier: int = 0, asking: bool = True):
         self.trace = trace
         self.answer_box = answer_box
         self.employee_id = employee_id
-        self.started = time.perf_counter()
+        # step_started: also set here, for a run that carries on after a
+        # pause, whose first step is the paused tool, not a model call.
+        self.started = self.step_started = time.perf_counter()
         self.steps = self.model_calls = self.tool_calls = 0
-        self.messages_sent = 2  # the instructions + the question
+        # The chat's earlier messages (memory) go with every call, plus
+        # the instructions, and the question (unless this run carries
+        # on after a pause).
+        self.earlier, self.asking = earlier, asking
+        self.messages_sent = 1 + earlier + asking
         self.answer = ""
+        self.result_parts = {}
+        # What paused tools ask the person, and their pauses' IDs.
+        self.question, self.pause_ids = None, []
 
     def next_number(self) -> str:
         self.steps += 1
@@ -178,8 +205,12 @@ class Run:
     def start_model_call(self) -> None:
         """A new model call starts: header + an empty thinking part."""
         self.model_calls += 1
-        if self.model_calls == 1:
+        first = self.model_calls == 1 and self.asking
+        if first and not self.earlier:
             sends = "the instructions and the question"
+        elif first:
+            sends = (f"the instructions, the chat so far ({self.earlier} "
+                     "messages) and the question")
         else:
             sends = f"all {self.messages_sent} messages so far"
         self.trace.add(f"**{self.next_number()} Model call "
@@ -223,10 +254,8 @@ class Run:
         self.result_parts = {}
         for call in reply.tool_calls:
             self.tool_calls += 1
-            if call["name"] == search_policies.name:
-                where = "handbooks (Qdrant)"
-            else:
-                where = f"HR database ({self.employee_id})"
+            where = WHERE.get(call["name"],
+                              f"HR database ({self.employee_id})")
             self.trace.add(f"**{self.next_number()} Tool** "
                            f"{call_text(call)} → {where}")
             self.result_parts[call["id"]] = self.trace.add("↳ running…")
@@ -245,6 +274,19 @@ class Run:
                 self.trace.add(line)
             else:
                 self.trace.set(index, line)
+
+    def on_pause(self, interrupts) -> None:
+        """Tools paused the run to ask the person (booking leave,
+        deciding requests: every check passed; Confirm or Cancel). The
+        model should ask once, but if it paused several tools at once,
+        they're asked together and one answer goes to all."""
+        for index in self.result_parts.values():
+            self.trace.set(index, "↳ checked · waiting for your answer")
+        self.trace.add("⏸ **Paused** · nothing is saved until you answer")
+        self.question = self.answer = "\n\n".join(
+            pause.value["question"] for pause in interrupts)
+        self.pause_ids = [pause.id for pause in interrupts]
+        self.answer_box.markdown(shown(self.question))
 
     def on_answer_check(self, message) -> None:
         """The answer check found an empty answer: it asks the model
@@ -269,6 +311,9 @@ class Run:
                 self.on_token(chunk)
             return
         for node, update in data.items():
+            if node == "__interrupt__":  # a tool asks the person
+                self.on_pause(update)
+                continue
             messages = (update or {}).get("messages", [])
             if node == "model":
                 self.on_model_done(messages[-1])
@@ -286,17 +331,32 @@ class Run:
                 f"{tools} · {seconds:.1f} s")
 
 
-def ask(question: str) -> dict:
-    """Run the agent on one question, drawing it live; return the turn
-    for the history."""
+def run_agent(said: str, reply: str | None = None) -> dict:
+    """Run the agent, drawing it live: on a new question (`said`), or,
+    after a pause, on the person's reply ("confirm" or "cancel"), which
+    the paused tool carries on with. Return the turn for the history;
+    st.session_state.pending holds what a paused tool asks."""
     card = st.session_state.card
+    agent = st.session_state.agent
+    # thread_id: this chat; the agent adds its earlier messages.
+    config = {"configurable": {"thread_id": st.session_state.chat_id}}
+    earlier = len(agent.get_state(config).values.get("messages", []))
     trace = Trace(st.empty() if SHOW_AGENT_STEPS else None)
-    run = Run(trace, st.empty(), card["employee_id"])
-    run.start_model_call()
+    run = Run(trace, st.empty(), card["employee_id"], earlier,
+              asking=reply is None)
+    if reply is None:
+        agent_input = {"messages": [HumanMessage(said)]}
+        run.start_model_call()
+    else:
+        # The reply goes to every paused tool, by its pause's ID.
+        agent_input = Command(resume=dict.fromkeys(
+            st.session_state.pause_ids, reply))
+        trace.add(f"**You:** {said} · the paused tool carries on")
     try:
-        for mode, data in st.session_state.agent.stream(
-            {"messages": [HumanMessage(question)]},
+        for mode, data in agent.stream(
+            agent_input,
             context=HRContext(employee_id=card["employee_id"]),
+            config=config,
             stream_mode=["messages", "updates"],
         ):
             run.handle(mode, data)
@@ -309,16 +369,16 @@ def ask(question: str) -> dict:
         logger.exception("Agent run failed")
         run.answer = CANT_ANSWER
         run.answer_box.markdown(run.answer)
+    st.session_state.pending = run.question
+    st.session_state.pause_ids = run.pause_ids
     summary = run.summary()
-    trace.add(f"**Done** · {summary}")
-    return {"question": question, "answer": run.answer,
+    trace.add(f"**{'Paused' if run.question else 'Done'}** · {summary}")
+    return {"question": said, "answer": run.answer,
             "steps": trace.text(), "summary": summary}
 
 
-def chat_screen() -> None:
-    profile_card(st.session_state.card)
-
-    # Earlier questions: steps folded away, answer shown.
+def show_history() -> None:
+    """Earlier questions: steps folded away, answer shown."""
     for turn in st.session_state.history:
         with st.chat_message("user"):
             st.markdown(shown(turn["question"]))
@@ -328,18 +388,42 @@ def chat_screen() -> None:
                     st.markdown(shown(turn["steps"]))
             st.markdown(shown(turn["answer"]))
 
-    question = st.chat_input("Ask a question…")
-    if not question:
+
+def confirm_buttons() -> str | None:
+    """Under a paused tool's question (the last answer): "confirm" or
+    "cancel" when clicked, else None."""
+    confirm, cancel, _ = st.columns([1, 1, 4])
+    if confirm.button("Confirm", key="confirm", type="primary"):
+        return "confirm"
+    if cancel.button("Cancel", key="cancel"):
+        return "cancel"
+    return None
+
+
+def chat_screen() -> None:
+    profile_card(st.session_state.card)
+    show_history()
+    # While a tool waits, only its two buttons go on: a new question
+    # would leave the tool call unanswered.
+    pending = st.session_state.get("pending")
+    reply = confirm_buttons() if pending else None
+    question = st.chat_input(
+        "Confirm or cancel above first" if pending else "Ask a question…",
+        disabled=bool(pending))
+    if not (question or reply):
         return
+    said = reply.capitalize() if reply else question
     with st.chat_message("user"):
-        st.markdown(shown(question))
+        st.markdown(shown(said))
     with st.chat_message("assistant"):
         if SHOW_AGENT_STEPS:
-            turn = ask(question)
+            turn = run_agent(said, reply)
         else:
             with st.spinner("Working…"):
-                turn = ask(question)
+                turn = run_agent(said, reply)
     st.session_state.history.append(turn)
+    if pending or st.session_state.pending:
+        st.rerun()  # draw the buttons, or take them away
 
 
 st.set_page_config(page_title="AMS HR Assistant", page_icon="💼")

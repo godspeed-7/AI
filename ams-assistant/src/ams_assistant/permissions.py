@@ -13,6 +13,8 @@ answer is the same for every model and every wording. Levels:
   dates (probation end, last working day), as in get_my_team; not
   their leave or expense claims;
 - None: nothing.
+Deciding a leave request (approve or reject) is a separate rule,
+may_decide(): only the request's approver, never on your own request.
 
 Caveats:
 - Direct reports only, not their teams in turn.
@@ -65,3 +67,11 @@ def manager_view(profile: dict) -> dict:
     if view.get("status") != "probation":
         view.pop("probation_end_date", None)
     return view
+
+
+def may_decide(viewer_id: str, request: dict) -> bool:
+    """May the viewer approve or reject this leave request (a
+    leave_requests row)? Only its approver (their manager), and never
+    their own request."""
+    return (request["approver_id"] == viewer_id
+            and request["employee_id"] != viewer_id)
