@@ -27,9 +27,13 @@ Caveats:
   logged. It tries the main model first on every call.
 - An empty answer ("_") goes back to the model once, then becomes
   CANT_ANSWER (middleware.py).
+- Reflection (stage I, middleware.py): before a final answer goes out,
+  one more call checks it for a skipped lookup of their records (e.g.
+  their claim); if one, the model is sent back once to look it up.
 - TRACING (config.py) sends every run to LangSmith.
 - The key facts are read once, at sign-in: a change in the database
-  shows after signing in again.
+  shows after signing in again. So are the tools (tools_for): only
+  managers' agents get the approval tools.
 - memory=True (the app, chat.py): the agent keeps each chat's
   messages, so a follow-up ("and my Chicago one?") comes with the chat
   so far, and a paused tool ("Confirm?") can carry on. Every run then
@@ -54,6 +58,7 @@ from langchain.agents.middleware import (
 )
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
+from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import InMemorySaver
 
 from ams_assistant.approval_tools import (
@@ -85,6 +90,7 @@ from ams_assistant.hr_tools import (
 from ams_assistant.leave_tools import submit_leave_request
 from ams_assistant.llm import build_llm
 from ams_assistant.middleware import (
+    Reflection,
     answer_check,
     log_model_failure,
     tool_failed,
@@ -103,23 +109,33 @@ if TRACING:
     # chat.py and the evals all follow the one flag.
     os.environ["LANGSMITH_TRACING"] = "true"
 
-# The tools the model may ask for: the HR database (read), the
-# handbooks, the tools that change leave (each asks "Confirm?" first):
-# book leave, and decide the leave waiting for your approval; then how
-# they want answers (no "Confirm?": it only changes how answers look).
-AGENT_TOOLS = [
+# Their records in the HR database (read).
+RECORD_TOOLS = [
     get_profile,
     get_my_team,
     get_leave_balance,
     get_leave_requests,
     get_expense_claims,
+]
+# What the reflection check may say an answer still needs
+# (middleware.py): their records, but not their profile: its facts are
+# in the instructions from sign-in, so it's never what's missing.
+CHECKED_TOOLS = [t for t in RECORD_TOOLS if t is not get_profile]
+# The tools everyone's agent gets: their records, the handbooks,
+# booking leave (asks "Confirm?" first), then how they want answers
+# (no "Confirm?": it only changes how answers look).
+AGENT_TOOLS = [
+    *RECORD_TOOLS,
     search_policies,
     submit_leave_request,
-    get_requests_to_approve,
-    decide_leave_requests,
     remember_preference,
     forget_preferences,
 ]
+# Only for managers (someone reports to them; in the data, every
+# approver does): deciding the leave waiting for their approval (asks
+# "Confirm?" first). Other agents never get them, so their model can't
+# pick them, e.g. for "approve my leave" (least privilege).
+MANAGER_TOOLS = [get_requests_to_approve, decide_leave_requests]
 
 INSTRUCTIONS = (
     "You are the AMS HR assistant, helping {name}. Today is {today}.\n\n"
@@ -188,6 +204,14 @@ def instructions_for(card: dict, preferences: str | None = None) -> str:
     return text
 
 
+def tools_for(card: dict) -> list[BaseTool]:
+    """The tools of the agent for the employee `card` describes:
+    everyone's, plus the manager tools if someone reports to them."""
+    if card["direct_reports"]:
+        return AGENT_TOOLS + MANAGER_TOOLS
+    return AGENT_TOOLS
+
+
 # Gemma 4's thinking: "<thought>...</thought>", then the reply text.
 THOUGHT = re.compile(r"\s*<thought>(.*?)(?:</thought>(.*))?\Z", re.DOTALL)
 
@@ -214,15 +238,20 @@ def agent_llm(provider: str, model: str,
                      retries=AGENT_RETRIES)
 
 
-def agent_middleware(provider: str, model: str,
+def agent_middleware(provider: str, model: str, thinking: bool | None,
                      fallback: bool) -> list[AgentMiddleware]:
     """The rules around the agent's calls, in order: before hooks run
     first to last, after hooks last to first, and wrap hooks nest (the
     first listed is the outermost)."""
     middleware = [
-        # An empty answer ("_") goes back to the model once. First, so
-        # its after_model runs last: after the call counter has counted
-        # the call (a jump skips the after hooks still to run).
+        # A final answer that skipped a lookup of their records goes
+        # back to the model, once (stage I). First, so its after_model
+        # runs last: an empty answer never reaches it.
+        Reflection(agent_llm(provider, model, thinking), CHECKED_TOOLS,
+                   AGENT_MAX_STEPS),
+        # An empty answer ("_") goes back to the model once. Before the
+        # counter, so its after_model runs after the counter has
+        # counted the call (a jump skips the after hooks still to run).
         answer_check,
         # Counts model calls per question (run_limit); "error" raises
         # instead of answering with its own technical text, so each
@@ -265,10 +294,10 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     # tools get it as runtime.context.
     return create_agent(
         agent_llm(provider, model, thinking),
-        tools=AGENT_TOOLS,
+        tools=tools_for(card),
         system_prompt=instructions_for(card, preferences),
         context_schema=HRContext,
-        middleware=agent_middleware(provider, model, fallback),
+        middleware=agent_middleware(provider, model, thinking, fallback),
         # Saves the messages after every step, per thread_id (a chat);
         # a run with the same thread_id starts from them. Its own
         # saver per agent: this person's chats only.

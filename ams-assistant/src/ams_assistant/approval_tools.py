@@ -7,14 +7,15 @@ Out: the requests waiting for their approval; or one question for
      2026 …? Confirm / Cancel"), then what was decided and skipped.
 
 Strategy: two tools, a read and a write (the write needs checks and
-a "Confirm?"). get_requests_to_approve lists only the pending
-requests whose approver is the asker. decide_leave_requests takes
-every decision in one call: code checks each request (permissions.
-may_decide: its approver, not your own; still pending), asks once for
-the whole list (interrupt(), as submit_leave_request does), then saves
-them all in one locked transaction, checking again first: the status,
-and the balance's days (approve: pending → used; reject: pending
-released), so used = approved days and pending = pending days.
+a "Confirm?"), only in managers' agents (agent.tools_for).
+get_requests_to_approve lists only the pending requests whose
+approver is the asker. decide_leave_requests takes every decision in
+one call: code checks each request (permissions.may_decide: its
+approver, not your own; still pending), asks once for the whole list
+(interrupt(), as submit_leave_request does), then saves them all in
+one locked transaction, checking again first: the status, and the
+balance's days (approve: pending → used; reject: pending released),
+so used = approved days and pending = pending days.
 
 Caveats:
 - An ID that isn't theirs to decide and one that doesn't exist get the
@@ -82,10 +83,11 @@ class LeaveDecision(BaseModel):
 @tool
 def get_requests_to_approve(runtime: ToolRuntime[HRContext]) -> dict:
     """List the leave requests waiting for the approval of the person
-    you are helping (requests from the people who report to them): who,
-    type, dates, working days and the request ID. Use it when they ask
-    what's waiting for them, or to find the IDs of requests they want
-    to approve or reject."""
+    you are helping: requests from the people who report to them, never
+    their own leave (their manager decides it; get_leave_requests shows
+    it). Gives who, type, dates, working days and the request ID. Use
+    it when they ask what's waiting for them, or to find the IDs of
+    requests they want to approve or reject."""
     approver_id = runtime.context.employee_id
     return {"approver": whose(approver_id),
             "requests": fetch(TO_APPROVE_SQL, approver_id)}
@@ -181,7 +183,8 @@ def save_locked(approver_id: str, decisions: list[LeaveDecision]) -> dict:
 def decide_leave_requests(runtime: ToolRuntime[HRContext],
                           decisions: list[LeaveDecision]) -> dict:
     """Approve or reject leave requests waiting for the approval of the
-    person you are helping.
+    person you are helping: from the people who report to them, never
+    their own leave (their manager decides it).
 
     Put every decision they asked for in this one call. It checks each
     request, asks them to confirm the whole list (the app shows it with

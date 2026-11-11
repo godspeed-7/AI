@@ -22,6 +22,9 @@ Caveats:
   taken from the user. Signing out or a refresh starts a new chat.
 - Booking leave pauses for Confirm / Cancel (leave_tools.py); the
   chat box is off until one is clicked.
+- The reflection check (stage I) shows as a step after the answer;
+  when it sends the model back to look something up, the first answer
+  is cleared and the new one replaces it.
 - A question asked before comes back from the reply cache at once,
   without typing out.
 - Everything shown goes through shown(): markdown images become text,
@@ -42,12 +45,17 @@ from langchain.agents.middleware.model_call_limit import (
 from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
 from langgraph.types import Command
 
-from ams_assistant.agent import AGENT_TOOLS, build_agent, split_thinking
+from ams_assistant.agent import build_agent, split_thinking, tools_for
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, SHOW_AGENT_STEPS
 from ams_assistant.hr_tools import HRContext, get_employee_card
 # CANT_ANSWER: what the user sees when a run fails; the details go to
 # the log (the terminal running the app), never to the page.
-from ams_assistant.middleware import CANT_ANSWER, answer_check
+from ams_assistant.middleware import (
+    CANT_ANSWER,
+    REFLECTION,
+    Reflection,
+    answer_check,
+)
 from ams_assistant.policy_tools import search_policies
 from ams_assistant.preferences import forget_preferences, remember_preference
 
@@ -179,11 +187,14 @@ class Trace:
 class Run:
     """Turns the agent's stream events into steps and the answer."""
 
-    def __init__(self, trace: Trace, answer_box, employee_id: str,
+    def __init__(self, trace: Trace, answer_box, card: dict,
                  earlier: int = 0, asking: bool = True):
         self.trace = trace
         self.answer_box = answer_box
-        self.employee_id = employee_id
+        self.employee_id = card["employee_id"]
+        # Sent with every model call: this person's tools (managers
+        # have more, agent.py).
+        self.tool_count = len(tools_for(card))
         # step_started: also set here, for a run that carries on after a
         # pause, whose first step is the paused tool, not a model call.
         self.started = self.step_started = time.perf_counter()
@@ -215,7 +226,7 @@ class Run:
             sends = f"all {self.messages_sent} messages so far"
         self.trace.add(f"**{self.next_number()} Model call "
                        f"{self.model_calls}** → `{AGENT_MODEL}` · sends "
-                       f"{sends} + {len(AGENT_TOOLS)} tool descriptions")
+                       f"{sends} + {self.tool_count} tool descriptions")
         self.thinking_part = self.trace.add("")
         self.thinking = self.text = ""
         self.step_started = time.perf_counter()
@@ -245,6 +256,7 @@ class Run:
             self.trace.add(f"↳ answer · {seconds:.1f} s")
             self.answer = text
             self.answer_box.markdown(shown(text))
+            self.step_started = time.perf_counter()  # the reflection's
             return
         if text:  # some models say something before asking for a tool
             self.trace.add(f"↳ says: {text}")
@@ -300,28 +312,52 @@ class Run:
             self.answer = message.text
             self.answer_box.markdown(self.answer)
 
+    def on_reflection(self, missing: str | None) -> None:
+        """The reflection check read the answer: nothing missing, or a
+        records tool it still needs (the model is sent back)."""
+        seconds = time.perf_counter() - self.step_started
+        if missing is None:
+            self.trace.add(f"↳ reflection: nothing missing · "
+                           f"{seconds:.1f} s")
+            return
+        self.trace.add(f"↳ reflection: it still needs `{missing}()` · "
+                       f"{seconds:.1f} s; back to the model")
+        self.answer = ""
+        self.answer_box.empty()
+
+    def on_node_done(self, node: str, update) -> None:
+        """A node ("model", "tools", or a middleware hook) has finished,
+        with its new messages; of the middleware, only the answer check
+        and the reflection add any (their notes to the model)."""
+        if node == "__interrupt__":  # a tool asks the person
+            self.on_pause(update)
+            return
+        messages = (update or {}).get("messages", [])
+        if node == "model":
+            self.on_model_done(messages[-1])
+        elif node == "tools":
+            self.on_tools_done(messages)
+            self.start_model_call()
+        elif node.startswith(answer_check.name) and messages:
+            self.on_answer_check(messages[-1])
+        elif node.startswith(Reflection.__name__) and messages:
+            self.messages_sent += 1  # its note
+            self.start_model_call()
+
     def handle(self, mode: str, data) -> None:
         """One stream event. "messages": a token as it's written;
-        "updates": a node ("model", "tools", or a middleware hook) has
-        finished, with its new messages; of the middleware, only the
-        answer check adds any."""
+        "custom": the reflection's verdict; "updates": nodes that have
+        finished."""
         if mode == "messages":
             chunk, _metadata = data
             if isinstance(chunk, AIMessageChunk):
                 self.on_token(chunk)
-            return
-        for node, update in data.items():
-            if node == "__interrupt__":  # a tool asks the person
-                self.on_pause(update)
-                continue
-            messages = (update or {}).get("messages", [])
-            if node == "model":
-                self.on_model_done(messages[-1])
-            elif node == "tools":
-                self.on_tools_done(messages)
-                self.start_model_call()
-            elif node.startswith(answer_check.name) and messages:
-                self.on_answer_check(messages[-1])
+        elif mode == "custom":
+            if REFLECTION in data:
+                self.on_reflection(data[REFLECTION])
+        else:
+            for node, update in data.items():
+                self.on_node_done(node, update)
 
     def summary(self) -> str:
         seconds = time.perf_counter() - self.started
@@ -342,7 +378,7 @@ def run_agent(said: str, reply: str | None = None) -> dict:
     config = {"configurable": {"thread_id": st.session_state.chat_id}}
     earlier = len(agent.get_state(config).values.get("messages", []))
     trace = Trace(st.empty() if SHOW_AGENT_STEPS else None)
-    run = Run(trace, st.empty(), card["employee_id"], earlier,
+    run = Run(trace, st.empty(), card, earlier,
               asking=reply is None)
     if reply is None:
         agent_input = {"messages": [HumanMessage(said)]}
@@ -357,7 +393,7 @@ def run_agent(said: str, reply: str | None = None) -> dict:
             agent_input,
             context=HRContext(employee_id=card["employee_id"]),
             config=config,
-            stream_mode=["messages", "updates"],
+            stream_mode=["messages", "updates", "custom"],
         ):
             run.handle(mode, data)
     except ModelCallLimitExceededError:
