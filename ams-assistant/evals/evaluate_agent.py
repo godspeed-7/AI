@@ -34,6 +34,9 @@ Caveats:
 - A question that fails is logged and skipped, so a run isn't lost.
 - Booking leave pauses to ask the person (Confirm?); no one answers
   here, so the answer recorded is that question, and nothing is saved.
+- With LANGFUSE_TRACING (config.py), each question's agent run is
+  recorded in Langfuse ("eval <id>", tagged with the model;
+  tracing.py); the judge's calls aren't.
 """
 
 import argparse
@@ -61,6 +64,7 @@ from ams_assistant.config import (
 )
 from ams_assistant.hr_tools import HRContext, get_employee_card
 from ams_assistant.judge import build_judge
+from ams_assistant.tracing import run_config
 
 FIELDNAMES = [
     "id", "category", "employee_id", "question", "expected_answer",
@@ -70,7 +74,8 @@ FIELDNAMES = [
 ]
 
 
-def collect_steps(agent, item: dict) -> tuple[list, bool, str | None]:
+def collect_steps(agent, item: dict,
+                  config: dict) -> tuple[list, bool, str | None]:
     """Run the agent on the item's question, collecting the messages
     step by step, so a run that stops early still shows which tools it
     called. Returns the messages, whether the call limit stopped it,
@@ -80,6 +85,7 @@ def collect_steps(agent, item: dict) -> tuple[list, bool, str | None]:
         for step in agent.stream(
             {"messages": [HumanMessage(item["question"])]},
             context=HRContext(employee_id=item["employee_id"]),
+            config=config,
             stream_mode="updates",
         ):
             for node, update in step.items():
@@ -101,8 +107,11 @@ def run_agent(item: dict, provider: str, model: str,
     # model's.
     agent = build_agent(item["employee_id"], provider, model, thinking,
                         fallback=False)
+    # With LANGFUSE_TRACING: the run in Langfuse, as "eval <id>".
+    config = run_config(item["employee_id"], "eval",
+                        trace_name=f"eval {item['id']}", tags=(model,))
     start = time.perf_counter()
-    messages, stopped, asked = collect_steps(agent, item)
+    messages, stopped, asked = collect_steps(agent, item, config)
     seconds = time.perf_counter() - start
 
     replies = [m for m in messages if isinstance(m, AIMessage)]

@@ -58,6 +58,7 @@ from ams_assistant.middleware import (
 )
 from ams_assistant.policy_tools import search_policies
 from ams_assistant.preferences import forget_preferences, remember_preference
+from ams_assistant.tracing import run_config
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
 # Where a tool looks, as the steps show it; every other tool reads the
@@ -374,8 +375,12 @@ def run_agent(said: str, reply: str | None = None) -> dict:
     st.session_state.pending holds what a paused tool asks."""
     card = st.session_state.card
     agent = st.session_state.agent
-    # thread_id: this chat; the agent adds its earlier messages.
-    config = {"configurable": {"thread_id": st.session_state.chat_id}}
+    # thread_id: this chat; the agent adds its earlier messages. With
+    # LANGFUSE_TRACING, Langfuse records the run, labelled with this
+    # person and chat (tracing.py).
+    chat_id = st.session_state.chat_id
+    config = run_config(card["employee_id"], "app", thread_id=chat_id,
+                        session_id=chat_id)
     earlier = len(agent.get_state(config).values.get("messages", []))
     trace = Trace(st.empty() if SHOW_AGENT_STEPS else None)
     run = Run(trace, st.empty(), card, earlier,

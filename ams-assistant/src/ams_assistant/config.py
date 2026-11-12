@@ -143,6 +143,11 @@ SHOW_AGENT_STEPS = True
 # month. LANGSMITH_TRACING=true in front of one command still traces
 # just that run.
 TRACING = False
+# Langfuse tracing (tracing.py; EVAL_PLAYBOOK.md): True records every
+# agent run of the app, chat.py and the agent eval in our local
+# Langfuse (~/langfuse; keys in ~/.zshrc). If Langfuse is stopped, runs
+# still work, with one warning line. False: nothing is sent.
+LANGFUSE_TRACING = True
 
 
 # --- Qdrant ----------------------------------------------------------

@@ -15,10 +15,13 @@ Caveats:
   but y cancels.
 - Needs AGENT_MODEL reachable (GOOGLE_API_KEY for Google, or Ollama
   with the model pulled), and the HR database (build_hr_db.py).
+- With LANGFUSE_TRACING (config.py), the run is recorded in Langfuse
+  (tracing.py).
 """
 
 import argparse
 import textwrap
+import uuid
 
 from langchain.agents.middleware.model_call_limit import (
     ModelCallLimitExceededError,
@@ -29,6 +32,7 @@ from langgraph.types import Command
 from ams_assistant.agent import build_agent, split_thinking
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, AGENT_PROVIDER
 from ams_assistant.hr_tools import HRContext, get_employee_name
+from ams_assistant.tracing import run_config
 
 
 def show(label: str, text: str) -> None:
@@ -95,7 +99,10 @@ def main():
 
     # memory: a paused tool (booking leave) carries on in this chat.
     agent = build_agent(args.employee_id, memory=True)
-    config = {"configurable": {"thread_id": "chat"}}
+    # The thread is always "chat" (memory is new in each process); the
+    # Langfuse session is new per run, so runs don't merge into one.
+    config = run_config(args.employee_id, "chat", thread_id="chat",
+                        session_id=uuid.uuid4().hex)
     context = HRContext(employee_id=args.employee_id)
     agent_input = {"messages": [HumanMessage(question)]}
     round_number = 0
