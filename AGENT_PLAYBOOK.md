@@ -29,7 +29,7 @@ balances, leave requests, expense claims; as of 16 Nov 2026) and the
 [F LangGraph](#f-langgraph) · [G Memory](#g-memory) ·
 [H Human in control](#h-human-in-control) · [I Patterns](#i-patterns)
 · [J Beyond one agent](#j-beyond-one-agent) ·
-[K Production](#k-production)
+[K Production](#k-production) · [Left for later](#left-for-later)
 
 ```text
    🟧 THE AGENT LOOP (every stage builds on it)
@@ -1026,6 +1026,34 @@ Before anyone relies on it.
   and for MCP a shared HTTP server with OAuth; the employee ID comes
   from the login, never from the model. Needs an OAuth app in a
   Google Cloud account
+
+[↑ Overview](#overview)
+
+---
+
+## Left for later
+
+Stages A–K done (12 Nov 2026); paused here. Pick up from this list.
+
+**Production**: the K1–K5 to-dos in [K Production](#k-production)
+(survive a restart, limits and chat summarizing, a database rule
+against duplicates, search time limits, real sign-in).
+
+**New topics** (+), not started; the first is my pick:
+- Text-to-SQL agent: the model writes its own SQL instead of our
+  fixed tools. AMS: "Which of my claims over ₹5,000 are still
+  unpaid?" with no tool made for it. Learn when it's worth the risk
+  and how to make it safe (read-only database, views limited to what
+  the person may see, query checks); compare with our fixed tools.
+  The course guide never covers it
+- Multimodal: the model reads images and PDFs. AMS: a photo of a
+  hotel receipt → amount and date read, the limit checked, an
+  expense claim drafted
+- Fine-tuning: teach a small model by training it, not by prompting
+  or giving it documents. When to fine-tune vs RAG vs a better
+  prompt; a small LoRA run on the Mac
+- Deployment: run the assistant where others can use it (Docker, a
+  host, a real login, monitoring); closes K1 and K5 too
 
 [↑ Overview](#overview)
 
