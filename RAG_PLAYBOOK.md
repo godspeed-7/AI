@@ -5,6 +5,8 @@ what exists at each step; the sections below say in one line when to
 use each one, and what happened when we tried it.
 
 - A technique any RAG system could use → **this file**.
+- Tracing and scoring the whole assistant →
+  [EVAL_PLAYBOOK.md](EVAL_PLAYBOOK.md).
 - How our code does it → that project's README or `PIPELINE_FLOW.md`.
 
 **Status**, in the step sections (for ams-assistant):
@@ -808,6 +810,10 @@ compare scores from the same judge: on the same answers gemma3:4b gave
 **Tried**: v2, judges vs the 40-answer key: gemma3:4b 20/40 ·
 gemma3:12b 29/40 · Gemma 4 26B 28/35 · Nemotron 3 Ultra 35/40; Gemma 4
 picked (free, and a full run fits one sitting)
+
+**Continued in** [EVAL_PLAYBOOK.md](EVAL_PLAYBOOK.md) (Langfuse, from
+12 Nov 2026): tracing, the regression gate, synthetic test sets,
+online evaluation and RAGAS are planned there.
 
 [↑ Overview](#overview)
 

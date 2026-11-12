@@ -6,6 +6,8 @@ line what each topic is, and what happened when we built it.
 
 - A topic any agent could use → **this file**.
 - Retrieval topics → [RAG_PLAYBOOK.md](RAG_PLAYBOOK.md).
+- Tracing and scoring, from 12 Nov 2026 →
+  [EVAL_PLAYBOOK.md](EVAL_PLAYBOOK.md).
 - How our code does it → the ams-assistant README.
 
 **Status**, in the stage sections (for ams-assistant):
