@@ -865,11 +865,101 @@ Split only when one agent clearly can't cope.
       │                            and returns its findings
       ├╌╌ ⬜ When it's worth it ╌╌ different tools or permissions, and
       │                            the eval shows a gain worth the cost
-      └╌╌ ⬜ MCP (+) ╌╌╌╌╌╌╌╌╌╌╌╌╌ publish our HR tools once; any app or
+      └╌╌ ✅ MCP (+) ╌╌╌╌╌╌╌╌╌╌╌╌╌ publish our HR tools once; any app or
                                    agent that speaks MCP can use them
 ```
 
+**Multi-agent**: several agents, each with its own instructions,
+tools and model, sharing one job. Like a monolith vs microservices:
+start with one, split only when it hurts. When it hurts:
+- Too many tools: every call reads every description; with dozens
+  it's slower, dearer and picks the wrong one more often. AMS later:
+  payroll and IT join → a leave agent, a payroll agent, an IT agent,
+  and a small front agent sending each question to one
+- Risky tools: keep them in their own agent with strict rules. AMS
+  later: changing someone's salary bank account; never in the chat
+  agent. Our small version: approval tools only for managers
+  (`tools_for`)
+- Instructions that fight: short and friendly for employees, long and
+  formal for HR's policy writing; one prompt does both badly
+- A job too big for one context: a year-end report on all 40
+  employees → one worker per department, a boss combines them
+
+How you'd notice: the eval shows wrong tools, mixed-up rules or runs
+too long. Ours shows none (our misses are skipped lookups), so one
+agent, for now.
+
+Three ways to wire them, for Ananya's "Can I take Friday off, and has
+my Dallas trip been paid?":
+- Supervisor: the boss has no HR tools; it asks the leave agent and
+  the expenses agent, then writes one reply. For work that splits
+  cleanly. JS: a controller calling two services
+- Agents as tools: our agent answers the leave part itself and calls
+  `ask_expenses_agent(...)` like any tool, a whole agent running
+  behind it. For one main agent with one hard specialty. JS: an async
+  function doing a lot inside
+- Handoff: the whole chat moves to the expenses agent, which talks to
+  her from then on. For a long back-and-forth in another area. JS:
+  `res.redirect()`
+
+In LangChain a supervisor is usually agents as tools: the boss gets
+its specialists as tools.
+
+**MCP** (Model Context Protocol): an open standard, started by
+Anthropic in late 2024, for an app to publish tools other apps can
+use. Like publishing an API, but in one shape every AI app speaks
+("list your tools", "call this one"), with descriptions a model reads
+to decide when to call. The parts:
+- MCP server: offers the tools. Ours: `mcp_server.py` (`ams-hr`).
+  Others: GitHub, Slack, Notion, Atlassian, Sentry, Stripe, Figma,
+  Playwright
+- MCP client: the app that calls them, usually with a model inside
+  that picks which: Claude Code and Desktop, Cursor, VS Code,
+  ChatGPT. Any model works, or none: our test script calls them
+  directly
+- Transport: stdin/stdout on one machine (ours), or HTTP for a shared
+  server
+
+JS: HTTP is the protocol, Express a server, the browser a client.
+
+Who is asking, and what they may do: the server decides, never the
+model. Ours reads AMS_EMPLOYEE_ID from the app's settings; it isn't a
+tool input, so the model can't switch person, and our tools' own
+checks run (Rahul's balance → not allowed). The app only gets the
+tools we publish (read only here), only as far as that person may
+see. Tool results go to the app's model provider, and a model may
+follow text hidden in what it reads, so writes need a confirmation.
+Weak spot: whoever writes the settings picks the ID; a shared server
+needs a login (OAuth) that gives the ID (stage K). JS: `req.user`
+from a checked JWT, never `req.body.userId`.
+
 **Build**: our HR tools as an MCP server, used from another app.
+Multi-agent: known, not built; one agent is right for AMS now.
+
+**Built**
+- J1: MCP server (`mcp_server.py`, the official `mcp` package, 2.x:
+  FastMCP is now `MCPServer`; we use its low-level `Server`). It
+  publishes our agent's read tools as they are (the 5 records tools,
+  `search_policies`): each one's name, description and inputs from its
+  LangChain schema, never `runtime`; a call runs the tool with a
+  `ToolRuntime` holding `HRContext`, as the agent does, so one copy of
+  the code, descriptions and permission checks. Who is asking:
+  `AMS_EMPLOYEE_ID`, set when the app starts the server (like a
+  sign-in), never a tool input. The server's instructions carry who is
+  signed in, their key facts, the data's today, "name the handbook
+  section". Tools marked read-only. Left out: booking and approvals
+  (their "Confirm?" is LangGraph's interrupt()). Official client over
+  stdio, as an app starts it: connected in 3.3 s; 6 tools; her balance
+  → 7 annual days; Rahul's → not allowed; "vacation" → a clear error;
+  the first handbook search 19 s (loads the reranker); a tool not
+  published → unknown; a fake `runtime` from the app → ignored, still
+  hers; no AMS_EMPLOYEE_ID → won't start
+- J2: in Claude Code (`claude mcp add ams-hr -s local -e
+  AMS_EMPLOYEE_ID=AMS-1015 -e LANGSMITH_TRACING=false -- uv run
+  --directory <path>/ams-assistant python mcp_server.py`, run from
+  AI-demos): this project only, private to you; `claude mcp get
+  ams-hr` → connected. Needs Qdrant and Ollama running for
+  `search_policies`. Undo: `claude mcp remove ams-hr -s local`
 
 [↑ Overview](#overview)
 
