@@ -980,6 +980,53 @@ Before anyone relies on it.
 
 **Build**: go through the checklist for our agent.
 
+**To do**
+- K1: survive a restart (the guide's "state survives a restart, and
+  checkpoint retention is decided"). Today the chat memory is in RAM
+  (`InMemorySaver`): a restart loses every chat and a paused
+  "Confirm?"; so does a page refresh, since the chat ID lives in the
+  browser tab's session. Saving to disk alone isn't enough: the new
+  sign-in makes a new chat ID, so the saved chat can't be found. Plan:
+  - `SqliteSaver` in `.cache/chats.sqlite`, one shared saver (as the
+    preferences store, G2)
+  - chat ID = the employee ID, from sign-in: one ongoing chat per
+    person, back when they sign in; never from the user, so nobody
+    can open another's chat. A New chat button deletes it and starts
+    fresh. (An app with a chat list keeps a chats table: ID, owner,
+    last used, the owner checked on every run)
+  - redraw the earlier questions and answers from the saved messages
+    (the live step traces aren't saved); a paused "Confirm?" comes
+    back with its buttons, and Confirm still saves once (the checks
+    run again)
+  - retention: chats hold HR data, so delete one unused for
+    `CHAT_KEEP_DAYS` (30), at app start and at sign-in
+  - chat.py stays in memory (its fixed thread "chat" would be shared
+    on disk); the evals and the MCP server unchanged
+  - caveat: two tabs as the same person share one chat
+  - test: fake model: ask → rebuild the agent → a follow-up sees the
+    chat; pause → rebuild → Confirm saves once; a 31-day-old chat
+    deleted; then the app with Gemini across a restart
+- K2: limits (the guide's "model-call, tool-call, step, time and cost
+  limits"). Have: 5 model calls a question (E1). Missing: a time limit
+  for a whole question, and a cap on the chat sent: every question
+  re-sends the whole chat (slower, dearer, and at last the model's
+  limit). Fix: `SummarizationMiddleware` keeps the last few messages
+  and replaces older ones with a short summary (managing the context
+  window: the one new concept left in K)
+- K3: a database rule against duplicate leave requests (the guide's
+  "a stable key, a transaction and a database constraint"). Our code
+  returns the request already saved, in a locked transaction (D3),
+  but the tables have no unique key, so only our code stops a repeat
+- K4: time limits on the handbook search: the embedding call (Ollama)
+  and Qdrant run on their libraries' defaults; model calls have ours
+  (D4)
+- K5: real sign-in. Today 4 digits, no password (the app), or
+  AMS_EMPLOYEE_ID in the app's settings (MCP): anyone can be anyone.
+  Fix: company login (Google or Microsoft; Streamlit's `st.login`),
+  and for MCP a shared HTTP server with OAuth; the employee ID comes
+  from the login, never from the model. Needs an OAuth app in a
+  Google Cloud account
+
 [↑ Overview](#overview)
 
 ---
