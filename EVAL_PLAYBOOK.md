@@ -167,12 +167,13 @@ See every step of a run, so a wrong answer points to one step.
       ├╌╌ ✅ Metrics ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ per run and per step: time, tokens, cost,
       │                               errors. A fast, cheap answer that's wrong
       │                               is still wrong
-      ├╌╌ ⬜ Prompt versions ╌╌╌╌╌╌╌╌ a prompt kept in Langfuse with versions
-      │                               and labels (production · staging); moving
-      │                               the label switches it, no deploy; every
-      │                               model call links to its version, with
-      │                               scores per version. Try it on the RAG
-      │                               answer prompt; the rest stay in git
+      ├╌╌ ✅ Prompt versions ╌╌╌╌╌╌╌╌ a prompt kept in Langfuse, numbered (v1,
+      │                               v2…), with labels (production ·
+      │                               staging); moving the label switches it,
+      │                               no deploy, and back the same way; each
+      │                               model call names its version, so scores
+      │                               show per version. Ours: the agent's
+      │                               instructions; the rest stay in git
       └╌╌ ⬜ What traces keep (+) ╌╌╌ every question and answer: leave and
                                       expense records. Mask what isn't needed
                                       before it leaves the app (the SDK's mask
@@ -248,6 +249,31 @@ types; a wrong answer (X6) read in the fixed order.
   Sick Leave was 4th by vector score, 2nd after the reranker. Not
   labelled: our leave rules and permission checks, whose refusals
   already say why in the tool's result
+- A7, 13 Nov 2026: the agent's instructions live in Langfuse as
+  "agent-instructions" (`prompt_versions.py`), the way production
+  teams do it:
+  - a change is made in Langfuse: a new version, tried as "staging",
+    then the "production" label moves to it; undo = move it back. No
+    deploy: agents built 60 s later use it (the app: at sign-in).
+    `PROMPT_LABEL` in config.py picks the label
+  - agent.py keeps a copy (`INSTRUCTIONS`, now with `{{name}}`
+    placeholders), used only when Langfuse can't give it (stopped, no
+    keys, no such prompt), with a warning. Copy a version that wins
+    back into it
+  - each of the agent's model calls names its version
+    (`propagate_attributes`, in a middleware); the answer checker's
+    call doesn't (its own prompt, still in code)
+  - v1 made once by a script, from agent.py's text (`create_prompt`)
+- Tests, all passed: the instructions of all 40 employees (with and
+  without preferences) are the same text as before, from Langfuse and
+  from the copy; D1 traced → its 2 agent calls show
+  "agent-instructions v1", the checker's call none; tracing off → v1
+  still used, nothing sent; Langfuse unreachable → a warning, the
+  copy, the answer still comes; no keys → our warning, the copy
+- Later: test a new version before moving the label (B, experiments);
+  alerts per version (E). Skipped: only approvers may move
+  "production" (a paid feature), a new version for 10% of users
+  first, versions copied into git
 
 [↑ Overview](#overview)
 

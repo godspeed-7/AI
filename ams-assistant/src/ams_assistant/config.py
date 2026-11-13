@@ -148,6 +148,12 @@ TRACING = False
 # Langfuse (~/langfuse; keys in ~/.zshrc). If Langfuse is stopped, runs
 # still work, with one warning line. False: nothing is sent.
 LANGFUSE_TRACING = True
+# Prompt versions (prompt_versions.py): the agent's instructions are
+# kept in Langfuse as AGENT_PROMPT; the version with PROMPT_LABEL runs
+# ("staging": a version being tried). agent.py's copy runs only when
+# Langfuse can't give it.
+AGENT_PROMPT = "agent-instructions"
+PROMPT_LABEL = "production"
 
 
 # --- Qdrant ----------------------------------------------------------

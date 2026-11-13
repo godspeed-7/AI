@@ -31,6 +31,9 @@ Caveats:
   one more call checks it for a skipped lookup of their records (e.g.
   their claim); if one, the model is sent back once to look it up.
 - TRACING (config.py) sends every run to LangSmith.
+- The instructions are kept in Langfuse, with versions
+  (prompt_versions.py): the PROMPT_LABEL version runs; INSTRUCTIONS
+  only when Langfuse can't give it. PREFERENCES_LINE stays in code.
 - The key facts are read once, at sign-in: a change in the database
   shows after signing in again. So are the tools (tools_for): only
   managers' agents get the approval tools.
@@ -59,6 +62,7 @@ from langchain.agents.middleware import (
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
 from langchain_core.tools import BaseTool
+from langfuse.model import TextPromptClient
 from langgraph.checkpoint.memory import InMemorySaver
 
 from ams_assistant.approval_tools import (
@@ -70,6 +74,7 @@ from ams_assistant.config import (
     AGENT_FALLBACK_PROVIDER,
     AGENT_MAX_STEPS,
     AGENT_MODEL,
+    AGENT_PROMPT,
     AGENT_PROVIDER,
     AGENT_RETRIES,
     AGENT_THINKING,
@@ -102,6 +107,7 @@ from ams_assistant.preferences import (
     read_preferences,
     remember_preference,
 )
+from ams_assistant.prompt_versions import get_prompt, link_prompt
 
 if TRACING:
     # LangChain reads this before each run and, when "true", sends the
@@ -137,9 +143,13 @@ AGENT_TOOLS = [
 # pick them, e.g. for "approve my leave" (least privilege).
 MANAGER_TOOLS = [get_requests_to_approve, decide_leave_requests]
 
+# The code's copy of the instructions: the version in Langfuse runs
+# (AGENT_PROMPT, prompt_versions.py); this one only when Langfuse can't
+# give it. {{name}}: Langfuse's placeholder syntax.
 INSTRUCTIONS = (
-    "You are the AMS HR assistant, helping {name}. Today is {today}.\n\n"
-    "About {name}, from the HR database:\n{about}\n\n"
+    "You are the AMS HR assistant, helping {{name}}. Today is "
+    "{{today}}.\n\n"
+    "About {{name}}, from the HR database:\n{{about}}\n\n"
     "Use the tools to look up their other records and the company "
     "handbooks. If a tool says something isn't allowed, tell them "
     "plainly. Answer only from these facts and what the tools return; "
@@ -194,11 +204,21 @@ PREFERENCES_LINE = ("\n\nTheir saved preferences, which come before the "
                     "defaults above: {preferences}.")
 
 
-def instructions_for(card: dict, preferences: str | None = None) -> str:
+def agent_prompt() -> TextPromptClient:
+    """The instructions' version that runs: from Langfuse, or the
+    code's copy (prompt_versions.py)."""
+    return get_prompt(AGENT_PROMPT, INSTRUCTIONS)
+
+
+def instructions_for(card: dict, preferences: str | None = None,
+                     prompt: TextPromptClient | None = None) -> str:
     """The system message for the employee `card` describes; with their
-    saved preferences ("none" if none) when the agent has memory."""
-    text = INSTRUCTIONS.format(name=card["name"], today=long_date(TODAY),
-                               about=about(card))
+    saved preferences ("none" if none) when the agent has memory.
+    `prompt`: the instructions' version (default: agent_prompt())."""
+    if prompt is None:
+        prompt = agent_prompt()
+    text = prompt.compile(name=card["name"], today=long_date(TODAY),
+                          about=about(card))
     if preferences is not None:
         text += PREFERENCES_LINE.format(preferences=preferences)
     return text
@@ -290,14 +310,20 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     # and their preferences, read now, by code.
     store = get_store() if memory else None
     preferences = read_preferences(store, employee_id) if store else None
+    # The instructions' version, read now: a label moved in Langfuse
+    # shows in agents built after it.
+    prompt = agent_prompt()
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(
         agent_llm(provider, model, thinking),
         tools=tools_for(card),
-        system_prompt=instructions_for(card, preferences),
+        system_prompt=instructions_for(card, preferences, prompt),
         context_schema=HRContext,
-        middleware=agent_middleware(provider, model, thinking, fallback),
+        # First, so it wraps every model call, the fallback model's too.
+        middleware=[link_prompt(prompt),
+                    *agent_middleware(provider, model, thinking,
+                                      fallback)],
         # Saves the messages after every step, per thread_id (a chat);
         # a run with the same thread_id starts from them. Its own
         # saver per agent: this person's chats only.

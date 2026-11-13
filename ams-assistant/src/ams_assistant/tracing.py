@@ -7,6 +7,7 @@ In:  who is asking, where it runs ("app", "chat", "eval"), and
 Out: run_config(...) -> the config for agent.stream(): the thread_id
      and, when tracing is on, Langfuse's listener and the run's labels.
      @traced(name, type): a plain function shown as its own step.
+     langfuse_client(): the one client (prompt_versions.py uses it).
 
 Strategy: LangChain calls every callback in a run's config at each
 step it runs (model calls, tools, middleware), so one CallbackHandler
@@ -60,12 +61,21 @@ def code_version() -> str:
 
 
 @cache
+def langfuse_client() -> Langfuse:
+    """The process's one Langfuse client, for traces and prompts
+    (prompt_versions.py). Made only here: the SDK keeps the first
+    client's settings, so this one carries the code version."""
+    return Langfuse(release=code_version(),
+                    tracing_enabled=LANGFUSE_TRACING)
+
+
+@cache
 def listener() -> CallbackHandler | None:
     """Langfuse's listener, made once per process; None when tracing is
     off or Langfuse doesn't answer (keys wrong, or not running)."""
     if not LANGFUSE_TRACING:
         return None
-    client = Langfuse(release=code_version())
+    client = langfuse_client()
     try:
         ready = client.auth_check()  # False: no keys set
     except httpx.HTTPError:  # not running: the connection fails
