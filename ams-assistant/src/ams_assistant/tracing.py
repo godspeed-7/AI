@@ -6,14 +6,18 @@ In:  who is asking, where it runs ("app", "chat", "eval"), and
      LANGFUSE_TRACING (config.py) and the LANGFUSE_* keys (~/.zshrc).
 Out: run_config(...) -> the config for agent.stream(): the thread_id
      and, when tracing is on, Langfuse's listener and the run's labels.
+     @traced(name, type): a plain function shown as its own step.
 
 Strategy: LangChain calls every callback in a run's config at each
-step (model calls, tools, the handbook search inside a tool), so one
-CallbackHandler records the whole run. LangSmith works the same way,
-built into LangChain. The labels travel in the config's metadata
+step it runs (model calls, tools, middleware), so one CallbackHandler
+records the whole run. LangSmith works the same way, built into
+LangChain. The labels travel in the config's metadata
 (langfuse_user_id, ...); the code version (git commit) is the
 client's release. Langfuse is checked once per process: if it doesn't
-answer, the process runs untraced, with one warning.
+answer, the process runs untraced, with one warning. Plain Python
+inside a tool (the handbook search's steps) is invisible to
+LangChain: @traced records it, but only inside a traced run, so the
+RAG scripts and a run with tracing off never send anything.
 
 Caveats:
 - Traces hold HR data: our local Langfuse only (~/langfuse); the user
@@ -25,12 +29,16 @@ Caveats:
 
 import logging
 import subprocess
-from functools import cache
+from collections.abc import Callable
+from functools import cache, wraps
+from typing import Any
 
 import httpx
-from langfuse import Langfuse
+from langchain_core.documents import Document
+from langfuse import Langfuse, get_client
 from langfuse.api.core import ApiError
 from langfuse.langchain import CallbackHandler
+from opentelemetry import trace
 
 from ams_assistant.config import LANGFUSE_TRACING, PROJECT_ROOT
 
@@ -97,3 +105,44 @@ def run_config(employee_id: str, source: str, *,
     if session_id:
         config["metadata"]["langfuse_session_id"] = session_id
     return config
+
+
+def traced(name: str, as_type: str = "span", *,
+           show_input: Callable[..., Any] | None = None,
+           show_output: Callable[[Any], Any] | None = None) -> Callable:
+    """Decorator: inside a traced run, each call of the function becomes
+    its own step, `name` of type `as_type` ("retriever", "span", ...),
+    showing show_input(*args, **kwargs) and show_output(result).
+    Outside one (tracing off, or a script with no agent run), the
+    function runs as it is and nothing is sent."""
+    def decorate(function: Callable) -> Callable:
+        @wraps(function)
+        def run(*args, **kwargs):
+            # A run's steps are OpenTelemetry spans; none is current
+            # unless Langfuse's listener is recording this run.
+            if not trace.get_current_span().get_span_context().is_valid:
+                return function(*args, **kwargs)
+            shown_in = show_input(*args, **kwargs) if show_input else None
+            with get_client().start_as_current_observation(
+                    name=name, as_type=as_type, input=shown_in) as step:
+                result = function(*args, **kwargs)
+                if show_output:
+                    step.update(output=show_output(result))
+                return result
+        return run
+    return decorate
+
+
+def doc_lines(docs: list[Document]) -> list[str]:
+    """How handbook sections show in a trace: one line each, with the
+    scores a step gave them (vector, reranker)."""
+    lines = []
+    for doc in docs:
+        meta = doc.metadata
+        line = f"{meta.get('source')}#{meta.get('section')}"
+        if "score" in meta:
+            line += f" · vector {meta['score']:.3f}"
+        if "rerank_score" in meta:
+            line += f" · reranker {meta['rerank_score']:.2f}"
+        lines.append(line)
+    return lines

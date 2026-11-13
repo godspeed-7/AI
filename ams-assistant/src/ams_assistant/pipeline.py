@@ -34,6 +34,7 @@ from ams_assistant.decomposer import build_decomposer
 from ams_assistant.glossary import expand_question
 from ams_assistant.keyword_search import keyword_search
 from ams_assistant.rewriter import build_rewriter
+from ams_assistant.tracing import doc_lines, traced
 from ams_assistant.vector_store import get_vector_store
 
 # With swap_to_parents several points can lead to the same chunk, so
@@ -105,6 +106,10 @@ def transform(questions: list[str], pipeline: Pipeline) -> list[str]:
     return texts
 
 
+# In a traced agent run, its own step in Langfuse (tracing.py).
+@traced("vector search", "retriever",
+        show_input=lambda store, text, k: {"search": text, "k": k},
+        show_output=doc_lines)
 def search(store: QdrantVectorStore, text: str, k: int) -> list[Document]:
     """Vector search that keeps each score (cosine: higher = closer) in
     doc.metadata["score"]; as_retriever() would drop it."""

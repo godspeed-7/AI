@@ -4,7 +4,7 @@ and keep the best.
 In:  the question + candidate Documents (CANDIDATE_K from the
      retriever, best first).
 Out: rerank(question, docs) -> the TOP_K most relevant Documents, best
-     first.
+     first, each with its score in metadata["rerank_score"].
 
 Strategy: the embedding model turns the question and each chunk into
 separate vectors and compares them: fast, but it never reads the two
@@ -36,6 +36,7 @@ from langchain_core.documents import Document
 from sentence_transformers import CrossEncoder
 
 from ams_assistant.config import RERANK_CACHE_FILE, RERANKER_MODEL, TOP_K
+from ams_assistant.tracing import doc_lines, traced
 
 # The answer eval reranks from several threads (--workers); one
 # connection is shared, so only one thread uses it at a time.
@@ -100,6 +101,11 @@ def cached_scores(question: str, docs: list[Document]) -> list[float]:
     return [known[key] for key in keys]
 
 
+# In a traced agent run, its own step in Langfuse (tracing.py).
+@traced("reranker", "span",
+        show_input=lambda question, docs, k=TOP_K: {
+            "search": question, "candidates": len(docs), "keep": k},
+        show_output=doc_lines)
 def rerank(
     question: str, docs: list[Document], k: int = TOP_K
 ) -> list[Document]:
@@ -110,4 +116,8 @@ def rerank(
     scores = cached_scores(question, docs)
     ranked = sorted(zip(docs, scores), key=lambda pair: pair[1], reverse=True)
 
+    # Kept on each Document, as search() keeps the vector score, so a
+    # trace (or a debug print) shows why it ranked where it did.
+    for doc, score in ranked[:k]:
+        doc.metadata["rerank_score"] = float(score)
     return [doc for doc, _score in ranked[:k]]

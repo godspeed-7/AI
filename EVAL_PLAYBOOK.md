@@ -137,33 +137,34 @@ See every step of a run, so a wrong answer points to one step.
       │                               cores and 16 GB, all of our Mac: run it
       │                               only while we use it, not beside Ollama
       │                               jobs
-      ├╌╌ ⬜ Trace the app ╌╌╌╌╌╌╌╌╌╌ Langfuse's CallbackHandler in the run's
+      ├╌╌ ✅ Trace the app ╌╌╌╌╌╌╌╌╌╌ Langfuse's CallbackHandler in the run's
       │                               config records every agent step, tool
       │                               call and model call (app, chat.py,
-      │                               evals); a switch in config.py, off by
-      │                               default, like TRACING
-      ├╌╌ ⬜ Labels ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ every run: user = employee ID (AMS-1015,
+      │                               evals); on/off: LANGFUSE_TRACING in
+      │                               config.py
+      ├╌╌ ✅ Labels ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ every run: user = employee ID (AMS-1015,
       │                               never a name), session = chat ID (a
       │                               booking and its Confirm: two traces, one
       │                               session), tags (app · chat · eval), and
       │                               the prompt, model and git version, so a
       │                               run can be repeated
-      ├╌╌ ⬜ Step types ╌╌╌╌╌╌╌╌╌╌╌╌╌ tool · retriever · generation (a model
+      ├╌╌ ✅ Step types ╌╌╌╌╌╌╌╌╌╌╌╌╌ tool · retriever · generation (a model
       │                               call) · span (plain code) and more.
-      │                               LangChain marks most; @observe adds what
-      │                               it can't see, like our leave rules and
-      │                               permission checks. Skip small helpers
-      ├╌╌ ⬜ Scores on the trace ╌╌╌╌ a check's result (name, value: true/false
+      │                               LangChain marks most; @traced (ours)
+      │                               adds what it can't see: the handbook
+      │                               search's vector search and reranker.
+      │                               Skip small helpers
+      ├╌╌ 🧪 Scores on the trace ╌╌╌╌ a check's result (name, value: true/false
       │                               or a number) is stored on the run it
       │                               checks, so a trace shows "failed 2
       │                               checks"; code, judge and people all write
       │                               there
-      ├╌╌ ⬜ Reading order ╌╌╌╌╌╌╌╌╌╌ for a wrong answer: question → tools
+      ├╌╌ ✅ Reading order ╌╌╌╌╌╌╌╌╌╌ for a wrong answer: question → tools
       │                               picked → their inputs → their results →
       │                               rules → pause or approval → reply →
-      │                               slowest step → scores. First case: X2
-      │                               (Rahul's probation, C4)
-      ├╌╌ ⬜ Metrics ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ per run and per step: time, tokens, cost,
+      │                               slowest step → scores; stop at the
+      │                               first wrong step
+      ├╌╌ ✅ Metrics ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ per run and per step: time, tokens, cost,
       │                               errors. A fast, cheap answer that's wrong
       │                               is still wrong
       ├╌╌ ⬜ Prompt versions ╌╌╌╌╌╌╌╌ a prompt kept in Langfuse with versions
@@ -181,7 +182,7 @@ See every step of a run, so a wrong answer points to one step.
 ```
 
 **Build**: Langfuse running; one agent question traced with its labels and step
-types; X2 read in the fixed order.
+types; a wrong answer (X6) read in the fixed order.
 
 **Built**
 - A1, 13 Nov 2026: Langfuse v4 in `~/langfuse/`, outside the repo:
@@ -202,6 +203,51 @@ types; X2 read in the fixed order.
   v4 docs
 - Test: two "hello" traces (no HR data, LangSmith off) arrived, one
   through LangChain's handler (CHAIN), one from @observe (SPAN)
+- A2, 13 Nov 2026: `tracing.py`, `run_config()`: Langfuse's listener
+  plus the labels, used by app.py, chat.py and the agent eval:
+  - user = employee ID; session = the chat; tags app · chat · eval
+    (+ the model); trace name "ams-agent" or "eval D1"; code version
+    = the git commit ("+changes" if edited since)
+  - each model call brings its model name and tokens by itself
+  - on/off: `LANGFUSE_TRACING` in config.py (True for now). Langfuse
+    stopped → the run still works, with one warning line ("start it
+    with …"); wrong keys → its own warning
+- Tests, all passed: off → nothing sent; on → D1 as one trace (2
+  model calls, get_leave_balance, the answer checker's call); a
+  booking cancelled at Confirm → 2 traces in one session, nothing
+  saved; Langfuse unreachable → warning, answer still comes; eval path
+  → "eval D1", "eval D5". The web app not yet tried in a browser
+- Reading traces by code: `/api/public/v2/observations` with
+  `fields=core,basic,model,usage,trace_context`
+- Don't test with `evaluate_agent.py --only`: it overwrites the saved
+  full results CSV (`agent_results_<model>.csv`)
+- A3, 13 Nov 2026: reading order learned, not run. With tracing on,
+  every run is already recorded: open the wrong answer's trace, go
+  down the order, stop at the first wrong step; the fix goes there.
+  Example X6 (last eval, 5/6): only `search_policies` was called,
+  never `get_expense_claims`, so the answer gave the handbook rule,
+  not her claim (INR 1,400, her first lost-receipt form). Not fixed
+  yet. (X2, the old first case, passes since stage D)
+- A4, 13 Nov 2026: a score tried by hand: `tools_ok = yes` on "eval
+  D1" (true/false, with a comment). In Langfuse: the trace's Scores
+  tab; in the trace list, the score as a column, or a filter
+  (tools_ok = false). No mark = not checked, not passed. Every eval
+  question gets its marks in stage B (experiments). By code: write
+  with `create_score(trace_id=…)`, read with
+  `/api/public/v3/scores?fields=details,subject`
+- A5, metrics come by themselves: time per step, and tokens and an
+  estimated cost per model call (tokens × list price; Gemini 3.5
+  Flash-Lite $0.30 in, $2.50 out per million tokens). D1 ≈ $0.0014
+  (3 calls); we pay $0 on the AI Studio free tier
+- A6, 13 Nov 2026: `@traced` in tracing.py records a plain function as
+  its own step, only inside a traced agent run (the RAG scripts send
+  nothing, even with the flag on; Langfuse's own `@observe` would).
+  On `search()` ("vector search", retriever: 10 sections with vector
+  scores) and `rerank()` ("reranker", span: the top 3, each now
+  keeping its `rerank_score`). P1 "Do sick leaves carry over?": 4.5
+  Sick Leave was 4th by vector score, 2nd after the reranker. Not
+  labelled: our leave rules and permission checks, whose refusals
+  already say why in the tool's result
 
 [↑ Overview](#overview)
 
