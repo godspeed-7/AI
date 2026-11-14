@@ -248,18 +248,19 @@ def split_thinking(reply: AIMessage) -> tuple[str, str]:
     return thinking.strip(), reply.text.strip()
 
 
-def agent_llm(provider: str, model: str,
-              thinking: bool | None) -> BaseChatModel:
+def agent_llm(provider: str, model: str, thinking: bool | None,
+              cached: bool = True) -> BaseChatModel:
     """A model for the agent: tools on, and the agent's shorter time
     limit, since someone is waiting (config.py)."""
     return build_llm(provider, model, temperature=0,
                      reasoning=thinking if provider == "ollama" else None,
                      with_tools=True, timeout=AGENT_TIMEOUT,
-                     retries=AGENT_RETRIES)
+                     retries=AGENT_RETRIES, cached=cached)
 
 
 def agent_middleware(provider: str, model: str, thinking: bool | None,
-                     fallback: bool) -> list[AgentMiddleware]:
+                     fallback: bool,
+                     cached: bool = True) -> list[AgentMiddleware]:
     """The rules around the agent's calls, in order: before hooks run
     first to last, after hooks last to first, and wrap hooks nest (the
     first listed is the outermost)."""
@@ -267,8 +268,8 @@ def agent_middleware(provider: str, model: str, thinking: bool | None,
         # A final answer that skipped a lookup of their records goes
         # back to the model, once (stage I). First, so its after_model
         # runs last: an empty answer never reaches it.
-        Reflection(agent_llm(provider, model, thinking), CHECKED_TOOLS,
-                   AGENT_MAX_STEPS),
+        Reflection(agent_llm(provider, model, thinking, cached),
+                   CHECKED_TOOLS, AGENT_MAX_STEPS),
         # An empty answer ("_") goes back to the model once. Before the
         # counter, so its after_model runs after the counter has
         # counted the call (a jump skips the after hooks still to run).
@@ -286,7 +287,8 @@ def agent_middleware(provider: str, model: str, thinking: bool | None,
     if fallback and AGENT_FALLBACK_MODEL and (provider, model) != backup:
         middleware += [
             # A model call that fails goes to the backup model...
-            ModelFallbackMiddleware(agent_llm(*backup, AGENT_THINKING)),
+            ModelFallbackMiddleware(agent_llm(*backup, AGENT_THINKING,
+                                              cached)),
             # ...and, inside it, each model's failure is logged (the
             # fallback logs nothing).
             log_model_failure,
@@ -298,7 +300,7 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
                 model: str = AGENT_MODEL,
                 thinking: bool | None = AGENT_THINKING,
                 fallback: bool = True, memory: bool = False,
-                preferences: bool | None = None):
+                preferences: bool | None = None, cached: bool = True):
     """Return the agent, ready to run for `employee_id` (ValueError if
     unknown). The model comes from config.py unless given (the evals
     compare others); `thinking` only applies to Ollama models.
@@ -306,7 +308,9 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     memory=True: follow-ups see the chat so far and a paused tool can
     carry on (pass a thread_id). Their saved preferences come too,
     unless preferences=False (the agent eval: the same instructions
-    every run)."""
+    every run).
+    cached=False: its model calls skip the reply cache, so each run
+    asks afresh (the agent eval's repeat runs)."""
     card = get_employee_card(employee_id)
     if card is None:
         raise ValueError(f"No employee with ID {employee_id}")
@@ -322,14 +326,14 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     # context_schema: every run must pass context=HRContext(...), and
     # tools get it as runtime.context.
     return create_agent(
-        agent_llm(provider, model, thinking),
+        agent_llm(provider, model, thinking, cached),
         tools=tools_for(card),
         system_prompt=instructions_for(card, saved, prompt),
         context_schema=HRContext,
         # First, so it wraps every model call, the fallback model's too.
         middleware=[link_prompt(prompt),
                     *agent_middleware(provider, model, thinking,
-                                      fallback)],
+                                      fallback, cached)],
         # Saves the messages after every step, per thread_id (a chat);
         # a run with the same thread_id starts from them. Its own
         # saver per agent: this person's chats only.

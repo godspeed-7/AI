@@ -29,7 +29,8 @@ Caveats:
 - The time limit and retries (WAIT_SETTINGS) are left out of the key:
   they change how long we wait, not what the model says. (Until
   2026-11-10 they were in it, so replies saved before then are missed
-  once.)
+  once.) So is the judge's reply cap (CAP_SETTINGS, 2026-11-14), so
+  its saved grades stay valid.
 """
 
 import hashlib
@@ -85,12 +86,15 @@ def plain(generation: Generation) -> Generation:
 
 # Model settings that change how long we wait, not the reply.
 WAIT_SETTINGS = ("timeout", "request_timeout", "max_retries", "retries")
+# The reply cap (judge.py): a reply shorter than it is the same with or
+# without it, and one cut off by it fails before it's saved.
+CAP_SETTINGS = ("max_tokens",)
 
 
 def reply_settings(llm_string: str) -> str:
-    """LangChain's llm_string without WAIT_SETTINGS. The hosted models'
-    is '<the model as JSON>---<call options>'; any other (ChatOllama's
-    has no JSON part) is returned as it is."""
+    """LangChain's llm_string without WAIT_SETTINGS and CAP_SETTINGS.
+    The hosted models' is '<the model as JSON>---<call options>'; any
+    other (ChatOllama's has no JSON part) is returned as it is."""
     model_json, separator, options = llm_string.partition("---")
     try:
         model = json.loads(model_json)
@@ -99,7 +103,7 @@ def reply_settings(llm_string: str) -> str:
     settings = model.get("kwargs") if isinstance(model, dict) else None
     if not isinstance(settings, dict):
         return llm_string
-    for name in WAIT_SETTINGS:
+    for name in WAIT_SETTINGS + CAP_SETTINGS:
         settings.pop(name, None)
     return json.dumps(model, sort_keys=True) + separator + options
 

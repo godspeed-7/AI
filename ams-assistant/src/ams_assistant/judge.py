@@ -20,18 +20,28 @@ Caveats:
 - "nvidia" (Nemotron 3 Ultra) was the strictest (35/40), but its free
   quota runs out after ~200 grades and returns hours later.
 - Only compare scores graded by the same judge.
-- Raises an error if the reply doesn't fit Scores (e.g. a score of 3).
+- At temperature 0 Gemma sometimes gets stuck repeating itself (D5,
+  2026-11-14: "ful" for 11 minutes), and on every run, as the same
+  prompt gets the same reply. Replies stop at JUDGE_MAX_TOKENS, and a
+  broken one is asked for once more at JUDGE_RETRY_TEMPERATURE,
+  uncached: those few grades can differ between runs.
+- Raises an error if the retry doesn't fit Scores either (e.g. a score
+  of 3); the evals then count the question as failed.
 """
 
 from typing import Literal
 
+from langchain_core.exceptions import OutputParserException
 from langchain_core.prompts import ChatPromptTemplate
-from pydantic import BaseModel
+from openai import LengthFinishReasonError
+from pydantic import BaseModel, ValidationError
 
 from ams_assistant.config import (
+    JUDGE_MAX_TOKENS,
     JUDGE_MODEL,
     JUDGE_PROMPT_FILE,
     JUDGE_PROVIDER,
+    JUDGE_RETRY_TEMPERATURE,
 )
 from ams_assistant.llm import build_llm
 
@@ -55,14 +65,29 @@ class Scores(BaseModel):
         return self.correctness + self.context_support + self.completeness
 
 
-def build_judge():
-    """Return the chain: judge inputs -> Scores."""
-    # temperature 0 keeps grading repeatable, so a saved grade
-    # (llm_cache.py) is reused when the same answer comes back.
-    llm = build_llm(JUDGE_PROVIDER, JUDGE_MODEL, temperature=0)
+# A reply that isn't a Scores: cut off at JUDGE_MAX_TOKENS (Google),
+# not valid JSON or a score outside 0-2 (Google), or either one from
+# Ollama.
+BROKEN_REPLY = (LengthFinishReasonError, ValidationError,
+                OutputParserException)
 
+
+def grader(temperature: float, cached: bool = True):
+    """The judge's model at `temperature`, replying with a Scores."""
+    llm = build_llm(JUDGE_PROVIDER, JUDGE_MODEL, temperature,
+                    max_tokens=JUDGE_MAX_TOKENS, cached=cached)
     # with_structured_output sends Scores' JSON schema to the model,
     # which constrains the reply to it, then turns the JSON into a
     # Scores.
-    return JUDGE_PROMPT | llm.with_structured_output(
-        Scores, method="json_schema")
+    return llm.with_structured_output(Scores, method="json_schema")
+
+
+def build_judge():
+    """Return the chain: judge inputs -> Scores."""
+    # temperature 0 keeps grading repeatable, so a saved grade
+    # (llm_cache.py) is reused when the same answer comes back. A
+    # broken reply is asked for once more (see Caveats); any other
+    # error (e.g. Google's 500s) has the client's own retries.
+    retry = grader(JUDGE_RETRY_TEMPERATURE, cached=False)
+    return JUDGE_PROMPT | grader(0).with_fallbacks(
+        [retry], exceptions_to_handle=BROKEN_REPLY)

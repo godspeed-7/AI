@@ -63,7 +63,9 @@ def build_llm(provider: str, model: str, temperature: float,
               reasoning: bool | None = None,
               with_tools: bool = False,
               timeout: float = BATCH_TIMEOUT,
-              retries: int = BATCH_RETRIES) -> BaseChatModel:
+              retries: int = BATCH_RETRIES,
+              max_tokens: int | None = None,
+              cached: bool = True) -> BaseChatModel:
     """Return the chat model `model` on `provider`, with its cache.
 
     reasoning (Ollama thinking models such as qwen3 only): True returns
@@ -76,15 +78,20 @@ def build_llm(provider: str, model: str, temperature: float,
     and how many times it's tried again; batch values unless given
     (the agent passes its shorter ones, config.py). Ollama always gets
     LOCAL_TIMEOUT and no retries.
+    max_tokens (not Google's tool client): the longest reply, in
+    tokens; None leaves the model's own limit (the judge's guard
+    against a runaway reply).
+    cached: False skips the reply cache (the judge's retry).
     """
     # ChatOllama's cache key ignores `reasoning`, but replies with and
     # without thinking differ, so it goes into the model label.
     label = model if reasoning is None else f"{model} reasoning={reasoning}"
-    llm_cache = get_llm_cache(label, temperature)
+    llm_cache = get_llm_cache(label, temperature) if cached else False
     if provider == "ollama":
         # client_kwargs go to Ollama's HTTP client; not in the cache key.
         return ChatOllama(model=model, temperature=temperature,
                           reasoning=reasoning, cache=llm_cache,
+                          num_predict=max_tokens,
                           client_kwargs={"timeout": LOCAL_TIMEOUT})
 
     base_url, key_name, per_minute = HOSTED[provider]
@@ -103,4 +110,5 @@ def build_llm(provider: str, model: str, temperature: float,
     return ChatOpenAI(model=model, temperature=temperature,
                       cache=llm_cache, base_url=base_url,
                       api_key=os.environ[key_name], rate_limiter=pacer,
-                      timeout=timeout, max_retries=retries)
+                      timeout=timeout, max_retries=retries,
+                      max_tokens=max_tokens)

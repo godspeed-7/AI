@@ -86,6 +86,16 @@ ANSWER_MODEL = LLM_MODEL
 # "nvidia/nemotron-3-ultra-550b-a55b", or "ollama" + "gemma3:12b".
 JUDGE_PROVIDER = "google"
 JUDGE_MODEL = "gemma-4-26b-a4b-it"
+# The judge's longest reply, in tokens. Its 477 saved grades took 74
+# (median) to 383, so only a runaway reaches it: on 2026-11-14 Gemma
+# graded D5 by repeating "ful" for 11 minutes; the cap stops it in
+# ~20 s.
+JUDGE_MAX_TOKENS = 1000
+# A broken grade (cut off at the cap, or not valid JSON) is asked for
+# once more at this temperature, uncached: at 0 the same prompt breaks
+# the same way on every run. 1.0 is Gemma 4's recommended setting (its
+# model card).
+JUDGE_RETRY_TEMPERATURE = 1.0
 GOOGLE_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 # Google's free tier allows each Gemma 4 model 16,000 tokens a minute;
@@ -104,9 +114,9 @@ TEMPERATURE = 0
 # "couldn't answer".
 AGENT_TIMEOUT = 60
 AGENT_RETRIES = 2
-# Batch jobs (the judge, hosted RAG answers): nobody waits, and a grade
-# can take long (Gemma thinks first: D5, with a full claims list, took
-# over 90 s), so ~9 minutes at most per call.
+# Batch jobs (the judge, hosted RAG answers): nobody waits, so ~9
+# minutes at most per call. (D5's grades that took over 90 s were Gemma
+# stuck in a loop, not thinking: now cut off by JUDGE_MAX_TOKENS.)
 BATCH_TIMEOUT = 180
 BATCH_RETRIES = 2
 # Ollama on this Mac: no retries (a stuck local model won't recover by

@@ -25,7 +25,10 @@ Caveats:
   label is the employee ID, never a name.
 - A pause (Confirm?) ends a run: the reply starts a second trace, in
   the same session.
-- The agent eval's judge isn't traced (stage B).
+- In the agent eval (a Langfuse experiment, stage B) each question's
+  trace starts with the experiment's own step, which has no name or
+  user; the steps inside it carry them. The judge shows only as its
+  grade, not its model call.
 """
 
 import logging
