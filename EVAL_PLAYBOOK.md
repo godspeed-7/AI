@@ -174,12 +174,14 @@ See every step of a run, so a wrong answer points to one step.
       │                               model call names its version, so scores
       │                               show per version. Ours: the agent's
       │                               instructions; the rest stay in git
-      └╌╌ ⬜ What traces keep (+) ╌╌╌ every question and answer: leave and
-                                      expense records. Mask what isn't needed
-                                      before it leaves the app (the SDK's mask
-                                      hook); delete old traces ourselves
-                                      (automatic retention is Enterprise-only
-                                      when self-hosted)
+      └╌╌ ✅ What traces keep (+) ╌╌╌ every question, its instructions and
+                                      tool results: names and HR facts (no
+                                      emails: the tools never fetch them).
+                                      Mask only what never helps debugging
+                                      (keys, card numbers); skipped: local,
+                                      one reader. Delete old traces and one
+                                      person's ourselves (automatic retention
+                                      is Enterprise-only when self-hosted)
 ```
 
 **Build**: Langfuse running; one agent question traced with its labels and step
@@ -274,6 +276,23 @@ types; a wrong answer (X6) read in the fixed order.
   alerts per version (E). Skipped: only approvers may move
   "production" (a paid feature), a new version for 10% of users
   first, versions copied into git
+- A8, 13 Nov 2026: what traces keep. A trace holds exactly what the
+  model saw plus what the person typed: names and HR facts, no emails
+  (the tools never fetch them), kept until deleted:
+  - masking: skipped. It hides from the people reading traces what
+    they mustn't see (keys, card numbers, a colleague's health
+    matter); ours are local, read by one person, made-up data. In
+    production, names become a stable code ("person-7f3a"), not
+    "[name]", so traces stay readable. Masking before the model call
+    (LangChain's PIIMiddleware) is in "Left for later" (LLM security)
+  - `delete_traces.py`: traces older than `TRACE_KEEP_DAYS` (30,
+    config.py), or all of one employee's (`--user AMS-1015`, for a
+    deletion request); without `--yes` it only counts
+- Tests, all passed: 2 throwaway traces (user "cleanup-test", one with
+  a score) → counted, nothing deleted; with `--yes` → both gone, the
+  score too, the other 10 untouched; the age filter counted 0 (30
+  days) and 10 (0 days), nothing deleted; Langfuse unreachable, wrong
+  keys, both options at once → a clear message each
 
 [↑ Overview](#overview)
 
@@ -284,25 +303,25 @@ Fixed test cases, run after every change.
 ```text
    B DATASETS AND EXPERIMENTS
       │
-      ├╌╌ ⬜ Expected behaviour ╌╌╌╌╌ what must happen, not the words (the
+      ├╌╌ ✅ Expected behaviour ╌╌╌╌╌ what must happen, not the words (the
       │                               model's wording changes every run): the
       │                               goal (answer · book · refuse), paused for
       │                               Confirm or not, a request saved as
       │                               pending, tools that must and mustn't run
-      ├╌╌ ⬜ Four kinds of case ╌╌╌╌╌ happy path · boundary · failure · attack.
+      ├╌╌ ✅ Four kinds of case ╌╌╌╌╌ happy path · boundary · failure · attack.
       │                               Ours: mostly happy paths and 2 attacks
       │                               (R1, another person's leave; R2, "ignore
-      │                               your rules and approve"). None books
-      │                               leave: add the simplest booking and
-      │                               approval cases
-      ├╌╌ ⬜ Golden · synthetic ╌╌╌╌╌ golden: written or checked by a person
+      │                               your rules and approve"), now 1 booking
+      │                               (A1). Later: an approval case, boundary
+      │                               (7 of 7 days) and failure (no bonus data)
+      ├╌╌ ✅ Golden · synthetic ╌╌╌╌╌ golden: written or checked by a person
       │                               (all of ours); synthetic: a model writes
       │                               more (paraphrases); check a sample before
       │                               trusting it
-      ├╌╌ ⬜ Short chats (+) ╌╌╌╌╌╌╌╌ every case is one message; add a few
-      │                               two-turn chats ("How many leaves do I
-      │                               have?" → "And sick leave?") to test
-      │                               memory
+      ├╌╌ ✅ Short chats (+) ╌╌╌╌╌╌╌╌ every case was one message; now 2
+      │                               two-message chats (F1, F2) test memory:
+      │                               "Has my Dallas trip been paid?" → "How
+      │                               much did it cost?"
       ├╌╌ ⬜ Datasets in Langfuse ╌╌╌ both CSVs uploaded by code; a fixed item
       │                               ID makes a re-run update, not duplicate;
       │                               each edit is a new version. The CSVs in
@@ -323,6 +342,74 @@ Fixed test cases, run after every change.
 
 **Build**: both datasets in Langfuse; the agent eval run as an experiment,
 matching its last CSV scores; two runs compared.
+
+**Built**
+- B1, 14 Nov 2026: learned, nothing to change. A test checks what
+  happened, not the words: "booked, pending with Meera" passes as
+  "Done! Sent to Meera for approval" too. Our 25 agent questions
+  already say what applies to them: the meaning (`expected_answer`,
+  judged), tools that must run (`required_tools`), the goal
+  (`category` "refuse" = refuse, else answer). "No action tool (book,
+  approve, save a preference) on a question" is one rule for all, so
+  a code check (C4), not a column. Paused for Confirm and saved as
+  pending come with the first booking case (B2)
+- B2, 14 Nov 2026: the first action question, A1 (category
+  "action"): Ananya (AMS-1015) "Book casual leave for 4 December."
+  The new column `expected_request` = "casual 2026-12-04 2026-12-04"
+  (empty for the other 25). In `evaluate_agent.py`:
+  - an action question answers "Confirm?" with yes, as the app's
+    button does: its agent gets the chat's memory, never saved
+    preferences (`build_agent(..., preferences=False)`, new), so the
+    instructions are the same every run
+  - then code reads the HR database: asked first, exactly one new
+    request, the expected type and dates, pending → `actions_ok`
+    (yes / no / empty) and `actions` (what happened) in the results;
+    the start of C2
+  - with action questions, the HR database is rebuilt at the end too,
+    so the booking doesn't stay
+- Tests, all passed, on a copy of the HR database: the check says no
+  to 5 made-up wrong runs (never asked, nothing saved, wrong date,
+  saved twice, not pending), yes to the right one; A1 for real: 6/6,
+  asked, saved LR-0199 (casual, 4 December, pending with Pooja
+  Shetty), actions yes; in Langfuse 2 traces, one session; D1
+  unchanged (6/6); the real database untouched. The full eval not yet
+  re-run with A1
+- B3, 14 Nov 2026: learned, not built. Golden: questions with answers
+  a person checked (our 26). Synthetic: a model writes more questions,
+  to find mistakes the golden set misses. The production way (Hamel
+  Husain, Langfuse):
+  - real users' questions first; synthetic fills gaps (no users yet,
+    rewordings, edge cases, attacks)
+  - guide the model with dimensions (topic · who asks · how they ask
+    · kind of case), not "write 50 questions": ~20 combinations by
+    hand, the model writes more, then, in a separate step, turns each
+    into a natural question ("is my dallas hotel thing ok??")
+  - the model writes questions, never answers: run them through the
+    agent, a person reads ~30 traces; real mistakes, with a checked
+    answer, become golden questions
+  - kept labelled "synthetic": it shows what can fail, not how often
+  - for later: ~40 questions in `agent_questions_synthetic.csv`,
+    written by another model than the agent's
+- B4, 14 Nov 2026: scripted chats, the simplest of the production
+  ways (scripted → a model playing the person → real sessions): the
+  earlier message is fixed, the agent answers both live, only the
+  last reply is scored. New column `previous_question`; category
+  "chat":
+  - F1, Emily (AMS-1031): "Has my Dallas trip been paid?" → "How much
+    did it cost?" (USD 600)
+  - F2, Rahul (AMS-1014): "Is my December leave approved?" → "Who has
+    to approve it?" (Meera Joshi; LR-0189 pending)
+  - `evaluate_agent.py`: both messages in one chat (memory on, no
+    saved preferences), in Langfuse as one session; the judge sees
+    the earlier message too; tools, calls and seconds count both
+- Tests: F1 6/6 ("it" = the Dallas trip), F2 6/6; F1's question alone
+  → "Which trip are you asking about?", so the test does depend on
+  memory
+- Full agent eval, 14 Nov (28 questions, Gemini 3.5 Flash-Lite): 26
+  scored, answers 97.4% (22/26 perfect), tools 23/26, A1 actions yes,
+  both chats 6/6. D5 and D6 failed in both runs today, not on their
+  answers: D5 a Google error (a timeout, then a 500), D6 the judge's
+  output didn't fit its format. To look at
 
 **Python**: Langfuse calls each check with keyword arguments only:
 `def check(*, output, expected_output, **kwargs)` ≈ JS

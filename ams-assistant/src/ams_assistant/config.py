@@ -154,6 +154,9 @@ LANGFUSE_TRACING = True
 # Langfuse can't give it.
 AGENT_PROMPT = "agent-instructions"
 PROMPT_LABEL = "production"
+# How long traces are kept: delete_traces.py deletes older ones (our
+# self-hosted Langfuse has no automatic retention).
+TRACE_KEEP_DAYS = 30
 
 
 # --- Qdrant ----------------------------------------------------------

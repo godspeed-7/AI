@@ -297,19 +297,25 @@ def agent_middleware(provider: str, model: str, thinking: bool | None,
 def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
                 model: str = AGENT_MODEL,
                 thinking: bool | None = AGENT_THINKING,
-                fallback: bool = True, memory: bool = False):
+                fallback: bool = True, memory: bool = False,
+                preferences: bool | None = None):
     """Return the agent, ready to run for `employee_id` (ValueError if
     unknown). The model comes from config.py unless given (the evals
     compare others); `thinking` only applies to Ollama models.
     fallback=False: a failed model call stays a failure (the evals).
-    memory=True: follow-ups see the chat so far (pass a thread_id)."""
+    memory=True: follow-ups see the chat so far and a paused tool can
+    carry on (pass a thread_id). Their saved preferences come too,
+    unless preferences=False (the agent eval: the same instructions
+    every run)."""
     card = get_employee_card(employee_id)
     if card is None:
         raise ValueError(f"No employee with ID {employee_id}")
     # Long-term memory: the shared store (tools get it as runtime.store)
     # and their preferences, read now, by code.
-    store = get_store() if memory else None
-    preferences = read_preferences(store, employee_id) if store else None
+    if preferences is None:
+        preferences = memory
+    store = get_store() if preferences else None
+    saved = read_preferences(store, employee_id) if store else None
     # The instructions' version, read now: a label moved in Langfuse
     # shows in agents built after it.
     prompt = agent_prompt()
@@ -318,7 +324,7 @@ def build_agent(employee_id: str, provider: str = AGENT_PROVIDER,
     return create_agent(
         agent_llm(provider, model, thinking),
         tools=tools_for(card),
-        system_prompt=instructions_for(card, preferences, prompt),
+        system_prompt=instructions_for(card, saved, prompt),
         context_schema=HRContext,
         # First, so it wraps every model call, the fallback model's too.
         middleware=[link_prompt(prompt),
