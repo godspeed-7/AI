@@ -12,10 +12,15 @@ Out: evals/agent_results_<model>.csv (one row per question, written as
      error (code 1) when a gate fails or couldn't be checked (C8), so
      what runs it can stop. With LANGFUSE_TRACING, also an experiment
      in Langfuse: the run as one row, each question's trace with its
-     scores, so runs can be compared (EVAL_PLAYBOOK.md, B6). --repeat
-     N (B8): each try is a run; agent_results_<model>_repeatN.csv (a
-     row per question per try) and which questions pass every try
-     (pass^N), are flaky, or never pass.
+     scores, so runs can be compared (EVAL_PLAYBOOK.md, B6), and the
+     replies a person should check added to its review queue, "agent
+     review" (D6): every question that didn't pass, and 2 that did,
+     picked at random. --repeat N (B8): each try is a run;
+     agent_results_<model>_repeatN.csv (a row per question per try)
+     and which questions pass every try (pass^N), are flaky, or never
+     pass. --judge-key (D5): also ams-data/agent_judge_key.csv, the
+     replies as the judge saw them with empty columns for a person's
+     marks; evals/evaluate_judge.py then compares the two.
 
 Strategy: Langfuse's run_experiment goes through the questions:
 task() runs the agent on one, grade() scores it. Per question,
@@ -54,6 +59,7 @@ Usage (from ams-assistant/):
         --model gemini-3.5-flash-lite
     uv run python evals/evaluate_agent.py --only X2,X3 # some questions
     uv run python evals/evaluate_agent.py --repeat 3   # each 3 times
+    uv run python evals/evaluate_agent.py --judge-key  # + a hand key
 
 Caveats:
 - Starts by rebuilding the HR database from the CSVs (build_hr_db.py),
@@ -78,11 +84,14 @@ Caveats:
   commit before a run you want to keep. Each question is one trace,
   "eval <id>", tagged with the model (tracing.py); the judge's model
   calls aren't traced, only its grade.
+- Every run adds to the review queue, a quick check's too; a reply
+  you've marked Complete there stays done.
 """
 
 import argparse
 import csv
 import json
+import random
 import re
 import runpy
 import sys
@@ -93,11 +102,18 @@ from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 
+import httpx
 from langchain.agents.middleware.model_call_limit import (
     ModelCallLimitExceededError,
 )
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
-from langfuse import Evaluation
+from langfuse import Evaluation, Langfuse
+from langfuse.api import (
+    AnnotationQueueObjectType,
+    ConfigCategory,
+    ScoreConfigDataType,
+)
+from langfuse.api.core import ApiError
 from langgraph.types import Command
 
 from ams_assistant.agent import (
@@ -109,6 +125,7 @@ from ams_assistant.agent import (
     split_thinking,
 )
 from ams_assistant.config import (
+    AGENT_JUDGE_KEY_FILE,
     AGENT_MAX_STEPS,
     AGENT_MODEL,
     AGENT_PROVIDER,
@@ -122,7 +139,12 @@ from ams_assistant.config import (
 from ams_assistant.hr_tools import HRContext, connect, get_employee_card
 from ams_assistant.judge import build_judge
 from ams_assistant.number_check import invented_numbers
-from ams_assistant.tracing import code_version, langfuse_client, run_config
+from ams_assistant.tracing import (
+    code_version,
+    langfuse_client,
+    listener,
+    run_config,
+)
 
 # What the runs are, in each step's metadata in Langfuse; its
 # Experiments page lists each run by its own name (run_name()).
@@ -148,6 +170,26 @@ REPORT_TOOLS = {"get_profile", "get_my_team", "get_requests_to_approve",
                 "decide_leave_requests"}
 # Whose records a result holds: "employee": "Ananya Iyer (AMS-1015)".
 OWNER = re.compile(r"\((AMS-\d+)\)\s*\Z")
+# The hand key's columns (D5): the judge's inputs, the person's marks
+# (by judge_prompt.txt's rules) and a note; what the agent saw last, as
+# it's long.
+KEY_FIELDS = ["id", "question", "expected_answer", "generated_answer",
+              "correctness", "context_support", "completeness", "note",
+              "context"]
+# The review queue in Langfuse (D6): every reply that didn't pass, and
+# REVIEW_RANDOM that did, as a check can pass a wrong one.
+REVIEW_QUEUE = "agent review"
+REVIEW_RANDOM = 2
+# The person's marks there, Langfuse score configs (made if missing):
+# is the reply right, and what's wrong in their own words ("open
+# coding": notes first, grouped into kinds of failure later).
+REVIEW_SCORES = {
+    "pass or fail": {
+        "data_type": ScoreConfigDataType.CATEGORICAL,
+        "categories": [ConfigCategory(label="Pass", value=1),
+                       ConfigCategory(label="Fail", value=0)]},
+    "open coding": {"data_type": ScoreConfigDataType.TEXT},
+}
 
 
 def collect_steps(agent, item: dict, message: str, config: dict,
@@ -426,21 +468,27 @@ def safety_problems(row: dict) -> list[str]:
     return problems
 
 
-def evaluate(item: dict, run: dict, judge) -> dict:
-    """Score one run: the judge for the answer, code for the rest
-    (tools, actions, safety, numbers)."""
-    # A chat's question ("How much did it cost?") needs the message
-    # before it to make sense, to the judge too.
+def judge_inputs(item: dict, run: dict) -> dict:
+    """What the judge grades a run on: the question, the expected
+    answer, what the agent saw and its reply. A chat's question ("How
+    much did it cost?") needs the message before it to make sense, to
+    the judge too."""
     question = item["question"]
     if item.get("previous_question"):
         question = (f"(Earlier in the chat: {item['previous_question']})"
                     f"\n{question}")
-    scores = judge.invoke({
+    return {
         "question": question,
         "expected_answer": item["expected_answer"],
         "retrieved_context": run["context"],
         "generated_answer": run["answer"],
-    })
+    }
+
+
+def evaluate(item: dict, run: dict, judge) -> dict:
+    """Score one run: the judge for the answer, code for the rest
+    (tools, actions, safety, numbers)."""
+    scores = judge.invoke(judge_inputs(item, run))
     required = [t.strip() for t in item["required_tools"].split(";")
                 if t.strip()]
     # "a|b": either tool is a right way in (M1: the team list, or the
@@ -554,6 +602,11 @@ class AgentExperiment:
         # ran, the judge's failures too: those gates don't need it.
         self.writes: dict[str, tuple[str, str]] = {}
         self.records: dict[str, str] = {}
+        # The judge's inputs per question whose agent ran, the judge's
+        # failures too (--judge-key, D5), and each question's trace
+        # (the review queue, D6).
+        self.judged: dict[str, dict] = {}
+        self.traces: dict[str, str] = {}
         self.url: str | None = None  # the run's page in Langfuse
 
     def run(self, name: str, label: str) -> None:
@@ -569,6 +622,8 @@ class AgentExperiment:
                       "code_version": code_version(),
                       "judge": f"{JUDGE_PROVIDER} {JUDGE_MODEL}"})
         self.url = result.experiment_url
+        self.traces = {r.item["metadata"]["id"]: r.trace_id
+                       for r in result.item_results if r.trace_id}
 
     def task(self, *, item: dict, **_) -> dict:
         """Run the agent on one question (inside its trace)."""
@@ -591,6 +646,7 @@ class AgentExperiment:
         question = self.questions[metadata["id"]]
         self.writes[question["id"]] = check_writes(question, output)
         self.records[question["id"]] = other_records(question, output)
+        self.judged[question["id"]] = judge_inputs(question, output)
         try:
             row = evaluate(question, output, self.judge)
         except Exception as error:
@@ -631,7 +687,8 @@ def run_name(label: str) -> str:
             f"{datetime.now():%-d %b %H:%M}")
 
 
-def main():
+def parse_args() -> argparse.Namespace:
+    """The command line's options, checked."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--provider", default=AGENT_PROVIDER,
                         choices=["ollama", "google", "nvidia"])
@@ -646,10 +703,24 @@ def main():
                         help="run every question N times, the agent "
                              "asking afresh each time: which pass every "
                              "time, which are flaky (default 1)")
+    parser.add_argument("--judge-key", action="store_true",
+                        help="also write the replies to "
+                             "ams-data/agent_judge_key.csv for a person "
+                             "to mark (D5); never over an existing key")
     args = parser.parse_args()
     if args.repeat < 1:
         parser.error("--repeat needs 1 or more")
+    if args.judge_key and args.repeat > 1:
+        parser.error("--judge-key takes the replies of a single run")
+    if args.judge_key and AGENT_JUDGE_KEY_FILE.exists():
+        # Checked first, so a run isn't wasted: it may hold marks.
+        parser.error(f"{AGENT_JUDGE_KEY_FILE} exists, perhaps with "
+                     f"marks in it: delete it first to start a new key")
+    return args
 
+
+def main():
+    args = parse_args()
     thinking = AGENT_THINKING if args.thinking is None \
         else args.thinking == "on"
     with open(AGENT_QUESTIONS_FILE, encoding="utf-8", newline="") as f:
@@ -689,10 +760,93 @@ def main():
     for run in runs:
         if run.url:
             print(f"In Langfuse: {run.url}")
+    queue_for_review(runs)
+    if args.judge_key:
+        write_judge_key(runs[0])
     if not safe:
         # C8: an error (exit code 1), so whatever runs the eval (a
         # script, later CI) stops instead of carrying on.
         sys.exit("Exit code 1: a safety gate failed or wasn't checked.")
+
+
+def review_picks(rows: list[dict]) -> tuple[list[str], list[str]]:
+    """The questions of a run a person reviews (D6): every one that
+    didn't pass (passed()), then REVIEW_RANDOM that did, at random."""
+    fine = [r["id"] for r in rows if passed(r)]
+    return ([r["id"] for r in rows if not passed(r)],
+            random.sample(fine, min(REVIEW_RANDOM, len(fine))))
+
+
+def review_queue(client: Langfuse, trace_id: str) -> tuple[str, str]:
+    """The review queue's ID and its page in Langfuse (found from one
+    of the run's traces), made on first use with its score configs."""
+    api = client.api
+    configs = {c.name: c.id for c in api.score_configs.get(limit=100).data
+               if not c.is_archived}
+    for name, settings in REVIEW_SCORES.items():
+        if name not in configs:
+            configs[name] = api.score_configs.create(name=name,
+                                                     **settings).id
+    queue = next((q for q in api.annotation_queues.list_queues(
+        limit=100).data if q.name == REVIEW_QUEUE), None)
+    if queue is None:
+        queue = api.annotation_queues.create_queue(
+            name=REVIEW_QUEUE,
+            description="Agent eval replies for a person to check: "
+                        "every one that didn't pass, and a few that "
+                        "did. Pass or fail: is the reply right? Open "
+                        "coding: what's wrong, in your words.",
+            score_config_ids=[configs[name] for name in REVIEW_SCORES])
+    project = client.get_trace_url(trace_id=trace_id).rsplit(
+        "/traces/", 1)[0]
+    return queue.id, f"{project}/annotation-queues/{queue.id}"
+
+
+def queue_for_review(runs: list[AgentExperiment]) -> None:
+    """D6: add each run's review_picks() to the review queue in
+    Langfuse, and say which and where. Not without Langfuse; if adding
+    fails, it only says so: the run's results stand."""
+    traced = [run for run in runs if run.traces]
+    if listener() is None or not traced:
+        print("\nReview queue (D6): skipped, the run isn't in Langfuse")
+        return
+    client = langfuse_client()
+    lines = []
+    try:
+        queue_id, page = review_queue(
+            client, next(iter(traced[0].traces.values())))
+        for number, run in enumerate(runs, start=1):
+            flagged, fine = review_picks(run.rows)
+            for question_id in flagged + fine:
+                client.api.annotation_queues.create_queue_item(
+                    queue_id, object_id=run.traces[question_id],
+                    object_type=AnnotationQueueObjectType.TRACE)
+            lines.append(f"  didn't pass{in_try(number, runs)}: "
+                         f"{', '.join(flagged) or 'none'} · passed, "
+                         f"picked at random: {', '.join(fine) or 'none'}")
+    except (httpx.HTTPError, ApiError) as error:
+        print(f"\nReview queue (D6): not added to ({error})")
+        return
+    print(f'\nReview queue (D6), "{REVIEW_QUEUE}" in Langfuse:')
+    print("\n".join(lines))
+    print(f"  {page}")
+
+
+def write_judge_key(run: AgentExperiment) -> None:
+    """D5: the run's replies as the judge saw them, with empty columns
+    for a person's marks, into AGENT_JUDGE_KEY_FILE (KEY_FIELDS)."""
+    with open(AGENT_JUDGE_KEY_FILE, "w", encoding="utf-8",
+              newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=KEY_FIELDS)
+        writer.writeheader()
+        for question_id, judged in run.judged.items():
+            writer.writerow({
+                "id": question_id, "question": judged["question"],
+                "expected_answer": judged["expected_answer"],
+                "generated_answer": judged["generated_answer"],
+                "context": judged["retrieved_context"]})
+    print(f"\nHand key (D5): {len(run.judged)} replies to mark in "
+          f"{AGENT_JUDGE_KEY_FILE}; then run evals/evaluate_judge.py")
 
 
 def rebuild_hr_db(why: str = "") -> None:

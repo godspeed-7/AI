@@ -692,37 +692,116 @@ Where meaning matters: a model judges, a person checks the judge.
 ```text
    D JUDGE AND PEOPLE
       │
-      ├╌╌ ⬜ Atomic questions ╌╌╌╌╌╌╌ one thing per question, with explicit
+      ├╌╌ ✗  Atomic questions ╌╌╌╌╌╌╌ one thing per question, with explicit
       │                               true and false rules: grounded? same
       │                               facts as the expected answer? polite? All
-      │                               in one call, one score each. Ours: 0–2
-      │                               scales
-      ├╌╌ ⬜ Judge biases ╌╌╌╌╌╌╌╌╌╌╌ answer order (judge both orders) · length
+      │                               in one call, one score each. Not built:
+      │                               ours stays 0–2 (a Likert scale) until
+      │                               the hand key shows the judge failing
+      ├╌╌ ✅ Judge biases ╌╌╌╌╌╌╌╌╌╌╌ answer order (judge both orders) · length
       │                               (brevity in the rules) · own style
       │                               (another model: gemma3:4b gave its own
       │                               answers 94.4%, Gemma 4 87.9%) · prompt
       │                               wording (re-check after edits) · weak
-      │                               references (fix the labels: also_correct)
-      ├╌╌ ⬜ Unsure band ╌╌╌╌╌╌╌╌╌╌╌╌ a yes-probability of 0.35–0.65 = the
+      │                               references (fix the labels:
+      │                               also_correct). Ours: all handled; order
+      │                               doesn't apply (one reply at a time)
+      ├╌╌ ✗  Unsure band ╌╌╌╌╌╌╌╌╌╌╌╌ a yes-probability of 0.35–0.65 = the
       │                               judge can't decide: a person checks it
       │                               instead. Needs a yes/no judge with a
-      │                               confidence; ours gives 0–2
-      ├╌╌ ⬜ Code and judge ╌╌╌╌╌╌╌╌╌ both in one experiment: a code check
+      │                               confidence; ours gives 0–2: not built
+      ├╌╌ ✗  Code and judge ╌╌╌╌╌╌╌╌╌ both in one experiment: a code check
       │                               failing while the judge says grounded (or
-      │                               the reverse) shows which one is wrong
-      ├╌╌ ⬜ Judge vs a person ╌╌╌╌╌╌ hand-score 20–40 agent answers, compare
+      │                               the reverse) shows which one is wrong.
+      │                               Ours: both in one row; no list of where
+      │                               they differ, but a reply failing either
+      │                               goes to the review queue
+      ├╌╌ ✅ Judge vs a person ╌╌╌╌╌╌ hand-score 20–40 agent answers, compare
       │                               with the judge, tighten its rules where
       │                               we disagree (done for RAG: the 40-answer
-      │                               key)
-      └╌╌ ⬜ Review queue ╌╌╌╌╌╌╌╌╌╌╌ a person reviews: failed code checks, low
+      │                               key). Ours: a key of one run's replies,
+      │                               3 marks each; agreed, kinder, stricter
+      └╌╌ ✅ Review queue ╌╌╌╌╌╌╌╌╌╌╌ a person reviews: failed code checks, low
                                       or unsure judge scores, 2 random answers
                                       that looked fine. Then: tighten the
                                       judge, add real mistakes as cases, fix,
-                                      re-run
+                                      re-run. Ours: Langfuse's annotation
+                                      queue, filled by every agent eval run
 ```
 
 **Build**: the agent judge checked against a small hand key; a review queue fed
 by failed checks.
+
+**Built**
+- D1–D4, 17 Nov 2026: learned, nothing built
+  - D1: binary (pass/fail) judging instead of a Likert scale (0–2,
+    1–5), as most eval guides advise (Hamel Husain and Shreya
+    Shankar's evals FAQ). Ours stays 0–2 until the hand key (D5) shows
+    the judge failing; a switch would also leave every recorded score
+    (the 97.34% baseline) incomparable
+  - D2, what's usually built: a swap test (order; MT-Bench, Zheng et
+    al. 2023), a padding test (length; AlpacaEval's length-controlled
+    score), a panel of judges from different model families (own
+    style; Verga et al. 2024), a regression test on a hand-scored set
+    (wording: D5), a review of the answer key (weak references: D6).
+    Ours: order doesn't apply (one reply graded at a time), the
+    brevity rule is in `judge_prompt.txt`, Gemini answers and Gemma 4
+    judges (both Google's), `also_correct` fixed the RAG key (87.8% →
+    92.4%)
+  - D3: needs a yes/no judge with a confidence (logprobs, or the same
+    question asked several times and counted); ours gives 0–2
+  - D4: the number check (C6) and the judge's `context_support` are
+    our only pair checking the same thing ("is it backed up?"). Both
+    are in the same row; nothing lists where they differ, but a reply
+    failing either goes to the review queue (D6). On the handbook run
+    the judge doubted support on 27 of 284 answers and the number check
+    flagged none: mostly not about numbers (Holi in Bengaluru), and "Is
+    1 November 2026 a holiday for the Pune office?" answered yes passed
+    the number check (the date was in the question)
+- D5, 17 Nov 2026: `evaluate_agent.py --judge-key` also writes
+  `ams-data/agent_judge_key.csv`: the run's replies as the judge saw
+  them (question, expected answer, reply, what the agent saw) with
+  empty columns for a person's three marks (0–2, by
+  `judge_prompt.txt`'s rules) and a note; never over an existing key.
+  `evals/evaluate_judge.py` has the judge grade the marked replies
+  again from the key's own columns, and prints per mark how often it
+  agreed, was kinder or stricter, then every reply where they differ
+  with the person's note and the judge's reason
+  - why: the judge was checked on handbook answers only (its prompt
+    still says "a RAG system for AMS company policies"); on the last
+    agent run it gave 24 of 28 replies 6/6 and the other 4 a 5
+  - a regression test for the judge: its grades are cached, so a
+    rerun is free until `judge_prompt.txt` changes, and then shows
+    whether the change agrees with the person more
+  - blind: the key doesn't show the judge's marks while you mark
+- D6, 17 Nov 2026: Langfuse's annotation queue "agent review", filled
+  by every agent eval run (Langfuse on): each question that didn't pass
+  (under 6/6, a failed code check or gate) and 2 that did, picked at
+  random. The person marks each there: "pass or fail" (is the reply
+  right?) and "open coding" (what's wrong, in their words), Langfuse
+  score configs, made if missing. The run prints which replies went in
+  and the queue's page
+  - then: judge wrong → tighten it (the reply can join the hand key);
+    agent wrong → fix it, add the mistake as a test question; re-run
+  - Langfuse off, or adding fails: the run says so, and its results
+    stand
+- Tests, all passed, no model call: the review picks (every reply that
+  didn't pass, 2 random that did, fewer when fewer pass); without
+  Langfuse the queue is skipped; `--judge-key` refused with `--repeat`
+  and over an existing key; the key holds the judge's exact inputs (a
+  chat's earlier message too), marks empty; a half-marked row is
+  skipped, a mark of 3 stops it; agreed, kinder, stricter counted right
+- For real, from the reply cache (results in a scratch folder, the HR
+  database a copy): with Langfuse on, the queue "agent review" was made
+  with "pass or fail" and "open coding", and 7 replies went in: D11,
+  X1, X3, X6, R2 (didn't pass), M1, D9 (at random). Every reply was the
+  tracked run's. The judge failed on D5 and D6 (its runaway reply, open
+  since 14 Nov); a reply the judge fails on now still goes in the key.
+  A copy of the key marked with the judge's own marks, two changed:
+  agreed 22 of 24, D1 kinder, X3 stricter, in 0.1 s (every grade from
+  the cache: the key holds exactly what the judge saw)
+- The key, `ams-data/agent_judge_key.csv`: all 28 replies, made with
+  Langfuse off. Not marked yet: that's the person's part
 
 **Note**: the guide's judge ("Jev") is a course service that returns
 probabilities without reasons; ours is an LLM with structured output, which

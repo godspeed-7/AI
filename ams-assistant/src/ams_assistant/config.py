@@ -23,6 +23,10 @@ EVALUATION_FILE = DATA_ROOT / "evaluation_questions.csv"
 # The agent's test questions (evals/evaluate_agent.py): who asks, the
 # question, the expected answer and the tools it must use.
 AGENT_QUESTIONS_FILE = DATA_ROOT / "agent_questions.csv"
+# A person's marks for one agent run's replies, to check the judge
+# against (EVAL_PLAYBOOK.md, D5): made by evaluate_agent.py
+# --judge-key, marked by hand, compared by evals/evaluate_judge.py.
+AGENT_JUDGE_KEY_FILE = DATA_ROOT / "agent_judge_key.csv"
 # Company facts as "term -> also add" rules (glossary.py), from the
 # handbooks' own definitions. ingest.py adds them to chunks; re-run it
 # after editing the file.
