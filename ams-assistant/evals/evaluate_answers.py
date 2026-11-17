@@ -14,7 +14,9 @@ then the judge (judge.py) scores the answer 0-2 on
 correctness, context_support and completeness, i.e. 0-6 in total.
 Each row also records whether retrieval found an expected section
 (retrieval_hit, scored as in evaluate_retrieval.py), so a low score
-can be traced to the search (no hit) or to the answer (hit).
+can be traced to the search (no hit) or to the answer (hit), and the
+answer's numbers that neither the question nor the chunks back up
+(invented_numbers, number_check.py: EVAL_PLAYBOOK.md C6).
 
 Usage (from ams-assistant/):
     uv run python evals/evaluate_answers.py --limit 5   # quick check
@@ -54,6 +56,7 @@ from ams_assistant.chain import build_chain
 from ams_assistant.config import EVALS_DIR, JUDGE_MODEL, JUDGE_PROVIDER
 from ams_assistant.evaluation import expected_groups, load_questions, score
 from ams_assistant.judge import build_judge
+from ams_assistant.number_check import invented_numbers
 from ams_assistant.pipeline import PRODUCTION
 from ams_assistant.prompts import format_docs
 
@@ -67,6 +70,7 @@ FIELDNAMES = [
     "retrieved_sources",
     "retrieval_hit",
     "generated_answer",
+    "invented_numbers",
     "correctness",
     "context_support",
     "completeness",
@@ -81,11 +85,12 @@ def grade(item: dict, chain, judge) -> dict:
     question = item["question"]
     result = chain.invoke(question)
     answer = result["answer"].content
+    context = format_docs(result["docs"])
     scores = judge.invoke({
         "question": question,
         "expected_answer": item["expected_answer"],
         # The judge sees the same chunks the answerer saw.
-        "retrieved_context": format_docs(result["docs"]),
+        "retrieved_context": context,
         "generated_answer": answer,
     })
 
@@ -105,6 +110,8 @@ def grade(item: dict, chain, judge) -> dict:
         ),
         "retrieval_hit": hit,
         "generated_answer": answer,
+        "invented_numbers": "; ".join(
+            invented_numbers(answer, f"{question}\n{context}")),
         "correctness": scores.correctness,
         "context_support": scores.context_support,
         "completeness": scores.completeness,
@@ -176,7 +183,9 @@ def main():
                 failed.append(item["question"])
                 continue
 
-            print(f"    {row['total_score']}/6  "
+            invented = (f"  invented numbers: {row['invented_numbers']}"
+                        if row["invented_numbers"] else "")
+            print(f"    {row['total_score']}/6{invented}  "
                   f"{row['generated_answer'][:100]}")
             rows.append(row)
             writer.writerow(row)
@@ -206,6 +215,9 @@ def print_summary(rows: list[dict], failed: list[str]) -> None:
     perfect = sum(row["total_score"] == 6 for row in rows)
     print(f"  {'total':16}: {average:.2f}/6 = {average / 6 * 100:.1f}%")
     print(f"  {'perfect (6/6)':16}: {perfect}/{total}")
+    flagged = [row for row in rows if row["invented_numbers"]]
+    print(f"  {'numbers':16}: {total - len(flagged)}/{total} no invented "
+          f"number")
 
     for field in ("category", "department"):
         # defaultdict(list) creates an empty list for a new group.

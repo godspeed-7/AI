@@ -142,6 +142,11 @@ AGENT_TOOLS = [
 # "Confirm?" first). Other agents never get them, so their model can't
 # pick them, e.g. for "approve my leave" (least privilege).
 MANAGER_TOOLS = [get_requests_to_approve, decide_leave_requests]
+# The tools that only look things up and change nothing (like MCP's
+# readOnlyHint, which mcp_server.py sets). Any other tool counts as one
+# that changes something, a new one too until it's listed here: the
+# agent eval fails a question that calls one it doesn't need (C4).
+READ_ONLY_TOOLS = [*RECORD_TOOLS, search_policies, get_requests_to_approve]
 
 # The code's copy of the instructions: the version in Langfuse runs
 # (AGENT_PROMPT, prompt_versions.py); this one only when Langfuse can't
