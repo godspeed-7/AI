@@ -151,6 +151,10 @@ AGENT_MAX_STEPS = 5
 # The web app (app.py): True shows every step live under each question
 # (model calls, thinking, tools, times); False shows only the answer.
 SHOW_AGENT_STEPS = True
+# The app's checks after each reply (run_checks.py, EVAL_PLAYBOOK.md
+# E1): a reply that takes longer, in seconds, fails "in time". Gemini
+# takes about 18.
+LIVE_REPLY_SECONDS = 30
 # LangSmith tracing: True records every run (model calls, tool calls,
 # inputs, outputs, times) in LangSmith; needs the LANGSMITH_* lines
 # in ~/.zshrc. Off by default: the free plan allows 5,000 traces a

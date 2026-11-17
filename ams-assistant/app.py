@@ -10,6 +10,11 @@ stream gives two kinds of events: "messages" (each token the model
 writes: thinking and answer, shown as they arrive) and "updates" (a
 model call or a tool run has finished: its tool request or answer,
 its results, its time). SHOW_AGENT_STEPS (config.py) hides the steps.
+Once a reply is finished, the code checks run on it (run_checks.py,
+EVAL_PLAYBOOK.md E1) and their scores go on its trace in Langfuse in
+the background; under it, thumbs up or down (E2), a score on the same
+trace. A reply that fails a check or gets a thumbs down goes to the
+review queue (review.py, E7).
 
 Caveats:
 - Not a real login: no password. The ID comes from the app (HRContext),
@@ -29,11 +34,16 @@ Caveats:
   without typing out.
 - Everything shown goes through shown(): markdown images become text,
   so injected text can't make the browser send data out.
+- Checks and thumbs need Langfuse (tracing on, and running); without
+  it they're left out. A question and its Confirm or Cancel are one
+  trace, its ID made before the run. Taking a thumb back keeps the
+  last score.
 """
 
 import logging
 import re
 import textwrap
+import threading
 import time
 import uuid
 from datetime import date
@@ -42,10 +52,21 @@ import streamlit as st
 from langchain.agents.middleware.model_call_limit import (
     ModelCallLimitExceededError,
 )
-from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
+from langchain_core.messages import (
+    AIMessage,
+    AIMessageChunk,
+    HumanMessage,
+    ToolMessage,
+)
+from langfuse import Langfuse
 from langgraph.types import Command
 
-from ams_assistant.agent import build_agent, split_thinking, tools_for
+from ams_assistant.agent import (
+    build_agent,
+    instructions_for,
+    split_thinking,
+    tools_for,
+)
 from ams_assistant.config import AGENT_MAX_STEPS, AGENT_MODEL, SHOW_AGENT_STEPS
 from ams_assistant.hr_tools import HRContext, get_employee_card
 # CANT_ANSWER: what the user sees when a run fails; the details go to
@@ -57,8 +78,15 @@ from ams_assistant.middleware import (
     answer_check,
 )
 from ams_assistant.policy_tools import search_policies
-from ams_assistant.preferences import forget_preferences, remember_preference
-from ams_assistant.tracing import run_config
+from ams_assistant.preferences import (
+    forget_preferences,
+    get_store,
+    read_preferences,
+    remember_preference,
+)
+from ams_assistant.review import add_to_review
+from ams_assistant.run_checks import live_scores
+from ams_assistant.tracing import langfuse_client, listener, run_config
 
 STEP_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫"
 # Where a tool looks, as the steps show it; every other tool reads the
@@ -125,6 +153,10 @@ def sign_in_screen() -> None:
         return
     st.session_state.card = card
     st.session_state.agent = build_agent(card["employee_id"], memory=True)
+    # What the model is told (instructions, saved preferences), for the
+    # checks after each reply (E1): numbers must come from what it saw.
+    st.session_state.instructions = instructions_for(
+        card, read_preferences(get_store(), card["employee_id"]))
     # This chat's ID: made here, on the server, so no one can name
     # another person's chat.
     st.session_state.chat_id = uuid.uuid4().hex
@@ -375,13 +407,22 @@ def run_agent(said: str, reply: str | None = None) -> dict:
     st.session_state.pending holds what a paused tool asks."""
     card = st.session_state.card
     agent = st.session_state.agent
-    # thread_id: this chat; the agent adds its earlier messages. With
-    # LANGFUSE_TRACING, Langfuse records the run, labelled with this
-    # person and chat (tracing.py).
     chat_id = st.session_state.chat_id
+    earlier = len(agent.get_state({"configurable": {"thread_id": chat_id}})
+                  .values.get("messages", []))
+    if reply is None:
+        # A new question: its trace (it and its Confirm or Cancel), where
+        # its messages start, its agent time, what paused tools asked.
+        st.session_state.flow = {
+            "trace_id": Langfuse.create_trace_id(), "start": earlier,
+            "seconds": 0.0, "confirmed": False, "asked": []}
+    flow = st.session_state.flow
+    flow["confirmed"] |= reply == "confirm"
+    # thread_id: this chat; the agent adds its earlier messages. With
+    # LANGFUSE_TRACING, Langfuse records the run in the question's
+    # trace, labelled with this person and chat (tracing.py).
     config = run_config(card["employee_id"], "app", thread_id=chat_id,
-                        session_id=chat_id)
-    earlier = len(agent.get_state(config).values.get("messages", []))
+                        session_id=chat_id, trace_id=flow["trace_id"])
     trace = Trace(st.empty() if SHOW_AGENT_STEPS else None)
     run = Run(trace, st.empty(), card, earlier,
               asking=reply is None)
@@ -393,6 +434,7 @@ def run_agent(said: str, reply: str | None = None) -> dict:
         agent_input = Command(resume=dict.fromkeys(
             st.session_state.pause_ids, reply))
         trace.add(f"**You:** {said} · the paused tool carries on")
+    failed = False
     try:
         for mode, data in agent.stream(
             agent_input,
@@ -402,20 +444,108 @@ def run_agent(said: str, reply: str | None = None) -> dict:
         ):
             run.handle(mode, data)
     except ModelCallLimitExceededError:
+        failed = True
         run.answer = f"Stopped: no answer after {AGENT_MAX_STEPS} rounds."
         run.answer_box.markdown(run.answer)
     except Exception:
         # A model call failed after its retries, timed out, or a tool
         # broke: a plain message, never a stack trace.
         logger.exception("Agent run failed")
+        failed = True
         run.answer = CANT_ANSWER
         run.answer_box.markdown(run.answer)
+    flow["seconds"] += time.perf_counter() - run.started
     st.session_state.pending = run.question
     st.session_state.pause_ids = run.pause_ids
     summary = run.summary()
     trace.add(f"**{'Paused' if run.question else 'Done'}** · {summary}")
-    return {"question": said, "answer": run.answer,
-            "steps": trace.text(), "summary": summary}
+    turn = {"question": said, "answer": run.answer, "steps": trace.text(),
+            "summary": summary, "trace_id": None, "queued": False}
+    if run.question:
+        flow["asked"].append(run.question)
+    else:  # the reply is finished: check it
+        written = not failed and run.answer not in ("", CANT_ANSWER)
+        check_reply(agent, config, flow, turn, written)
+    return turn
+
+
+def check_reply(agent, config: dict, flow: dict, turn: dict,
+                written: bool) -> None:
+    """E1 and E7, once a question's reply is finished (after its
+    Confirm or Cancel, if it paused): the code checks run now, in
+    milliseconds; their scores go to its trace in the background, and
+    a reply that fails one to the review queue. Sets the turn's
+    trace_id (for the thumbs) and whether it's queued. Nothing without
+    Langfuse."""
+    if listener() is None:
+        return
+    messages = agent.get_state(config).values.get("messages", [])
+    # Everything the model saw (C6): its instructions, the chat's
+    # messages, what paused tools asked, every tool result.
+    seen = "\n".join([st.session_state.instructions, *flow["asked"],
+                      *(str(m.content) for m in messages
+                        if isinstance(m, (HumanMessage, ToolMessage)))])
+    scores = live_scores(
+        st.session_state.card["employee_id"], reply=turn["answer"],
+        written=written, seen=seen,
+        results=[(m.name, str(m.content)) for m in messages[flow["start"]:]
+                 if isinstance(m, ToolMessage)],
+        confirmed=flow["confirmed"], seconds=flow["seconds"])
+    turn["trace_id"] = flow["trace_id"]
+    turn["queued"] = not all(found["value"] for found in scores)
+    threading.Thread(target=send_scores, daemon=True,
+                     args=(turn["trace_id"], scores, turn["queued"])).start()
+
+
+def send_scores(trace_id: str, scores: list[dict], review: bool) -> None:
+    """In the background, so nobody waits: the scores on the trace, and
+    the trace to the review queue if `review`. A failure is logged
+    only: the person has their reply."""
+    try:
+        client = langfuse_client()
+        for found in scores:
+            client.create_score(trace_id=trace_id, data_type="BOOLEAN",
+                                **found)
+        if review:
+            client.flush()  # the trace reaches Langfuse first
+            add_to_review(client, [trace_id])
+    except Exception:
+        logger.exception("Couldn't record a reply's checks in Langfuse")
+
+
+def thumbs(turn: dict) -> None:
+    """E2: thumbs up or down under a finished reply that has a trace;
+    after a thumbs down, what was wrong (optional). Each change goes to
+    Langfuse (send_feedback)."""
+    if not turn.get("trace_id"):
+        return
+    key = turn["trace_id"]
+    rating = st.feedback("thumbs", key=f"thumbs_{key}",
+                         on_change=send_feedback, args=(turn,))
+    if rating == 0:
+        st.text_input("What was wrong? (optional)", key=f"why_{key}",
+                      on_change=send_feedback, args=(turn,),
+                      placeholder="e.g. it says paid, but it's pending")
+
+
+def send_feedback(turn: dict) -> None:
+    """E2 and E7: the thumbs as a "user feedback" score on the reply's
+    trace (1 up, 0 down, with what was wrong); one per reply, so a
+    change replaces it. A thumbs down also sends the reply to the
+    review queue, once."""
+    trace_id = turn["trace_id"]
+    rating = st.session_state.get(f"thumbs_{trace_id}")
+    if rating is None:  # taken back: the last score stays
+        return
+    why = st.session_state.get(f"why_{trace_id}", "").strip()
+    langfuse_client().create_score(
+        trace_id=trace_id, score_id=f"{trace_id}-feedback",
+        name="user feedback", value=rating, data_type="BOOLEAN",
+        comment=(why or None) if rating == 0 else None)
+    if rating == 0 and not turn["queued"]:
+        turn["queued"] = True
+        threading.Thread(target=send_scores, daemon=True,
+                         args=(trace_id, [], True)).start()
 
 
 def show_history() -> None:
@@ -428,6 +558,7 @@ def show_history() -> None:
                 with st.expander(f"Steps · {turn['summary']}"):
                     st.markdown(shown(turn["steps"]))
             st.markdown(shown(turn["answer"]))
+            thumbs(turn)
 
 
 def confirm_buttons() -> str | None:
@@ -462,6 +593,7 @@ def chat_screen() -> None:
         else:
             with st.spinner("Working…"):
                 turn = run_agent(said, reply)
+        thumbs(turn)
     st.session_state.history.append(turn)
     if pending or st.session_state.pending:
         st.rerun()  # draw the buttons, or take them away

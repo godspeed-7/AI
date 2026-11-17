@@ -816,41 +816,92 @@ Live use has no expected answers: score what really happens.
 ```text
    E ONLINE
       │
-      ├╌╌ ⬜ Checks after a reply ╌╌╌ the app scores each run in the background
+      ├╌╌ ✅ Checks after a reply ╌╌╌ the app scores each run in the background
       │                               (nobody waits): the reply's numbers are
       │                               in the tool results, one request per
       │                               booking, saved only after Confirm,
       │                               answered in time (Gemini ~18 s; pick the
-      │                               limit)
-      ├╌╌ ⬜ Thumbs ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ thumbs up/down under each answer
+      │                               limit). Ours: the eval's checks, shared
+      │                               (run_checks.py); limit 30 s
+      ├╌╌ ✅ Thumbs ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ thumbs up/down under each answer
       │                               (Streamlit's st.feedback), stored as a
       │                               score with an optional comment; free but
       │                               rare
-      ├╌╌ ⬜ Sampled judge ╌╌╌╌╌╌╌╌╌╌ set up in the dashboard, no code: a model
+      ├╌╌ ✗  Sampled judge ╌╌╌╌╌╌╌╌╌╌ set up in the dashboard, no code: a model
       │                               connection, one evaluator per question, a
       │                               rule for which model calls and how many
       │                               (10–20%; 100% while trying). Point it at
       │                               the call that holds the tool results, not
-      │                               the whole run
-      ├╌╌ ⬜ Dashboard ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ one line per score (share passed per
+      │                               the whole run. Left for later: needs a
+      │                               model key in Langfuse
+      ├╌╌ ✗  Dashboard ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ one line per score (share passed per
       │                               day); after a change, look here first: a
-      │                               drop right after it points at the change
-      ├╌╌ ⬜ Alerts ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ safety: any failure in an hour; quality:
+      │                               drop right after it points at the change.
+      │                               Not built: a few clicks in Langfuse, no
+      │                               code
+      ├╌╌ ✗  Alerts ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ safety: any failure in an hour; quality:
       │                               warn under 0.9, alert under 0.8 over a
       │                               day; no traffic isn't a 0. To Slack, a
       │                               webhook, PagerDuty or GitHub Actions (no
-      │                               email); needs Langfuse v4+
-      ├╌╌ ⬜ Fire drill ╌╌╌╌╌╌╌╌╌╌╌╌╌ record one fake failing safety score;
+      │                               email); needs Langfuse v4+. Left for
+      │                               later: needs somewhere to send
+      ├╌╌ ✗  Fire drill ╌╌╌╌╌╌╌╌╌╌╌╌╌ record one fake failing safety score;
       │                               watch the alert fire and the message
       │                               arrive. An alert never seen firing can't
-      │                               be trusted
-      └╌╌ ⬜ Close the loop ╌╌╌╌╌╌╌╌╌ failures (a false score, a thumbs down) →
+      │                               be trusted. Left for later, with alerts
+      └╌╌ ✅ Close the loop ╌╌╌╌╌╌╌╌╌ failures (a false score, a thumbs down) →
                                       review queue → real mistakes become test
-                                      cases → fix → re-run the experiments
+                                      cases → fix → re-run the experiments.
+                                      Ours: the app sends them to the queue
 ```
 
 **Build**: thumbs and the checks after each reply in the app; one sampled
 judge; one safety alert and its fire drill.
+
+**Built**
+- E1, 17 Nov 2026: `run_checks.py`, shared by the agent eval and the
+  app. Once a reply is finished (after its Confirm or Cancel),
+  `app.py` runs the checks that need no expected answer and saves them
+  as scores on the reply's trace in Langfuse, from a background thread
+  (nobody waits): numbers (C6: against the instructions, the chat's
+  messages and every tool result), safety (no other person's records,
+  C5; nothing saved without a Confirm click), actions (a booking: one
+  request, pending, not called approved, C2), in time
+  (`LIVE_REPLY_SECONDS`, 30 s of the agent's time for the question and
+  its Confirm). The eval's whose-records and approved-claim checks
+  moved there, unchanged
+  - one trace per question (with its Confirm or Cancel), its ID made by
+    the app before the run (`run_config(trace_id=...)`), so the app
+    knows where the scores go, and two tabs can't mix them up
+  - not live: the judge's correctness, right tools, refused (each
+    needs what only a test question has)
+- E2, 17 Nov 2026: thumbs (`st.feedback`) under each finished reply; a
+  thumbs down asks "What was wrong?" (optional). Saved as a "user
+  feedback" score (1 up, 0 down, the comment) on the reply's trace; one
+  per reply, so a change replaces it
+- E7, 17 Nov 2026: a reply that fails a check or gets a thumbs down
+  goes to the review queue ("agent review", D6) by itself; the queue
+  code moved to `review.py` (eval and app). The rest is a habit:
+  review → a new test question in the person's words → fix → re-run
+  the eval
+- E3, E5, E6: left for later (see [Left for later](#left-for-later)).
+  E4: not built, a few clicks in Langfuse once there are scores
+- Tests, all passed, no model call: the live checks on real tool
+  results. Ananya's D1 passes; "9 annual days" fails numbers; Rahul
+  getting Ananya's balance fails safety; 45 s fails in time; a booking
+  after Confirm passes, without Confirm fails safety; "has been
+  approved" while pending, two requests, or saved as approved fail
+  actions; a cancelled booking gets no actions score, an error reply
+  no numbers score. The eval's C5, C6, C8, D5 and D6 tests again after
+  the move: all pass
+- In the real app (Streamlit's AppTest, Gemini, Langfuse on, the HR
+  database a copy): "How many leaves do I have?" passed numbers,
+  safety and in time; a thumbs down with a comment made one "user
+  feedback" score and put the reply in the review queue. "Book casual
+  leave for 4 December." → paused → Confirm: one trace for both runs
+  (ams-agent, AMS-1015, the chat, "app"); actions, numbers and safety
+  passed; in time failed (32.8 s over the two runs), so it went to the
+  review queue by itself. 30 s may be tight for a booking
 
 **Caveat**: only we use the app, so live scores will be few: a demo, like the
 guide's 11 messages.
@@ -870,6 +921,9 @@ Not started; from the guide's "what comes next" and our playbooks:
 - Agentic system design (announced; topics not out yet)
 - Needs real users: A/B tests (half the users on a new version; RAG step 14)
   and behaviour signals (a question asked again, a chat abandoned)
+- Stage E, left on 17 Nov 2026: the sampled judge (E3: needs a model key
+  typed into Langfuse's settings); the safety alert and its fire drill (E5,
+  E6: need somewhere to send, Slack or a webhook)
 
 [↑ Overview](#overview)
 

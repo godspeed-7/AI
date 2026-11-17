@@ -23,8 +23,8 @@ RAG scripts and a run with tracing off never send anything.
 Caveats:
 - Traces hold HR data: our local Langfuse only (~/langfuse); the user
   label is the employee ID, never a name.
-- A pause (Confirm?) ends a run: the reply starts a second trace, in
-  the same session.
+- A pause (Confirm?) ends a run. The app passes the same trace_id for
+  the reply, so a booking and its Confirm are one trace.
 - In the agent eval (a Langfuse experiment, stage B) each question's
   trace starts with the experiment's own step, which has no name or
   user; the steps inside it carry them. The judge shows only as its
@@ -98,17 +98,21 @@ def run_config(employee_id: str, source: str, *,
                thread_id: str | None = None,
                session_id: str | None = None,
                trace_name: str = "ams-agent",
-               tags: tuple[str, ...] = ()) -> dict:
+               tags: tuple[str, ...] = (),
+               trace_id: str | None = None) -> dict:
     """The config for one agent run: the chat's thread_id (its memory)
     and, when tracing is on, Langfuse's listener with the run's labels:
     user = employee_id (never a name), session = the chat, tags = where
-    it runs plus `tags`, and the trace's name."""
+    it runs plus `tags`, and the trace's name. trace_id: record the run
+    in that trace (the app's, made before the run so it can score it)."""
     config = {}
     if thread_id:
         config["configurable"] = {"thread_id": thread_id}
     handler = listener()
     if handler is None:
         return config
+    if trace_id:  # a listener of its own, for that trace
+        handler = CallbackHandler(trace_context={"trace_id": trace_id})
     config["callbacks"] = [handler]
     config["metadata"] = {
         "langfuse_user_id": employee_id,
