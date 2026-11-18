@@ -7,6 +7,8 @@ one line what each topic is, and what happened when we built it.
 - Watching and scoring the assistant (RAG and agent) → **this file**.
 - Retrieval topics → [RAG_PLAYBOOK.md](RAG_PLAYBOOK.md).
 - Agent topics → [AGENT_PLAYBOOK.md](AGENT_PLAYBOOK.md).
+- A long job and several agents →
+  [DEEP_AGENTS_PLAYBOOK.md](DEEP_AGENTS_PLAYBOOK.md).
 - How our code does it → the ams-assistant README.
 
 **Status**, in the stage sections (for ams-assistant):

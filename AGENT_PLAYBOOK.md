@@ -8,6 +8,8 @@ line what each topic is, and what happened when we built it.
 - Retrieval topics → [RAG_PLAYBOOK.md](RAG_PLAYBOOK.md).
 - Tracing and scoring, from 12 Nov 2026 →
   [EVAL_PLAYBOOK.md](EVAL_PLAYBOOK.md).
+- A long job, MCP in depth, several agents, from 18 Nov 2026 →
+  [DEEP_AGENTS_PLAYBOOK.md](DEEP_AGENTS_PLAYBOOK.md).
 - How our code does it → the ams-assistant README.
 
 **Status**, in the stage sections (for ams-assistant):
