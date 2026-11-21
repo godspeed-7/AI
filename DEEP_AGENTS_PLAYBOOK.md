@@ -13,7 +13,7 @@ happened when we built it.
 - How our code does it → the ams-assistant README.
 
 **Status**, in the stage sections (for ams-assistant):
-✅ built · ⏭ next · 🧪 tried, not kept yet · ⬜ not started ·
+✅ built or learned · ⏭ next · 🧪 tried, not kept yet · ⬜ not started ·
 ✗ skipped or failed
 
 **Source**: the course's [Deep Agents, MCP and Multi-Agent Systems
@@ -270,33 +270,39 @@ Keep a long job on track by writing the plan down.
 ```text
    B PLANNING
       │
-      ├╌╌ ⬜ Plan first (recap) ╌╌╌╌╌ plan-and-execute: write the whole plan,
+      ├╌╌ ✅ Plan first (recap) ╌╌╌╌╌ plan-and-execute: write the whole plan,
       │                               then do the steps, re-plan when one
       │                               fails. write_todos is the agent keeping
       │                               that plan itself and rewriting it as it
       │                               goes. AGENT_PLAYBOOK I
-      ├╌╌ ⬜ To-do list ╌╌╌╌╌╌╌╌╌╌╌╌╌ write_todos: the agent writes its plan as
+      ├╌╌ ✅ To-do list ╌╌╌╌╌╌╌╌╌╌╌╌╌ write_todos: the agent writes its plan as
       │                               a list (pending → in progress → done) and
       │                               rewrites it as it learns. The tool does
       │                               nothing; the list keeps the goal in
       │                               recent context
-      ├╌╌ ⬜ Tracing (recap) ╌╌╌╌╌╌╌╌ every model and tool call of a run, in
+      ├╌╌ ✅ Tracing (recap) ╌╌╌╌╌╌╌╌ every model and tool call of a run, in
       │                               Langfuse, read question → tools → answer;
       │                               the same habit reads a plan.
       │                               AGENT_PLAYBOOK C, EVAL_PLAYBOOK A
-      ├╌╌ ⬜ Reading the trace ╌╌╌╌╌╌ in Langfuse: is the first call a plan? Do
+      ├╌╌ ✅ Reading the trace ╌╌╌╌╌╌ in Langfuse: is the first call a plan? Do
       │                               updates ride along with real work? Does
       │                               the list change when the data surprises
       │                               it? Does the prompt grow fast?
-      ├╌╌ ⬜ Plan, list, brief ╌╌╌╌╌╌ a plan says what and why (a file); the
+      ├╌╌ ✅ Plan, list, brief ╌╌╌╌╌╌ a plan says what and why (a file); the
       │                               to-do list says done and next (state); a
       │                               brief tells one helper its job
-      └╌╌ ⬜ When it helps ╌╌╌╌╌╌╌╌╌╌ many steps, independent parts, a person
+      └╌╌ ✅ When it helps ╌╌╌╌╌╌╌╌╌╌ many steps, independent parts, a person
                                       following progress; not a single lookup
                                       like our chat's
 ```
 
 **Build**: planning on, one to-do per department, read in its trace.
+
+**Built**
+- B1–B6, 21 Nov 2026: learned, build skipped (fundamentals first, builds
+  later). What landed: write_todos is the agent keeping its own plan in recent
+  context; it pays off on many steps, not on a lookup. B3 and B4 overlap: both
+  are reading the trace
 
 [↑ Overview](#overview)
 
@@ -308,46 +314,52 @@ Hand each part to a helper with a clean window; only a summary comes back.
 ```text
    C HELPER AGENTS (subagents)
       │
-      ├╌╌ ⬜ Supervisor (recap) ╌╌╌╌╌ one agent hands work to specialists and
+      ├╌╌ ✅ Supervisor (recap) ╌╌╌╌╌ one agent hands work to specialists and
       │                               puts their results together
       │                               (orchestrator-workers). Our lead is one;
       │                               the task tool is how it hands work out.
       │                               AGENT_PLAYBOOK I and J
-      ├╌╌ ⬜ The task tool ╌╌╌╌╌╌╌╌╌╌ a helper is called like a tool,
+      ├╌╌ ✅ The task tool ╌╌╌╌╌╌╌╌╌╌ a helper is called like a tool,
       │                               task(name, brief); its last message is
       │                               the result. Recap: agents as tools,
       │                               AGENT_PLAYBOOK J
-      ├╌╌ ⬜ Context isolation ╌╌╌╌╌╌ a helper sees only its brief and the lead
+      ├╌╌ ✅ Context isolation ╌╌╌╌╌╌ a helper sees only its brief and the lead
       │                               only its summary (1–2K tokens), so the
       │                               lead's window stays small. A fork also
       │                               gets the lead's chat, and costs more
-      ├╌╌ ⬜ Defining a helper ╌╌╌╌╌╌ name, description (the lead picks by it),
+      ├╌╌ ✅ Defining a helper ╌╌╌╌╌╌ name, description (the lead picks by it),
       │                               prompt, tools, model. Always list its
       │                               tools: left out, it gets all the lead's,
       │                               approval-gated ones too
-      ├╌╌ ⬜ Identity (recap) ╌╌╌╌╌╌╌ who's asking comes from the sign-in, in
+      ├╌╌ ✅ Identity (recap) ╌╌╌╌╌╌╌ who's asking comes from the sign-in, in
       │                               code, never from what the model writes.
       │                               The lead writes each brief, so a helper's
       │                               tools still take HR's ID from code.
       │                               AGENT_PLAYBOOK D
-      ├╌╌ ⬜ A good brief ╌╌╌╌╌╌╌╌╌╌╌ the goal, what to return and how long,
+      ├╌╌ ✅ A good brief ╌╌╌╌╌╌╌╌╌╌╌ the goal, what to return and how long,
       │                               which tools, what's out of bounds.
       │                               Details into files; back only a summary
       │                               and the paths
-      ├╌╌ ⬜ Parallel ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ several task calls in one reply run side
+      ├╌╌ ✅ Parallel ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ several task calls in one reply run side
       │                               by side: the time is the slowest
       │                               helper's. AMS: 6 departments at once (our
       │                               Gemini pacing slows that)
-      ├╌╌ ⬜ Background helpers ╌╌╌╌╌ start, check, update or cancel a long job
+      ├╌╌ ✅ Background helpers ╌╌╌╌╌ start, check, update or cancel a long job
       │                               while the chat goes on; needs an Agent
       │                               Protocol server
-      └╌╌ ⬜ When not to ╌╌╌╌╌╌╌╌╌╌╌╌ one lookup, work that needs the lead's
+      └╌╌ ✅ When not to ╌╌╌╌╌╌╌╌╌╌╌╌ one lookup, work that needs the lead's
                                       whole chat, parts that depend on each
                                       other
 ```
 
 **Build**: a leave analyst and an expense checker, each with only its tools;
 the lead hands out departments; summaries and file paths come back.
+
+**Built**
+- C1–C9, 21 Nov 2026: learned, build skipped. What landed: the lead picks
+  helpers at run time from the task tool's description (each helper's name and
+  what it does); a helper gets only its brief and sends back a summary; several
+  agents cost about 15× a chat
 
 [↑ Overview](#overview)
 
@@ -359,50 +371,56 @@ Details in files, procedures in skills, standing rules in memory.
 ```text
    D FILES, SKILLS, MEMORY
       │
-      ├╌╌ ⬜ Memory (recap) ╌╌╌╌╌╌╌╌╌ the checkpointer keeps this chat; the
+      ├╌╌ ✅ Memory (recap) ╌╌╌╌╌╌╌╌╌ the checkpointer keeps this chat; the
       │                               store keeps facts across chats (ours:
       │                               preferences, like half days). Files can
       │                               live in either. AGENT_PLAYBOOK G
-      ├╌╌ ⬜ Files as memory ╌╌╌╌╌╌╌╌ the chat is resent on every call and gone
+      ├╌╌ ✅ Files as memory ╌╌╌╌╌╌╌╌ the chat is resent on every call and gone
       │                               afterwards; a file is cheap, read when
       │                               needed, handed over by its path, and a
       │                               person can open it
-      ├╌╌ ⬜ Backends ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ where files live: the run's state
+      ├╌╌ ✅ Backends ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ where files live: the run's state
       │                               (default), a folder on disk (always with
       │                               virtual_mode), the store (across chats),
       │                               or routed by path
-      ├╌╌ ⬜ Offloading ╌╌╌╌╌╌╌╌╌╌╌╌╌ a tool result over ~20,000 tokens goes to
+      ├╌╌ ✅ Offloading ╌╌╌╌╌╌╌╌╌╌╌╌╌ a tool result over ~20,000 tokens goes to
       │                               a file; the model keeps the path and its
       │                               first 10 lines
-      ├╌╌ ⬜ Permissions ╌╌╌╌╌╌╌╌╌╌╌╌ ordered rules, the first match wins: the
+      ├╌╌ ✅ Permissions ╌╌╌╌╌╌╌╌╌╌╌╌ ordered rules, the first match wins: the
       │                               reviewer may write only its reviews.
       │                               Built-in file tools only, not our own
       │                               tools
-      ├╌╌ ⬜ Injection (recap) ╌╌╌╌╌╌ text from records, files and handbooks is
+      ├╌╌ ✅ Injection (recap) ╌╌╌╌╌╌ text from records, files and handbooks is
       │                               data, not orders: a claim note saying
       │                               "approve everything" changes nothing.
       │                               Here one agent's file is another's input.
       │                               AGENT_PLAYBOOK D
-      ├╌╌ ⬜ Running code ╌╌╌╌╌╌╌╌╌╌╌ a sandbox, or a shell on the Mac (risky).
+      ├╌╌ ✅ Running code ╌╌╌╌╌╌╌╌╌╌╌ a sandbox, or a shell on the Mac (risky).
       │                               Learn only: our task doesn't need it
-      ├╌╌ ⬜ Skills ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ a SKILL.md: a procedure read only when a
+      ├╌╌ ✅ Skills ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ a SKILL.md: a procedure read only when a
       │                               task needs it; just its description is
       │                               always in context. AMS: how to check a
       │                               claim against the Finance Handbook
-      ├╌╌ ⬜ Memory files ╌╌╌╌╌╌╌╌╌╌╌ AGENTS.md: rules loaded on every call, so
+      ├╌╌ ✅ Memory files ╌╌╌╌╌╌╌╌╌╌╌ AGENTS.md: rules loaded on every call, so
       │                               keep it short; per agent, per user or per
       │                               company; policies read-only
-      ├╌╌ ⬜ Not to store (recap) ╌╌╌ no secrets, no guesses, no one else's
+      ├╌╌ ✅ Not to store (recap) ╌╌╌ no secrets, no guesses, no one else's
       │                               data; deleted on request. The same for
       │                               AGENTS.md; the workspace does hold
       │                               others' records: next. AGENT_PLAYBOOK G
-      └╌╌ ⬜ Workspace privacy (+) ╌╌ the files hold HR data: who may open
+      └╌╌ ✅ Workspace privacy (+) ╌╌ the files hold HR data: who may open
                                       them, when they're deleted (as
                                       EVAL_PLAYBOOK A8 does for traces)
 ```
 
 **Build**: a workspace per run (findings, claims, reviews, memos); the reviewer
 may write only its reviews; one skill (checking a claim); a short AGENTS.md.
+
+**Built**
+- D1–D11, 21 Nov 2026: learned, build skipped. What landed: the agent picks a
+  path, code maps paths to storage (backends); a lasting checkpointer lets a
+  run carry on from the step it stopped at; skills aren't needed for a focused
+  app like ours
 
 [↑ Overview](#overview)
 
@@ -414,33 +432,33 @@ For every piece of information: what the model sees, and when.
 ```text
    E CONTEXT ENGINEERING
       │
-      ├╌╌ ⬜ Three controls ╌╌╌╌╌╌╌╌╌ one model call (prompt, tools, history) ·
+      ├╌╌ ✅ Three controls ╌╌╌╌╌╌╌╌╌ one model call (prompt, tools, history) ·
       │                               what tools read and write · what runs
       │                               between steps (summarising, guardrails)
-      ├╌╌ ⬜ Three sources ╌╌╌╌╌╌╌╌╌╌ runtime context: per run, never shown to
+      ├╌╌ ✅ Three sources ╌╌╌╌╌╌╌╌╌╌ runtime context: per run, never shown to
       │                               the model (ours: HRContext, the employee
       │                               ID) · state: this chat · store: across
       │                               chats. Recap: AGENT_PLAYBOOK F and G
-      ├╌╌ ⬜ Summarising (recap) ╌╌╌╌ replace old messages with a summary
+      ├╌╌ ✅ Summarising (recap) ╌╌╌╌ replace old messages with a summary
       │                               before the chat outgrows the window
       │                               (learned, not built). Compression is
       │                               this, after big results go to files.
       │                               AGENT_PLAYBOOK E
-      ├╌╌ ⬜ Compression ╌╌╌╌╌╌╌╌╌╌╌╌ first big results go to files; at 85% of
+      ├╌╌ ✅ Compression ╌╌╌╌╌╌╌╌╌╌╌╌ first big results go to files; at 85% of
       │                               the window, old messages are summarised
       │                               (a copy kept in a file)
-      ├╌╌ ⬜ Agentic RAG (recap) ╌╌╌╌ the handbook search is a tool, so
+      ├╌╌ ✅ Agentic RAG (recap) ╌╌╌╌ the handbook search is a tool, so
       │                               handbook text comes in only when a
       │                               question needs it: loading late, already
       │                               in our chat. AGENT_PLAYBOOK B
-      ├╌╌ ⬜ Load late ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ keep detail out until it's needed:
+      ├╌╌ ✅ Load late ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ keep detail out until it's needed:
       │                               helpers, skills, files. Prevention beats
       │                               repair
-      ├╌╌ ⬜ Where it lives ╌╌╌╌╌╌╌╌╌ rule → memory · procedure → skill ·
+      ├╌╌ ✅ Where it lives ╌╌╌╌╌╌╌╌╌ rule → memory · procedure → skill ·
       │                               evidence → file · next steps → to-dos ·
       │                               preferences → store · IDs and keys →
       │                               runtime context
-      └╌╌ ⬜ Stable prefix ╌╌╌╌╌╌╌╌╌╌ keep the start of the prompt and the tool
+      └╌╌ ✅ Stable prefix ╌╌╌╌╌╌╌╌╌╌ keep the start of the prompt and the tool
                                       list unchanged so the provider can cache
                                       them; add new material at the end. How
                                       Gemini caches: to check (+)
@@ -448,6 +466,11 @@ For every piece of information: what the model sees, and when.
 
 **Build**: measured: the lead's prompt size on every call, with and without
 helpers and files.
+
+**Built**
+- E1–E8, 21 Nov 2026: learned, build skipped. What landed: for each piece of
+  text ask "needed on every call?" and "must it last?"; load the rest late,
+  offload big results to files, keep the start of the prompt stable for caching
 
 [↑ Overview](#overview)
 
@@ -459,49 +482,49 @@ Approve what matters, survive failures, see what each agent did.
 ```text
    F CONTROL AND RELIABILITY
       │
-      ├╌╌ ⬜ Gate by consequence ╌╌╌╌ no gate for reads; approve or reject for
+      ├╌╌ ✅ Gate by consequence ╌╌╌╌ no gate for reads; approve or reject for
       │                               costly steps; approve, edit or reject,
       │                               arguments shown, for ones that can't be
       │                               undone. Tool risk: AGENT_PLAYBOOK D
-      ├╌╌ ⬜ Approval (recap) ╌╌╌╌╌╌╌ ours asks inside the tool, after its
+      ├╌╌ ✅ Approval (recap) ╌╌╌╌╌╌╌ ours asks inside the tool, after its
       │                               checks (interrupt), so nobody confirms
       │                               what the rules refuse; code before
       │                               interrupt() runs again on resume. Deep
       │                               Agents' interrupt_on asks before the
       │                               tool: the middleware we skipped.
       │                               AGENT_PLAYBOOK H
-      ├╌╌ ⬜ Gates with holes ╌╌╌╌╌╌╌ a gate covers only the tool it names: a
+      ├╌╌ ✅ Gates with holes ╌╌╌╌╌╌╌ a gate covers only the tool it names: a
       │                               helper with its own copy of that tool
       │                               walks around it. Gate the effect
-      ├╌╌ ⬜ Respond ≠ reject ╌╌╌╌╌╌╌ respond answers for a tool without
+      ├╌╌ ✅ Respond ≠ reject ╌╌╌╌╌╌╌ respond answers for a tool without
       │                               running it; to deny, use reject, or the
       │                               model may read it as done
-      ├╌╌ ⬜ Idempotent (recap) ╌╌╌╌╌ the same request sent twice makes one
+      ├╌╌ ✅ Idempotent (recap) ╌╌╌╌╌ the same request sent twice makes one
       │                               leave request, not two. A resumed job can
       │                               redo a step: "send the memos" must still
       │                               send each once. AGENT_PLAYBOOK D
-      ├╌╌ ⬜ Durable progress ╌╌╌╌╌╌╌ a long run saved on disk (an SQLite or
+      ├╌╌ ✅ Durable progress ╌╌╌╌╌╌╌ a long run saved on disk (an SQLite or
       │                               Postgres checkpointer) carries on after a
       │                               crash or a restart instead of starting
       │                               over. Ours is in memory, lost on a
       │                               restart: AGENT_PLAYBOOK F and G
-      ├╌╌ ⬜ Safe errors (recap) ╌╌╌╌ "I couldn't check that right now", never
+      ├╌╌ ✅ Safe errors (recap) ╌╌╌╌ "I couldn't check that right now", never
       │                               a stack trace; say if a retry could help.
       │                               A helper that fails says so, and the memo
       │                               lists the gap, not a guess.
       │                               AGENT_PLAYBOOK D
-      ├╌╌ ⬜ Limits and budget ╌╌╌╌╌╌ call limits, retries, fallbacks (ours:
+      ├╌╌ ✅ Limits and budget ╌╌╌╌╌╌ call limits, retries, fallbacks (ours:
       │                               AGENT_PLAYBOOK E); a budget counted in
       │                               code, since a limit can let a person
       │                               approve a call that will never run
-      ├╌╌ ⬜ Streaming ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ each event says which agent sent it, so
+      ├╌╌ ✅ Streaming ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ each event says which agent sent it, so
       │                               the app can show the lead and every
       │                               helper. Recap: streaming modes,
       │                               AGENT_PLAYBOOK F
-      ├╌╌ ⬜ Per-agent traces ╌╌╌╌╌╌╌ tokens, cost and errors per helper in
+      ├╌╌ ✅ Per-agent traces ╌╌╌╌╌╌╌ tokens, cost and errors per helper in
       │                               Langfuse. Depth costs tokens: ~4× a chat
       │                               for one agent, ~15× for several
-      └╌╌ ⬜ Long jobs in app (+) ╌╌╌ a 10-minute job can't block the chat: it
+      └╌╌ ✅ Long jobs in app (+) ╌╌╌ a 10-minute job can't block the chat: it
                                       runs in the background, shows progress,
                                       can be cancelled, says when it's done
 ```
@@ -509,6 +532,11 @@ Approve what matters, survive failures, see what each agent did.
 **Build**: HR approves the memos before they go out; a run carries on after a
 restart; each helper visible in Langfuse; the review runs in the background in
 the app.
+
+**Built**
+- F1–F11, 21 Nov 2026: learned, build skipped, as three questions: when must a
+  person say yes (F1–F4), what happens when it breaks (F5–F8), can people see
+  what's going on (F9–F11)
 
 [↑ Overview](#overview)
 
@@ -520,39 +548,39 @@ A separate reviewer challenges the draft; evals measure the whole job.
 ```text
    G REVIEW AND EVALUATION
       │
-      ├╌╌ ⬜ Reflection (recap) ╌╌╌╌╌ our agent checks its reply against the
+      ├╌╌ ✅ Reflection (recap) ╌╌╌╌╌ our agent checks its reply against the
       │                               tool results before answering. Same
       │                               model, same window: it misses what it
       │                               already believes, hence a separate
       │                               reviewer. AGENT_PLAYBOOK I
-      ├╌╌ ⬜ Separate reviewer ╌╌╌╌╌╌ write, review, revise until approved or
+      ├╌╌ ✅ Separate reviewer ╌╌╌╌╌╌ write, review, revise until approved or
       │                               the budget is spent. The reviewer starts
       │                               fresh, or it agrees with its own
       │                               reasoning. Recap: AGENT_PLAYBOOK I
-      ├╌╌ ⬜ Judge biases (recap) ╌╌╌ an LLM grader favours longer answers, the
+      ├╌╌ ✅ Judge biases (recap) ╌╌╌ an LLM grader favours longer answers, the
       │                               first one shown and its own model's
       │                               style. The reviewer is a judge too:
       │                               another model, brevity in its rules.
       │                               EVAL_PLAYBOOK D2
-      ├╌╌ ⬜ Structured critique ╌╌╌╌ the reviewer returns JSON (approved,
+      ├╌╌ ✅ Structured critique ╌╌╌╌ the reviewer returns JSON (approved,
       │                               unsupported claims, missing parts,
       │                               follow-up tasks) that code acts on
-      ├╌╌ ⬜ Checkable evidence ╌╌╌╌╌ each claim in a memo tied to its record
+      ├╌╌ ✅ Checkable evidence ╌╌╌╌╌ each claim in a memo tied to its record
       │                               (a request or claim ID), so review is a
       │                               lookup. Our number check (EVAL C6) fits
       │                               here
-      ├╌╌ ⬜ Bound the loop ╌╌╌╌╌╌╌╌╌ at most 2 rounds, counted in code, not
+      ├╌╌ ✅ Bound the loop ╌╌╌╌╌╌╌╌╌ at most 2 rounds, counted in code, not
       │                               asked for in the prompt; at the limit,
       │                               finish and list the gaps
-      ├╌╌ ⬜ Gate the follow-up ╌╌╌╌╌ a person approves the extra work the
+      ├╌╌ ✅ Gate the follow-up ╌╌╌╌╌ a person approves the extra work the
       │                               reviewer asks for, before it runs:
       │                               approve, edit or reject
-      ├╌╌ ⬜ Trajectory (recap) ╌╌╌╌╌ task success is the right result; the
+      ├╌╌ ✅ Trajectory (recap) ╌╌╌╌╌ task success is the right result; the
       │                               trajectory, the right tools with the
       │                               right inputs. For the job: the right
       │                               memos, and each helper's own path.
       │                               AGENT_PLAYBOOK C, EVAL_PLAYBOOK C
-      └╌╌ ⬜ Evaluate the job (+) ╌╌╌ ~20 realistic requests, the end result
+      └╌╌ ✅ Evaluate the job (+) ╌╌╌ ~20 realistic requests, the end result
                                       scored by a rubric, per-agent results,
                                       cost and time per job: EVAL_PLAYBOOK
                                       extended to several agents
@@ -560,6 +588,11 @@ A separate reviewer challenges the draft; evals measure the whole job.
 
 **Build**: a reviewer helper with a JSON verdict; every memo number tied to a
 record; two rounds at most; a small eval of whole reviews.
+
+**Built**
+- G1–G9, 21 Nov 2026: learned, build skipped, as three questions: who checks
+  the work (G1–G3), how feedback turns into fixes, safely (G4–G7), is the whole
+  job good (G8–G9)
 
 [↑ Overview](#overview)
 
@@ -571,35 +604,35 @@ Tools that live in another program, reached through one standard.
 ```text
    H MCP
       │
-      ├╌╌ ⬜ Why a protocol ╌╌╌╌╌╌╌╌╌ N apps × M services becomes N + M pieces:
+      ├╌╌ ✅ Why a protocol ╌╌╌╌╌╌╌╌╌ N apps × M services becomes N + M pieces:
       │                               a host (the app), one client per server,
       │                               servers
-      ├╌╌ ⬜ Our server (recap) ╌╌╌╌╌ our 6 read tools over stdio, one copy of
+      ├╌╌ ✅ Our server (recap) ╌╌╌╌╌ our 6 read tools over stdio, one copy of
       │                               the code and its permission checks; who's
       │                               asking is set when it starts, never a
       │                               tool input; tools marked read-only.
       │                               AGENT_PLAYBOOK J1
-      ├╌╌ ⬜ Three primitives ╌╌╌╌╌╌╌ tools (the model calls them) · resources
+      ├╌╌ ✅ Three primitives ╌╌╌╌╌╌╌ tools (the model calls them) · resources
       │                               (data the app fetches) · prompts
       │                               (templates the user picks). Ours
       │                               publishes tools only
-      ├╌╌ ⬜ Transports ╌╌╌╌╌╌╌╌╌╌╌╌╌ stdio: the app starts the server (ours) ·
+      ├╌╌ ✅ Transports ╌╌╌╌╌╌╌╌╌╌╌╌╌ stdio: the app starts the server (ours) ·
       │                               Streamable HTTP: one shared server many
       │                               apps call
-      ├╌╌ ⬜ The agent as client ╌╌╌╌ the deep agent takes its HR tools from
+      ├╌╌ ✅ The agent as client ╌╌╌╌ the deep agent takes its HR tools from
       │                               our MCP server (langchain-mcp-adapters),
       │                               not Python imports; each helper gets its
       │                               tools by name
-      ├╌╌ ⬜ More of MCP (+) ╌╌╌╌╌╌╌╌ sampling (a server borrows the app's
+      ├╌╌ ✅ More of MCP (+) ╌╌╌╌╌╌╌╌ sampling (a server borrows the app's
       │                               model) · elicitation (a server asks the
       │                               user) · structured results · tool hints
       │                               like read-only
-      ├╌╌ ⬜ Real login (+) ╌╌╌╌╌╌╌╌╌ a shared server must know who's asking:
+      ├╌╌ ✅ Real login (+) ╌╌╌╌╌╌╌╌╌ a shared server must know who's asking:
       │                               OAuth, a token for this server only,
       │                               never passed on to another (confused
       │                               deputy). Recap: secrets, identity,
       │                               AGENT_PLAYBOOK D
-      └╌╌ ⬜ MCP security (+) ╌╌╌╌╌╌╌ hidden instructions in tool descriptions;
+      └╌╌ ✅ MCP security (+) ╌╌╌╌╌╌╌ hidden instructions in tool descriptions;
                                       a server that changes its tools later;
                                       the lethal trifecta: private data +
                                       untrusted text + a way to send it out
@@ -607,6 +640,12 @@ Tools that live in another program, reached through one standard.
 
 **Build**: the helpers take their tools from our ams-hr server; its security
 checked against the (+) list.
+
+**Built**
+- H1–H8, 21 Nov 2026: learned, build skipped, as three questions: what MCP is
+  and why (H1–H2), what a server offers and how to connect (H3–H6), keeping it
+  safe (H7–H8). The app speaks MCP, not the model: initialize, tools/list,
+  tools/call, tried by hand on ams-hr over stdio
 
 [↑ Overview](#overview)
 
@@ -618,46 +657,51 @@ When several agents beat one, how to arrange them, how to run them.
 ```text
    I SEVERAL AGENTS
       │
-      ├╌╌ ⬜ One or several ╌╌╌╌╌╌╌╌╌ start with one; several pay off on broad
+      ├╌╌ ✅ One or several ╌╌╌╌╌╌╌╌╌ start with one; several pay off on broad
       │                               work that splits into independent parts
       │                               and won't fit one window, at ~15× the
       │                               tokens of a chat. Recap: AGENT_PLAYBOOK J
       │                               and K
-      ├╌╌ ⬜ Why they help ╌╌╌╌╌╌╌╌╌╌ separate windows · parallel work ·
+      ├╌╌ ✅ Why they help ╌╌╌╌╌╌╌╌╌╌ separate windows · parallel work ·
       │                               specialists: know which one you're paying
       │                               for
-      ├╌╌ ⬜ Design questions ╌╌╌╌╌╌╌ who decides next · what each sees · how
+      ├╌╌ ✅ Design questions ╌╌╌╌╌╌╌ who decides next · what each sees · how
       │                               they pass work · what runs at once ·
       │                               what's kept · where a person steps in ·
       │                               when it stops
-      ├╌╌ ⬜ Topologies ╌╌╌╌╌╌╌╌╌╌╌╌╌ pipeline · hub and spoke (ours) · peers ·
+      ├╌╌ ✅ Topologies ╌╌╌╌╌╌╌╌╌╌╌╌╌ pipeline · hub and spoke (ours) · peers ·
       │                               hierarchy
-      ├╌╌ ⬜ Handoffs (recap) ╌╌╌╌╌╌╌ an agent passes the whole chat to
+      ├╌╌ ✅ Handoffs (recap) ╌╌╌╌╌╌╌ an agent passes the whole chat to
       │                               another, which carries on with the user.
       │                               A helper is the opposite: it gets a brief
       │                               and comes back. AGENT_PLAYBOOK J
-      ├╌╌ ⬜ Patterns ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ chaining · routing · parallel ·
+      ├╌╌ ✅ Patterns ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ chaining · routing · parallel ·
       │                               orchestrator-workers ·
       │                               evaluator-optimiser (these five:
       │                               AGENT_PLAYBOOK I) · handoffs · skills ·
       │                               group chat · plan-driven · hierarchy · a
       │                               custom graph
-      ├╌╌ ⬜ Choosing ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ LangChain's cost per pattern (calls,
+      ├╌╌ ✅ Choosing ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ LangChain's cost per pattern (calls,
       │                               tokens, a repeated request); a few
       │                               questions give a starting pattern;
       │                               patterns combine
-      ├╌╌ ⬜ Operating ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ duplicated work, details lost in
+      ├╌╌ ✅ Operating ╌╌╌╌╌╌╌╌╌╌╌╌╌╌ duplicated work, details lost in
       │                               retelling, runaway effort, errors that
       │                               compound: hand over by file, resume,
       │                               trace per agent, roll out slowly, test
       │                               prompts like code
-      └╌╌ ⬜ A2A (+) ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ Agent2Agent: agents from different apps
+      └╌╌ ✅ A2A (+) ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ Agent2Agent: agents from different apps
                                       or companies talk through one protocol;
                                       MCP is agent-to-tool
 ```
 
 **Build**: learn; ours is hub and spoke plus a reviewer and a gate. Maybe a
 router in front: the chat or the review.
+
+**Built**
+- I1–I9, 21 Nov 2026: learned, build skipped, as three questions: do we need
+  several agents (I1–I2), how to arrange them (I3–I7), what goes wrong when
+  they run (I8–I9)
 
 [↑ Overview](#overview)
 
