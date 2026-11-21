@@ -44,20 +44,23 @@ What we already have:
   code checks, the judge, a review queue
 - The data: 40 employees in 6 departments, 198 leave requests (16 pending), 60
   expense claims (6 not paid yet), 6 handbooks; as of 16 Nov 2026
-- Not installed yet: `deepagents`, `langchain-mcp-adapters`
+- Installed: `deepagents` 0.7.41 (stage A). Not yet: `langchain-mcp-adapters`
 
 **Our task**: People Operations asks "Prepare the year-end leave and expenses
-review for every department." For each department: leave days that will lapse
-on 31 March 2027, pending requests, claims over the Finance Handbook's limits;
-a short memo for its head; every number checked against the records; HR
-approves before the memos go out. The chat assistant stays as it is: this is a
-second, longer job, built from the same tools and data.
+review for every department." For each department: annual leave and PTO above
+the carry-over limit, lost on 31 December 2026 (India: up to 5 days carry over,
+to use by 31 March; US: up to 10, by 30 June; Employee Handbook 4.4, 5.4),
+pending requests, claims over the Finance Handbook's limits; a short memo for
+its head; every number checked against the records; HR approves before the
+memos go out. The chat assistant stays as it is: this is a second, longer job,
+built from the same tools and data.
 
-**Why this task**: it's too big for one conversation (every record of 40
-people), it splits into independent parts (6 departments), it has something
-worth checking (the numbers) and something worth approving (memos going out). A
-manager's team is at most 3 people: one agent does that in a few calls, the
-case the guide says not to split.
+**Why this task**: it covers every record of 40 people, it splits into
+independent parts (6 departments), it has something worth checking (the
+numbers) and something worth approving (memos going out). A manager's team is
+at most 3 people: one agent does that in a few calls, the case the guide says
+not to split. It does fit one conversation (all the records are about 25K
+tokens; Gemini takes 1M): stage A measured what that costs.
 
 **One new rule**: HR may read everyone's leave and claims, a new level in
 `permissions.py`; each helper gets only the tools for its part.
@@ -169,44 +172,93 @@ Why a chat agent breaks on a long job, and what Deep Agents adds.
 ```text
    A FOUNDATIONS
       │
-      ├╌╌ ⬜ The loop (recap) ╌╌╌╌╌╌╌ the model asks for a tool → our code runs
+      ├╌╌ ✅ The loop (recap) ╌╌╌╌╌╌╌ the model asks for a tool → our code runs
       │                               it → the model reads the result → again,
       │                               until it answers (ReAct). A deep agent
       │                               runs the same loop, much longer.
       │                               AGENT_PLAYBOOK A
-      ├╌╌ ⬜ Workflow or agent ╌╌╌╌╌╌ code picks the steps, or the model does;
+      ├╌╌ ✅ Workflow or agent ╌╌╌╌╌╌ code picks the steps, or the model does;
       │                               mix both, simplest first. Recap:
       │                               AGENT_PLAYBOOK F and K
-      ├╌╌ ⬜ Context rot ╌╌╌╌╌╌╌╌╌╌╌╌ the fuller the window, the worse the
+      ├╌╌ ✅ Context rot ╌╌╌╌╌╌╌╌╌╌╌╌ the fuller the window, the worse the
       │                               model recalls what's in it: give it the
       │                               smallest set of useful text. Most agent
       │                               failures are missing or buried context,
       │                               not a weak model
-      ├╌╌ ⬜ Seven failures ╌╌╌╌╌╌╌╌╌ context overflow · plan drift · detail
+      ├╌╌ ✅ Seven failures ╌╌╌╌╌╌╌╌╌ context overflow · plan drift · detail
       │                               flooding · nothing to inspect · grading
       │                               its own work · lost progress · unsafe
       │                               actions. Each has a fix in B–G
-      ├╌╌ ⬜ Three remedies ╌╌╌╌╌╌╌╌╌ compaction (summarise the chat) · notes
+      ├╌╌ ✅ Three remedies ╌╌╌╌╌╌╌╌╌ compaction (summarise the chat) · notes
       │                               kept outside it (to-dos, files) · helper
       │                               agents with clean windows
-      ├╌╌ ⬜ The layers ╌╌╌╌╌╌╌╌╌╌╌╌╌ LangGraph runs it (state, checkpoints,
+      ├╌╌ ✅ The layers ╌╌╌╌╌╌╌╌╌╌╌╌╌ LangGraph runs it (state, checkpoints,
       │                               pauses) · LangChain builds it
       │                               (create_agent, middleware) · Deep Agents
       │                               adds the harness. Our chat agent stops at
       │                               LangChain
-      ├╌╌ ⬜ Middleware (recap) ╌╌╌╌╌ hooks around every model and tool call;
+      ├╌╌ ✅ Middleware (recap) ╌╌╌╌╌ hooks around every model and tool call;
       │                               ours add limits, retries, a fallback,
       │                               reflection. The harness is create_agent
-      │                               with a stack of them: to-dos, files,
-      │                               helpers, summarising. AGENT_PLAYBOOK E
-      └╌╌ ⬜ The harness ╌╌╌╌╌╌╌╌╌╌╌╌ create_deep_agent(): a long prompt,
-                                      planning, helpers, files. What's on by
-                                      default, what's opt-in, how its system
-                                      prompt is put together
+      │                               with a stack of them: files, helpers,
+      │                               summarising. AGENT_PLAYBOOK E
+      └╌╌ ✅ The harness ╌╌╌╌╌╌╌╌╌╌╌╌ create_deep_agent(): files, helpers and
+                                      summarising on by default; planning,
+                                      skills, memory, approval when asked. A
+                                      long built-in prompt only for some
+                                      models, not Gemini: ours is all of it
 ```
 
 **Build**: deepagents installed; HR's new permission level; a first lead agent
 with no helpers, run on one department, to see where it struggles.
+
+**Built**
+- A1–A7, 18–20 Nov 2026: learned. What landed: who decides the next step (code
+  = workflow, the model = agent); the harness is what surrounds the model;
+  LangGraph is for steps that must always happen in order, wait for a person
+  or resume (a shop's refund: as tools the model may skip the manager; as a
+  plain function it can't wait a day; as a graph it waits and resumes);
+  middleware is rules around one agent's loop
+- A8, 21 Nov 2026: `deepagents` 0.7.41 installed. It upgraded LangChain 1.4.9
+  → 1.5.2, langchain-core 1.7.7 → 1.8.4, langgraph 1.2.20 → 1.2.24, langsmith
+  0.14.12 → 0.16.0, and added langchain-anthropic (unused). The chat after it:
+  D1–D3 replayed from the reply cache give the same answers with no new model
+  call; the app's first screen; the MCP server's 6 tools
+  - the harness gives the lead `ls`, `read_file`, `write_file`, `edit_file`,
+    `delete`, `glob`, `grep`, `execute` (an error without a sandbox) and `task`
+    (a general-purpose helper with all the lead's tools). No planning (opt-in
+    since 0.7) and no built-in prompt for Gemini: ours is the whole prompt
+- `permissions.py`: an "hr" level, People Operations staff (Neha, Aditi,
+  Shruti): everyone's profile, leave and claims. Only the year-end tool checks
+  it; in the chat nothing changes
+- A2 in code: `year_end_tools.py`, `year_end_leave(department)`. Code works
+  out each person's days lost on 31 December, days carried over and the date
+  to use them by, from their payroll's rule; their pending requests; the
+  department's head and totals. Karthik (leaving 24 December) is marked
+  "settled on leaving", not "lost". The model only copies and writes
+- `year_end.py`: the lead (`create_deep_agent` on Gemini, our tool, our limit
+  of 30 model calls and the tool-error middleware, `HRContext`); memos in a
+  fixed format to `/memos/<department>.md` (files in the run's state);
+  `check_memo()` checks each person's line, every pending request, the total,
+  and invented numbers (C6). `year_end_review.py` runs it in the terminal
+- Tests, no model call: Sales matches the hand count (6 people, 30.5 days),
+  Ananya is refused (not People Operations), all 16 pending requests are in;
+  the memo check passes a right memo 6/6 and catches 5 planted mistakes (a
+  wrong carry-over, a missing person, a missing request, a wrong total, made-up
+  numbers)
+- Measured (Gemini 3.5 Flash-Lite, traced in Langfuse):
+  - Sales alone: 3 model calls, 31 s, prompt 2,984 → 4,334 tokens; 6/6 people
+    right, total right, nothing invented
+  - all 6 departments in one conversation: also 3 model calls (6 tool calls
+    in one reply, then 6 memos in one reply), 32 s, prompt 2,997 → 13,037
+    tokens; 38/38 people right, every total right, nothing invented. It never
+    used the helper
+- What it shows: with the numbers made by code, one conversation does the
+  leave part right; no context rot at 13K tokens. The split of A2 removed the
+  failure stage A was looking for. Later stages have to earn their place on
+  what the model must judge (claims against the Finance Handbook, C) and on
+  control (approval, resuming: F). About 3K tokens of every call are the
+  instructions and tool descriptions, before any data
 
 [↑ Overview](#overview)
 

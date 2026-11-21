@@ -148,6 +148,10 @@ AGENT_FALLBACK_PROVIDER: str | None = "ollama"
 AGENT_FALLBACK_MODEL: str | None = "qwen3:8b"
 # Model replies per question before the loop gives up.
 AGENT_MAX_STEPS = 5
+# The year-end review (year_end.py, DEEP_AGENTS_PLAYBOOK.md): model
+# replies per run before it stops: a guard against a loop, well above
+# what a run needs.
+YEAR_END_MAX_CALLS = 30
 # The web app (app.py): True shows every step live under each question
 # (model calls, thinking, tools, times); False shows only the answer.
 SHOW_AGENT_STEPS = True
