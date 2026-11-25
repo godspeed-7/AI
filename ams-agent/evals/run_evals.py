@@ -30,6 +30,7 @@ import csv
 import json
 import os
 import re
+import sys
 import time
 from datetime import datetime
 
@@ -39,6 +40,8 @@ from ams_agent.agent import build_agent, final_answer
 from ams_agent.config import AGENT_MODEL, EVAL_PAUSE, QUESTIONS, RESULTS_DIR
 from ams_agent.context import Context
 from ams_agent.db import count_rows
+from ams_agent.output_check import is_check_reply
+from ams_agent.topic_guard import is_guard_reply
 
 DATA_CATEGORIES = {"data", "data+policy"}  # need a tool to answer
 SECTION = re.compile(r"\d+(\.\d+)+")  # 4.4, 3.4.1
@@ -150,6 +153,8 @@ def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
         "question": question["question"], "answer": answer,
         "expected": question["expected_answer"], "verdict": verdict,
         "checks": checks, "warnings": warnings, "tool_calls": calls,
+        "blocked_by_guard": any(is_guard_reply(m) for m in new),
+        "replaced_by_output_check": any(is_check_reply(m) for m in new),
         "model_calls": sum(isinstance(m, AIMessage) for m in new),
         "seconds": seconds,
     }
@@ -168,11 +173,15 @@ def chosen(questions: list[dict], only: str | None) -> list[dict]:
 
 def show(result: dict) -> None:
     tools = ", ".join(c["name"] for c in result["tool_calls"]) or "no tool"
+    if result["blocked_by_guard"]:
+        tools = "🚧 blocked by the topic guard"
+    if result["replaced_by_output_check"]:
+        tools += "  🛡️ answer replaced by the output check"
     print(f"{result['id']} {MARK[result['verdict']]}  {tools}"
           f"  ({result['seconds']}s)")
     for check in result["checks"]:
-        if not check["ok"]:
-            print(f"     {check['check']}: {check['detail']}")
+        if not check["ok"]:  # in full in the results file
+            print(f"     {check['check']}: {check['detail'][:200]}")
     for warning in result["warnings"]:
         print(f"     ⚠ {warning}")
     if result["verdict"] != "pass":
@@ -183,6 +192,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--only", help="question IDs, e.g. Q01,Q27")
     args = parser.parse_args()
+    # Each line as it happens, even when the output goes to a file.
+    sys.stdout.reconfigure(line_buffering=True)
     with QUESTIONS.open(newline="", encoding="utf-8") as f:
         questions = chosen(list(csv.DictReader(f)), args.only)
 

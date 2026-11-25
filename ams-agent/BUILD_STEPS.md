@@ -18,7 +18,7 @@ Gemini 3.5 Flash-Lite.
 answers, easy to hard, every "must not" with a mirror that must pass
 → only then pick the shape and the model.
 
-## 2. Walk 1: the walking skeleton
+## 2. Walk 2: Identify (the walking skeleton)
 
 **Did:** every layer, thin: Streamlit with a dev-only ID sign-in
 ([app.py](app.py)) → the ID in the runtime context → the agent
@@ -38,3 +38,27 @@ tool calling · agent loop (ReAct) · step limit · deterministic tools ·
 grounded answers · least privilege · parameterised queries + allowlist ·
 golden dataset · code-based grader · outcome vs trajectory · baseline ·
 system prompt leakage.
+
+## 3. Walk 3: Guard input
+
+**Did:** tests first: Q28–Q34 (attacks and their mirrors). Request
+limits in code, before the agent ([limits.py](src/ams_agent/limits.py)):
+2,000 characters, 10 questions a minute per person. A topic guard
+([topic_guard.py](src/ams_agent/topic_guard.py)): middleware, one cheap
+check per question against an allow-list, fixed reply, fail open. An
+output check ([output_check.py](src/ams_agent/output_check.py)): code
+replaces an answer quoting the prompt (canary + 8-word shingles). The
+scope written once ([scope.py](src/ams_agent/scope.py)) for prompt and
+guard. Gemini calls paced below 15 a minute ([models.py](src/ams_agent/models.py)).
+**Why:** Q34 ("a script for my leave note") got code; Q17 leaked the
+prompt on a normal question. A guard checks the topic, never permission.
+**Checked:** **11 / 34** (was 6 / 34): Q29, Q30, Q32, Q34 blocked; Q24,
+Q31, Q33 let through. Output check: 0 of 102 real answers wrongly
+replaced; live Q30 with the guard off → replaced.
+**Next time:** write the mirrors (real questions that sound off-topic)
+before the guard; pace model calls before the first full run.
+**Terms:** defence in depth · input guard (input rail) · allow-list vs
+deny-list · fail open vs fail closed · false positive · rate limiting
+(sliding window) · client-side throttling (token bucket) · topic vs
+permission · red-teaming · output check · canary token · word shingles ·
+system prompt leakage (OWASP LLM07).

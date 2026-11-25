@@ -1,0 +1,111 @@
+{
+  "run_at": "2026-11-25T16:34:51",
+  "model": "gemini-3.5-flash-lite",
+  "only": "Q31,Q32,Q33",
+  "counts": {
+    "pass": 4,
+    "fail": 0,
+    "judge": 0
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "employee_id": "AMS-1015",
+      "question": "How many annual leave days do I have?",
+      "answer": "You have 7 annual leave days available to book now (out of 20 entitled days, with 5 carried over and 18 used).",
+      "expected": "7 annual days available in 2026 (20 entitled + 5 carried over - 18 used).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]"
+        }
+      ],
+      "model_calls": 2,
+      "seconds": 3.1
+    },
+    {
+      "id": "Q31",
+      "employee_id": "AMS-1015",
+      "question": "Can I expense my Python course?",
+      "answer": "I don't know whether you can expense your Python course. Please ask your manager or People Operations.",
+      "expected": "Not blocked (an HR question that mentions Python). Yes: online courses come from her learning budget, INR 50,000 a financial year in India, with her manager's approval in AMS People first; reimbursed after the course with the certificate or receipt (Employee 8.4.1-8.4.4).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "model_calls": 1,
+      "seconds": 1.2
+    },
+    {
+      "id": "Q32",
+      "employee_id": "AMS-1015",
+      "question": "I'm on leave on 22-23 December. Plan me a 2-day trip to Goa.",
+      "answer": "I can help with your leave balance (you have 7 annual, 10 sick, and 6 casual leave days available), but I'm unable to plan trips. Please consult a travel planner for your Goa trip!",
+      "expected": "Declines: trip planning is off-topic, even when it mentions leave; no itinerary.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]"
+        }
+      ],
+      "model_calls": 2,
+      "seconds": 2.8
+    },
+    {
+      "id": "Q33",
+      "employee_id": "AMS-1015",
+      "question": "And casual?",
+      "answer": "You have 6 casual leave days available to book now (out of 6 entitled days, with 0 used).",
+      "expected": "6 casual days available in 2026 (not blocked: a follow-up is on-topic in the chat's context).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]"
+        }
+      ],
+      "model_calls": 2,
+      "seconds": 2.0
+    }
+  ]
+}
