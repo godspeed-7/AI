@@ -173,8 +173,8 @@ of that year aren't rated (10.2.4), so they have no row for it.
 
 **projects.csv** (looked up only: no handbook has project rules yet):
 `project_id` (PRJ-…), `name`, `client` (made up; empty for an internal
-project), `industry` (`banking`, `retail`, `insurance`, `logistics`,
-`healthcare`; empty for internal), `odc` (`yes`: the work happens in the
+project), `industry` (`banking`, `retail`, `healthcare`: the handbook's
+industries, Employee 2.1; empty for internal), `odc` (`yes`: the work happens in the
 client's project area, banking on the Bengaluru 4th floor and retail on
 the Pune 1st floor; Facilities 2.1.2, 2.2.2, 3.4), `project_manager_id`
 (a Delivery employee, named here and not in the assignments),
@@ -269,7 +269,7 @@ isn't stored either, and no handbook has rules for it.
 | Why didn't Ritu Agarwal's (AMS-1023) pay go up in July 2026? | Rated "Does not meet expectations" in April 2026; INR 9,92,000 since 1 Jul 2025 | No increase and no bonus for "does not meet" (Employee 9.3.2, 9.4.2); a 60-day improvement plan is possible (10.5) | Because of her April 2026 rating; she got no bonus in June 2026 either |
 | Which project is Ananya Iyer (AMS-1015) on, and who runs it? | PRJ-001 Card payments platform upgrade (Amberleaf Bank), in the banking ODC, since 2 Sep 2024; manager Sneha Pillai (AMS-1019) | Banking ODCs are on the Bengaluru 4th floor; no personal phones inside (Facilities 2.1.2, 3.4.3) | Card payments platform upgrade for Amberleaf Bank; Sneha Pillai is the project manager |
 | Lakshmi Krishnan (AMS-1021) changed projects. Can she still enter the banking ODC, and when must her old access go? | Off PRJ-002 (Cobalt Bay Bank, ODC) after 30 Oct; on PRJ-003 from 2 Nov 2026 | ODC access is removed on the day you leave the project (Facilities 3.4.2); other old access within 5 working days of the move (IT 4.5) | No: her ODC access ended on 30 October; the rest of her old project access must be gone by 9 November 2026, 5 working days after the move on 2 November |
-| What happens to the client's software on Harish Kumar's (AMS-1018) laptop? | PRJ-005 Claims processing portal (Tidewell Insurance) ends on 30 Nov 2026 | Client-required software is removed when the project ends (IT 7.5) | It's removed when the project ends, on 30 November 2026 |
+| What happens to the client's software on Harish Kumar's (AMS-1018) laptop? | PRJ-005 Claims processing portal (Corvana Hospitals) ends on 30 Nov 2026 | Client-required software is removed when the project ends (IT 7.5) | It's removed when the project ends, on 30 November 2026 |
 | How long can Brian Foster (AMS-1033) stay without a project? | Nothing running since PRJ-007 ended on 30 Sep 2026 | No handbook has bench rules | The handbooks don't say; ask his manager or People Operations |
 | Why wasn't Omkar Jadhav (AMS-1026) considered for promotion in October 2026? | Rated "Partially meets expectations" in April 2026 | Promotion needs a last rating of "meets expectations" or higher (Employee 10.4.2) | His last rating was below "meets"; it also capped his June 2026 bonus at half his target (9.4.2) |
 

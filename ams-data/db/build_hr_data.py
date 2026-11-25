@@ -403,12 +403,13 @@ SCENARIO_RATINGS = {
 PROJECT_SEED = 49  # its own seed: the other files never change
 PROJECTS_FROM = date(2025, 1, 1)  # assignments kept if running from here
 ON_PROJECTS = ("Engineering", "Delivery")
-# Made-up clients (a web search found no company with these names).
+# Made-up clients (a web search found no company with these names), in
+# the handbook's industries: banking, retail, healthcare (Employee 2.1).
 CLIENTS = {
     "India": [("Amberleaf Bank", "banking"), ("Cobalt Bay Bank", "banking"),
               ("Marigold Mart", "retail"), ("Peppercorn Stores", "retail"),
-              ("Tidewell Insurance", "insurance")],
-    "US": [("Ferrowind Logistics", "logistics"),
+              ("Corvana Hospitals", "healthcare")],
+    "US": [("Ferrowind Outfitters", "retail"),
            ("Quillfield Health", "healthcare")],
 }
 # Client project areas (ODCs): banking on the Bengaluru 4th floor, retail
@@ -429,21 +430,13 @@ PROJECT_NAMES = {
                "Store staff app", "Returns portal", "Demand forecasting",
                "Product catalogue migration", "Gift card service",
                "Delivery slot booking"],
-    "insurance": ["Policy admin migration", "Agent mobile app",
-                  "Underwriting rules engine", "Customer self-service",
-                  "Renewals automation", "Broker portal",
-                  "Fraud detection models", "Document scanning",
-                  "Premium billing", "Motor claims app",
-                  "Health claims intake", "Actuarial data platform",
-                  "Policy documents generator", "Customer portal redesign"],
-    "logistics": ["Shipment tracking API", "Fleet maintenance app",
-                  "Customs documents portal", "Yard management",
-                  "Driver mobile app", "Freight billing",
-                  "Dock scheduling", "Carrier portal"],
     "healthcare": ["Patient scheduling app", "Lab results portal",
                    "Billing system migration", "Care team messaging",
                    "Patient intake forms", "Telehealth visits",
-                   "Pharmacy refills", "Claims data warehouse"],
+                   "Pharmacy refills", "Claims data warehouse",
+                   "Hospital information system", "Bed management dashboard",
+                   "Health records upgrade", "Discharge summary service",
+                   "Doctor rostering tool", "Patient feedback app"],
     "": ["Internal developer platform", "Test automation framework",
          "Cloud cost dashboards", "Design system", "Data platform",
          "Security tooling", "CI pipeline upgrade", "Observability stack"],
@@ -1998,11 +1991,11 @@ def scenario_projects() -> tuple[list[dict], list[dict]]:
          "no", "AMS-1010", d(2026, 11, 2), d(2027, 9, 30)),
         ("Loyalty app", "Marigold Mart", "retail",
          "yes", "AMS-1010", d(2024, 11, 4), d(2027, 3, 31)),
-        ("Claims processing portal", "Tidewell Insurance", "insurance",
+        ("Claims processing portal", "Corvana Hospitals", "healthcare",
          "no", "AMS-1010", d(2024, 10, 7), d(2026, 11, 30)),
-        ("Route planning platform", "Ferrowind Logistics", "logistics",
+        ("Delivery route planning", "Ferrowind Outfitters", "retail",
          "no", "AMS-1035", d(2025, 4, 7), d(2027, 4, 30)),
-        ("Warehouse scanner app", "Ferrowind Logistics", "logistics",
+        ("Warehouse scanner app", "Ferrowind Outfitters", "retail",
          "no", "AMS-1035", d(2024, 8, 5), d(2026, 9, 30)),
     ]
     rows = [{"key": n, "name": name, "client": client, "industry": industry,
