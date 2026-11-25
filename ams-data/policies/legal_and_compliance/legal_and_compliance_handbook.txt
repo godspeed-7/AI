@@ -262,7 +262,7 @@ Identity and contact details; education and employment history; background verif
 To pay salaries and provide benefits, to meet legal duties (such as tax and provident fund in India, and payroll taxes in the United States), to manage performance and careers, to keep offices and systems secure, and to contact family in an emergency.
 
 7.4 WHO CAN SEE IT
-Personal data is seen only by people who need it: People Operations, Payroll, the employee's managers (not salary or medical details), IT and Security for security logs, and approved service providers such as the payroll processor and the insurer's third-party administrator. AMS does not sell personal data.
+Personal data is seen only by people who need it: People Operations, Payroll, the employee's managers (not medical details), IT and Security for security logs, and approved service providers such as the payroll processor and the insurer's third-party administrator. AMS does not sell personal data.
 
 7.5 HOW LONG IT IS KEPT
 Employee records are kept for 7 years after the employee leaves, or longer where the law requires. Job applicants' data is deleted 12 months after the application, unless the applicant agrees to a longer period. Badge access logs are kept for 1 year.

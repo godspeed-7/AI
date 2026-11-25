@@ -1,7 +1,10 @@
 """Build the HR database: ams-data/db/*.csv -> one SQLite file.
 
-In:  employees.csv, leave_balances.csv, leave_requests.csv and
-     expense_claims.csv in HR_DATA_DIR (ams-data/db/).
+In:  employees.csv, leave_balances.csv, leave_requests.csv,
+     expense_claims.csv, employee_private.csv, assets.csv,
+     servicedesk_tickets.csv, trainings.csv, salaries.csv,
+     ratings.csv, projects.csv and project_assignments.csv in
+     HR_DATA_DIR (ams-data/db/).
 Out: HR_DB_FILE (.cache/hr.sqlite): one table per CSV, same columns.
 
 Strategy: delete the old file and copy every row in again, so each run
@@ -23,7 +26,20 @@ from ams_assistant.config import HR_DATA_DIR, HR_DB_FILE
 
 # One table per CSV file, named after it.
 TABLES = ["employees", "leave_balances", "leave_requests",
-          "expense_claims"]
+          "expense_claims",
+          # Personal data (phone, address, bank, PAN, Aadhaar, SSN…):
+          # no tool reads it yet (AGENT_APP_PLAYBOOK steps 3, 8, 13).
+          "employee_private",
+          # IT devices and ServiceDesk tickets (IT and Security Handbook,
+          # chapter 3) and AMS Learn's trainings (L&D Handbook,
+          # chapter 2): no tool reads them yet.
+          "assets", "servicedesk_tickets", "trainings",
+          # Pay history and April ratings (Employee Handbook, chapters
+          # 9 and 10); salaries are sensitive: no tool reads them yet.
+          "salaries", "ratings",
+          # Projects and who is on them (query-only: no handbook has
+          # project rules); no tool reads them yet.
+          "projects", "project_assignments"]
 
 # Columns stored as numbers; every other column is TEXT.
 NUMBER_COLUMNS = {
@@ -35,6 +51,9 @@ NUMBER_COLUMNS = {
     "days": "REAL",  # leave requests: 0.5 for a half day
     "nights": "INTEGER",
     "amount": "REAL",
+    "annual_pay": "INTEGER",  # salaries: whole rupees or dollars
+    "review_year": "INTEGER",
+    "allocation_percent": "INTEGER",  # project assignments: 50 or 100
 }
 
 

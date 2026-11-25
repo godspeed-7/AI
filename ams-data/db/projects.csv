@@ -1,0 +1,65 @@
+project_id,name,client,industry,odc,project_manager_id,start_date,end_date
+PRJ-001,Card payments platform upgrade,Amberleaf Bank,banking,yes,AMS-1019,2024-09-02,2027-06-30
+PRJ-002,Core banking data migration,Cobalt Bay Bank,banking,yes,AMS-1019,2024-06-03,2027-03-31
+PRJ-003,Store analytics dashboards,Peppercorn Stores,retail,no,AMS-1010,2026-11-02,2027-09-30
+PRJ-004,Loyalty app,Marigold Mart,retail,yes,AMS-1010,2024-11-04,2027-03-31
+PRJ-005,Claims processing portal,Tidewell Insurance,insurance,no,AMS-1010,2024-10-07,2026-11-30
+PRJ-006,Route planning platform,Ferrowind Logistics,logistics,no,AMS-1035,2025-04-07,2027-04-30
+PRJ-007,Warehouse scanner app,Ferrowind Logistics,logistics,no,AMS-1035,2024-08-05,2026-09-30
+PRJ-008,KYC onboarding portal,Amberleaf Bank,banking,no,AMS-1607,2023-01-09,2026-02-13
+PRJ-009,Net banking redesign,Cobalt Bay Bank,banking,yes,AMS-1597,2023-03-20,2027-08-31
+PRJ-010,Price management tool,Peppercorn Stores,retail,yes,AMS-1053,2023-03-27,2028-02-29
+PRJ-011,Order management system,Marigold Mart,retail,no,AMS-1046,2023-04-03,2028-07-31
+PRJ-012,Treasury reporting,Cobalt Bay Bank,banking,yes,AMS-1048,2023-04-10,2025-11-21
+PRJ-013,Returns portal,Peppercorn Stores,retail,no,AMS-1450,2023-05-15,2026-09-04
+PRJ-014,Payments hub,Amberleaf Bank,banking,no,AMS-1077,2023-07-03,2028-07-31
+PRJ-015,ATM monitoring,Cobalt Bay Bank,banking,no,AMS-1450,2023-08-14,2027-12-31
+PRJ-016,Credit card rewards platform,Cobalt Bay Bank,banking,no,AMS-1055,2023-08-28,2027-12-31
+PRJ-017,Store staff app,Marigold Mart,retail,no,AMS-1048,2023-10-02,2027-05-31
+PRJ-018,Price management tool,Marigold Mart,retail,yes,AMS-1044,2023-10-23,2026-03-27
+PRJ-019,Customer service chatbot,Cobalt Bay Bank,banking,no,AMS-1044,2023-11-20,2027-05-31
+PRJ-020,Branch teller system,Amberleaf Bank,banking,no,AMS-1048,2023-11-27,2028-05-31
+PRJ-021,Fraud monitoring dashboards,Amberleaf Bank,banking,no,AMS-1053,2023-12-18,2026-02-06
+PRJ-022,Agent mobile app,Tidewell Insurance,insurance,no,AMS-1195,2024-01-08,2025-12-19
+PRJ-023,E-commerce checkout rebuild,Marigold Mart,retail,no,AMS-1576,2024-04-15,2028-03-31
+PRJ-024,Cloud cost dashboards,,,no,AMS-1658,2024-06-17,2027-10-31
+PRJ-025,Supplier portal,Marigold Mart,retail,no,AMS-1605,2024-07-15,2028-07-31
+PRJ-026,Gift card service,Peppercorn Stores,retail,no,AMS-1361,2024-07-15,2025-11-21
+PRJ-027,Telehealth visits,Quillfield Health,healthcare,no,AMS-1223,2024-07-15,2027-06-30
+PRJ-028,Observability stack,,,no,AMS-1450,2024-08-26,2026-01-16
+PRJ-029,Delivery slot booking,Peppercorn Stores,retail,no,AMS-1195,2024-09-09,2028-07-31
+PRJ-030,Underwriting rules engine,Tidewell Insurance,insurance,no,AMS-1607,2024-09-30,2028-11-30
+PRJ-031,Security tooling,,,no,AMS-1576,2024-10-14,2028-05-31
+PRJ-032,Wealth management portal,Cobalt Bay Bank,banking,yes,AMS-1345,2024-11-11,2027-02-28
+PRJ-033,Supplier portal,Peppercorn Stores,retail,no,AMS-1345,2024-12-02,2028-10-31
+PRJ-034,Internal developer platform,,,no,AMS-1361,2025-01-20,2027-02-28
+PRJ-035,Mobile banking app,Cobalt Bay Bank,banking,yes,AMS-1607,2025-02-10,2028-06-30
+PRJ-036,Broker portal,Tidewell Insurance,insurance,no,AMS-1346,2025-02-10,2027-03-31
+PRJ-037,Care team messaging,Quillfield Health,healthcare,no,AMS-1223,2025-02-17,2026-05-29
+PRJ-038,Payments hub,Cobalt Bay Bank,banking,no,AMS-1190,2025-03-17,2028-10-31
+PRJ-039,E-commerce checkout rebuild,Peppercorn Stores,retail,no,AMS-1096,2025-03-17,2026-06-19
+PRJ-040,Lab results portal,Quillfield Health,healthcare,no,AMS-1290,2025-04-21,2028-07-31
+PRJ-041,Product search,Marigold Mart,retail,no,AMS-1576,2025-04-28,2028-09-30
+PRJ-042,Product catalogue migration,Marigold Mart,retail,no,AMS-1576,2025-06-02,2028-01-31
+PRJ-043,Loan origination system,Amberleaf Bank,banking,no,AMS-1049,2025-06-30,2028-05-31
+PRJ-044,Inventory sync service,Peppercorn Stores,retail,no,AMS-1450,2025-07-21,2027-10-31
+PRJ-045,Regulatory reporting,Amberleaf Bank,banking,yes,AMS-1596,2025-08-04,2027-10-31
+PRJ-046,Click and collect,Peppercorn Stores,retail,no,AMS-1597,2025-08-11,2028-04-30
+PRJ-047,Product catalogue migration,Peppercorn Stores,retail,yes,AMS-1047,2025-08-11,2026-05-22
+PRJ-048,Health claims intake,Tidewell Insurance,insurance,no,AMS-1361,2025-08-11,2027-05-31
+PRJ-049,Document scanning,Tidewell Insurance,insurance,no,AMS-1220,2025-09-08,2027-08-31
+PRJ-050,Customer service chatbot,Amberleaf Bank,banking,yes,AMS-1373,2025-09-15,2027-04-30
+PRJ-051,Click and collect,Marigold Mart,retail,no,AMS-1373,2025-09-15,2027-08-31
+PRJ-052,Renewals automation,Tidewell Insurance,insurance,no,AMS-1450,2025-10-06,2026-05-29
+PRJ-053,Wealth management portal,Amberleaf Bank,banking,no,AMS-1607,2025-10-13,2026-06-12
+PRJ-054,ATM monitoring,Amberleaf Bank,banking,yes,AMS-1195,2025-11-17,2027-10-31
+PRJ-055,Inventory sync service,Marigold Mart,retail,no,AMS-1607,2025-11-17,2027-06-30
+PRJ-056,Loan origination system,Cobalt Bay Bank,banking,yes,AMS-1450,2025-12-15,2027-09-30
+PRJ-057,Returns portal,Marigold Mart,retail,yes,AMS-1047,2025-12-22,2027-06-30
+PRJ-058,Customer portal redesign,Tidewell Insurance,insurance,no,AMS-1791,2025-12-22,2028-04-30
+PRJ-059,Product search,Peppercorn Stores,retail,yes,AMS-1611,2026-01-12,2028-10-31
+PRJ-060,KYC onboarding portal,Cobalt Bay Bank,banking,no,AMS-1607,2026-02-02,2028-03-31
+PRJ-061,Design system,,,no,AMS-1223,2026-02-16,2028-04-30
+PRJ-062,Policy documents generator,Tidewell Insurance,insurance,no,AMS-1096,2026-03-23,2027-01-31
+PRJ-063,Actuarial data platform,Tidewell Insurance,insurance,no,AMS-1450,2026-04-27,2028-01-31
+PRJ-064,Net banking redesign,Amberleaf Bank,banking,no,AMS-1684,2026-05-04,2028-01-31

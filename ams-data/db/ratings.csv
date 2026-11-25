@@ -1,0 +1,2048 @@
+employee_id,review_year,rating
+AMS-1001,2025,Exceeds expectations
+AMS-1001,2026,Meets expectations
+AMS-1002,2025,Meets expectations
+AMS-1002,2026,Partially meets expectations
+AMS-1003,2025,Meets expectations
+AMS-1003,2026,Meets expectations
+AMS-1004,2025,Exceeds expectations
+AMS-1004,2026,Exceeds expectations
+AMS-1005,2025,Exceeds expectations
+AMS-1005,2026,Meets expectations
+AMS-1006,2025,Meets expectations
+AMS-1006,2026,Meets expectations
+AMS-1007,2025,Meets expectations
+AMS-1007,2026,Meets expectations
+AMS-1008,2025,Meets expectations
+AMS-1008,2026,Exceeds expectations
+AMS-1009,2025,Meets expectations
+AMS-1009,2026,Exceeds expectations
+AMS-1010,2025,Meets expectations
+AMS-1010,2026,Meets expectations
+AMS-1011,2025,Meets expectations
+AMS-1011,2026,Partially meets expectations
+AMS-1012,2025,Meets expectations
+AMS-1012,2026,Meets expectations
+AMS-1013,2025,Exceeds expectations
+AMS-1013,2026,Meets expectations
+AMS-1015,2025,Exceeds expectations
+AMS-1015,2026,Meets expectations
+AMS-1016,2025,Meets expectations
+AMS-1016,2026,Meets expectations
+AMS-1017,2026,Meets expectations
+AMS-1018,2025,Meets expectations
+AMS-1018,2026,Exceeds expectations
+AMS-1019,2025,Outstanding
+AMS-1019,2026,Outstanding
+AMS-1020,2025,Meets expectations
+AMS-1020,2026,Meets expectations
+AMS-1021,2025,Meets expectations
+AMS-1021,2026,Meets expectations
+AMS-1022,2025,Exceeds expectations
+AMS-1022,2026,Meets expectations
+AMS-1023,2025,Meets expectations
+AMS-1023,2026,Does not meet expectations
+AMS-1024,2025,Outstanding
+AMS-1024,2026,Meets expectations
+AMS-1026,2025,Meets expectations
+AMS-1026,2026,Partially meets expectations
+AMS-1027,2025,Exceeds expectations
+AMS-1027,2026,Meets expectations
+AMS-1028,2025,Exceeds expectations
+AMS-1028,2026,Meets expectations
+AMS-1029,2025,Exceeds expectations
+AMS-1029,2026,Meets expectations
+AMS-1030,2025,Meets expectations
+AMS-1030,2026,Meets expectations
+AMS-1031,2025,Outstanding
+AMS-1031,2026,Meets expectations
+AMS-1033,2025,Exceeds expectations
+AMS-1033,2026,Meets expectations
+AMS-1034,2025,Meets expectations
+AMS-1034,2026,Meets expectations
+AMS-1035,2025,Outstanding
+AMS-1035,2026,Exceeds expectations
+AMS-1036,2025,Exceeds expectations
+AMS-1036,2026,Meets expectations
+AMS-1037,2026,Meets expectations
+AMS-1038,2025,Exceeds expectations
+AMS-1038,2026,Meets expectations
+AMS-1039,2025,Meets expectations
+AMS-1039,2026,Outstanding
+AMS-1040,2025,Meets expectations
+AMS-1040,2026,Exceeds expectations
+AMS-1041,2025,Exceeds expectations
+AMS-1041,2026,Meets expectations
+AMS-1042,2025,Meets expectations
+AMS-1042,2026,Meets expectations
+AMS-1043,2025,Meets expectations
+AMS-1043,2026,Meets expectations
+AMS-1044,2025,Meets expectations
+AMS-1044,2026,Partially meets expectations
+AMS-1045,2025,Meets expectations
+AMS-1045,2026,Meets expectations
+AMS-1046,2025,Exceeds expectations
+AMS-1046,2026,Meets expectations
+AMS-1047,2025,Partially meets expectations
+AMS-1047,2026,Exceeds expectations
+AMS-1048,2025,Meets expectations
+AMS-1048,2026,Exceeds expectations
+AMS-1049,2025,Partially meets expectations
+AMS-1049,2026,Meets expectations
+AMS-1050,2025,Exceeds expectations
+AMS-1050,2026,Meets expectations
+AMS-1051,2025,Exceeds expectations
+AMS-1051,2026,Meets expectations
+AMS-1052,2025,Meets expectations
+AMS-1052,2026,Meets expectations
+AMS-1053,2025,Meets expectations
+AMS-1053,2026,Meets expectations
+AMS-1054,2025,Meets expectations
+AMS-1054,2026,Meets expectations
+AMS-1055,2025,Meets expectations
+AMS-1055,2026,Meets expectations
+AMS-1056,2025,Meets expectations
+AMS-1056,2026,Meets expectations
+AMS-1057,2025,Meets expectations
+AMS-1057,2026,Partially meets expectations
+AMS-1058,2025,Partially meets expectations
+AMS-1058,2026,Meets expectations
+AMS-1059,2025,Meets expectations
+AMS-1059,2026,Meets expectations
+AMS-1060,2025,Exceeds expectations
+AMS-1060,2026,Exceeds expectations
+AMS-1061,2025,Outstanding
+AMS-1061,2026,Meets expectations
+AMS-1062,2025,Meets expectations
+AMS-1062,2026,Meets expectations
+AMS-1063,2025,Meets expectations
+AMS-1063,2026,Meets expectations
+AMS-1064,2025,Exceeds expectations
+AMS-1064,2026,Meets expectations
+AMS-1065,2025,Meets expectations
+AMS-1065,2026,Partially meets expectations
+AMS-1066,2025,Partially meets expectations
+AMS-1066,2026,Meets expectations
+AMS-1067,2025,Exceeds expectations
+AMS-1067,2026,Exceeds expectations
+AMS-1068,2025,Outstanding
+AMS-1068,2026,Meets expectations
+AMS-1069,2025,Does not meet expectations
+AMS-1069,2026,Exceeds expectations
+AMS-1070,2025,Exceeds expectations
+AMS-1070,2026,Meets expectations
+AMS-1071,2025,Exceeds expectations
+AMS-1071,2026,Partially meets expectations
+AMS-1072,2025,Exceeds expectations
+AMS-1072,2026,Outstanding
+AMS-1073,2025,Partially meets expectations
+AMS-1073,2026,Meets expectations
+AMS-1074,2025,Meets expectations
+AMS-1074,2026,Does not meet expectations
+AMS-1075,2025,Partially meets expectations
+AMS-1075,2026,Does not meet expectations
+AMS-1076,2025,Meets expectations
+AMS-1076,2026,Partially meets expectations
+AMS-1077,2025,Meets expectations
+AMS-1077,2026,Meets expectations
+AMS-1078,2025,Exceeds expectations
+AMS-1078,2026,Meets expectations
+AMS-1079,2025,Meets expectations
+AMS-1079,2026,Meets expectations
+AMS-1080,2025,Meets expectations
+AMS-1080,2026,Partially meets expectations
+AMS-1081,2025,Meets expectations
+AMS-1081,2026,Partially meets expectations
+AMS-1082,2025,Meets expectations
+AMS-1082,2026,Does not meet expectations
+AMS-1083,2025,Meets expectations
+AMS-1083,2026,Meets expectations
+AMS-1084,2025,Exceeds expectations
+AMS-1084,2026,Meets expectations
+AMS-1085,2025,Meets expectations
+AMS-1085,2026,Meets expectations
+AMS-1086,2025,Meets expectations
+AMS-1086,2026,Exceeds expectations
+AMS-1087,2025,Does not meet expectations
+AMS-1087,2026,Meets expectations
+AMS-1088,2025,Meets expectations
+AMS-1088,2026,Meets expectations
+AMS-1089,2025,Meets expectations
+AMS-1089,2026,Meets expectations
+AMS-1090,2025,Meets expectations
+AMS-1090,2026,Does not meet expectations
+AMS-1091,2025,Exceeds expectations
+AMS-1091,2026,Meets expectations
+AMS-1092,2025,Meets expectations
+AMS-1092,2026,Meets expectations
+AMS-1093,2025,Exceeds expectations
+AMS-1093,2026,Meets expectations
+AMS-1094,2025,Exceeds expectations
+AMS-1094,2026,Meets expectations
+AMS-1095,2025,Meets expectations
+AMS-1095,2026,Exceeds expectations
+AMS-1096,2025,Exceeds expectations
+AMS-1096,2026,Does not meet expectations
+AMS-1097,2025,Meets expectations
+AMS-1097,2026,Meets expectations
+AMS-1098,2025,Meets expectations
+AMS-1098,2026,Meets expectations
+AMS-1099,2025,Exceeds expectations
+AMS-1099,2026,Meets expectations
+AMS-1100,2025,Meets expectations
+AMS-1100,2026,Does not meet expectations
+AMS-1101,2025,Meets expectations
+AMS-1101,2026,Outstanding
+AMS-1102,2025,Meets expectations
+AMS-1102,2026,Meets expectations
+AMS-1103,2025,Meets expectations
+AMS-1103,2026,Exceeds expectations
+AMS-1104,2025,Meets expectations
+AMS-1104,2026,Meets expectations
+AMS-1105,2025,Meets expectations
+AMS-1105,2026,Partially meets expectations
+AMS-1106,2025,Meets expectations
+AMS-1106,2026,Meets expectations
+AMS-1107,2025,Partially meets expectations
+AMS-1107,2026,Meets expectations
+AMS-1108,2025,Exceeds expectations
+AMS-1108,2026,Exceeds expectations
+AMS-1109,2025,Meets expectations
+AMS-1109,2026,Meets expectations
+AMS-1110,2025,Meets expectations
+AMS-1110,2026,Meets expectations
+AMS-1111,2025,Exceeds expectations
+AMS-1111,2026,Meets expectations
+AMS-1112,2025,Outstanding
+AMS-1112,2026,Meets expectations
+AMS-1113,2025,Partially meets expectations
+AMS-1113,2026,Meets expectations
+AMS-1114,2025,Exceeds expectations
+AMS-1114,2026,Exceeds expectations
+AMS-1115,2025,Exceeds expectations
+AMS-1115,2026,Outstanding
+AMS-1116,2025,Exceeds expectations
+AMS-1116,2026,Meets expectations
+AMS-1117,2025,Meets expectations
+AMS-1117,2026,Partially meets expectations
+AMS-1118,2025,Partially meets expectations
+AMS-1118,2026,Meets expectations
+AMS-1119,2025,Meets expectations
+AMS-1119,2026,Meets expectations
+AMS-1120,2025,Meets expectations
+AMS-1120,2026,Meets expectations
+AMS-1121,2025,Outstanding
+AMS-1121,2026,Meets expectations
+AMS-1122,2025,Meets expectations
+AMS-1122,2026,Meets expectations
+AMS-1123,2025,Exceeds expectations
+AMS-1123,2026,Exceeds expectations
+AMS-1124,2025,Meets expectations
+AMS-1124,2026,Exceeds expectations
+AMS-1125,2025,Exceeds expectations
+AMS-1125,2026,Meets expectations
+AMS-1126,2025,Meets expectations
+AMS-1126,2026,Meets expectations
+AMS-1127,2025,Partially meets expectations
+AMS-1127,2026,Outstanding
+AMS-1128,2025,Meets expectations
+AMS-1128,2026,Does not meet expectations
+AMS-1129,2025,Partially meets expectations
+AMS-1129,2026,Meets expectations
+AMS-1130,2025,Outstanding
+AMS-1130,2026,Exceeds expectations
+AMS-1131,2025,Meets expectations
+AMS-1131,2026,Meets expectations
+AMS-1132,2025,Exceeds expectations
+AMS-1132,2026,Meets expectations
+AMS-1133,2025,Exceeds expectations
+AMS-1133,2026,Exceeds expectations
+AMS-1134,2025,Meets expectations
+AMS-1134,2026,Meets expectations
+AMS-1135,2025,Partially meets expectations
+AMS-1135,2026,Meets expectations
+AMS-1136,2025,Exceeds expectations
+AMS-1136,2026,Exceeds expectations
+AMS-1137,2025,Meets expectations
+AMS-1137,2026,Meets expectations
+AMS-1138,2025,Meets expectations
+AMS-1138,2026,Exceeds expectations
+AMS-1139,2025,Meets expectations
+AMS-1139,2026,Exceeds expectations
+AMS-1140,2025,Outstanding
+AMS-1140,2026,Meets expectations
+AMS-1141,2025,Meets expectations
+AMS-1141,2026,Outstanding
+AMS-1142,2025,Exceeds expectations
+AMS-1142,2026,Meets expectations
+AMS-1143,2025,Meets expectations
+AMS-1143,2026,Partially meets expectations
+AMS-1144,2025,Meets expectations
+AMS-1144,2026,Outstanding
+AMS-1145,2025,Meets expectations
+AMS-1145,2026,Meets expectations
+AMS-1146,2025,Meets expectations
+AMS-1146,2026,Meets expectations
+AMS-1147,2025,Meets expectations
+AMS-1147,2026,Exceeds expectations
+AMS-1148,2025,Exceeds expectations
+AMS-1148,2026,Meets expectations
+AMS-1149,2025,Meets expectations
+AMS-1149,2026,Meets expectations
+AMS-1150,2025,Meets expectations
+AMS-1150,2026,Meets expectations
+AMS-1151,2025,Exceeds expectations
+AMS-1151,2026,Meets expectations
+AMS-1152,2025,Meets expectations
+AMS-1152,2026,Partially meets expectations
+AMS-1153,2025,Exceeds expectations
+AMS-1153,2026,Exceeds expectations
+AMS-1154,2025,Meets expectations
+AMS-1154,2026,Meets expectations
+AMS-1155,2025,Exceeds expectations
+AMS-1155,2026,Meets expectations
+AMS-1156,2025,Meets expectations
+AMS-1156,2026,Meets expectations
+AMS-1157,2025,Outstanding
+AMS-1157,2026,Meets expectations
+AMS-1158,2025,Exceeds expectations
+AMS-1158,2026,Outstanding
+AMS-1159,2025,Meets expectations
+AMS-1159,2026,Meets expectations
+AMS-1160,2025,Meets expectations
+AMS-1160,2026,Meets expectations
+AMS-1161,2025,Partially meets expectations
+AMS-1161,2026,Meets expectations
+AMS-1162,2025,Partially meets expectations
+AMS-1162,2026,Partially meets expectations
+AMS-1163,2025,Meets expectations
+AMS-1163,2026,Meets expectations
+AMS-1164,2025,Meets expectations
+AMS-1164,2026,Meets expectations
+AMS-1165,2025,Meets expectations
+AMS-1165,2026,Meets expectations
+AMS-1166,2025,Meets expectations
+AMS-1166,2026,Meets expectations
+AMS-1167,2025,Exceeds expectations
+AMS-1167,2026,Outstanding
+AMS-1168,2025,Meets expectations
+AMS-1168,2026,Exceeds expectations
+AMS-1169,2025,Meets expectations
+AMS-1169,2026,Meets expectations
+AMS-1170,2025,Exceeds expectations
+AMS-1170,2026,Meets expectations
+AMS-1171,2025,Meets expectations
+AMS-1171,2026,Outstanding
+AMS-1172,2025,Meets expectations
+AMS-1172,2026,Meets expectations
+AMS-1173,2025,Meets expectations
+AMS-1173,2026,Meets expectations
+AMS-1174,2025,Meets expectations
+AMS-1174,2026,Outstanding
+AMS-1175,2025,Exceeds expectations
+AMS-1175,2026,Meets expectations
+AMS-1176,2025,Meets expectations
+AMS-1176,2026,Meets expectations
+AMS-1177,2025,Meets expectations
+AMS-1177,2026,Exceeds expectations
+AMS-1178,2025,Meets expectations
+AMS-1178,2026,Exceeds expectations
+AMS-1179,2025,Partially meets expectations
+AMS-1179,2026,Outstanding
+AMS-1180,2025,Exceeds expectations
+AMS-1180,2026,Exceeds expectations
+AMS-1181,2025,Meets expectations
+AMS-1181,2026,Meets expectations
+AMS-1182,2025,Partially meets expectations
+AMS-1182,2026,Partially meets expectations
+AMS-1183,2025,Meets expectations
+AMS-1183,2026,Partially meets expectations
+AMS-1184,2025,Exceeds expectations
+AMS-1184,2026,Meets expectations
+AMS-1185,2025,Meets expectations
+AMS-1185,2026,Meets expectations
+AMS-1186,2025,Exceeds expectations
+AMS-1186,2026,Exceeds expectations
+AMS-1187,2025,Meets expectations
+AMS-1187,2026,Does not meet expectations
+AMS-1188,2025,Meets expectations
+AMS-1188,2026,Meets expectations
+AMS-1189,2025,Meets expectations
+AMS-1189,2026,Meets expectations
+AMS-1190,2025,Meets expectations
+AMS-1190,2026,Does not meet expectations
+AMS-1191,2025,Meets expectations
+AMS-1191,2026,Outstanding
+AMS-1192,2025,Meets expectations
+AMS-1192,2026,Meets expectations
+AMS-1193,2025,Exceeds expectations
+AMS-1193,2026,Exceeds expectations
+AMS-1194,2025,Partially meets expectations
+AMS-1194,2026,Partially meets expectations
+AMS-1195,2025,Outstanding
+AMS-1195,2026,Exceeds expectations
+AMS-1196,2025,Exceeds expectations
+AMS-1196,2026,Outstanding
+AMS-1197,2025,Meets expectations
+AMS-1197,2026,Partially meets expectations
+AMS-1198,2025,Meets expectations
+AMS-1198,2026,Meets expectations
+AMS-1199,2025,Meets expectations
+AMS-1199,2026,Does not meet expectations
+AMS-1200,2025,Exceeds expectations
+AMS-1200,2026,Partially meets expectations
+AMS-1201,2025,Partially meets expectations
+AMS-1201,2026,Meets expectations
+AMS-1202,2025,Meets expectations
+AMS-1202,2026,Partially meets expectations
+AMS-1203,2025,Meets expectations
+AMS-1203,2026,Meets expectations
+AMS-1204,2025,Exceeds expectations
+AMS-1204,2026,Exceeds expectations
+AMS-1205,2025,Partially meets expectations
+AMS-1205,2026,Meets expectations
+AMS-1206,2025,Meets expectations
+AMS-1206,2026,Meets expectations
+AMS-1207,2025,Meets expectations
+AMS-1207,2026,Meets expectations
+AMS-1208,2025,Meets expectations
+AMS-1208,2026,Exceeds expectations
+AMS-1209,2025,Meets expectations
+AMS-1209,2026,Partially meets expectations
+AMS-1210,2025,Partially meets expectations
+AMS-1210,2026,Outstanding
+AMS-1211,2025,Meets expectations
+AMS-1211,2026,Partially meets expectations
+AMS-1212,2025,Meets expectations
+AMS-1212,2026,Meets expectations
+AMS-1213,2025,Meets expectations
+AMS-1213,2026,Meets expectations
+AMS-1214,2025,Meets expectations
+AMS-1214,2026,Exceeds expectations
+AMS-1215,2025,Partially meets expectations
+AMS-1215,2026,Exceeds expectations
+AMS-1216,2025,Meets expectations
+AMS-1216,2026,Meets expectations
+AMS-1217,2025,Meets expectations
+AMS-1217,2026,Exceeds expectations
+AMS-1218,2025,Does not meet expectations
+AMS-1218,2026,Exceeds expectations
+AMS-1219,2025,Exceeds expectations
+AMS-1219,2026,Outstanding
+AMS-1220,2025,Meets expectations
+AMS-1220,2026,Meets expectations
+AMS-1221,2025,Exceeds expectations
+AMS-1221,2026,Outstanding
+AMS-1222,2025,Meets expectations
+AMS-1222,2026,Meets expectations
+AMS-1223,2025,Partially meets expectations
+AMS-1223,2026,Outstanding
+AMS-1224,2025,Meets expectations
+AMS-1224,2026,Outstanding
+AMS-1225,2025,Meets expectations
+AMS-1225,2026,Meets expectations
+AMS-1226,2025,Meets expectations
+AMS-1226,2026,Exceeds expectations
+AMS-1227,2025,Meets expectations
+AMS-1227,2026,Partially meets expectations
+AMS-1228,2025,Exceeds expectations
+AMS-1228,2026,Meets expectations
+AMS-1229,2025,Does not meet expectations
+AMS-1229,2026,Meets expectations
+AMS-1230,2025,Exceeds expectations
+AMS-1230,2026,Outstanding
+AMS-1231,2025,Meets expectations
+AMS-1231,2026,Meets expectations
+AMS-1232,2025,Does not meet expectations
+AMS-1232,2026,Meets expectations
+AMS-1233,2025,Exceeds expectations
+AMS-1233,2026,Meets expectations
+AMS-1234,2025,Meets expectations
+AMS-1234,2026,Meets expectations
+AMS-1235,2025,Does not meet expectations
+AMS-1235,2026,Meets expectations
+AMS-1236,2025,Meets expectations
+AMS-1236,2026,Outstanding
+AMS-1237,2025,Meets expectations
+AMS-1237,2026,Meets expectations
+AMS-1238,2025,Exceeds expectations
+AMS-1238,2026,Does not meet expectations
+AMS-1239,2025,Partially meets expectations
+AMS-1239,2026,Meets expectations
+AMS-1240,2025,Meets expectations
+AMS-1240,2026,Partially meets expectations
+AMS-1241,2025,Does not meet expectations
+AMS-1241,2026,Exceeds expectations
+AMS-1242,2025,Meets expectations
+AMS-1242,2026,Meets expectations
+AMS-1243,2025,Meets expectations
+AMS-1243,2026,Exceeds expectations
+AMS-1244,2025,Exceeds expectations
+AMS-1244,2026,Meets expectations
+AMS-1245,2025,Partially meets expectations
+AMS-1245,2026,Meets expectations
+AMS-1246,2025,Meets expectations
+AMS-1246,2026,Meets expectations
+AMS-1247,2025,Meets expectations
+AMS-1247,2026,Meets expectations
+AMS-1248,2025,Meets expectations
+AMS-1248,2026,Partially meets expectations
+AMS-1249,2025,Meets expectations
+AMS-1249,2026,Partially meets expectations
+AMS-1250,2025,Meets expectations
+AMS-1250,2026,Meets expectations
+AMS-1251,2025,Meets expectations
+AMS-1251,2026,Meets expectations
+AMS-1252,2025,Exceeds expectations
+AMS-1252,2026,Meets expectations
+AMS-1253,2025,Meets expectations
+AMS-1253,2026,Exceeds expectations
+AMS-1254,2025,Meets expectations
+AMS-1254,2026,Partially meets expectations
+AMS-1255,2025,Meets expectations
+AMS-1255,2026,Meets expectations
+AMS-1256,2025,Does not meet expectations
+AMS-1256,2026,Partially meets expectations
+AMS-1257,2025,Exceeds expectations
+AMS-1257,2026,Meets expectations
+AMS-1258,2025,Exceeds expectations
+AMS-1258,2026,Exceeds expectations
+AMS-1259,2025,Meets expectations
+AMS-1259,2026,Meets expectations
+AMS-1260,2025,Meets expectations
+AMS-1260,2026,Partially meets expectations
+AMS-1261,2025,Outstanding
+AMS-1261,2026,Meets expectations
+AMS-1262,2025,Partially meets expectations
+AMS-1262,2026,Meets expectations
+AMS-1263,2025,Exceeds expectations
+AMS-1263,2026,Meets expectations
+AMS-1264,2025,Does not meet expectations
+AMS-1264,2026,Meets expectations
+AMS-1265,2025,Meets expectations
+AMS-1265,2026,Meets expectations
+AMS-1266,2025,Meets expectations
+AMS-1266,2026,Exceeds expectations
+AMS-1267,2025,Meets expectations
+AMS-1267,2026,Meets expectations
+AMS-1268,2025,Meets expectations
+AMS-1268,2026,Meets expectations
+AMS-1269,2025,Meets expectations
+AMS-1269,2026,Meets expectations
+AMS-1270,2025,Meets expectations
+AMS-1270,2026,Exceeds expectations
+AMS-1271,2025,Partially meets expectations
+AMS-1271,2026,Meets expectations
+AMS-1272,2025,Outstanding
+AMS-1272,2026,Meets expectations
+AMS-1273,2025,Partially meets expectations
+AMS-1273,2026,Meets expectations
+AMS-1274,2025,Exceeds expectations
+AMS-1274,2026,Meets expectations
+AMS-1275,2025,Meets expectations
+AMS-1275,2026,Exceeds expectations
+AMS-1276,2025,Exceeds expectations
+AMS-1276,2026,Partially meets expectations
+AMS-1277,2025,Meets expectations
+AMS-1277,2026,Meets expectations
+AMS-1278,2025,Exceeds expectations
+AMS-1278,2026,Meets expectations
+AMS-1279,2025,Meets expectations
+AMS-1279,2026,Meets expectations
+AMS-1280,2025,Does not meet expectations
+AMS-1280,2026,Exceeds expectations
+AMS-1281,2025,Meets expectations
+AMS-1281,2026,Meets expectations
+AMS-1282,2025,Meets expectations
+AMS-1282,2026,Meets expectations
+AMS-1283,2025,Meets expectations
+AMS-1283,2026,Exceeds expectations
+AMS-1284,2025,Exceeds expectations
+AMS-1284,2026,Partially meets expectations
+AMS-1285,2025,Meets expectations
+AMS-1285,2026,Meets expectations
+AMS-1286,2025,Outstanding
+AMS-1286,2026,Exceeds expectations
+AMS-1287,2025,Meets expectations
+AMS-1287,2026,Outstanding
+AMS-1288,2025,Exceeds expectations
+AMS-1288,2026,Meets expectations
+AMS-1289,2025,Meets expectations
+AMS-1289,2026,Exceeds expectations
+AMS-1290,2025,Meets expectations
+AMS-1290,2026,Exceeds expectations
+AMS-1291,2025,Meets expectations
+AMS-1291,2026,Meets expectations
+AMS-1292,2025,Meets expectations
+AMS-1292,2026,Meets expectations
+AMS-1293,2025,Exceeds expectations
+AMS-1293,2026,Meets expectations
+AMS-1294,2025,Meets expectations
+AMS-1294,2026,Meets expectations
+AMS-1295,2025,Meets expectations
+AMS-1295,2026,Meets expectations
+AMS-1296,2025,Meets expectations
+AMS-1296,2026,Exceeds expectations
+AMS-1297,2025,Partially meets expectations
+AMS-1297,2026,Meets expectations
+AMS-1298,2025,Meets expectations
+AMS-1298,2026,Partially meets expectations
+AMS-1299,2025,Meets expectations
+AMS-1299,2026,Exceeds expectations
+AMS-1300,2025,Meets expectations
+AMS-1300,2026,Meets expectations
+AMS-1301,2025,Meets expectations
+AMS-1301,2026,Exceeds expectations
+AMS-1302,2025,Exceeds expectations
+AMS-1302,2026,Exceeds expectations
+AMS-1303,2025,Meets expectations
+AMS-1303,2026,Exceeds expectations
+AMS-1304,2025,Meets expectations
+AMS-1304,2026,Partially meets expectations
+AMS-1305,2025,Exceeds expectations
+AMS-1305,2026,Exceeds expectations
+AMS-1306,2025,Meets expectations
+AMS-1306,2026,Meets expectations
+AMS-1307,2025,Meets expectations
+AMS-1307,2026,Meets expectations
+AMS-1308,2025,Meets expectations
+AMS-1308,2026,Meets expectations
+AMS-1309,2025,Meets expectations
+AMS-1309,2026,Meets expectations
+AMS-1310,2025,Meets expectations
+AMS-1310,2026,Meets expectations
+AMS-1311,2025,Meets expectations
+AMS-1311,2026,Meets expectations
+AMS-1312,2025,Meets expectations
+AMS-1312,2026,Meets expectations
+AMS-1313,2025,Exceeds expectations
+AMS-1313,2026,Outstanding
+AMS-1314,2025,Exceeds expectations
+AMS-1314,2026,Meets expectations
+AMS-1315,2025,Meets expectations
+AMS-1315,2026,Partially meets expectations
+AMS-1316,2025,Exceeds expectations
+AMS-1316,2026,Meets expectations
+AMS-1317,2025,Exceeds expectations
+AMS-1317,2026,Meets expectations
+AMS-1318,2025,Exceeds expectations
+AMS-1318,2026,Exceeds expectations
+AMS-1319,2025,Outstanding
+AMS-1319,2026,Meets expectations
+AMS-1320,2025,Partially meets expectations
+AMS-1320,2026,Meets expectations
+AMS-1321,2025,Partially meets expectations
+AMS-1321,2026,Meets expectations
+AMS-1322,2025,Meets expectations
+AMS-1322,2026,Partially meets expectations
+AMS-1323,2025,Meets expectations
+AMS-1323,2026,Meets expectations
+AMS-1324,2025,Partially meets expectations
+AMS-1324,2026,Meets expectations
+AMS-1325,2025,Meets expectations
+AMS-1325,2026,Meets expectations
+AMS-1326,2025,Meets expectations
+AMS-1326,2026,Meets expectations
+AMS-1327,2025,Partially meets expectations
+AMS-1327,2026,Meets expectations
+AMS-1328,2025,Does not meet expectations
+AMS-1328,2026,Meets expectations
+AMS-1329,2025,Meets expectations
+AMS-1329,2026,Exceeds expectations
+AMS-1330,2025,Meets expectations
+AMS-1330,2026,Meets expectations
+AMS-1331,2025,Meets expectations
+AMS-1331,2026,Meets expectations
+AMS-1332,2025,Exceeds expectations
+AMS-1332,2026,Partially meets expectations
+AMS-1333,2025,Meets expectations
+AMS-1333,2026,Meets expectations
+AMS-1334,2025,Outstanding
+AMS-1334,2026,Meets expectations
+AMS-1335,2025,Meets expectations
+AMS-1335,2026,Meets expectations
+AMS-1336,2025,Outstanding
+AMS-1336,2026,Meets expectations
+AMS-1337,2025,Meets expectations
+AMS-1337,2026,Meets expectations
+AMS-1338,2025,Meets expectations
+AMS-1338,2026,Partially meets expectations
+AMS-1339,2025,Meets expectations
+AMS-1339,2026,Meets expectations
+AMS-1340,2025,Meets expectations
+AMS-1340,2026,Exceeds expectations
+AMS-1341,2025,Meets expectations
+AMS-1341,2026,Meets expectations
+AMS-1342,2025,Partially meets expectations
+AMS-1342,2026,Meets expectations
+AMS-1343,2025,Meets expectations
+AMS-1343,2026,Outstanding
+AMS-1344,2025,Exceeds expectations
+AMS-1344,2026,Meets expectations
+AMS-1345,2025,Meets expectations
+AMS-1345,2026,Meets expectations
+AMS-1346,2025,Meets expectations
+AMS-1346,2026,Outstanding
+AMS-1347,2025,Exceeds expectations
+AMS-1347,2026,Exceeds expectations
+AMS-1348,2025,Meets expectations
+AMS-1348,2026,Exceeds expectations
+AMS-1349,2025,Meets expectations
+AMS-1349,2026,Meets expectations
+AMS-1350,2025,Meets expectations
+AMS-1350,2026,Partially meets expectations
+AMS-1351,2025,Meets expectations
+AMS-1351,2026,Exceeds expectations
+AMS-1352,2025,Meets expectations
+AMS-1352,2026,Exceeds expectations
+AMS-1353,2025,Meets expectations
+AMS-1353,2026,Meets expectations
+AMS-1354,2025,Outstanding
+AMS-1354,2026,Meets expectations
+AMS-1355,2025,Meets expectations
+AMS-1355,2026,Meets expectations
+AMS-1356,2025,Meets expectations
+AMS-1356,2026,Meets expectations
+AMS-1357,2025,Meets expectations
+AMS-1357,2026,Outstanding
+AMS-1358,2025,Meets expectations
+AMS-1358,2026,Meets expectations
+AMS-1359,2025,Partially meets expectations
+AMS-1359,2026,Exceeds expectations
+AMS-1360,2025,Meets expectations
+AMS-1360,2026,Exceeds expectations
+AMS-1361,2025,Meets expectations
+AMS-1361,2026,Does not meet expectations
+AMS-1362,2025,Meets expectations
+AMS-1362,2026,Meets expectations
+AMS-1363,2025,Exceeds expectations
+AMS-1363,2026,Meets expectations
+AMS-1364,2025,Exceeds expectations
+AMS-1364,2026,Partially meets expectations
+AMS-1365,2025,Meets expectations
+AMS-1365,2026,Meets expectations
+AMS-1366,2025,Meets expectations
+AMS-1366,2026,Does not meet expectations
+AMS-1367,2025,Meets expectations
+AMS-1367,2026,Exceeds expectations
+AMS-1368,2025,Meets expectations
+AMS-1368,2026,Meets expectations
+AMS-1369,2025,Meets expectations
+AMS-1369,2026,Meets expectations
+AMS-1370,2025,Exceeds expectations
+AMS-1370,2026,Partially meets expectations
+AMS-1371,2025,Meets expectations
+AMS-1371,2026,Partially meets expectations
+AMS-1372,2025,Partially meets expectations
+AMS-1372,2026,Meets expectations
+AMS-1373,2025,Meets expectations
+AMS-1373,2026,Exceeds expectations
+AMS-1374,2025,Exceeds expectations
+AMS-1374,2026,Meets expectations
+AMS-1375,2025,Meets expectations
+AMS-1375,2026,Meets expectations
+AMS-1376,2025,Exceeds expectations
+AMS-1376,2026,Meets expectations
+AMS-1377,2025,Outstanding
+AMS-1377,2026,Meets expectations
+AMS-1378,2025,Exceeds expectations
+AMS-1378,2026,Partially meets expectations
+AMS-1379,2025,Does not meet expectations
+AMS-1379,2026,Does not meet expectations
+AMS-1380,2025,Exceeds expectations
+AMS-1380,2026,Outstanding
+AMS-1381,2025,Meets expectations
+AMS-1381,2026,Meets expectations
+AMS-1382,2025,Meets expectations
+AMS-1382,2026,Meets expectations
+AMS-1383,2025,Exceeds expectations
+AMS-1383,2026,Exceeds expectations
+AMS-1384,2025,Outstanding
+AMS-1384,2026,Meets expectations
+AMS-1385,2025,Meets expectations
+AMS-1385,2026,Outstanding
+AMS-1386,2025,Exceeds expectations
+AMS-1386,2026,Meets expectations
+AMS-1387,2025,Meets expectations
+AMS-1387,2026,Meets expectations
+AMS-1388,2025,Partially meets expectations
+AMS-1388,2026,Meets expectations
+AMS-1389,2025,Meets expectations
+AMS-1389,2026,Exceeds expectations
+AMS-1390,2025,Meets expectations
+AMS-1390,2026,Partially meets expectations
+AMS-1391,2025,Meets expectations
+AMS-1391,2026,Meets expectations
+AMS-1392,2025,Outstanding
+AMS-1392,2026,Partially meets expectations
+AMS-1393,2025,Meets expectations
+AMS-1393,2026,Exceeds expectations
+AMS-1394,2025,Outstanding
+AMS-1394,2026,Exceeds expectations
+AMS-1395,2025,Meets expectations
+AMS-1395,2026,Meets expectations
+AMS-1396,2025,Meets expectations
+AMS-1396,2026,Exceeds expectations
+AMS-1397,2025,Meets expectations
+AMS-1397,2026,Meets expectations
+AMS-1398,2025,Exceeds expectations
+AMS-1398,2026,Meets expectations
+AMS-1399,2025,Meets expectations
+AMS-1399,2026,Meets expectations
+AMS-1400,2025,Meets expectations
+AMS-1400,2026,Meets expectations
+AMS-1401,2025,Meets expectations
+AMS-1401,2026,Partially meets expectations
+AMS-1402,2025,Meets expectations
+AMS-1402,2026,Meets expectations
+AMS-1403,2025,Meets expectations
+AMS-1403,2026,Exceeds expectations
+AMS-1404,2025,Meets expectations
+AMS-1404,2026,Exceeds expectations
+AMS-1405,2025,Meets expectations
+AMS-1405,2026,Meets expectations
+AMS-1406,2025,Meets expectations
+AMS-1406,2026,Meets expectations
+AMS-1407,2025,Exceeds expectations
+AMS-1407,2026,Meets expectations
+AMS-1408,2025,Exceeds expectations
+AMS-1408,2026,Meets expectations
+AMS-1409,2025,Meets expectations
+AMS-1409,2026,Meets expectations
+AMS-1410,2025,Meets expectations
+AMS-1410,2026,Meets expectations
+AMS-1411,2025,Meets expectations
+AMS-1411,2026,Meets expectations
+AMS-1412,2025,Exceeds expectations
+AMS-1412,2026,Meets expectations
+AMS-1413,2025,Meets expectations
+AMS-1413,2026,Outstanding
+AMS-1414,2025,Outstanding
+AMS-1414,2026,Exceeds expectations
+AMS-1415,2025,Meets expectations
+AMS-1415,2026,Exceeds expectations
+AMS-1416,2025,Meets expectations
+AMS-1416,2026,Meets expectations
+AMS-1417,2025,Meets expectations
+AMS-1417,2026,Meets expectations
+AMS-1418,2025,Meets expectations
+AMS-1418,2026,Meets expectations
+AMS-1419,2025,Meets expectations
+AMS-1419,2026,Partially meets expectations
+AMS-1420,2025,Meets expectations
+AMS-1420,2026,Exceeds expectations
+AMS-1421,2025,Meets expectations
+AMS-1421,2026,Partially meets expectations
+AMS-1422,2025,Exceeds expectations
+AMS-1422,2026,Meets expectations
+AMS-1423,2025,Meets expectations
+AMS-1423,2026,Meets expectations
+AMS-1424,2025,Meets expectations
+AMS-1424,2026,Exceeds expectations
+AMS-1425,2025,Exceeds expectations
+AMS-1425,2026,Exceeds expectations
+AMS-1426,2025,Exceeds expectations
+AMS-1426,2026,Meets expectations
+AMS-1427,2025,Meets expectations
+AMS-1427,2026,Meets expectations
+AMS-1428,2025,Meets expectations
+AMS-1428,2026,Meets expectations
+AMS-1429,2025,Meets expectations
+AMS-1429,2026,Partially meets expectations
+AMS-1430,2025,Exceeds expectations
+AMS-1430,2026,Does not meet expectations
+AMS-1431,2025,Outstanding
+AMS-1431,2026,Exceeds expectations
+AMS-1432,2025,Meets expectations
+AMS-1432,2026,Meets expectations
+AMS-1433,2025,Meets expectations
+AMS-1433,2026,Exceeds expectations
+AMS-1434,2025,Outstanding
+AMS-1434,2026,Exceeds expectations
+AMS-1435,2025,Exceeds expectations
+AMS-1435,2026,Exceeds expectations
+AMS-1436,2025,Partially meets expectations
+AMS-1436,2026,Meets expectations
+AMS-1437,2025,Exceeds expectations
+AMS-1437,2026,Meets expectations
+AMS-1438,2025,Meets expectations
+AMS-1438,2026,Meets expectations
+AMS-1439,2025,Exceeds expectations
+AMS-1439,2026,Meets expectations
+AMS-1440,2025,Meets expectations
+AMS-1440,2026,Exceeds expectations
+AMS-1441,2025,Exceeds expectations
+AMS-1441,2026,Exceeds expectations
+AMS-1442,2025,Exceeds expectations
+AMS-1442,2026,Meets expectations
+AMS-1443,2025,Meets expectations
+AMS-1443,2026,Meets expectations
+AMS-1444,2025,Does not meet expectations
+AMS-1444,2026,Meets expectations
+AMS-1445,2025,Meets expectations
+AMS-1445,2026,Meets expectations
+AMS-1446,2025,Meets expectations
+AMS-1446,2026,Exceeds expectations
+AMS-1447,2025,Meets expectations
+AMS-1447,2026,Meets expectations
+AMS-1448,2025,Meets expectations
+AMS-1448,2026,Partially meets expectations
+AMS-1449,2025,Meets expectations
+AMS-1449,2026,Outstanding
+AMS-1450,2025,Meets expectations
+AMS-1450,2026,Meets expectations
+AMS-1451,2025,Meets expectations
+AMS-1451,2026,Meets expectations
+AMS-1452,2025,Partially meets expectations
+AMS-1452,2026,Exceeds expectations
+AMS-1453,2025,Meets expectations
+AMS-1453,2026,Outstanding
+AMS-1454,2025,Meets expectations
+AMS-1454,2026,Exceeds expectations
+AMS-1455,2025,Meets expectations
+AMS-1455,2026,Meets expectations
+AMS-1456,2025,Meets expectations
+AMS-1456,2026,Partially meets expectations
+AMS-1457,2025,Exceeds expectations
+AMS-1457,2026,Meets expectations
+AMS-1458,2025,Meets expectations
+AMS-1458,2026,Exceeds expectations
+AMS-1459,2025,Partially meets expectations
+AMS-1459,2026,Meets expectations
+AMS-1460,2025,Partially meets expectations
+AMS-1460,2026,Meets expectations
+AMS-1461,2025,Meets expectations
+AMS-1461,2026,Exceeds expectations
+AMS-1462,2025,Outstanding
+AMS-1462,2026,Meets expectations
+AMS-1463,2025,Meets expectations
+AMS-1463,2026,Outstanding
+AMS-1464,2025,Meets expectations
+AMS-1464,2026,Exceeds expectations
+AMS-1465,2025,Outstanding
+AMS-1465,2026,Partially meets expectations
+AMS-1466,2025,Partially meets expectations
+AMS-1466,2026,Partially meets expectations
+AMS-1467,2025,Meets expectations
+AMS-1467,2026,Meets expectations
+AMS-1468,2025,Partially meets expectations
+AMS-1468,2026,Meets expectations
+AMS-1469,2025,Meets expectations
+AMS-1469,2026,Meets expectations
+AMS-1470,2025,Partially meets expectations
+AMS-1470,2026,Does not meet expectations
+AMS-1471,2025,Exceeds expectations
+AMS-1471,2026,Meets expectations
+AMS-1472,2025,Meets expectations
+AMS-1472,2026,Meets expectations
+AMS-1473,2025,Partially meets expectations
+AMS-1473,2026,Exceeds expectations
+AMS-1474,2025,Meets expectations
+AMS-1474,2026,Exceeds expectations
+AMS-1475,2025,Exceeds expectations
+AMS-1475,2026,Meets expectations
+AMS-1476,2025,Meets expectations
+AMS-1476,2026,Meets expectations
+AMS-1477,2025,Meets expectations
+AMS-1477,2026,Partially meets expectations
+AMS-1478,2025,Outstanding
+AMS-1478,2026,Meets expectations
+AMS-1479,2025,Meets expectations
+AMS-1479,2026,Meets expectations
+AMS-1480,2025,Exceeds expectations
+AMS-1480,2026,Meets expectations
+AMS-1481,2025,Meets expectations
+AMS-1481,2026,Partially meets expectations
+AMS-1482,2025,Meets expectations
+AMS-1482,2026,Meets expectations
+AMS-1483,2025,Exceeds expectations
+AMS-1483,2026,Partially meets expectations
+AMS-1484,2025,Meets expectations
+AMS-1484,2026,Meets expectations
+AMS-1485,2025,Exceeds expectations
+AMS-1485,2026,Meets expectations
+AMS-1486,2025,Meets expectations
+AMS-1486,2026,Exceeds expectations
+AMS-1487,2025,Exceeds expectations
+AMS-1487,2026,Exceeds expectations
+AMS-1488,2025,Exceeds expectations
+AMS-1488,2026,Exceeds expectations
+AMS-1489,2025,Outstanding
+AMS-1489,2026,Exceeds expectations
+AMS-1490,2025,Exceeds expectations
+AMS-1490,2026,Meets expectations
+AMS-1491,2025,Meets expectations
+AMS-1491,2026,Meets expectations
+AMS-1492,2025,Meets expectations
+AMS-1492,2026,Partially meets expectations
+AMS-1493,2025,Meets expectations
+AMS-1493,2026,Meets expectations
+AMS-1494,2025,Outstanding
+AMS-1494,2026,Meets expectations
+AMS-1495,2025,Exceeds expectations
+AMS-1495,2026,Meets expectations
+AMS-1496,2025,Exceeds expectations
+AMS-1496,2026,Meets expectations
+AMS-1497,2025,Meets expectations
+AMS-1497,2026,Meets expectations
+AMS-1498,2025,Meets expectations
+AMS-1498,2026,Meets expectations
+AMS-1499,2025,Exceeds expectations
+AMS-1499,2026,Outstanding
+AMS-1500,2025,Meets expectations
+AMS-1500,2026,Exceeds expectations
+AMS-1501,2025,Meets expectations
+AMS-1501,2026,Outstanding
+AMS-1502,2025,Meets expectations
+AMS-1502,2026,Meets expectations
+AMS-1503,2025,Meets expectations
+AMS-1503,2026,Does not meet expectations
+AMS-1504,2025,Meets expectations
+AMS-1504,2026,Partially meets expectations
+AMS-1505,2025,Meets expectations
+AMS-1505,2026,Meets expectations
+AMS-1506,2025,Meets expectations
+AMS-1506,2026,Meets expectations
+AMS-1507,2025,Meets expectations
+AMS-1507,2026,Exceeds expectations
+AMS-1508,2025,Meets expectations
+AMS-1508,2026,Partially meets expectations
+AMS-1509,2025,Meets expectations
+AMS-1509,2026,Meets expectations
+AMS-1510,2025,Meets expectations
+AMS-1510,2026,Exceeds expectations
+AMS-1511,2025,Partially meets expectations
+AMS-1511,2026,Meets expectations
+AMS-1512,2025,Meets expectations
+AMS-1512,2026,Meets expectations
+AMS-1513,2025,Meets expectations
+AMS-1513,2026,Meets expectations
+AMS-1514,2025,Meets expectations
+AMS-1514,2026,Meets expectations
+AMS-1515,2025,Meets expectations
+AMS-1515,2026,Meets expectations
+AMS-1516,2025,Meets expectations
+AMS-1516,2026,Meets expectations
+AMS-1517,2025,Meets expectations
+AMS-1517,2026,Meets expectations
+AMS-1518,2025,Meets expectations
+AMS-1518,2026,Exceeds expectations
+AMS-1519,2025,Meets expectations
+AMS-1519,2026,Meets expectations
+AMS-1520,2025,Meets expectations
+AMS-1520,2026,Meets expectations
+AMS-1521,2025,Does not meet expectations
+AMS-1521,2026,Meets expectations
+AMS-1522,2025,Outstanding
+AMS-1522,2026,Does not meet expectations
+AMS-1523,2025,Meets expectations
+AMS-1523,2026,Exceeds expectations
+AMS-1524,2025,Meets expectations
+AMS-1524,2026,Partially meets expectations
+AMS-1525,2025,Meets expectations
+AMS-1525,2026,Outstanding
+AMS-1526,2025,Meets expectations
+AMS-1526,2026,Meets expectations
+AMS-1527,2025,Meets expectations
+AMS-1527,2026,Meets expectations
+AMS-1528,2025,Partially meets expectations
+AMS-1528,2026,Exceeds expectations
+AMS-1529,2025,Partially meets expectations
+AMS-1529,2026,Meets expectations
+AMS-1530,2025,Meets expectations
+AMS-1530,2026,Meets expectations
+AMS-1531,2025,Meets expectations
+AMS-1531,2026,Meets expectations
+AMS-1532,2025,Meets expectations
+AMS-1532,2026,Partially meets expectations
+AMS-1533,2025,Meets expectations
+AMS-1533,2026,Meets expectations
+AMS-1534,2025,Meets expectations
+AMS-1534,2026,Meets expectations
+AMS-1535,2025,Meets expectations
+AMS-1535,2026,Meets expectations
+AMS-1536,2025,Outstanding
+AMS-1536,2026,Partially meets expectations
+AMS-1537,2025,Exceeds expectations
+AMS-1537,2026,Meets expectations
+AMS-1538,2025,Does not meet expectations
+AMS-1538,2026,Partially meets expectations
+AMS-1539,2025,Exceeds expectations
+AMS-1539,2026,Meets expectations
+AMS-1540,2025,Meets expectations
+AMS-1540,2026,Partially meets expectations
+AMS-1541,2025,Partially meets expectations
+AMS-1541,2026,Meets expectations
+AMS-1542,2025,Meets expectations
+AMS-1542,2026,Partially meets expectations
+AMS-1543,2025,Exceeds expectations
+AMS-1543,2026,Meets expectations
+AMS-1544,2025,Meets expectations
+AMS-1544,2026,Exceeds expectations
+AMS-1545,2025,Meets expectations
+AMS-1545,2026,Meets expectations
+AMS-1546,2025,Meets expectations
+AMS-1546,2026,Meets expectations
+AMS-1547,2025,Exceeds expectations
+AMS-1547,2026,Does not meet expectations
+AMS-1548,2025,Meets expectations
+AMS-1548,2026,Meets expectations
+AMS-1549,2025,Exceeds expectations
+AMS-1549,2026,Outstanding
+AMS-1550,2025,Meets expectations
+AMS-1550,2026,Exceeds expectations
+AMS-1551,2025,Outstanding
+AMS-1551,2026,Meets expectations
+AMS-1552,2025,Meets expectations
+AMS-1552,2026,Meets expectations
+AMS-1553,2025,Meets expectations
+AMS-1553,2026,Exceeds expectations
+AMS-1554,2025,Meets expectations
+AMS-1554,2026,Meets expectations
+AMS-1555,2025,Meets expectations
+AMS-1555,2026,Partially meets expectations
+AMS-1556,2025,Partially meets expectations
+AMS-1556,2026,Meets expectations
+AMS-1557,2025,Meets expectations
+AMS-1557,2026,Partially meets expectations
+AMS-1558,2025,Exceeds expectations
+AMS-1558,2026,Exceeds expectations
+AMS-1559,2025,Outstanding
+AMS-1559,2026,Partially meets expectations
+AMS-1560,2025,Meets expectations
+AMS-1560,2026,Meets expectations
+AMS-1561,2025,Partially meets expectations
+AMS-1561,2026,Meets expectations
+AMS-1562,2025,Meets expectations
+AMS-1562,2026,Meets expectations
+AMS-1563,2025,Exceeds expectations
+AMS-1563,2026,Outstanding
+AMS-1564,2025,Partially meets expectations
+AMS-1564,2026,Meets expectations
+AMS-1565,2025,Meets expectations
+AMS-1565,2026,Meets expectations
+AMS-1566,2025,Meets expectations
+AMS-1566,2026,Meets expectations
+AMS-1567,2025,Outstanding
+AMS-1567,2026,Exceeds expectations
+AMS-1568,2025,Meets expectations
+AMS-1568,2026,Meets expectations
+AMS-1569,2025,Meets expectations
+AMS-1569,2026,Meets expectations
+AMS-1570,2025,Meets expectations
+AMS-1570,2026,Meets expectations
+AMS-1571,2025,Meets expectations
+AMS-1571,2026,Partially meets expectations
+AMS-1572,2025,Does not meet expectations
+AMS-1572,2026,Meets expectations
+AMS-1573,2025,Meets expectations
+AMS-1573,2026,Meets expectations
+AMS-1574,2025,Exceeds expectations
+AMS-1574,2026,Meets expectations
+AMS-1575,2025,Meets expectations
+AMS-1575,2026,Exceeds expectations
+AMS-1576,2025,Outstanding
+AMS-1576,2026,Meets expectations
+AMS-1577,2025,Meets expectations
+AMS-1577,2026,Meets expectations
+AMS-1578,2025,Exceeds expectations
+AMS-1578,2026,Meets expectations
+AMS-1579,2025,Meets expectations
+AMS-1579,2026,Meets expectations
+AMS-1580,2025,Meets expectations
+AMS-1580,2026,Meets expectations
+AMS-1581,2025,Meets expectations
+AMS-1581,2026,Exceeds expectations
+AMS-1582,2025,Partially meets expectations
+AMS-1582,2026,Meets expectations
+AMS-1583,2025,Exceeds expectations
+AMS-1583,2026,Meets expectations
+AMS-1584,2025,Meets expectations
+AMS-1584,2026,Exceeds expectations
+AMS-1585,2025,Meets expectations
+AMS-1585,2026,Meets expectations
+AMS-1586,2025,Meets expectations
+AMS-1586,2026,Meets expectations
+AMS-1587,2025,Outstanding
+AMS-1587,2026,Exceeds expectations
+AMS-1588,2025,Meets expectations
+AMS-1588,2026,Meets expectations
+AMS-1589,2025,Exceeds expectations
+AMS-1589,2026,Meets expectations
+AMS-1590,2025,Meets expectations
+AMS-1590,2026,Meets expectations
+AMS-1591,2025,Meets expectations
+AMS-1591,2026,Exceeds expectations
+AMS-1592,2025,Meets expectations
+AMS-1592,2026,Exceeds expectations
+AMS-1593,2025,Exceeds expectations
+AMS-1593,2026,Meets expectations
+AMS-1594,2025,Meets expectations
+AMS-1594,2026,Partially meets expectations
+AMS-1595,2025,Meets expectations
+AMS-1595,2026,Meets expectations
+AMS-1596,2025,Outstanding
+AMS-1596,2026,Meets expectations
+AMS-1597,2025,Exceeds expectations
+AMS-1597,2026,Meets expectations
+AMS-1598,2025,Meets expectations
+AMS-1598,2026,Partially meets expectations
+AMS-1599,2025,Outstanding
+AMS-1599,2026,Meets expectations
+AMS-1600,2025,Meets expectations
+AMS-1600,2026,Meets expectations
+AMS-1601,2025,Meets expectations
+AMS-1601,2026,Exceeds expectations
+AMS-1602,2025,Meets expectations
+AMS-1602,2026,Meets expectations
+AMS-1603,2025,Meets expectations
+AMS-1603,2026,Meets expectations
+AMS-1604,2025,Outstanding
+AMS-1604,2026,Partially meets expectations
+AMS-1605,2025,Partially meets expectations
+AMS-1605,2026,Exceeds expectations
+AMS-1606,2025,Exceeds expectations
+AMS-1606,2026,Meets expectations
+AMS-1607,2025,Meets expectations
+AMS-1607,2026,Meets expectations
+AMS-1608,2025,Does not meet expectations
+AMS-1608,2026,Exceeds expectations
+AMS-1609,2025,Exceeds expectations
+AMS-1609,2026,Meets expectations
+AMS-1610,2025,Meets expectations
+AMS-1610,2026,Meets expectations
+AMS-1611,2025,Partially meets expectations
+AMS-1611,2026,Partially meets expectations
+AMS-1612,2025,Meets expectations
+AMS-1612,2026,Exceeds expectations
+AMS-1613,2025,Partially meets expectations
+AMS-1613,2026,Does not meet expectations
+AMS-1614,2025,Meets expectations
+AMS-1614,2026,Meets expectations
+AMS-1615,2025,Meets expectations
+AMS-1615,2026,Partially meets expectations
+AMS-1616,2025,Meets expectations
+AMS-1616,2026,Meets expectations
+AMS-1617,2025,Meets expectations
+AMS-1617,2026,Exceeds expectations
+AMS-1618,2025,Outstanding
+AMS-1618,2026,Meets expectations
+AMS-1619,2025,Exceeds expectations
+AMS-1619,2026,Meets expectations
+AMS-1620,2025,Meets expectations
+AMS-1620,2026,Outstanding
+AMS-1621,2025,Meets expectations
+AMS-1621,2026,Partially meets expectations
+AMS-1622,2025,Meets expectations
+AMS-1622,2026,Exceeds expectations
+AMS-1623,2025,Meets expectations
+AMS-1623,2026,Meets expectations
+AMS-1624,2025,Meets expectations
+AMS-1624,2026,Meets expectations
+AMS-1625,2025,Meets expectations
+AMS-1625,2026,Exceeds expectations
+AMS-1626,2025,Meets expectations
+AMS-1626,2026,Partially meets expectations
+AMS-1627,2025,Meets expectations
+AMS-1627,2026,Meets expectations
+AMS-1628,2025,Meets expectations
+AMS-1628,2026,Meets expectations
+AMS-1629,2025,Exceeds expectations
+AMS-1629,2026,Exceeds expectations
+AMS-1630,2025,Exceeds expectations
+AMS-1630,2026,Meets expectations
+AMS-1631,2025,Exceeds expectations
+AMS-1631,2026,Meets expectations
+AMS-1632,2025,Meets expectations
+AMS-1632,2026,Meets expectations
+AMS-1633,2025,Exceeds expectations
+AMS-1633,2026,Meets expectations
+AMS-1634,2025,Meets expectations
+AMS-1634,2026,Meets expectations
+AMS-1635,2025,Outstanding
+AMS-1635,2026,Meets expectations
+AMS-1636,2025,Meets expectations
+AMS-1636,2026,Partially meets expectations
+AMS-1637,2025,Partially meets expectations
+AMS-1637,2026,Meets expectations
+AMS-1638,2025,Does not meet expectations
+AMS-1638,2026,Meets expectations
+AMS-1639,2025,Meets expectations
+AMS-1639,2026,Meets expectations
+AMS-1640,2025,Meets expectations
+AMS-1640,2026,Meets expectations
+AMS-1641,2025,Meets expectations
+AMS-1641,2026,Meets expectations
+AMS-1642,2025,Meets expectations
+AMS-1642,2026,Outstanding
+AMS-1643,2025,Meets expectations
+AMS-1643,2026,Outstanding
+AMS-1644,2025,Meets expectations
+AMS-1644,2026,Does not meet expectations
+AMS-1645,2025,Exceeds expectations
+AMS-1645,2026,Exceeds expectations
+AMS-1646,2025,Meets expectations
+AMS-1646,2026,Exceeds expectations
+AMS-1647,2025,Meets expectations
+AMS-1647,2026,Meets expectations
+AMS-1648,2025,Meets expectations
+AMS-1648,2026,Exceeds expectations
+AMS-1649,2025,Meets expectations
+AMS-1649,2026,Meets expectations
+AMS-1650,2025,Meets expectations
+AMS-1650,2026,Outstanding
+AMS-1651,2025,Exceeds expectations
+AMS-1651,2026,Meets expectations
+AMS-1652,2025,Meets expectations
+AMS-1652,2026,Meets expectations
+AMS-1653,2025,Meets expectations
+AMS-1653,2026,Meets expectations
+AMS-1654,2025,Meets expectations
+AMS-1654,2026,Meets expectations
+AMS-1655,2025,Meets expectations
+AMS-1655,2026,Meets expectations
+AMS-1656,2025,Exceeds expectations
+AMS-1656,2026,Meets expectations
+AMS-1657,2025,Meets expectations
+AMS-1657,2026,Meets expectations
+AMS-1658,2025,Meets expectations
+AMS-1658,2026,Exceeds expectations
+AMS-1659,2025,Exceeds expectations
+AMS-1659,2026,Meets expectations
+AMS-1660,2025,Partially meets expectations
+AMS-1660,2026,Meets expectations
+AMS-1661,2025,Exceeds expectations
+AMS-1661,2026,Exceeds expectations
+AMS-1662,2025,Meets expectations
+AMS-1662,2026,Meets expectations
+AMS-1663,2025,Meets expectations
+AMS-1663,2026,Meets expectations
+AMS-1664,2025,Exceeds expectations
+AMS-1664,2026,Meets expectations
+AMS-1665,2025,Meets expectations
+AMS-1665,2026,Exceeds expectations
+AMS-1666,2025,Outstanding
+AMS-1666,2026,Exceeds expectations
+AMS-1667,2025,Meets expectations
+AMS-1667,2026,Partially meets expectations
+AMS-1668,2025,Exceeds expectations
+AMS-1668,2026,Meets expectations
+AMS-1669,2025,Partially meets expectations
+AMS-1669,2026,Meets expectations
+AMS-1670,2025,Meets expectations
+AMS-1670,2026,Exceeds expectations
+AMS-1671,2025,Partially meets expectations
+AMS-1671,2026,Meets expectations
+AMS-1672,2025,Exceeds expectations
+AMS-1672,2026,Meets expectations
+AMS-1673,2025,Meets expectations
+AMS-1673,2026,Exceeds expectations
+AMS-1674,2025,Partially meets expectations
+AMS-1674,2026,Partially meets expectations
+AMS-1675,2025,Meets expectations
+AMS-1675,2026,Outstanding
+AMS-1676,2025,Exceeds expectations
+AMS-1676,2026,Outstanding
+AMS-1677,2025,Meets expectations
+AMS-1677,2026,Exceeds expectations
+AMS-1678,2025,Meets expectations
+AMS-1678,2026,Meets expectations
+AMS-1679,2025,Partially meets expectations
+AMS-1679,2026,Meets expectations
+AMS-1680,2025,Meets expectations
+AMS-1680,2026,Exceeds expectations
+AMS-1681,2025,Partially meets expectations
+AMS-1681,2026,Meets expectations
+AMS-1682,2025,Meets expectations
+AMS-1682,2026,Exceeds expectations
+AMS-1683,2025,Outstanding
+AMS-1683,2026,Meets expectations
+AMS-1684,2025,Exceeds expectations
+AMS-1684,2026,Partially meets expectations
+AMS-1685,2025,Outstanding
+AMS-1685,2026,Meets expectations
+AMS-1686,2025,Outstanding
+AMS-1686,2026,Partially meets expectations
+AMS-1687,2025,Meets expectations
+AMS-1687,2026,Meets expectations
+AMS-1688,2025,Meets expectations
+AMS-1688,2026,Exceeds expectations
+AMS-1689,2025,Exceeds expectations
+AMS-1689,2026,Partially meets expectations
+AMS-1690,2025,Meets expectations
+AMS-1690,2026,Exceeds expectations
+AMS-1691,2025,Meets expectations
+AMS-1691,2026,Partially meets expectations
+AMS-1692,2025,Meets expectations
+AMS-1692,2026,Exceeds expectations
+AMS-1693,2025,Meets expectations
+AMS-1693,2026,Meets expectations
+AMS-1694,2025,Meets expectations
+AMS-1694,2026,Meets expectations
+AMS-1695,2025,Exceeds expectations
+AMS-1695,2026,Meets expectations
+AMS-1696,2025,Meets expectations
+AMS-1696,2026,Does not meet expectations
+AMS-1697,2025,Meets expectations
+AMS-1697,2026,Meets expectations
+AMS-1698,2025,Meets expectations
+AMS-1698,2026,Meets expectations
+AMS-1699,2025,Meets expectations
+AMS-1699,2026,Meets expectations
+AMS-1700,2025,Meets expectations
+AMS-1700,2026,Partially meets expectations
+AMS-1701,2025,Meets expectations
+AMS-1701,2026,Meets expectations
+AMS-1702,2025,Meets expectations
+AMS-1702,2026,Meets expectations
+AMS-1703,2025,Meets expectations
+AMS-1703,2026,Exceeds expectations
+AMS-1704,2025,Meets expectations
+AMS-1704,2026,Exceeds expectations
+AMS-1705,2025,Meets expectations
+AMS-1705,2026,Meets expectations
+AMS-1706,2025,Meets expectations
+AMS-1706,2026,Outstanding
+AMS-1707,2025,Exceeds expectations
+AMS-1707,2026,Meets expectations
+AMS-1708,2025,Meets expectations
+AMS-1708,2026,Meets expectations
+AMS-1709,2025,Meets expectations
+AMS-1709,2026,Meets expectations
+AMS-1710,2025,Meets expectations
+AMS-1710,2026,Meets expectations
+AMS-1711,2025,Meets expectations
+AMS-1711,2026,Exceeds expectations
+AMS-1712,2025,Exceeds expectations
+AMS-1712,2026,Meets expectations
+AMS-1713,2025,Exceeds expectations
+AMS-1713,2026,Meets expectations
+AMS-1714,2025,Exceeds expectations
+AMS-1714,2026,Outstanding
+AMS-1715,2025,Meets expectations
+AMS-1715,2026,Meets expectations
+AMS-1716,2025,Meets expectations
+AMS-1716,2026,Meets expectations
+AMS-1717,2025,Meets expectations
+AMS-1717,2026,Meets expectations
+AMS-1718,2025,Exceeds expectations
+AMS-1718,2026,Meets expectations
+AMS-1719,2025,Meets expectations
+AMS-1719,2026,Meets expectations
+AMS-1720,2025,Partially meets expectations
+AMS-1720,2026,Outstanding
+AMS-1721,2025,Outstanding
+AMS-1721,2026,Meets expectations
+AMS-1722,2025,Exceeds expectations
+AMS-1722,2026,Meets expectations
+AMS-1723,2025,Meets expectations
+AMS-1723,2026,Exceeds expectations
+AMS-1724,2025,Meets expectations
+AMS-1724,2026,Meets expectations
+AMS-1725,2025,Meets expectations
+AMS-1725,2026,Exceeds expectations
+AMS-1726,2025,Meets expectations
+AMS-1726,2026,Partially meets expectations
+AMS-1727,2025,Meets expectations
+AMS-1727,2026,Meets expectations
+AMS-1728,2025,Partially meets expectations
+AMS-1728,2026,Exceeds expectations
+AMS-1729,2025,Exceeds expectations
+AMS-1729,2026,Exceeds expectations
+AMS-1730,2025,Exceeds expectations
+AMS-1730,2026,Exceeds expectations
+AMS-1731,2025,Exceeds expectations
+AMS-1731,2026,Outstanding
+AMS-1732,2025,Does not meet expectations
+AMS-1732,2026,Exceeds expectations
+AMS-1733,2025,Meets expectations
+AMS-1733,2026,Meets expectations
+AMS-1734,2025,Exceeds expectations
+AMS-1734,2026,Exceeds expectations
+AMS-1735,2025,Partially meets expectations
+AMS-1735,2026,Exceeds expectations
+AMS-1736,2025,Does not meet expectations
+AMS-1736,2026,Meets expectations
+AMS-1737,2025,Meets expectations
+AMS-1737,2026,Partially meets expectations
+AMS-1738,2025,Meets expectations
+AMS-1738,2026,Meets expectations
+AMS-1739,2025,Partially meets expectations
+AMS-1739,2026,Partially meets expectations
+AMS-1740,2025,Does not meet expectations
+AMS-1740,2026,Exceeds expectations
+AMS-1741,2025,Exceeds expectations
+AMS-1741,2026,Exceeds expectations
+AMS-1742,2025,Meets expectations
+AMS-1742,2026,Meets expectations
+AMS-1743,2025,Does not meet expectations
+AMS-1743,2026,Partially meets expectations
+AMS-1744,2025,Meets expectations
+AMS-1744,2026,Meets expectations
+AMS-1745,2025,Partially meets expectations
+AMS-1745,2026,Meets expectations
+AMS-1746,2025,Meets expectations
+AMS-1746,2026,Meets expectations
+AMS-1747,2025,Meets expectations
+AMS-1747,2026,Meets expectations
+AMS-1748,2025,Partially meets expectations
+AMS-1748,2026,Exceeds expectations
+AMS-1749,2025,Partially meets expectations
+AMS-1749,2026,Meets expectations
+AMS-1750,2025,Partially meets expectations
+AMS-1750,2026,Meets expectations
+AMS-1751,2025,Meets expectations
+AMS-1751,2026,Meets expectations
+AMS-1752,2025,Does not meet expectations
+AMS-1752,2026,Exceeds expectations
+AMS-1753,2025,Meets expectations
+AMS-1753,2026,Meets expectations
+AMS-1754,2025,Meets expectations
+AMS-1754,2026,Meets expectations
+AMS-1755,2025,Meets expectations
+AMS-1755,2026,Meets expectations
+AMS-1756,2025,Exceeds expectations
+AMS-1756,2026,Meets expectations
+AMS-1757,2025,Meets expectations
+AMS-1757,2026,Meets expectations
+AMS-1758,2025,Exceeds expectations
+AMS-1758,2026,Outstanding
+AMS-1759,2025,Exceeds expectations
+AMS-1759,2026,Exceeds expectations
+AMS-1760,2025,Exceeds expectations
+AMS-1760,2026,Meets expectations
+AMS-1761,2025,Meets expectations
+AMS-1761,2026,Exceeds expectations
+AMS-1762,2025,Partially meets expectations
+AMS-1762,2026,Meets expectations
+AMS-1763,2025,Exceeds expectations
+AMS-1763,2026,Meets expectations
+AMS-1764,2025,Meets expectations
+AMS-1764,2026,Meets expectations
+AMS-1765,2025,Partially meets expectations
+AMS-1765,2026,Exceeds expectations
+AMS-1766,2025,Meets expectations
+AMS-1766,2026,Meets expectations
+AMS-1767,2025,Meets expectations
+AMS-1767,2026,Exceeds expectations
+AMS-1768,2025,Meets expectations
+AMS-1768,2026,Meets expectations
+AMS-1769,2025,Meets expectations
+AMS-1769,2026,Meets expectations
+AMS-1770,2025,Partially meets expectations
+AMS-1770,2026,Meets expectations
+AMS-1771,2025,Meets expectations
+AMS-1771,2026,Exceeds expectations
+AMS-1772,2025,Meets expectations
+AMS-1772,2026,Meets expectations
+AMS-1773,2025,Exceeds expectations
+AMS-1773,2026,Outstanding
+AMS-1774,2025,Meets expectations
+AMS-1774,2026,Exceeds expectations
+AMS-1775,2025,Exceeds expectations
+AMS-1775,2026,Meets expectations
+AMS-1776,2025,Does not meet expectations
+AMS-1776,2026,Exceeds expectations
+AMS-1777,2025,Meets expectations
+AMS-1777,2026,Meets expectations
+AMS-1778,2025,Does not meet expectations
+AMS-1778,2026,Partially meets expectations
+AMS-1779,2025,Meets expectations
+AMS-1779,2026,Meets expectations
+AMS-1780,2025,Meets expectations
+AMS-1780,2026,Exceeds expectations
+AMS-1781,2025,Exceeds expectations
+AMS-1781,2026,Meets expectations
+AMS-1782,2025,Exceeds expectations
+AMS-1782,2026,Exceeds expectations
+AMS-1783,2025,Partially meets expectations
+AMS-1783,2026,Partially meets expectations
+AMS-1784,2025,Exceeds expectations
+AMS-1784,2026,Partially meets expectations
+AMS-1785,2025,Meets expectations
+AMS-1785,2026,Meets expectations
+AMS-1786,2025,Exceeds expectations
+AMS-1786,2026,Meets expectations
+AMS-1787,2025,Meets expectations
+AMS-1787,2026,Meets expectations
+AMS-1788,2025,Partially meets expectations
+AMS-1788,2026,Meets expectations
+AMS-1789,2025,Meets expectations
+AMS-1789,2026,Meets expectations
+AMS-1790,2025,Meets expectations
+AMS-1790,2026,Meets expectations
+AMS-1791,2025,Exceeds expectations
+AMS-1791,2026,Meets expectations
+AMS-1792,2025,Meets expectations
+AMS-1792,2026,Partially meets expectations
+AMS-1793,2025,Meets expectations
+AMS-1793,2026,Meets expectations
+AMS-1794,2025,Exceeds expectations
+AMS-1794,2026,Meets expectations
+AMS-1795,2025,Exceeds expectations
+AMS-1795,2026,Meets expectations
+AMS-1796,2025,Meets expectations
+AMS-1796,2026,Exceeds expectations
+AMS-1797,2025,Outstanding
+AMS-1797,2026,Meets expectations
+AMS-1798,2025,Meets expectations
+AMS-1798,2026,Meets expectations
+AMS-1799,2025,Does not meet expectations
+AMS-1799,2026,Meets expectations
+AMS-1800,2025,Meets expectations
+AMS-1800,2026,Exceeds expectations
+AMS-1801,2025,Partially meets expectations
+AMS-1801,2026,Does not meet expectations
+AMS-1802,2025,Partially meets expectations
+AMS-1802,2026,Meets expectations
+AMS-1803,2025,Meets expectations
+AMS-1803,2026,Partially meets expectations
+AMS-1804,2025,Meets expectations
+AMS-1804,2026,Exceeds expectations
+AMS-1805,2025,Exceeds expectations
+AMS-1805,2026,Meets expectations
+AMS-1806,2025,Outstanding
+AMS-1806,2026,Exceeds expectations
+AMS-1807,2025,Meets expectations
+AMS-1807,2026,Meets expectations
+AMS-1808,2025,Partially meets expectations
+AMS-1808,2026,Partially meets expectations
+AMS-1809,2025,Exceeds expectations
+AMS-1809,2026,Meets expectations
+AMS-1810,2025,Outstanding
+AMS-1810,2026,Meets expectations
+AMS-1811,2025,Meets expectations
+AMS-1811,2026,Meets expectations
+AMS-1812,2025,Meets expectations
+AMS-1812,2026,Meets expectations
+AMS-1813,2025,Exceeds expectations
+AMS-1813,2026,Meets expectations
+AMS-1814,2025,Meets expectations
+AMS-1814,2026,Exceeds expectations
+AMS-1815,2025,Meets expectations
+AMS-1815,2026,Meets expectations
+AMS-1816,2025,Meets expectations
+AMS-1816,2026,Exceeds expectations
+AMS-1817,2025,Partially meets expectations
+AMS-1817,2026,Meets expectations
+AMS-1818,2025,Meets expectations
+AMS-1818,2026,Outstanding
+AMS-1819,2025,Exceeds expectations
+AMS-1819,2026,Partially meets expectations
+AMS-1820,2025,Meets expectations
+AMS-1820,2026,Exceeds expectations
+AMS-1821,2025,Meets expectations
+AMS-1821,2026,Meets expectations
+AMS-1822,2025,Meets expectations
+AMS-1822,2026,Exceeds expectations
+AMS-1823,2025,Exceeds expectations
+AMS-1823,2026,Meets expectations
+AMS-1824,2025,Meets expectations
+AMS-1824,2026,Exceeds expectations
+AMS-1825,2025,Exceeds expectations
+AMS-1825,2026,Meets expectations
+AMS-1826,2025,Exceeds expectations
+AMS-1826,2026,Meets expectations
+AMS-1827,2025,Meets expectations
+AMS-1827,2026,Meets expectations
+AMS-1828,2025,Partially meets expectations
+AMS-1828,2026,Outstanding
+AMS-1829,2025,Meets expectations
+AMS-1829,2026,Meets expectations
+AMS-1830,2025,Meets expectations
+AMS-1830,2026,Meets expectations
+AMS-1831,2025,Exceeds expectations
+AMS-1831,2026,Meets expectations
+AMS-1832,2025,Partially meets expectations
+AMS-1832,2026,Meets expectations
+AMS-1833,2025,Partially meets expectations
+AMS-1833,2026,Exceeds expectations
+AMS-1834,2025,Exceeds expectations
+AMS-1834,2026,Meets expectations
+AMS-1835,2025,Exceeds expectations
+AMS-1835,2026,Meets expectations
+AMS-1836,2025,Meets expectations
+AMS-1836,2026,Meets expectations
+AMS-1837,2025,Does not meet expectations
+AMS-1837,2026,Meets expectations
+AMS-1838,2025,Meets expectations
+AMS-1838,2026,Partially meets expectations
+AMS-1839,2025,Partially meets expectations
+AMS-1839,2026,Does not meet expectations
+AMS-1840,2025,Exceeds expectations
+AMS-1840,2026,Partially meets expectations
+AMS-1841,2025,Partially meets expectations
+AMS-1841,2026,Exceeds expectations
+AMS-1842,2025,Exceeds expectations
+AMS-1842,2026,Meets expectations
+AMS-1843,2025,Partially meets expectations
+AMS-1843,2026,Exceeds expectations
+AMS-1844,2025,Exceeds expectations
+AMS-1844,2026,Meets expectations
+AMS-1845,2025,Exceeds expectations
+AMS-1845,2026,Partially meets expectations
+AMS-1846,2025,Meets expectations
+AMS-1846,2026,Exceeds expectations
+AMS-1847,2025,Meets expectations
+AMS-1847,2026,Does not meet expectations
+AMS-1848,2025,Meets expectations
+AMS-1848,2026,Outstanding
+AMS-1849,2025,Meets expectations
+AMS-1849,2026,Exceeds expectations
+AMS-1850,2025,Meets expectations
+AMS-1850,2026,Exceeds expectations
+AMS-1851,2025,Exceeds expectations
+AMS-1851,2026,Exceeds expectations
+AMS-1852,2025,Exceeds expectations
+AMS-1852,2026,Partially meets expectations
+AMS-1853,2025,Meets expectations
+AMS-1853,2026,Does not meet expectations
+AMS-1854,2025,Meets expectations
+AMS-1854,2026,Meets expectations
+AMS-1855,2025,Meets expectations
+AMS-1855,2026,Exceeds expectations
+AMS-1856,2025,Meets expectations
+AMS-1856,2026,Exceeds expectations
+AMS-1857,2025,Meets expectations
+AMS-1857,2026,Exceeds expectations
+AMS-1858,2025,Meets expectations
+AMS-1858,2026,Outstanding
+AMS-1859,2025,Meets expectations
+AMS-1859,2026,Does not meet expectations
+AMS-1860,2025,Meets expectations
+AMS-1860,2026,Partially meets expectations
+AMS-1861,2025,Meets expectations
+AMS-1861,2026,Meets expectations
+AMS-1862,2025,Partially meets expectations
+AMS-1862,2026,Meets expectations
+AMS-1863,2025,Meets expectations
+AMS-1863,2026,Meets expectations
+AMS-1864,2025,Exceeds expectations
+AMS-1864,2026,Partially meets expectations
+AMS-1865,2025,Exceeds expectations
+AMS-1865,2026,Meets expectations
+AMS-1866,2025,Meets expectations
+AMS-1866,2026,Meets expectations
+AMS-1867,2025,Partially meets expectations
+AMS-1867,2026,Meets expectations
+AMS-1868,2025,Meets expectations
+AMS-1868,2026,Partially meets expectations
+AMS-1869,2025,Meets expectations
+AMS-1869,2026,Meets expectations
+AMS-1870,2025,Partially meets expectations
+AMS-1870,2026,Partially meets expectations
+AMS-1871,2025,Meets expectations
+AMS-1871,2026,Exceeds expectations
+AMS-1872,2025,Does not meet expectations
+AMS-1872,2026,Meets expectations
+AMS-1873,2025,Partially meets expectations
+AMS-1873,2026,Exceeds expectations
+AMS-1874,2025,Exceeds expectations
+AMS-1874,2026,Meets expectations
+AMS-1875,2025,Exceeds expectations
+AMS-1875,2026,Meets expectations
+AMS-1876,2025,Meets expectations
+AMS-1876,2026,Meets expectations
+AMS-1877,2025,Outstanding
+AMS-1877,2026,Exceeds expectations
+AMS-1878,2025,Meets expectations
+AMS-1878,2026,Partially meets expectations
+AMS-1879,2025,Partially meets expectations
+AMS-1879,2026,Meets expectations
+AMS-1880,2025,Meets expectations
+AMS-1880,2026,Meets expectations
+AMS-1881,2025,Exceeds expectations
+AMS-1881,2026,Meets expectations
+AMS-1882,2025,Meets expectations
+AMS-1882,2026,Exceeds expectations
+AMS-1883,2025,Exceeds expectations
+AMS-1883,2026,Meets expectations
+AMS-1884,2025,Exceeds expectations
+AMS-1884,2026,Meets expectations
+AMS-1885,2025,Outstanding
+AMS-1885,2026,Meets expectations
+AMS-1886,2025,Exceeds expectations
+AMS-1886,2026,Exceeds expectations
+AMS-1887,2025,Partially meets expectations
+AMS-1887,2026,Meets expectations
+AMS-1888,2025,Meets expectations
+AMS-1888,2026,Exceeds expectations
+AMS-1889,2025,Meets expectations
+AMS-1889,2026,Meets expectations
+AMS-1890,2025,Exceeds expectations
+AMS-1890,2026,Meets expectations
+AMS-1891,2025,Meets expectations
+AMS-1891,2026,Partially meets expectations
+AMS-1892,2025,Meets expectations
+AMS-1892,2026,Meets expectations
+AMS-1893,2025,Meets expectations
+AMS-1893,2026,Partially meets expectations
+AMS-1894,2025,Meets expectations
+AMS-1894,2026,Meets expectations
+AMS-1895,2025,Meets expectations
+AMS-1895,2026,Meets expectations
+AMS-1896,2025,Exceeds expectations
+AMS-1896,2026,Exceeds expectations
+AMS-1897,2025,Outstanding
+AMS-1897,2026,Exceeds expectations
+AMS-1898,2025,Meets expectations
+AMS-1898,2026,Partially meets expectations
+AMS-1899,2025,Exceeds expectations
+AMS-1899,2026,Meets expectations
+AMS-1900,2025,Exceeds expectations
+AMS-1900,2026,Meets expectations
+AMS-1901,2025,Meets expectations
+AMS-1901,2026,Does not meet expectations
+AMS-1902,2025,Meets expectations
+AMS-1902,2026,Meets expectations
+AMS-1903,2025,Exceeds expectations
+AMS-1903,2026,Exceeds expectations
+AMS-1904,2025,Partially meets expectations
+AMS-1904,2026,Exceeds expectations
+AMS-1905,2025,Does not meet expectations
+AMS-1905,2026,Outstanding
+AMS-1906,2025,Meets expectations
+AMS-1906,2026,Meets expectations
+AMS-1907,2025,Meets expectations
+AMS-1907,2026,Partially meets expectations
+AMS-1908,2025,Exceeds expectations
+AMS-1908,2026,Exceeds expectations
+AMS-1909,2025,Meets expectations
+AMS-1909,2026,Exceeds expectations
+AMS-1910,2025,Meets expectations
+AMS-1910,2026,Meets expectations
+AMS-1911,2025,Partially meets expectations
+AMS-1911,2026,Meets expectations
+AMS-1912,2025,Exceeds expectations
+AMS-1912,2026,Meets expectations
+AMS-1913,2025,Meets expectations
+AMS-1913,2026,Exceeds expectations
+AMS-1914,2025,Meets expectations
+AMS-1914,2026,Exceeds expectations
+AMS-1915,2025,Meets expectations
+AMS-1915,2026,Meets expectations
+AMS-1916,2025,Outstanding
+AMS-1916,2026,Meets expectations
+AMS-1917,2025,Meets expectations
+AMS-1917,2026,Exceeds expectations
+AMS-1918,2025,Meets expectations
+AMS-1918,2026,Meets expectations
+AMS-1919,2025,Meets expectations
+AMS-1919,2026,Meets expectations
+AMS-1920,2025,Exceeds expectations
+AMS-1920,2026,Meets expectations
+AMS-1921,2025,Exceeds expectations
+AMS-1921,2026,Meets expectations
+AMS-1922,2025,Exceeds expectations
+AMS-1922,2026,Exceeds expectations
+AMS-1923,2025,Exceeds expectations
+AMS-1923,2026,Meets expectations
+AMS-1924,2025,Meets expectations
+AMS-1924,2026,Exceeds expectations
+AMS-1925,2025,Meets expectations
+AMS-1925,2026,Exceeds expectations
+AMS-1926,2025,Meets expectations
+AMS-1926,2026,Exceeds expectations
+AMS-1927,2025,Meets expectations
+AMS-1927,2026,Meets expectations
+AMS-1928,2025,Exceeds expectations
+AMS-1928,2026,Meets expectations
+AMS-1929,2025,Exceeds expectations
+AMS-1929,2026,Exceeds expectations
+AMS-1930,2025,Meets expectations
+AMS-1930,2026,Outstanding
+AMS-1931,2025,Meets expectations
+AMS-1931,2026,Exceeds expectations
+AMS-1932,2025,Meets expectations
+AMS-1932,2026,Meets expectations
+AMS-1933,2025,Meets expectations
+AMS-1933,2026,Meets expectations
+AMS-1934,2025,Meets expectations
+AMS-1934,2026,Meets expectations
+AMS-1935,2025,Partially meets expectations
+AMS-1935,2026,Exceeds expectations
+AMS-1936,2025,Meets expectations
+AMS-1936,2026,Does not meet expectations
+AMS-1937,2025,Meets expectations
+AMS-1937,2026,Meets expectations
+AMS-1938,2025,Exceeds expectations
+AMS-1938,2026,Meets expectations
+AMS-1939,2025,Exceeds expectations
+AMS-1939,2026,Does not meet expectations
+AMS-1940,2025,Exceeds expectations
+AMS-1940,2026,Meets expectations
+AMS-1941,2025,Partially meets expectations
+AMS-1941,2026,Partially meets expectations
+AMS-1942,2025,Exceeds expectations
+AMS-1942,2026,Meets expectations
+AMS-1943,2025,Exceeds expectations
+AMS-1943,2026,Meets expectations
+AMS-1944,2025,Meets expectations
+AMS-1944,2026,Exceeds expectations
+AMS-1945,2025,Exceeds expectations
+AMS-1945,2026,Meets expectations
+AMS-1946,2025,Exceeds expectations
+AMS-1946,2026,Meets expectations
+AMS-1947,2025,Meets expectations
+AMS-1947,2026,Partially meets expectations
+AMS-1948,2025,Meets expectations
+AMS-1948,2026,Meets expectations
+AMS-1949,2025,Meets expectations
+AMS-1949,2026,Meets expectations
+AMS-1950,2025,Meets expectations
+AMS-1950,2026,Partially meets expectations
+AMS-1951,2025,Exceeds expectations
+AMS-1951,2026,Partially meets expectations
+AMS-1952,2025,Exceeds expectations
+AMS-1952,2026,Meets expectations
+AMS-1953,2025,Exceeds expectations
+AMS-1953,2026,Exceeds expectations
+AMS-1954,2025,Meets expectations
+AMS-1954,2026,Partially meets expectations
+AMS-1955,2025,Meets expectations
+AMS-1955,2026,Exceeds expectations
+AMS-1956,2025,Exceeds expectations
+AMS-1956,2026,Outstanding
+AMS-1957,2025,Meets expectations
+AMS-1957,2026,Meets expectations
+AMS-1958,2025,Meets expectations
+AMS-1958,2026,Meets expectations
+AMS-1959,2026,Meets expectations
+AMS-1960,2026,Outstanding
+AMS-1961,2026,Meets expectations
+AMS-1962,2026,Meets expectations
+AMS-1963,2026,Meets expectations
+AMS-1964,2026,Exceeds expectations
+AMS-1965,2026,Meets expectations
+AMS-1966,2026,Meets expectations
+AMS-1967,2026,Meets expectations
+AMS-1968,2026,Meets expectations
+AMS-1969,2026,Meets expectations
+AMS-1970,2026,Meets expectations
+AMS-1971,2026,Meets expectations
+AMS-1972,2026,Outstanding
+AMS-1973,2026,Meets expectations
+AMS-1974,2026,Meets expectations
+AMS-1975,2026,Meets expectations
+AMS-1976,2026,Meets expectations
+AMS-1977,2026,Meets expectations
+AMS-1978,2026,Partially meets expectations
+AMS-1979,2026,Meets expectations
+AMS-1980,2026,Exceeds expectations
+AMS-1981,2026,Meets expectations
+AMS-1982,2026,Meets expectations
+AMS-1983,2026,Meets expectations
+AMS-1984,2026,Meets expectations
+AMS-1985,2026,Meets expectations
+AMS-1986,2026,Outstanding
+AMS-1987,2026,Meets expectations
+AMS-1988,2026,Exceeds expectations
+AMS-1989,2026,Meets expectations
+AMS-1990,2026,Does not meet expectations
+AMS-1991,2026,Partially meets expectations
+AMS-1992,2026,Exceeds expectations
+AMS-1993,2026,Meets expectations
+AMS-1994,2026,Partially meets expectations
+AMS-1995,2026,Meets expectations
+AMS-1996,2026,Meets expectations
+AMS-1997,2026,Meets expectations
+AMS-1998,2026,Meets expectations
+AMS-1999,2026,Meets expectations
+AMS-2000,2026,Outstanding
+AMS-2001,2026,Exceeds expectations
+AMS-2002,2026,Meets expectations
+AMS-2003,2026,Meets expectations
+AMS-2004,2026,Exceeds expectations
+AMS-2005,2026,Exceeds expectations
+AMS-2006,2026,Meets expectations
+AMS-2007,2026,Outstanding
+AMS-2008,2026,Exceeds expectations
+AMS-2009,2026,Meets expectations
+AMS-2010,2026,Meets expectations
+AMS-2011,2026,Meets expectations
+AMS-2012,2026,Outstanding
+AMS-2013,2026,Exceeds expectations
+AMS-2014,2026,Outstanding
+AMS-2015,2026,Meets expectations
+AMS-2016,2026,Meets expectations
+AMS-2017,2026,Meets expectations
+AMS-2018,2026,Meets expectations
+AMS-2019,2026,Meets expectations
+AMS-2020,2026,Meets expectations
+AMS-2021,2026,Meets expectations
+AMS-2022,2026,Partially meets expectations
+AMS-2023,2026,Meets expectations
+AMS-2024,2026,Outstanding
+AMS-2025,2026,Outstanding
+AMS-2026,2026,Partially meets expectations
+AMS-2027,2026,Meets expectations
+AMS-2028,2026,Meets expectations
+AMS-2029,2026,Exceeds expectations
+AMS-2030,2026,Exceeds expectations
+AMS-2031,2026,Partially meets expectations
+AMS-2032,2026,Meets expectations
+AMS-2033,2026,Meets expectations
+AMS-2034,2026,Exceeds expectations
+AMS-2035,2026,Exceeds expectations
+AMS-2036,2026,Meets expectations
+AMS-2037,2026,Meets expectations
+AMS-2038,2026,Meets expectations
+AMS-2039,2026,Meets expectations
+AMS-2040,2026,Meets expectations
+AMS-2041,2026,Partially meets expectations
+AMS-2042,2026,Meets expectations
+AMS-2043,2026,Meets expectations
+AMS-2044,2026,Meets expectations
+AMS-2045,2026,Meets expectations
+AMS-2046,2026,Meets expectations
+AMS-2047,2026,Exceeds expectations
+AMS-2048,2026,Partially meets expectations
+AMS-2049,2026,Meets expectations
+AMS-2050,2026,Meets expectations
+AMS-2051,2026,Meets expectations
+AMS-2052,2026,Exceeds expectations
+AMS-2053,2026,Meets expectations
+AMS-2054,2026,Exceeds expectations
+AMS-2055,2026,Outstanding
+AMS-2056,2026,Meets expectations
+AMS-2057,2026,Meets expectations
+AMS-2058,2026,Meets expectations
+AMS-2059,2026,Meets expectations
+AMS-2060,2026,Does not meet expectations
+AMS-2061,2026,Exceeds expectations
+AMS-2062,2026,Partially meets expectations
+AMS-2063,2026,Meets expectations
+AMS-2064,2026,Exceeds expectations
+AMS-2065,2026,Meets expectations
+AMS-2066,2026,Meets expectations
+AMS-2067,2026,Meets expectations
+AMS-2068,2026,Exceeds expectations
+AMS-2069,2026,Meets expectations
+AMS-2070,2026,Meets expectations
+AMS-2071,2026,Does not meet expectations
+AMS-2072,2026,Meets expectations
+AMS-2073,2026,Exceeds expectations
+AMS-2074,2026,Meets expectations
+AMS-2075,2026,Meets expectations
+AMS-2076,2026,Meets expectations
+AMS-2077,2026,Meets expectations
+AMS-2078,2026,Exceeds expectations
+AMS-2079,2026,Meets expectations
+AMS-2080,2026,Meets expectations
+AMS-2081,2026,Exceeds expectations
+AMS-2082,2026,Meets expectations
+AMS-2083,2026,Meets expectations
+AMS-2084,2026,Partially meets expectations
+AMS-2085,2026,Meets expectations
+AMS-2086,2026,Meets expectations
+AMS-2087,2026,Meets expectations
+AMS-2088,2026,Exceeds expectations
+AMS-2089,2026,Partially meets expectations
+AMS-2090,2026,Partially meets expectations
+AMS-2091,2026,Exceeds expectations
+AMS-2092,2026,Exceeds expectations
+AMS-2093,2026,Meets expectations
+AMS-2094,2026,Meets expectations
+AMS-2095,2026,Meets expectations
+AMS-2096,2026,Meets expectations
+AMS-2097,2026,Exceeds expectations

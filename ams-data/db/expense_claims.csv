@@ -59,3 +59,1542 @@ EXP-0057,AMS-1004,TRIP-022,taxi,Taxi,Mysuru,,920.0,INR,2026-05-08,2026-05-25,yes
 EXP-0058,AMS-1037,TRIP-023,hotel,"Hotel, 3 nights",Nagpur,3,6150.0,INR,2026-07-29,2026-08-05,yes,no,paid,AMS-1036
 EXP-0059,AMS-1037,TRIP-023,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-07-29,2026-08-05,no,no,paid,AMS-1036
 EXP-0060,AMS-1037,TRIP-023,taxi,Taxi,Nagpur,,740.0,INR,2026-07-26,2026-08-05,yes,no,paid,AMS-1036
+EXP-0061,AMS-1314,TRIP-024,hotel,"Hotel, 1 night",Hyderabad,1,3100.0,INR,2026-08-12,2026-08-30,yes,no,paid,AMS-1090
+EXP-0062,AMS-1314,TRIP-024,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-08-12,2026-08-30,no,no,paid,AMS-1090
+EXP-0063,AMS-1314,TRIP-024,taxi,Taxi,Hyderabad,,1410.0,INR,2026-08-11,2026-08-30,yes,no,paid,AMS-1090
+EXP-0064,AMS-1673,TRIP-025,hotel,"Hotel, 3 nights",Chennai,3,12600.0,INR,2026-03-28,2026-04-14,yes,no,paid,AMS-1179
+EXP-0065,AMS-1673,TRIP-025,daily_allowance,"Daily allowance, 4 days",Chennai,,7200.0,INR,2026-03-28,2026-04-14,no,no,paid,AMS-1179
+EXP-0066,AMS-1673,TRIP-025,taxi,Taxi,Chennai,,1170.0,INR,2026-03-25,2026-04-14,yes,no,paid,AMS-1179
+EXP-0067,AMS-1564,TRIP-026,hotel,"Hotel, 2 nights",Chennai,2,5700.0,INR,2026-07-05,2026-07-25,yes,no,paid,AMS-1061
+EXP-0068,AMS-1564,TRIP-026,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-07-05,2026-07-25,no,no,paid,AMS-1061
+EXP-0069,AMS-1564,TRIP-026,taxi,Taxi,Chennai,,480.0,INR,2026-07-03,2026-07-25,no,no,paid,AMS-1061
+EXP-0070,AMS-1592,TRIP-027,hotel,"Hotel, 1 night",Hyderabad,1,6400.0,INR,2026-03-07,2026-03-19,yes,no,paid,AMS-1096
+EXP-0071,AMS-1592,TRIP-027,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-03-07,2026-03-19,no,no,paid,AMS-1096
+EXP-0072,AMS-1592,TRIP-027,taxi,Taxi,Hyderabad,,870.0,INR,2026-03-06,2026-03-19,yes,no,paid,AMS-1096
+EXP-0073,AMS-1990,TRIP-028,hotel,"Hotel, 1 night",Nagpur,1,4150.0,INR,2026-09-19,2026-10-04,yes,no,paid,AMS-1817
+EXP-0074,AMS-1990,TRIP-028,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-09-19,2026-10-04,no,no,paid,AMS-1817
+EXP-0075,AMS-1990,TRIP-028,taxi,Taxi,Nagpur,,1320.0,INR,2026-09-18,2026-10-04,yes,no,paid,AMS-1817
+EXP-0076,AMS-1373,TRIP-029,hotel,"Hotel, 1 night",Chennai,1,4500.0,INR,2026-06-26,2026-07-04,yes,no,paid,AMS-1107
+EXP-0077,AMS-1373,TRIP-029,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-06-26,2026-07-04,no,no,paid,AMS-1107
+EXP-0078,AMS-1373,TRIP-029,taxi,Taxi,Chennai,,840.0,INR,2026-06-25,2026-07-04,yes,no,paid,AMS-1107
+EXP-0079,AMS-1891,TRIP-030,hotel,"Hotel, 1 night",Mysuru,1,2400.0,INR,2026-04-05,2026-04-08,yes,no,paid,AMS-1602
+EXP-0080,AMS-1891,TRIP-030,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-04-05,2026-04-08,no,no,paid,AMS-1602
+EXP-0081,AMS-1891,TRIP-030,taxi,Taxi,Mysuru,,410.0,INR,2026-04-04,2026-04-08,yes,no,paid,AMS-1602
+EXP-0082,AMS-1327,TRIP-031,hotel,"Hotel, 1 night",Chennai,1,3300.0,INR,2026-06-17,2026-06-25,yes,no,paid,AMS-1053
+EXP-0083,AMS-1327,TRIP-031,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-06-17,2026-06-25,no,no,paid,AMS-1053
+EXP-0084,AMS-1327,TRIP-031,taxi,Taxi,Chennai,,710.0,INR,2026-06-16,2026-06-25,yes,no,paid,AMS-1053
+EXP-0085,AMS-1534,TRIP-032,hotel,"Hotel, 2 nights",Bengaluru,2,8900.0,INR,2026-07-21,2026-08-09,yes,no,paid,AMS-1417
+EXP-0086,AMS-1534,TRIP-032,daily_allowance,"Daily allowance, 3 days",Bengaluru,,3600.0,INR,2026-07-21,2026-08-09,no,no,paid,AMS-1417
+EXP-0087,AMS-1534,TRIP-032,taxi,Taxi,Bengaluru,,500.0,INR,2026-07-19,2026-08-09,yes,no,paid,AMS-1417
+EXP-0088,AMS-1291,TRIP-033,hotel,"Hotel, 2 nights",Chennai,2,7300.0,INR,2026-03-05,2026-03-21,yes,no,paid,AMS-1450
+EXP-0089,AMS-1291,TRIP-033,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-03-05,2026-03-21,no,no,paid,AMS-1450
+EXP-0090,AMS-1291,TRIP-033,taxi,Taxi,Chennai,,420.0,INR,2026-03-03,2026-03-21,no,no,paid,AMS-1450
+EXP-0091,AMS-1443,TRIP-034,hotel,"Hotel, 3 nights",Delhi NCR,3,16800.0,INR,2026-06-10,2026-06-21,yes,no,paid,AMS-1169
+EXP-0092,AMS-1443,TRIP-034,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-06-10,2026-06-21,no,no,paid,AMS-1169
+EXP-0093,AMS-1443,TRIP-034,taxi,Taxi,Delhi NCR,,1470.0,INR,2026-06-07,2026-06-21,yes,no,paid,AMS-1169
+EXP-0094,AMS-1149,TRIP-035,hotel,"Hotel, 1 night",Hyderabad,1,6100.0,INR,2026-02-18,2026-02-23,yes,no,paid,AMS-1050
+EXP-0095,AMS-1149,TRIP-035,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-02-18,2026-02-23,no,no,paid,AMS-1050
+EXP-0096,AMS-1149,TRIP-035,taxi,Taxi,Hyderabad,,690.0,INR,2026-02-17,2026-02-23,yes,no,paid,AMS-1050
+EXP-0097,AMS-1602,TRIP-036,hotel,"Hotel, 1 night",Hyderabad,1,3950.0,INR,2026-08-07,2026-08-25,yes,no,paid,AMS-1093
+EXP-0098,AMS-1602,TRIP-036,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-08-07,2026-08-25,no,no,paid,AMS-1093
+EXP-0099,AMS-1602,TRIP-036,taxi,Taxi,Hyderabad,,580.0,INR,2026-08-06,2026-08-25,yes,no,paid,AMS-1093
+EXP-0100,AMS-2044,TRIP-037,hotel,"Hotel, 1 night",Nagpur,1,3150.0,INR,2026-10-06,2026-10-14,yes,no,paid,AMS-1190
+EXP-0101,AMS-2044,TRIP-037,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-10-06,2026-10-14,no,no,paid,AMS-1190
+EXP-0102,AMS-2044,TRIP-037,taxi,Taxi,Nagpur,,940.0,INR,2026-10-05,2026-10-14,yes,no,paid,AMS-1190
+EXP-0103,AMS-2030,TRIP-038,hotel,"Hotel, 3 nights",Coimbatore,3,8250.0,INR,2026-02-27,2026-03-03,yes,no,paid,AMS-1096
+EXP-0104,AMS-2030,TRIP-038,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-02-27,2026-03-03,no,no,paid,AMS-1096
+EXP-0105,AMS-2030,TRIP-038,taxi,Taxi,Coimbatore,,1290.0,INR,2026-02-24,2026-03-03,yes,no,paid,AMS-1096
+EXP-0106,AMS-2073,TRIP-039,hotel,"Hotel, 3 nights",Mysuru,3,7950.0,INR,2026-06-26,2026-06-30,yes,no,paid,AMS-1101
+EXP-0107,AMS-2073,TRIP-039,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-06-26,2026-06-30,no,no,paid,AMS-1101
+EXP-0108,AMS-2073,TRIP-039,taxi,Taxi,Mysuru,,310.0,INR,2026-06-23,2026-06-30,no,no,paid,AMS-1101
+EXP-0109,AMS-1424,TRIP-040,hotel,"Hotel, 3 nights",Coimbatore,3,8400.0,INR,2026-04-30,2026-05-09,yes,no,paid,AMS-1410
+EXP-0110,AMS-1424,TRIP-040,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-04-30,2026-05-09,no,no,paid,AMS-1410
+EXP-0111,AMS-1424,TRIP-040,taxi,Taxi,Coimbatore,,1380.0,INR,2026-04-27,2026-05-09,yes,no,paid,AMS-1410
+EXP-0112,AMS-1348,TRIP-041,hotel,"Hotel, 3 nights",Dallas,3,366.0,USD,2026-04-16,2026-04-29,yes,no,paid,AMS-1223
+EXP-0113,AMS-1348,TRIP-041,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-04-16,2026-04-29,no,no,paid,AMS-1223
+EXP-0114,AMS-1348,TRIP-041,taxi,Taxi,Dallas,,26.0,USD,2026-04-13,2026-04-29,yes,no,paid,AMS-1223
+EXP-0115,AMS-2033,TRIP-042,hotel,"Hotel, 1 night",Dallas,1,162.0,USD,2026-05-05,2026-05-10,yes,no,paid,AMS-1043
+EXP-0116,AMS-2033,TRIP-042,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-05-05,2026-05-10,no,no,paid,AMS-1043
+EXP-0117,AMS-2033,TRIP-042,taxi,Taxi,Dallas,,36.0,USD,2026-05-04,2026-05-10,yes,no,paid,AMS-1043
+EXP-0118,AMS-1669,TRIP-043,hotel,"Hotel, 2 nights",New York,2,358.0,USD,2026-06-05,2026-06-22,yes,no,paid,AMS-1496
+EXP-0119,AMS-1669,TRIP-043,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-06-05,2026-06-22,no,no,paid,AMS-1496
+EXP-0120,AMS-1669,TRIP-043,taxi,Taxi,New York,,20.0,USD,2026-06-03,2026-06-22,no,no,paid,AMS-1496
+EXP-0121,AMS-1257,TRIP-044,hotel,"Hotel, 1 night",Bengaluru,1,4400.0,INR,2026-07-27,2026-08-03,yes,no,paid,AMS-1163
+EXP-0122,AMS-1257,TRIP-044,daily_allowance,"Daily allowance, 2 days",Bengaluru,,2400.0,INR,2026-07-27,2026-08-03,no,no,paid,AMS-1163
+EXP-0123,AMS-1257,TRIP-044,taxi,Taxi,Bengaluru,,1540.0,INR,2026-07-26,2026-08-03,yes,no,paid,AMS-1163
+EXP-0124,AMS-1963,TRIP-045,hotel,"Hotel, 2 nights",Bengaluru,2,8200.0,INR,2026-02-06,2026-02-22,yes,no,paid,AMS-1757
+EXP-0125,AMS-1963,TRIP-045,daily_allowance,"Daily allowance, 3 days",Bengaluru,,3600.0,INR,2026-02-06,2026-02-22,no,no,paid,AMS-1757
+EXP-0126,AMS-1963,TRIP-045,taxi,Taxi,Bengaluru,,1520.0,INR,2026-02-04,2026-02-22,yes,no,paid,AMS-1757
+EXP-0127,AMS-1063,TRIP-046,hotel,"Hotel, 3 nights",Nagpur,3,11550.0,INR,2026-04-27,2026-04-29,yes,no,paid,AMS-1004
+EXP-0128,AMS-1063,TRIP-046,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-04-27,2026-04-29,no,no,paid,AMS-1004
+EXP-0129,AMS-1063,TRIP-046,taxi,Taxi,Nagpur,,320.0,INR,2026-04-24,2026-04-29,no,no,paid,AMS-1004
+EXP-0130,AMS-1079,TRIP-047,hotel,"Hotel, 3 nights",Coimbatore,3,8400.0,INR,2026-05-06,2026-05-08,yes,no,paid,AMS-1135
+EXP-0131,AMS-1079,TRIP-047,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-05-06,2026-05-08,no,no,paid,AMS-1135
+EXP-0132,AMS-1079,TRIP-047,taxi,Taxi,Coimbatore,,1230.0,INR,2026-05-03,2026-05-08,yes,no,paid,AMS-1135
+EXP-0133,AMS-1564,TRIP-048,hotel,"Hotel, 3 nights",Bengaluru,3,8250.0,INR,2026-03-28,2026-04-11,yes,no,paid,AMS-1061
+EXP-0134,AMS-1564,TRIP-048,daily_allowance,"Daily allowance, 4 days",Bengaluru,,4800.0,INR,2026-03-28,2026-04-11,no,no,paid,AMS-1061
+EXP-0135,AMS-1564,TRIP-048,taxi,Taxi,Bengaluru,,1110.0,INR,2026-03-25,2026-04-11,yes,no,paid,AMS-1061
+EXP-0136,AMS-1130,TRIP-049,hotel,"Hotel, 3 nights",Mysuru,3,10350.0,INR,2026-07-26,2026-07-30,yes,no,paid,AMS-1609
+EXP-0137,AMS-1130,TRIP-049,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-07-26,2026-07-30,no,no,paid,AMS-1609
+EXP-0138,AMS-1130,TRIP-049,taxi,Taxi,Mysuru,,1310.0,INR,2026-07-23,2026-07-30,yes,no,paid,AMS-1609
+EXP-0139,AMS-2063,TRIP-050,hotel,"Hotel, 1 night",New York,1,120.0,USD,2026-02-13,2026-02-25,yes,no,paid,AMS-1640
+EXP-0140,AMS-2063,TRIP-050,daily_allowance,"Daily allowance, 2 days",New York,,120.0,USD,2026-02-13,2026-02-25,no,no,paid,AMS-1640
+EXP-0141,AMS-2063,TRIP-050,taxi,Taxi,New York,,52.0,USD,2026-02-12,2026-02-25,yes,no,paid,AMS-1640
+EXP-0142,AMS-2134,TRIP-051,hotel,"Hotel, 2 nights",Nagpur,2,5100.0,INR,2026-08-25,2026-09-03,yes,no,paid,AMS-1597
+EXP-0143,AMS-2134,TRIP-051,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-08-25,2026-09-03,no,no,paid,AMS-1597
+EXP-0144,AMS-2134,TRIP-051,taxi,Taxi,Nagpur,,1050.0,INR,2026-08-23,2026-09-03,yes,no,paid,AMS-1597
+EXP-0145,AMS-1976,TRIP-052,hotel,"Hotel, 1 night",Pune,1,3850.0,INR,2026-04-14,2026-04-27,yes,no,paid,AMS-1361
+EXP-0146,AMS-1976,TRIP-052,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-04-14,2026-04-27,no,no,paid,AMS-1361
+EXP-0147,AMS-1976,TRIP-052,taxi,Taxi,Pune,,600.0,INR,2026-04-13,2026-04-27,yes,no,paid,AMS-1361
+EXP-0148,AMS-1713,TRIP-053,hotel,"Hotel, 2 nights",Chicago,2,314.0,USD,2026-04-13,2026-04-23,yes,no,paid,AMS-1412
+EXP-0149,AMS-1713,TRIP-053,daily_allowance,"Daily allowance, 3 days",Chicago,,180.0,USD,2026-04-13,2026-04-23,no,no,paid,AMS-1412
+EXP-0150,AMS-1713,TRIP-053,taxi,Taxi,Chicago,,29.0,USD,2026-04-11,2026-04-23,yes,no,paid,AMS-1412
+EXP-0151,AMS-1833,TRIP-055,hotel,"Hotel, 2 nights",Pune,2,7500.0,INR,2026-09-20,2026-09-23,yes,no,paid,AMS-1793
+EXP-0152,AMS-1833,TRIP-055,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-09-20,2026-09-23,no,no,paid,AMS-1793
+EXP-0153,AMS-1833,TRIP-055,taxi,Taxi,Pune,,1260.0,INR,2026-09-18,2026-09-23,yes,no,paid,AMS-1793
+EXP-0154,AMS-1577,TRIP-056,hotel,"Hotel, 1 night",Coimbatore,1,2000.0,INR,2026-03-03,2026-03-15,yes,no,paid,AMS-1605
+EXP-0155,AMS-1577,TRIP-056,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-03-03,2026-03-15,no,no,paid,AMS-1605
+EXP-0156,AMS-1577,TRIP-056,taxi,Taxi,Coimbatore,,530.0,INR,2026-03-02,2026-03-15,yes,no,paid,AMS-1605
+EXP-0157,AMS-1977,TRIP-057,hotel,"Hotel, 2 nights",Coimbatore,2,5000.0,INR,2026-07-08,2026-07-10,yes,no,paid,AMS-1530
+EXP-0158,AMS-1977,TRIP-057,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-07-08,2026-07-10,no,no,paid,AMS-1530
+EXP-0159,AMS-1977,TRIP-057,taxi,Taxi,Coimbatore,,1020.0,INR,2026-07-06,2026-07-10,yes,no,paid,AMS-1530
+EXP-0160,AMS-1192,TRIP-058,hotel,"Hotel, 3 nights",Dallas,3,399.0,USD,2026-09-10,2026-09-20,yes,no,paid,AMS-1043
+EXP-0161,AMS-1192,TRIP-058,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-09-10,2026-09-20,no,no,paid,AMS-1043
+EXP-0162,AMS-1192,TRIP-058,taxi,Taxi,Dallas,,69.0,USD,2026-09-07,2026-09-20,yes,no,paid,AMS-1043
+EXP-0163,AMS-1827,TRIP-059,hotel,"Hotel, 2 nights",Hyderabad,2,6100.0,INR,2026-05-19,2026-06-04,yes,no,paid,AMS-1602
+EXP-0164,AMS-1827,TRIP-059,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-05-19,2026-06-04,no,no,paid,AMS-1602
+EXP-0165,AMS-1827,TRIP-059,taxi,Taxi,Hyderabad,,1350.0,INR,2026-05-17,2026-06-04,yes,no,paid,AMS-1602
+EXP-0166,AMS-1319,TRIP-060,hotel,"Hotel, 1 night",Coimbatore,1,2550.0,INR,2026-05-23,2026-05-30,yes,no,paid,AMS-1337
+EXP-0167,AMS-1319,TRIP-060,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-05-23,2026-05-30,no,no,paid,AMS-1337
+EXP-0168,AMS-1319,TRIP-060,taxi,Taxi,Coimbatore,,1150.0,INR,2026-05-22,2026-05-30,yes,no,paid,AMS-1337
+EXP-0169,AMS-1579,TRIP-061,hotel,"Hotel, 1 night",Nagpur,1,2250.0,INR,2026-06-05,2026-06-23,yes,no,paid,AMS-1096
+EXP-0170,AMS-1579,TRIP-061,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-06-05,2026-06-23,no,no,paid,AMS-1096
+EXP-0171,AMS-1579,TRIP-061,taxi,Taxi,Nagpur,,1240.0,INR,2026-06-04,2026-06-23,yes,no,paid,AMS-1096
+EXP-0172,AMS-1541,TRIP-062,hotel,"Hotel, 3 nights",Houston,3,342.0,USD,2026-09-25,2026-10-12,yes,no,paid,AMS-1412
+EXP-0173,AMS-1541,TRIP-062,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-09-25,2026-10-12,no,no,paid,AMS-1412
+EXP-0174,AMS-1541,TRIP-062,taxi,Taxi,Houston,,79.0,USD,2026-09-22,2026-10-12,yes,no,paid,AMS-1412
+EXP-0175,AMS-1061,TRIP-063,hotel,"Hotel, 3 nights",Bengaluru,3,14100.0,INR,2026-05-23,2026-05-26,yes,no,paid,AMS-1490
+EXP-0176,AMS-1061,TRIP-063,daily_allowance,"Daily allowance, 4 days",Bengaluru,,7200.0,INR,2026-05-23,2026-05-26,no,no,paid,AMS-1490
+EXP-0177,AMS-1061,TRIP-063,taxi,Taxi,Bengaluru,,1350.0,INR,2026-05-20,2026-05-26,yes,no,paid,AMS-1490
+EXP-0178,AMS-1892,TRIP-064,hotel,"Hotel, 1 night",Mysuru,1,2850.0,INR,2026-02-23,2026-03-09,yes,no,paid,AMS-1602
+EXP-0179,AMS-1892,TRIP-064,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-02-23,2026-03-09,no,no,paid,AMS-1602
+EXP-0180,AMS-1892,TRIP-064,taxi,Taxi,Mysuru,,570.0,INR,2026-02-22,2026-03-09,yes,no,paid,AMS-1602
+EXP-0181,AMS-1593,TRIP-065,hotel,"Hotel, 2 nights",Hyderabad,2,8100.0,INR,2026-10-04,2026-10-20,yes,no,paid,AMS-1817
+EXP-0182,AMS-1593,TRIP-065,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-10-04,2026-10-20,no,no,paid,AMS-1817
+EXP-0183,AMS-1593,TRIP-065,taxi,Taxi,Hyderabad,,460.0,INR,2026-10-02,2026-10-20,yes,no,paid,AMS-1817
+EXP-0184,AMS-1440,TRIP-066,hotel,"Hotel, 1 night",Delhi NCR,1,4300.0,INR,2026-10-09,2026-10-26,yes,no,paid,AMS-1052
+EXP-0185,AMS-1440,TRIP-066,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-10-09,2026-10-26,no,no,paid,AMS-1052
+EXP-0186,AMS-1440,TRIP-066,taxi,Taxi,Delhi NCR,,440.0,INR,2026-10-08,2026-10-26,yes,no,paid,AMS-1052
+EXP-0187,AMS-1865,TRIP-067,hotel,"Hotel, 3 nights",Coimbatore,3,8850.0,INR,2026-07-06,2026-07-25,yes,no,paid,AMS-1498
+EXP-0188,AMS-1865,TRIP-067,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-07-06,2026-07-25,no,no,paid,AMS-1498
+EXP-0189,AMS-1865,TRIP-067,taxi,Taxi,Coimbatore,,1300.0,INR,2026-07-03,2026-07-25,yes,no,paid,AMS-1498
+EXP-0190,AMS-1054,TRIP-068,hotel,"Hotel, 3 nights",Hyderabad,3,15900.0,INR,2026-10-12,2026-10-26,yes,no,paid,AMS-1076
+EXP-0191,AMS-1054,TRIP-068,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-10-12,2026-10-26,no,no,paid,AMS-1076
+EXP-0192,AMS-1054,TRIP-068,taxi,Taxi,Hyderabad,,1010.0,INR,2026-10-09,2026-10-26,yes,no,paid,AMS-1076
+EXP-0193,AMS-1394,TRIP-069,hotel,"Hotel, 2 nights",Hyderabad,2,6800.0,INR,2026-06-25,2026-06-29,yes,no,paid,AMS-1090
+EXP-0194,AMS-1394,TRIP-069,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-06-25,2026-06-29,no,no,paid,AMS-1090
+EXP-0195,AMS-1394,TRIP-069,taxi,Taxi,Hyderabad,,950.0,INR,2026-06-23,2026-06-29,yes,no,paid,AMS-1090
+EXP-0196,AMS-2102,TRIP-070,hotel,"Hotel, 2 nights",Chicago,2,346.0,USD,2026-07-11,2026-07-22,yes,no,paid,AMS-1043
+EXP-0197,AMS-2102,TRIP-070,daily_allowance,"Daily allowance, 3 days",Chicago,,180.0,USD,2026-07-11,2026-07-22,no,no,paid,AMS-1043
+EXP-0198,AMS-2102,TRIP-070,taxi,Taxi,Chicago,,83.0,USD,2026-07-09,2026-07-22,yes,no,paid,AMS-1043
+EXP-0199,AMS-1556,TRIP-071,hotel,"Hotel, 3 nights",Hyderabad,3,19200.0,INR,2026-09-17,2026-09-29,yes,no,paid,AMS-1219
+EXP-0200,AMS-1556,TRIP-071,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-09-17,2026-09-29,no,no,paid,AMS-1219
+EXP-0201,AMS-1556,TRIP-071,taxi,Taxi,Hyderabad,,1070.0,INR,2026-09-14,2026-09-29,yes,no,paid,AMS-1219
+EXP-0202,AMS-1924,TRIP-072,hotel,"Hotel, 2 nights",Pune,2,8900.0,INR,2026-06-06,2026-06-16,yes,no,paid,AMS-1337
+EXP-0203,AMS-1924,TRIP-072,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-06-06,2026-06-16,no,no,paid,AMS-1337
+EXP-0204,AMS-1924,TRIP-072,taxi,Taxi,Pune,,1100.0,INR,2026-06-04,2026-06-16,yes,no,paid,AMS-1337
+EXP-0205,AMS-1195,TRIP-073,hotel,"Hotel, 1 night",Hyderabad,1,6150.0,INR,2026-10-06,2026-10-23,yes,no,paid,AMS-1107
+EXP-0206,AMS-1195,TRIP-073,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-10-06,2026-10-23,no,no,paid,AMS-1107
+EXP-0207,AMS-1195,TRIP-073,taxi,Taxi,Hyderabad,,350.0,INR,2026-10-05,2026-10-23,yes,no,paid,AMS-1107
+EXP-0208,AMS-1244,TRIP-074,hotel,"Hotel, 1 night",Delhi NCR,1,3200.0,INR,2026-08-24,2026-09-10,yes,no,paid,AMS-1385
+EXP-0209,AMS-1244,TRIP-074,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-08-24,2026-09-10,no,no,paid,AMS-1385
+EXP-0210,AMS-1244,TRIP-074,taxi,Taxi,Delhi NCR,,590.0,INR,2026-08-23,2026-09-10,yes,no,paid,AMS-1385
+EXP-0211,AMS-1725,TRIP-075,hotel,"Hotel, 2 nights",Coimbatore,2,4000.0,INR,2026-02-15,2026-02-25,yes,no,paid,AMS-1101
+EXP-0212,AMS-1725,TRIP-075,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-02-15,2026-02-25,no,no,paid,AMS-1101
+EXP-0213,AMS-1725,TRIP-075,taxi,Taxi,Coimbatore,,320.0,INR,2026-02-13,2026-02-25,no,no,paid,AMS-1101
+EXP-0214,AMS-1283,TRIP-076,hotel,"Hotel, 2 nights",Delhi NCR,2,12300.0,INR,2026-09-09,2026-09-24,yes,no,paid,AMS-1234
+EXP-0215,AMS-1283,TRIP-076,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-09-09,2026-09-24,no,no,paid,AMS-1234
+EXP-0216,AMS-1283,TRIP-076,taxi,Taxi,Delhi NCR,,450.0,INR,2026-09-07,2026-09-24,yes,no,paid,AMS-1234
+EXP-0217,AMS-1679,TRIP-077,hotel,"Hotel, 3 nights",Mysuru,3,7950.0,INR,2026-09-24,2026-09-30,yes,no,paid,AMS-1605
+EXP-0218,AMS-1679,TRIP-077,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-09-24,2026-09-30,no,no,paid,AMS-1605
+EXP-0219,AMS-1679,TRIP-077,taxi,Taxi,Mysuru,,1530.0,INR,2026-09-21,2026-09-30,yes,no,paid,AMS-1605
+EXP-0220,AMS-1551,TRIP-078,hotel,"Hotel, 3 nights",Mysuru,3,11550.0,INR,2026-02-06,2026-02-14,yes,no,paid,AMS-1071
+EXP-0221,AMS-1551,TRIP-078,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-02-06,2026-02-14,no,no,paid,AMS-1071
+EXP-0222,AMS-1551,TRIP-078,taxi,Taxi,Mysuru,,300.0,INR,2026-02-03,2026-02-14,yes,no,paid,AMS-1071
+EXP-0223,AMS-1537,TRIP-079,hotel,"Hotel, 1 night",Coimbatore,1,3150.0,INR,2026-04-26,2026-05-12,yes,no,paid,AMS-1233
+EXP-0224,AMS-1537,TRIP-079,daily_allowance,"Daily allowance, 2 days",Coimbatore,,2600.0,INR,2026-04-26,2026-05-12,no,no,paid,AMS-1233
+EXP-0225,AMS-1537,TRIP-079,taxi,Taxi,Coimbatore,,1580.0,INR,2026-04-25,2026-05-12,yes,no,paid,AMS-1233
+EXP-0226,AMS-1855,TRIP-080,hotel,"Hotel, 1 night",Bengaluru,1,4300.0,INR,2026-05-11,2026-05-30,yes,no,paid,AMS-1340
+EXP-0227,AMS-1855,TRIP-080,daily_allowance,"Daily allowance, 2 days",Bengaluru,,2400.0,INR,2026-05-11,2026-05-30,no,no,paid,AMS-1340
+EXP-0228,AMS-1855,TRIP-080,taxi,Taxi,Bengaluru,,990.0,INR,2026-05-10,2026-05-30,yes,no,paid,AMS-1340
+EXP-0229,AMS-1909,TRIP-082,hotel,"Hotel, 2 nights",Pune,2,6700.0,INR,2026-06-29,2026-07-15,yes,no,paid,AMS-1079
+EXP-0230,AMS-1909,TRIP-082,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-06-29,2026-07-15,no,no,paid,AMS-1079
+EXP-0231,AMS-1909,TRIP-082,taxi,Taxi,Pune,,830.0,INR,2026-06-27,2026-07-15,yes,no,paid,AMS-1079
+EXP-0232,AMS-1620,TRIP-083,hotel,"Hotel, 1 night",Pune,1,4000.0,INR,2026-08-27,2026-09-12,yes,no,paid,AMS-1497
+EXP-0233,AMS-1620,TRIP-083,daily_allowance,"Daily allowance, 2 days",Pune,,3600.0,INR,2026-08-27,2026-09-12,no,no,paid,AMS-1497
+EXP-0234,AMS-1620,TRIP-083,taxi,Taxi,Pune,,1200.0,INR,2026-08-26,2026-09-12,yes,no,paid,AMS-1497
+EXP-0235,AMS-1854,TRIP-084,hotel,"Hotel, 3 nights",Mysuru,3,7800.0,INR,2026-09-20,2026-09-25,yes,no,paid,AMS-1788
+EXP-0236,AMS-1854,TRIP-084,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-09-20,2026-09-25,no,no,paid,AMS-1788
+EXP-0237,AMS-1854,TRIP-084,taxi,Taxi,Mysuru,,1040.0,INR,2026-09-17,2026-09-25,yes,no,paid,AMS-1788
+EXP-0238,AMS-1433,TRIP-085,hotel,"Hotel, 3 nights",Nagpur,3,10950.0,INR,2026-10-01,2026-10-03,yes,no,paid,AMS-1791
+EXP-0239,AMS-1433,TRIP-085,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-10-01,2026-10-03,no,no,paid,AMS-1791
+EXP-0240,AMS-1433,TRIP-085,taxi,Taxi,Nagpur,,1150.0,INR,2026-09-28,2026-10-03,yes,no,paid,AMS-1791
+EXP-0241,AMS-2139,TRIP-086,hotel,"Hotel, 2 nights",Houston,2,342.0,USD,2026-10-11,2026-10-30,yes,no,approved,AMS-1465
+EXP-0242,AMS-2139,TRIP-086,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-10-11,2026-10-30,no,no,approved,AMS-1465
+EXP-0243,AMS-2139,TRIP-086,taxi,Taxi,Houston,,61.0,USD,2026-10-09,2026-10-30,yes,no,approved,AMS-1465
+EXP-0244,AMS-1353,TRIP-087,hotel,"Hotel, 2 nights",Mumbai,2,6200.0,INR,2026-09-24,2026-10-01,yes,no,paid,AMS-1055
+EXP-0245,AMS-1353,TRIP-087,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-09-24,2026-10-01,no,no,paid,AMS-1055
+EXP-0246,AMS-1353,TRIP-087,taxi,Taxi,Mumbai,,910.0,INR,2026-09-22,2026-10-01,yes,no,paid,AMS-1055
+EXP-0247,AMS-1474,TRIP-088,hotel,"Hotel, 2 nights",Nagpur,2,8700.0,INR,2026-04-08,2026-04-12,yes,no,paid,AMS-1132
+EXP-0248,AMS-1474,TRIP-088,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-04-08,2026-04-12,no,no,paid,AMS-1132
+EXP-0249,AMS-1474,TRIP-088,taxi,Taxi,Nagpur,,1060.0,INR,2026-04-06,2026-04-12,yes,no,paid,AMS-1132
+EXP-0250,AMS-1238,TRIP-089,hotel,"Hotel, 1 night",Delhi NCR,1,4400.0,INR,2026-02-20,2026-03-07,yes,no,paid,AMS-1061
+EXP-0251,AMS-1238,TRIP-089,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-02-20,2026-03-07,no,no,paid,AMS-1061
+EXP-0252,AMS-1238,TRIP-089,taxi,Taxi,Delhi NCR,,1040.0,INR,2026-02-19,2026-03-07,yes,no,paid,AMS-1061
+EXP-0253,AMS-1463,TRIP-090,hotel,"Hotel, 3 nights",Mumbai,3,11250.0,INR,2026-09-21,2026-10-11,yes,no,paid,AMS-1364
+EXP-0254,AMS-1463,TRIP-090,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-09-21,2026-10-11,no,no,paid,AMS-1364
+EXP-0255,AMS-1463,TRIP-090,taxi,Taxi,Mumbai,,930.0,INR,2026-09-18,2026-10-11,yes,no,paid,AMS-1364
+EXP-0256,AMS-1424,TRIP-091,hotel,"Hotel, 2 nights",Chennai,2,5700.0,INR,2026-05-26,2026-06-04,yes,no,paid,AMS-1410
+EXP-0257,AMS-1424,TRIP-091,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-05-26,2026-06-04,no,no,paid,AMS-1410
+EXP-0258,AMS-1424,TRIP-091,taxi,Taxi,Chennai,,1420.0,INR,2026-05-24,2026-06-04,yes,no,paid,AMS-1410
+EXP-0259,AMS-1095,TRIP-092,hotel,"Hotel, 2 nights",Hyderabad,2,12300.0,INR,2026-05-11,2026-05-24,yes,no,paid,AMS-1042
+EXP-0260,AMS-1095,TRIP-092,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-05-11,2026-05-24,no,no,paid,AMS-1042
+EXP-0261,AMS-1095,TRIP-092,taxi,Taxi,Hyderabad,,570.0,INR,2026-05-09,2026-05-24,yes,no,paid,AMS-1042
+EXP-0262,AMS-1412,TRIP-093,hotel,"Hotel, 1 night",Houston,1,169.0,USD,2026-02-18,2026-03-07,yes,no,paid,AMS-1072
+EXP-0263,AMS-1412,TRIP-093,daily_allowance,"Daily allowance, 2 days",Houston,,150.0,USD,2026-02-18,2026-03-07,no,no,paid,AMS-1072
+EXP-0264,AMS-1412,TRIP-093,taxi,Taxi,Houston,,51.0,USD,2026-02-17,2026-03-07,yes,no,paid,AMS-1072
+EXP-0265,AMS-1243,TRIP-094,hotel,"Hotel, 3 nights",Delhi NCR,3,18450.0,INR,2026-07-14,2026-07-25,yes,no,paid,AMS-1083
+EXP-0266,AMS-1243,TRIP-094,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-07-14,2026-07-25,no,no,paid,AMS-1083
+EXP-0267,AMS-1243,TRIP-094,taxi,Taxi,Delhi NCR,,1130.0,INR,2026-07-11,2026-07-25,yes,no,paid,AMS-1083
+EXP-0268,AMS-1861,TRIP-095,hotel,"Hotel, 2 nights",Pune,2,8700.0,INR,2026-10-06,2026-10-13,yes,no,paid,AMS-1390
+EXP-0269,AMS-1861,TRIP-095,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-10-06,2026-10-13,no,no,paid,AMS-1390
+EXP-0270,AMS-1861,TRIP-095,taxi,Taxi,Pune,,1540.0,INR,2026-10-04,2026-10-13,yes,no,paid,AMS-1390
+EXP-0271,AMS-1819,TRIP-096,hotel,"Hotel, 3 nights",Chicago,3,402.0,USD,2026-08-10,2026-08-28,yes,no,paid,AMS-1749
+EXP-0272,AMS-1819,TRIP-096,daily_allowance,"Daily allowance, 4 days",Chicago,,240.0,USD,2026-08-10,2026-08-28,no,no,paid,AMS-1749
+EXP-0273,AMS-1819,TRIP-096,taxi,Taxi,Chicago,,67.0,USD,2026-08-07,2026-08-28,yes,no,paid,AMS-1749
+EXP-0274,AMS-2089,TRIP-097,hotel,"Hotel, 1 night",Pune,1,3200.0,INR,2026-02-28,2026-03-08,yes,no,paid,AMS-1359
+EXP-0275,AMS-2089,TRIP-097,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-02-28,2026-03-08,no,no,paid,AMS-1359
+EXP-0276,AMS-2089,TRIP-097,taxi,Taxi,Pune,,1120.0,INR,2026-02-27,2026-03-08,yes,no,paid,AMS-1359
+EXP-0277,AMS-1496,TRIP-098,hotel,"Hotel, 2 nights",New York,2,374.0,USD,2026-04-19,2026-05-04,yes,no,paid,AMS-1072
+EXP-0278,AMS-1496,TRIP-098,daily_allowance,"Daily allowance, 3 days",New York,,225.0,USD,2026-04-19,2026-05-04,no,no,paid,AMS-1072
+EXP-0279,AMS-1496,TRIP-098,taxi,Taxi,New York,,46.0,USD,2026-04-17,2026-05-04,yes,no,paid,AMS-1072
+EXP-0280,AMS-1476,TRIP-099,hotel,"Hotel, 3 nights",Hyderabad,3,9600.0,INR,2026-05-24,2026-06-05,yes,no,paid,AMS-1384
+EXP-0281,AMS-1476,TRIP-099,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-05-24,2026-06-05,no,no,paid,AMS-1384
+EXP-0282,AMS-1476,TRIP-099,taxi,Taxi,Hyderabad,,860.0,INR,2026-05-21,2026-06-05,yes,no,paid,AMS-1384
+EXP-0283,AMS-2102,TRIP-100,hotel,"Hotel, 2 nights",New York,2,234.0,USD,2026-02-28,2026-03-07,yes,no,paid,AMS-1043
+EXP-0284,AMS-2102,TRIP-100,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-02-28,2026-03-07,no,no,paid,AMS-1043
+EXP-0285,AMS-2102,TRIP-100,taxi,Taxi,New York,,75.0,USD,2026-02-26,2026-03-07,yes,no,paid,AMS-1043
+EXP-0286,AMS-2040,TRIP-101,hotel,"Hotel, 3 nights",Hyderabad,3,13050.0,INR,2026-10-02,2026-10-07,yes,no,paid,AMS-1389
+EXP-0287,AMS-2040,TRIP-101,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-10-02,2026-10-07,no,no,paid,AMS-1389
+EXP-0288,AMS-2040,TRIP-101,taxi,Taxi,Hyderabad,,1130.0,INR,2026-09-29,2026-10-07,yes,no,paid,AMS-1389
+EXP-0289,AMS-2114,TRIP-102,hotel,"Hotel, 3 nights",Pune,3,12750.0,INR,2026-07-05,2026-07-20,yes,no,paid,AMS-1596
+EXP-0290,AMS-2114,TRIP-102,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-07-05,2026-07-20,no,no,paid,AMS-1596
+EXP-0291,AMS-2114,TRIP-102,taxi,Taxi,Pune,,770.0,INR,2026-07-02,2026-07-20,yes,no,paid,AMS-1596
+EXP-0292,AMS-1174,TRIP-103,hotel,"Hotel, 3 nights",Hyderabad,3,17850.0,INR,2026-07-14,2026-07-31,yes,no,paid,AMS-1757
+EXP-0293,AMS-1174,TRIP-103,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-07-14,2026-07-31,no,no,paid,AMS-1757
+EXP-0294,AMS-1174,TRIP-103,taxi,Taxi,Hyderabad,,980.0,INR,2026-07-11,2026-07-31,yes,no,paid,AMS-1757
+EXP-0295,AMS-1203,TRIP-104,hotel,"Hotel, 1 night",Mysuru,1,2750.0,INR,2026-06-25,2026-07-02,yes,no,paid,AMS-1576
+EXP-0296,AMS-1203,TRIP-104,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-06-25,2026-07-02,no,no,paid,AMS-1576
+EXP-0297,AMS-1203,TRIP-104,taxi,Taxi,Mysuru,,380.0,INR,2026-06-24,2026-07-02,yes,no,paid,AMS-1576
+EXP-0298,AMS-1126,TRIP-105,hotel,"Hotel, 1 night",Delhi NCR,1,5550.0,INR,2026-09-30,2026-10-13,yes,no,paid,AMS-1324
+EXP-0299,AMS-1126,TRIP-105,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-09-30,2026-10-13,no,no,paid,AMS-1324
+EXP-0300,AMS-1126,TRIP-105,taxi,Taxi,Delhi NCR,,500.0,INR,2026-09-29,2026-10-13,yes,no,paid,AMS-1324
+EXP-0301,AMS-1649,TRIP-106,hotel,"Hotel, 2 nights",Nagpur,2,5900.0,INR,2026-02-25,2026-03-11,yes,no,paid,AMS-1163
+EXP-0302,AMS-1649,TRIP-106,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-02-25,2026-03-11,no,no,paid,AMS-1163
+EXP-0303,AMS-1649,TRIP-106,taxi,Taxi,Nagpur,,1260.0,INR,2026-02-23,2026-03-11,yes,no,paid,AMS-1163
+EXP-0304,AMS-1206,TRIP-107,hotel,"Hotel, 3 nights",Houston,3,423.0,USD,2026-08-01,2026-08-08,yes,no,paid,AMS-1658
+EXP-0305,AMS-1206,TRIP-107,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-08-01,2026-08-08,no,no,paid,AMS-1658
+EXP-0306,AMS-1206,TRIP-107,taxi,Taxi,Houston,,54.0,USD,2026-07-29,2026-08-08,yes,no,paid,AMS-1658
+EXP-0307,AMS-1137,TRIP-108,hotel,"Hotel, 1 night",Houston,1,170.0,USD,2026-08-18,2026-09-05,yes,no,paid,AMS-1749
+EXP-0308,AMS-1137,TRIP-108,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-08-18,2026-09-05,no,no,paid,AMS-1749
+EXP-0309,AMS-1137,TRIP-108,taxi,Taxi,Houston,,21.0,USD,2026-08-17,2026-09-05,no,no,paid,AMS-1749
+EXP-0310,AMS-1116,TRIP-109,hotel,"Hotel, 1 night",Delhi NCR,1,8900.0,INR,2026-05-07,2026-05-09,yes,no,paid,AMS-1001
+EXP-0311,AMS-1116,TRIP-109,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,5000.0,INR,2026-05-07,2026-05-09,no,no,paid,AMS-1001
+EXP-0312,AMS-1116,TRIP-109,taxi,Taxi,Delhi NCR,,710.0,INR,2026-05-06,2026-05-09,yes,no,paid,AMS-1001
+EXP-0313,AMS-1780,TRIP-110,hotel,"Hotel, 3 nights",Mumbai,3,9000.0,INR,2026-04-07,2026-04-23,yes,no,paid,AMS-1055
+EXP-0314,AMS-1780,TRIP-110,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-04-07,2026-04-23,no,no,paid,AMS-1055
+EXP-0315,AMS-1780,TRIP-110,taxi,Taxi,Mumbai,,990.0,INR,2026-04-04,2026-04-23,yes,no,paid,AMS-1055
+EXP-0316,AMS-1304,TRIP-111,hotel,"Hotel, 1 night",Nagpur,1,1950.0,INR,2026-04-20,2026-04-24,yes,no,paid,AMS-1361
+EXP-0317,AMS-1304,TRIP-111,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-04-20,2026-04-24,no,no,paid,AMS-1361
+EXP-0318,AMS-1304,TRIP-111,taxi,Taxi,Nagpur,,1130.0,INR,2026-04-19,2026-04-24,yes,no,paid,AMS-1361
+EXP-0319,AMS-2124,TRIP-112,hotel,"Hotel, 3 nights",Mumbai,3,10800.0,INR,2026-08-01,2026-08-13,yes,no,paid,AMS-1301
+EXP-0320,AMS-2124,TRIP-112,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-08-01,2026-08-13,no,no,paid,AMS-1301
+EXP-0321,AMS-2124,TRIP-112,taxi,Taxi,Mumbai,,330.0,INR,2026-07-29,2026-08-13,yes,no,paid,AMS-1301
+EXP-0322,AMS-1096,TRIP-113,hotel,"Hotel, 1 night",Chennai,1,5300.0,INR,2026-03-29,2026-04-12,yes,no,paid,AMS-1490
+EXP-0323,AMS-1096,TRIP-113,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-03-29,2026-04-12,no,no,paid,AMS-1490
+EXP-0324,AMS-1096,TRIP-113,taxi,Taxi,Chennai,,670.0,INR,2026-03-28,2026-04-12,yes,no,paid,AMS-1490
+EXP-0325,AMS-1950,TRIP-114,hotel,"Hotel, 2 nights",New York,2,360.0,USD,2026-02-27,2026-03-10,yes,no,paid,AMS-1540
+EXP-0326,AMS-1950,TRIP-114,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-02-27,2026-03-10,no,no,paid,AMS-1540
+EXP-0327,AMS-1950,TRIP-114,taxi,Taxi,New York,,37.0,USD,2026-02-25,2026-03-10,yes,no,paid,AMS-1540
+EXP-0328,AMS-2009,TRIP-115,hotel,"Hotel, 2 nights",Pune,2,6000.0,INR,2026-10-08,2026-10-13,yes,no,paid,AMS-1563
+EXP-0329,AMS-2009,TRIP-115,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-10-08,2026-10-13,no,no,paid,AMS-1563
+EXP-0330,AMS-2009,TRIP-115,taxi,Taxi,Pune,,990.0,INR,2026-10-06,2026-10-13,yes,no,paid,AMS-1563
+EXP-0331,AMS-1202,TRIP-116,hotel,"Hotel, 2 nights",Delhi NCR,2,12300.0,INR,2026-02-17,2026-03-02,yes,no,paid,AMS-1379
+EXP-0332,AMS-1202,TRIP-116,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-02-17,2026-03-02,no,no,paid,AMS-1379
+EXP-0333,AMS-1202,TRIP-116,taxi,Taxi,Delhi NCR,,620.0,INR,2026-02-15,2026-03-02,yes,no,paid,AMS-1379
+EXP-0334,AMS-2050,TRIP-117,hotel,"Hotel, 2 nights",Mysuru,2,4900.0,INR,2026-03-06,2026-03-18,yes,no,paid,AMS-1384
+EXP-0335,AMS-2050,TRIP-117,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-03-06,2026-03-18,no,no,paid,AMS-1384
+EXP-0336,AMS-2050,TRIP-117,taxi,Taxi,Mysuru,,800.0,INR,2026-03-04,2026-03-18,yes,no,paid,AMS-1384
+EXP-0337,AMS-2134,TRIP-118,hotel,"Hotel, 3 nights",Mumbai,3,12900.0,INR,2026-08-27,2026-09-01,yes,no,paid,AMS-1597
+EXP-0338,AMS-2134,TRIP-118,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-08-27,2026-09-01,no,no,paid,AMS-1597
+EXP-0339,AMS-2134,TRIP-118,taxi,Taxi,Mumbai,,1200.0,INR,2026-08-24,2026-09-01,yes,no,paid,AMS-1597
+EXP-0340,AMS-1472,TRIP-119,hotel,"Hotel, 1 night",Chicago,1,122.0,USD,2026-10-02,2026-10-10,yes,no,paid,AMS-1465
+EXP-0341,AMS-1472,TRIP-119,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-10-02,2026-10-10,no,no,paid,AMS-1465
+EXP-0342,AMS-1472,TRIP-119,taxi,Taxi,Chicago,,18.0,USD,2026-10-01,2026-10-10,yes,no,paid,AMS-1465
+EXP-0343,AMS-1506,TRIP-120,hotel,"Hotel, 2 nights",Coimbatore,2,5500.0,INR,2026-05-19,2026-06-08,yes,no,paid,AMS-1275
+EXP-0344,AMS-1506,TRIP-120,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-05-19,2026-06-08,no,no,paid,AMS-1275
+EXP-0345,AMS-1506,TRIP-120,taxi,Taxi,Coimbatore,,1180.0,INR,2026-05-17,2026-06-08,yes,no,paid,AMS-1275
+EXP-0346,AMS-2003,TRIP-121,hotel,"Hotel, 1 night",Chennai,1,4150.0,INR,2026-03-08,2026-03-18,yes,no,paid,AMS-1050
+EXP-0347,AMS-2003,TRIP-121,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-03-08,2026-03-18,no,no,paid,AMS-1050
+EXP-0348,AMS-2003,TRIP-121,taxi,Taxi,Chennai,,1530.0,INR,2026-03-07,2026-03-18,yes,no,paid,AMS-1050
+EXP-0349,AMS-1611,TRIP-122,hotel,"Hotel, 2 nights",Mysuru,2,6800.0,INR,2026-02-23,2026-03-11,yes,no,paid,AMS-1068
+EXP-0350,AMS-1611,TRIP-122,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-02-23,2026-03-11,no,no,paid,AMS-1068
+EXP-0351,AMS-1611,TRIP-122,taxi,Taxi,Mysuru,,950.0,INR,2026-02-21,2026-03-11,yes,no,paid,AMS-1068
+EXP-0352,AMS-1157,TRIP-123,hotel,"Hotel, 2 nights",Coimbatore,2,6800.0,INR,2026-04-11,2026-04-26,yes,no,paid,AMS-1390
+EXP-0353,AMS-1157,TRIP-123,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-04-11,2026-04-26,no,no,paid,AMS-1390
+EXP-0354,AMS-1157,TRIP-123,taxi,Taxi,Coimbatore,,1170.0,INR,2026-04-09,2026-04-26,yes,no,paid,AMS-1390
+EXP-0355,AMS-1830,TRIP-124,hotel,"Hotel, 2 nights",Nagpur,2,4200.0,INR,2026-08-25,2026-09-03,yes,no,paid,AMS-1563
+EXP-0356,AMS-1830,TRIP-124,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-08-25,2026-09-03,no,no,paid,AMS-1563
+EXP-0357,AMS-1830,TRIP-124,taxi,Taxi,Nagpur,,620.0,INR,2026-08-23,2026-09-03,yes,no,paid,AMS-1563
+EXP-0358,AMS-2096,TRIP-125,hotel,"Hotel, 3 nights",Delhi NCR,3,12000.0,INR,2026-06-28,2026-07-14,yes,no,paid,AMS-1150
+EXP-0359,AMS-2096,TRIP-125,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-06-28,2026-07-14,no,no,paid,AMS-1150
+EXP-0360,AMS-2096,TRIP-125,taxi,Taxi,Delhi NCR,,380.0,INR,2026-06-25,2026-07-14,yes,no,paid,AMS-1150
+EXP-0361,AMS-1194,TRIP-127,hotel,"Hotel, 1 night",Hyderabad,1,4500.0,INR,2026-04-16,2026-04-25,yes,no,paid,AMS-1052
+EXP-0362,AMS-1194,TRIP-127,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-04-16,2026-04-25,no,no,paid,AMS-1052
+EXP-0363,AMS-1194,TRIP-127,taxi,Taxi,Hyderabad,,1360.0,INR,2026-04-15,2026-04-25,yes,no,paid,AMS-1052
+EXP-0364,AMS-2083,TRIP-128,hotel,"Hotel, 2 nights",Chennai,2,8100.0,INR,2026-02-24,2026-03-16,yes,no,paid,AMS-1689
+EXP-0365,AMS-2083,TRIP-128,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-02-24,2026-03-16,no,no,paid,AMS-1689
+EXP-0366,AMS-2083,TRIP-128,taxi,Taxi,Chennai,,1300.0,INR,2026-02-22,2026-03-16,yes,no,paid,AMS-1689
+EXP-0367,AMS-1761,TRIP-129,hotel,"Hotel, 1 night",Delhi NCR,1,4100.0,INR,2026-09-27,2026-09-30,yes,no,paid,AMS-1684
+EXP-0368,AMS-1761,TRIP-129,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-09-27,2026-09-30,no,no,paid,AMS-1684
+EXP-0369,AMS-1761,TRIP-129,taxi,Taxi,Delhi NCR,,810.0,INR,2026-09-26,2026-09-30,yes,no,paid,AMS-1684
+EXP-0370,AMS-1579,TRIP-130,hotel,"Hotel, 2 nights",Mysuru,2,4100.0,INR,2026-07-10,2026-07-14,yes,no,paid,AMS-1096
+EXP-0371,AMS-1579,TRIP-130,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-07-10,2026-07-14,no,no,paid,AMS-1096
+EXP-0372,AMS-1579,TRIP-130,taxi,Taxi,Mysuru,,980.0,INR,2026-07-08,2026-07-14,yes,no,paid,AMS-1096
+EXP-0373,AMS-1806,TRIP-131,hotel,"Hotel, 1 night",Nagpur,1,2750.0,INR,2026-04-02,2026-04-14,yes,no,paid,AMS-1373
+EXP-0374,AMS-1806,TRIP-131,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-04-02,2026-04-14,no,no,paid,AMS-1373
+EXP-0375,AMS-1806,TRIP-131,taxi,Taxi,Nagpur,,1230.0,INR,2026-04-01,2026-04-14,yes,no,paid,AMS-1373
+EXP-0376,AMS-2042,TRIP-132,hotel,"Hotel, 3 nights",Pune,3,10350.0,INR,2026-05-21,2026-06-08,yes,no,paid,AMS-1576
+EXP-0377,AMS-2042,TRIP-132,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-05-21,2026-06-08,no,no,paid,AMS-1576
+EXP-0378,AMS-2042,TRIP-132,taxi,Taxi,Pune,,1370.0,INR,2026-05-18,2026-06-08,yes,no,paid,AMS-1576
+EXP-0379,AMS-1234,TRIP-133,hotel,"Hotel, 1 night",Mysuru,1,3850.0,INR,2026-05-14,2026-05-28,yes,no,paid,AMS-1001
+EXP-0380,AMS-1234,TRIP-133,daily_allowance,"Daily allowance, 2 days",Mysuru,,3600.0,INR,2026-05-14,2026-05-28,no,no,paid,AMS-1001
+EXP-0381,AMS-1234,TRIP-133,taxi,Taxi,Mysuru,,1510.0,INR,2026-05-13,2026-05-28,yes,no,paid,AMS-1001
+EXP-0382,AMS-2055,TRIP-134,hotel,"Hotel, 1 night",Mysuru,1,3000.0,INR,2026-10-11,2026-10-24,yes,no,paid,AMS-1653
+EXP-0383,AMS-2055,TRIP-134,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-10-11,2026-10-24,no,no,paid,AMS-1653
+EXP-0384,AMS-2055,TRIP-134,taxi,Taxi,Mysuru,,740.0,INR,2026-10-10,2026-10-24,yes,no,paid,AMS-1653
+EXP-0385,AMS-2001,TRIP-135,hotel,"Hotel, 1 night",Hyderabad,1,4850.0,INR,2026-07-05,2026-07-19,yes,no,paid,AMS-1143
+EXP-0386,AMS-2001,TRIP-135,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-07-05,2026-07-19,no,no,paid,AMS-1143
+EXP-0387,AMS-2001,TRIP-135,taxi,Taxi,Hyderabad,,1330.0,INR,2026-07-04,2026-07-19,yes,no,paid,AMS-1143
+EXP-0388,AMS-1839,TRIP-136,hotel,"Hotel, 1 night",Dallas,1,175.0,USD,2026-09-08,2026-09-12,yes,no,paid,AMS-1527
+EXP-0389,AMS-1839,TRIP-136,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-09-08,2026-09-12,no,no,paid,AMS-1527
+EXP-0390,AMS-1839,TRIP-136,taxi,Taxi,Dallas,,83.0,USD,2026-09-07,2026-09-12,yes,no,paid,AMS-1527
+EXP-0391,AMS-1839,TRIP-137,hotel,"Hotel, 2 nights",Dallas,2,226.0,USD,2026-09-30,2026-10-12,yes,no,paid,AMS-1527
+EXP-0392,AMS-1839,TRIP-137,daily_allowance,"Daily allowance, 3 days",Dallas,,180.0,USD,2026-09-30,2026-10-12,no,no,paid,AMS-1527
+EXP-0393,AMS-1839,TRIP-137,taxi,Taxi,Dallas,,25.0,USD,2026-09-28,2026-10-12,yes,no,paid,AMS-1527
+EXP-0394,AMS-1412,TRIP-138,hotel,"Hotel, 1 night",Chicago,1,215.0,USD,2026-05-15,2026-05-28,yes,no,paid,AMS-1072
+EXP-0395,AMS-1412,TRIP-138,daily_allowance,"Daily allowance, 2 days",Chicago,,150.0,USD,2026-05-15,2026-05-28,no,no,paid,AMS-1072
+EXP-0396,AMS-1412,TRIP-138,taxi,Taxi,Chicago,,26.0,USD,2026-05-14,2026-05-28,yes,no,paid,AMS-1072
+EXP-0397,AMS-1396,TRIP-139,hotel,"Hotel, 3 nights",Mumbai,3,17400.0,INR,2026-07-17,2026-08-01,yes,no,paid,AMS-1625
+EXP-0398,AMS-1396,TRIP-139,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-07-17,2026-08-01,no,no,paid,AMS-1625
+EXP-0399,AMS-1396,TRIP-139,taxi,Taxi,Mumbai,,1090.0,INR,2026-07-14,2026-08-01,yes,no,paid,AMS-1625
+EXP-0400,AMS-1220,TRIP-140,hotel,"Hotel, 1 night",Chennai,1,5150.0,INR,2026-08-29,2026-09-07,yes,no,paid,AMS-1490
+EXP-0401,AMS-1220,TRIP-140,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-08-29,2026-09-07,no,no,paid,AMS-1490
+EXP-0402,AMS-1220,TRIP-140,taxi,Taxi,Chennai,,440.0,INR,2026-08-28,2026-09-07,yes,no,paid,AMS-1490
+EXP-0403,AMS-1057,TRIP-141,hotel,"Hotel, 3 nights",Pune,3,18450.0,INR,2026-06-03,2026-06-13,yes,no,paid,AMS-1234
+EXP-0404,AMS-1057,TRIP-141,daily_allowance,"Daily allowance, 4 days",Pune,,7200.0,INR,2026-06-03,2026-06-13,no,no,paid,AMS-1234
+EXP-0405,AMS-1057,TRIP-141,taxi,Taxi,Pune,,550.0,INR,2026-05-31,2026-06-13,yes,no,paid,AMS-1234
+EXP-0406,AMS-1085,TRIP-142,hotel,"Hotel, 2 nights",Houston,2,362.0,USD,2026-07-24,2026-08-01,yes,no,paid,AMS-1001
+EXP-0407,AMS-1085,TRIP-142,daily_allowance,"Daily allowance, 3 days",Houston,,225.0,USD,2026-07-24,2026-08-01,no,no,paid,AMS-1001
+EXP-0408,AMS-1085,TRIP-142,taxi,Taxi,Houston,,63.0,USD,2026-07-22,2026-08-01,yes,no,paid,AMS-1001
+EXP-0409,AMS-1654,TRIP-143,hotel,"Hotel, 3 nights",Nagpur,3,13500.0,INR,2026-04-04,2026-04-10,yes,no,paid,AMS-1439
+EXP-0410,AMS-1654,TRIP-143,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-04-04,2026-04-10,no,no,paid,AMS-1439
+EXP-0411,AMS-1654,TRIP-143,taxi,Taxi,Nagpur,,560.0,INR,2026-04-01,2026-04-10,yes,no,paid,AMS-1439
+EXP-0412,AMS-1631,TRIP-144,hotel,"Hotel, 3 nights",Dallas,3,495.0,USD,2026-07-03,2026-07-17,yes,no,paid,AMS-1540
+EXP-0413,AMS-1631,TRIP-144,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-07-03,2026-07-17,no,no,paid,AMS-1540
+EXP-0414,AMS-1631,TRIP-144,taxi,Taxi,Dallas,,28.0,USD,2026-06-30,2026-07-17,yes,no,paid,AMS-1540
+EXP-0415,AMS-1378,TRIP-145,hotel,"Hotel, 2 nights",Pune,2,6600.0,INR,2026-07-31,2026-08-14,yes,no,paid,AMS-1155
+EXP-0416,AMS-1378,TRIP-145,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-07-31,2026-08-14,no,no,paid,AMS-1155
+EXP-0417,AMS-1378,TRIP-145,taxi,Taxi,Pune,,1390.0,INR,2026-07-29,2026-08-14,yes,no,paid,AMS-1155
+EXP-0418,AMS-1607,TRIP-146,hotel,"Hotel, 2 nights",Nagpur,2,7500.0,INR,2026-04-23,2026-04-30,yes,no,paid,AMS-1002
+EXP-0419,AMS-1607,TRIP-146,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-04-23,2026-04-30,no,no,paid,AMS-1002
+EXP-0420,AMS-1607,TRIP-146,taxi,Taxi,Nagpur,,1330.0,INR,2026-04-21,2026-04-30,yes,no,paid,AMS-1002
+EXP-0421,AMS-1106,TRIP-147,hotel,"Hotel, 2 nights",Delhi NCR,2,11200.0,INR,2026-04-14,2026-04-18,yes,no,paid,AMS-1049
+EXP-0422,AMS-1106,TRIP-147,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-04-14,2026-04-18,no,no,paid,AMS-1049
+EXP-0423,AMS-1106,TRIP-147,taxi,Taxi,Delhi NCR,,1090.0,INR,2026-04-12,2026-04-18,yes,no,paid,AMS-1049
+EXP-0424,AMS-1989,TRIP-148,hotel,"Hotel, 2 nights",Dallas,2,276.0,USD,2026-06-01,2026-06-14,yes,no,paid,AMS-1527
+EXP-0425,AMS-1989,TRIP-148,daily_allowance,"Daily allowance, 3 days",Dallas,,180.0,USD,2026-06-01,2026-06-14,no,no,paid,AMS-1527
+EXP-0426,AMS-1989,TRIP-148,taxi,Taxi,Dallas,,67.0,USD,2026-05-30,2026-06-14,yes,no,paid,AMS-1527
+EXP-0427,AMS-1275,TRIP-149,hotel,"Hotel, 1 night",Mumbai,1,3900.0,INR,2026-06-20,2026-07-07,yes,no,paid,AMS-1068
+EXP-0428,AMS-1275,TRIP-149,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-06-20,2026-07-07,no,no,paid,AMS-1068
+EXP-0429,AMS-1275,TRIP-149,taxi,Taxi,Mumbai,,620.0,INR,2026-06-19,2026-07-07,yes,no,paid,AMS-1068
+EXP-0430,AMS-2118,TRIP-150,hotel,"Hotel, 1 night",Houston,1,173.0,USD,2026-07-25,2026-08-13,yes,no,paid,AMS-1375
+EXP-0431,AMS-2118,TRIP-150,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-07-25,2026-08-13,no,no,paid,AMS-1375
+EXP-0432,AMS-2118,TRIP-150,taxi,Taxi,Houston,,18.0,USD,2026-07-24,2026-08-13,yes,no,paid,AMS-1375
+EXP-0433,AMS-1749,TRIP-151,hotel,"Hotel, 3 nights",Chicago,3,498.0,USD,2026-09-10,2026-09-18,yes,no,paid,AMS-1072
+EXP-0434,AMS-1749,TRIP-151,daily_allowance,"Daily allowance, 4 days",Chicago,,300.0,USD,2026-09-10,2026-09-18,no,no,paid,AMS-1072
+EXP-0435,AMS-1749,TRIP-151,taxi,Taxi,Chicago,,81.0,USD,2026-09-07,2026-09-18,yes,no,paid,AMS-1072
+EXP-0436,AMS-1147,TRIP-152,hotel,"Hotel, 2 nights",Coimbatore,2,6600.0,INR,2026-07-16,2026-07-22,yes,no,paid,AMS-1607
+EXP-0437,AMS-1147,TRIP-152,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-07-16,2026-07-22,no,no,paid,AMS-1607
+EXP-0438,AMS-1147,TRIP-152,taxi,Taxi,Coimbatore,,630.0,INR,2026-07-14,2026-07-22,yes,no,paid,AMS-1607
+EXP-0439,AMS-1649,TRIP-153,hotel,"Hotel, 2 nights",Chennai,2,7200.0,INR,2026-07-20,2026-07-25,yes,no,paid,AMS-1163
+EXP-0440,AMS-1649,TRIP-153,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-07-20,2026-07-25,no,no,paid,AMS-1163
+EXP-0441,AMS-1649,TRIP-153,taxi,Taxi,Chennai,,900.0,INR,2026-07-18,2026-07-25,yes,no,paid,AMS-1163
+EXP-0442,AMS-1166,TRIP-154,hotel,"Hotel, 2 nights",Coimbatore,2,5400.0,INR,2026-04-21,2026-05-03,yes,no,paid,AMS-1068
+EXP-0443,AMS-1166,TRIP-154,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-04-21,2026-05-03,no,no,paid,AMS-1068
+EXP-0444,AMS-1166,TRIP-154,taxi,Taxi,Coimbatore,,770.0,INR,2026-04-19,2026-05-03,yes,no,paid,AMS-1068
+EXP-0445,AMS-1540,TRIP-155,hotel,"Hotel, 1 night",Dallas,1,151.0,USD,2026-09-14,2026-09-22,yes,no,paid,AMS-1072
+EXP-0446,AMS-1540,TRIP-155,daily_allowance,"Daily allowance, 2 days",Dallas,,150.0,USD,2026-09-14,2026-09-22,no,no,paid,AMS-1072
+EXP-0447,AMS-1540,TRIP-155,taxi,Taxi,Dallas,,67.0,USD,2026-09-13,2026-09-22,yes,no,paid,AMS-1072
+EXP-0448,AMS-2008,TRIP-156,hotel,"Hotel, 3 nights",Coimbatore,3,7800.0,INR,2026-10-07,2026-10-23,yes,no,paid,AMS-1283
+EXP-0449,AMS-2008,TRIP-156,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-10-07,2026-10-23,no,no,paid,AMS-1283
+EXP-0450,AMS-2008,TRIP-156,taxi,Taxi,Coimbatore,,600.0,INR,2026-10-04,2026-10-23,yes,no,paid,AMS-1283
+EXP-0451,AMS-1190,TRIP-157,hotel,"Hotel, 3 nights",Bengaluru,3,14850.0,INR,2026-08-30,2026-09-06,yes,no,paid,AMS-1076
+EXP-0452,AMS-1190,TRIP-157,daily_allowance,"Daily allowance, 4 days",Bengaluru,,7200.0,INR,2026-08-30,2026-09-06,no,no,paid,AMS-1076
+EXP-0453,AMS-1190,TRIP-157,taxi,Taxi,Bengaluru,,1150.0,INR,2026-08-27,2026-09-06,yes,no,paid,AMS-1076
+EXP-0454,AMS-1799,TRIP-158,hotel,"Hotel, 2 nights",Hyderabad,2,8000.0,INR,2026-05-20,2026-05-31,yes,no,paid,AMS-1233
+EXP-0455,AMS-1799,TRIP-158,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-05-20,2026-05-31,no,no,paid,AMS-1233
+EXP-0456,AMS-1799,TRIP-158,taxi,Taxi,Hyderabad,,530.0,INR,2026-05-18,2026-05-31,yes,no,paid,AMS-1233
+EXP-0457,AMS-1386,TRIP-159,hotel,"Hotel, 2 nights",Mysuru,2,6500.0,INR,2026-06-27,2026-07-17,yes,no,paid,AMS-1083
+EXP-0458,AMS-1386,TRIP-159,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-06-27,2026-07-17,no,no,paid,AMS-1083
+EXP-0459,AMS-1386,TRIP-159,taxi,Taxi,Mysuru,,1210.0,INR,2026-06-25,2026-07-17,yes,no,paid,AMS-1083
+EXP-0460,AMS-1249,TRIP-160,hotel,"Hotel, 1 night",Mumbai,1,5100.0,INR,2026-02-03,2026-02-10,yes,no,paid,AMS-1220
+EXP-0461,AMS-1249,TRIP-160,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-02-03,2026-02-10,no,no,paid,AMS-1220
+EXP-0462,AMS-1249,TRIP-160,taxi,Taxi,Mumbai,,750.0,INR,2026-02-02,2026-02-10,yes,no,paid,AMS-1220
+EXP-0463,AMS-1672,TRIP-161,hotel,"Hotel, 1 night",Pune,1,3800.0,INR,2026-03-23,2026-03-26,yes,no,paid,AMS-1075
+EXP-0464,AMS-1672,TRIP-161,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-03-23,2026-03-26,no,no,paid,AMS-1075
+EXP-0465,AMS-1672,TRIP-161,taxi,Taxi,Pune,,1340.0,INR,2026-03-22,2026-03-26,yes,no,paid,AMS-1075
+EXP-0466,AMS-2106,TRIP-162,hotel,"Hotel, 1 night",Pune,1,2800.0,INR,2026-04-10,2026-04-23,yes,no,paid,AMS-1079
+EXP-0467,AMS-2106,TRIP-162,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-04-10,2026-04-23,no,no,paid,AMS-1079
+EXP-0468,AMS-2106,TRIP-162,taxi,Taxi,Pune,,1300.0,INR,2026-04-09,2026-04-23,yes,no,paid,AMS-1079
+EXP-0469,AMS-1185,TRIP-163,hotel,"Hotel, 2 nights",Pune,2,9700.0,INR,2026-08-02,2026-08-17,yes,no,paid,AMS-1042
+EXP-0470,AMS-1185,TRIP-163,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-08-02,2026-08-17,no,no,paid,AMS-1042
+EXP-0471,AMS-1185,TRIP-163,taxi,Taxi,Pune,,840.0,INR,2026-07-31,2026-08-17,yes,no,paid,AMS-1042
+EXP-0472,AMS-2043,TRIP-164,hotel,"Hotel, 2 nights",Nagpur,2,6600.0,INR,2026-04-01,2026-04-15,yes,no,paid,AMS-1542
+EXP-0473,AMS-2043,TRIP-164,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-04-01,2026-04-15,no,no,paid,AMS-1542
+EXP-0474,AMS-2043,TRIP-164,taxi,Taxi,Nagpur,,1440.0,INR,2026-03-30,2026-04-15,yes,no,paid,AMS-1542
+EXP-0475,AMS-2104,TRIP-165,hotel,"Hotel, 3 nights",New York,3,462.0,USD,2026-06-19,2026-07-03,yes,no,paid,AMS-1043
+EXP-0476,AMS-2104,TRIP-165,daily_allowance,"Daily allowance, 4 days",New York,,240.0,USD,2026-06-19,2026-07-03,no,no,paid,AMS-1043
+EXP-0477,AMS-2104,TRIP-165,taxi,Taxi,New York,,32.0,USD,2026-06-16,2026-07-03,yes,no,paid,AMS-1043
+EXP-0478,AMS-1643,TRIP-166,hotel,"Hotel, 3 nights",Mumbai,3,15600.0,INR,2026-09-02,2026-09-13,yes,no,paid,AMS-1140
+EXP-0479,AMS-1643,TRIP-166,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-09-02,2026-09-13,no,no,paid,AMS-1140
+EXP-0480,AMS-1643,TRIP-166,taxi,Taxi,Mumbai,,1350.0,INR,2026-08-30,2026-09-13,yes,no,paid,AMS-1140
+EXP-0481,AMS-2074,TRIP-167,hotel,"Hotel, 1 night",Houston,1,180.0,USD,2026-10-07,2026-10-14,yes,no,paid,AMS-1290
+EXP-0482,AMS-2074,TRIP-167,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-10-07,2026-10-14,no,no,paid,AMS-1290
+EXP-0483,AMS-2074,TRIP-167,taxi,Taxi,Houston,,53.0,USD,2026-10-06,2026-10-14,yes,no,paid,AMS-1290
+EXP-0484,AMS-1988,TRIP-168,hotel,"Hotel, 2 nights",Chicago,2,246.0,USD,2026-08-26,2026-08-31,yes,no,paid,AMS-1749
+EXP-0485,AMS-1988,TRIP-168,daily_allowance,"Daily allowance, 3 days",Chicago,,180.0,USD,2026-08-26,2026-08-31,no,no,paid,AMS-1749
+EXP-0486,AMS-1988,TRIP-168,taxi,Taxi,Chicago,,26.0,USD,2026-08-24,2026-08-31,yes,no,paid,AMS-1749
+EXP-0487,AMS-1592,TRIP-169,hotel,"Hotel, 2 nights",Bengaluru,2,7800.0,INR,2026-05-24,2026-06-01,yes,no,paid,AMS-1096
+EXP-0488,AMS-1592,TRIP-169,daily_allowance,"Daily allowance, 3 days",Bengaluru,,5400.0,INR,2026-05-24,2026-06-01,no,no,paid,AMS-1096
+EXP-0489,AMS-1592,TRIP-169,taxi,Taxi,Bengaluru,,1540.0,INR,2026-05-22,2026-06-01,yes,no,paid,AMS-1096
+EXP-0490,AMS-2084,TRIP-170,hotel,"Hotel, 2 nights",Chennai,2,10300.0,INR,2026-07-26,2026-07-28,yes,no,paid,AMS-1753
+EXP-0491,AMS-2084,TRIP-170,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-07-26,2026-07-28,no,no,paid,AMS-1753
+EXP-0492,AMS-2084,TRIP-170,taxi,Taxi,Chennai,,1240.0,INR,2026-07-24,2026-07-28,yes,no,paid,AMS-1753
+EXP-0493,AMS-1891,TRIP-171,hotel,"Hotel, 3 nights",Mysuru,3,8850.0,INR,2026-05-26,2026-06-05,yes,no,paid,AMS-1602
+EXP-0494,AMS-1891,TRIP-171,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-05-26,2026-06-05,no,no,paid,AMS-1602
+EXP-0495,AMS-1891,TRIP-171,taxi,Taxi,Mysuru,,1500.0,INR,2026-05-23,2026-06-05,yes,no,paid,AMS-1602
+EXP-0496,AMS-1299,TRIP-172,hotel,"Hotel, 2 nights",Delhi NCR,2,9600.0,INR,2026-05-05,2026-05-14,yes,no,paid,AMS-1170
+EXP-0497,AMS-1299,TRIP-172,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-05-05,2026-05-14,no,no,paid,AMS-1170
+EXP-0498,AMS-1299,TRIP-172,taxi,Taxi,Delhi NCR,,1550.0,INR,2026-05-03,2026-05-14,yes,no,paid,AMS-1170
+EXP-0499,AMS-2051,TRIP-173,hotel,"Hotel, 2 nights",Chennai,2,10300.0,INR,2026-07-20,2026-07-22,yes,no,paid,AMS-1061
+EXP-0500,AMS-2051,TRIP-173,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-07-20,2026-07-22,no,no,paid,AMS-1061
+EXP-0501,AMS-2051,TRIP-173,taxi,Taxi,Chennai,,680.0,INR,2026-07-18,2026-07-22,yes,no,paid,AMS-1061
+EXP-0502,AMS-1486,TRIP-174,hotel,"Hotel, 3 nights",Hyderabad,3,9150.0,INR,2026-09-09,2026-09-13,yes,no,paid,AMS-1605
+EXP-0503,AMS-1486,TRIP-174,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-09-09,2026-09-13,no,no,paid,AMS-1605
+EXP-0504,AMS-1486,TRIP-174,taxi,Taxi,Hyderabad,,730.0,INR,2026-09-06,2026-09-13,yes,no,paid,AMS-1605
+EXP-0505,AMS-1092,TRIP-175,hotel,"Hotel, 3 nights",Pune,3,14100.0,INR,2026-08-10,2026-08-22,yes,no,paid,AMS-1283
+EXP-0506,AMS-1092,TRIP-175,daily_allowance,"Daily allowance, 4 days",Pune,,7200.0,INR,2026-08-10,2026-08-22,no,no,paid,AMS-1283
+EXP-0507,AMS-1092,TRIP-175,taxi,Taxi,Pune,,1430.0,INR,2026-08-07,2026-08-22,yes,no,paid,AMS-1283
+EXP-0508,AMS-2086,TRIP-176,hotel,"Hotel, 3 nights",Coimbatore,3,8250.0,INR,2026-08-06,2026-08-10,yes,no,paid,AMS-1163
+EXP-0509,AMS-2086,TRIP-176,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-08-06,2026-08-10,no,no,paid,AMS-1163
+EXP-0510,AMS-2086,TRIP-176,taxi,Taxi,Coimbatore,,540.0,INR,2026-08-03,2026-08-10,yes,no,paid,AMS-1163
+EXP-0511,AMS-1409,TRIP-177,hotel,"Hotel, 1 night",Delhi NCR,1,5550.0,INR,2026-03-18,2026-03-20,yes,no,paid,AMS-1055
+EXP-0512,AMS-1409,TRIP-177,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-03-18,2026-03-20,no,no,paid,AMS-1055
+EXP-0513,AMS-1409,TRIP-177,taxi,Taxi,Delhi NCR,,1250.0,INR,2026-03-17,2026-03-20,yes,no,paid,AMS-1055
+EXP-0514,AMS-2139,TRIP-178,hotel,"Hotel, 2 nights",Dallas,2,280.0,USD,2026-09-10,2026-09-16,yes,no,paid,AMS-1465
+EXP-0515,AMS-2139,TRIP-178,daily_allowance,"Daily allowance, 3 days",Dallas,,180.0,USD,2026-09-10,2026-09-16,no,no,paid,AMS-1465
+EXP-0516,AMS-2139,TRIP-178,taxi,Taxi,Dallas,,50.0,USD,2026-09-08,2026-09-16,yes,no,paid,AMS-1465
+EXP-0517,AMS-1701,TRIP-179,hotel,"Hotel, 1 night",Mysuru,1,3000.0,INR,2026-08-09,2026-08-22,yes,no,paid,AMS-1176
+EXP-0518,AMS-1701,TRIP-179,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-08-09,2026-08-22,no,no,paid,AMS-1176
+EXP-0519,AMS-1701,TRIP-179,taxi,Taxi,Mysuru,,590.0,INR,2026-08-08,2026-08-22,yes,no,paid,AMS-1176
+EXP-0520,AMS-2062,TRIP-180,hotel,"Hotel, 2 nights",Mumbai,2,10700.0,INR,2026-06-14,2026-07-03,yes,no,paid,AMS-1359
+EXP-0521,AMS-2062,TRIP-180,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-06-14,2026-07-03,no,no,paid,AMS-1359
+EXP-0522,AMS-2062,TRIP-180,taxi,Taxi,Mumbai,,1410.0,INR,2026-06-12,2026-07-03,yes,no,paid,AMS-1359
+EXP-0523,AMS-1837,TRIP-181,hotel,"Hotel, 3 nights",Hyderabad,3,12450.0,INR,2026-04-24,2026-05-11,yes,no,paid,AMS-1049
+EXP-0524,AMS-1837,TRIP-181,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-04-24,2026-05-11,no,no,paid,AMS-1049
+EXP-0525,AMS-1837,TRIP-181,taxi,Taxi,Hyderabad,,700.0,INR,2026-04-21,2026-05-11,yes,no,paid,AMS-1049
+EXP-0526,AMS-2025,TRIP-182,hotel,"Hotel, 3 nights",Pune,3,12450.0,INR,2026-03-31,2026-04-04,yes,no,paid,AMS-1050
+EXP-0527,AMS-2025,TRIP-182,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-03-31,2026-04-04,no,no,paid,AMS-1050
+EXP-0528,AMS-2025,TRIP-182,taxi,Taxi,Pune,,550.0,INR,2026-03-28,2026-04-04,yes,no,paid,AMS-1050
+EXP-0529,AMS-1486,TRIP-183,hotel,"Hotel, 2 nights",Mysuru,2,5700.0,INR,2026-07-04,2026-07-18,yes,no,paid,AMS-1605
+EXP-0530,AMS-1486,TRIP-183,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-07-04,2026-07-18,no,no,paid,AMS-1605
+EXP-0531,AMS-1486,TRIP-183,taxi,Taxi,Mysuru,,1010.0,INR,2026-07-02,2026-07-18,yes,no,paid,AMS-1605
+EXP-0532,AMS-1790,TRIP-184,hotel,"Hotel, 1 night",Mysuru,1,2550.0,INR,2026-05-09,2026-05-18,yes,no,paid,AMS-1055
+EXP-0533,AMS-1790,TRIP-184,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-05-09,2026-05-18,no,no,paid,AMS-1055
+EXP-0534,AMS-1790,TRIP-184,taxi,Taxi,Mysuru,,1510.0,INR,2026-05-08,2026-05-18,yes,no,paid,AMS-1055
+EXP-0535,AMS-1282,TRIP-185,hotel,"Hotel, 1 night",Delhi NCR,1,5450.0,INR,2026-07-09,2026-07-14,yes,no,paid,AMS-1233
+EXP-0536,AMS-1282,TRIP-185,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-07-09,2026-07-14,no,no,paid,AMS-1233
+EXP-0537,AMS-1282,TRIP-185,taxi,Taxi,Delhi NCR,,1370.0,INR,2026-07-08,2026-07-14,yes,no,paid,AMS-1233
+EXP-0538,AMS-1208,TRIP-186,hotel,"Hotel, 1 night",Mumbai,1,5800.0,INR,2026-03-16,2026-03-20,yes,no,paid,AMS-1068
+EXP-0539,AMS-1208,TRIP-186,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-03-16,2026-03-20,no,no,paid,AMS-1068
+EXP-0540,AMS-1208,TRIP-186,taxi,Taxi,Mumbai,,800.0,INR,2026-03-15,2026-03-20,yes,no,paid,AMS-1068
+EXP-0541,AMS-1397,TRIP-187,hotel,"Hotel, 2 nights",Chennai,2,11700.0,INR,2026-06-29,2026-07-01,yes,no,paid,AMS-1646
+EXP-0542,AMS-1397,TRIP-187,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-06-29,2026-07-01,no,no,paid,AMS-1646
+EXP-0543,AMS-1397,TRIP-187,taxi,Taxi,Chennai,,1140.0,INR,2026-06-27,2026-07-01,yes,no,paid,AMS-1646
+EXP-0544,AMS-2008,TRIP-188,hotel,"Hotel, 1 night",Chennai,1,3550.0,INR,2026-04-17,2026-04-23,yes,no,paid,AMS-1283
+EXP-0545,AMS-2008,TRIP-188,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-04-17,2026-04-23,no,no,paid,AMS-1283
+EXP-0546,AMS-2008,TRIP-188,taxi,Taxi,Chennai,,890.0,INR,2026-04-16,2026-04-23,yes,no,paid,AMS-1283
+EXP-0547,AMS-1906,TRIP-190,hotel,"Hotel, 2 nights",Mysuru,2,3600.0,INR,2026-05-26,2026-06-11,yes,no,paid,AMS-1049
+EXP-0548,AMS-1906,TRIP-190,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-05-26,2026-06-11,no,no,paid,AMS-1049
+EXP-0549,AMS-1906,TRIP-190,taxi,Taxi,Mysuru,,690.0,INR,2026-05-24,2026-06-11,yes,no,paid,AMS-1049
+EXP-0550,AMS-1746,TRIP-191,hotel,"Hotel, 2 nights",Pune,2,12200.0,INR,2026-06-14,2026-06-21,yes,no,paid,AMS-1057
+EXP-0551,AMS-1746,TRIP-191,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-06-14,2026-06-21,no,no,paid,AMS-1057
+EXP-0552,AMS-1746,TRIP-191,taxi,Taxi,Pune,,1470.0,INR,2026-06-12,2026-06-21,yes,no,paid,AMS-1057
+EXP-0553,AMS-1327,TRIP-192,hotel,"Hotel, 3 nights",Mumbai,3,8850.0,INR,2026-04-14,2026-04-19,yes,no,paid,AMS-1053
+EXP-0554,AMS-1327,TRIP-192,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-04-14,2026-04-19,no,no,paid,AMS-1053
+EXP-0555,AMS-1327,TRIP-192,taxi,Taxi,Mumbai,,500.0,INR,2026-04-11,2026-04-19,no,no,paid,AMS-1053
+EXP-0556,AMS-1676,TRIP-193,hotel,"Hotel, 1 night",Delhi NCR,1,3850.0,INR,2026-03-06,2026-03-22,yes,no,paid,AMS-1607
+EXP-0557,AMS-1676,TRIP-193,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-03-06,2026-03-22,no,no,paid,AMS-1607
+EXP-0558,AMS-1676,TRIP-193,taxi,Taxi,Delhi NCR,,1270.0,INR,2026-03-05,2026-03-22,yes,no,paid,AMS-1607
+EXP-0559,AMS-1779,TRIP-194,hotel,"Hotel, 2 nights",Nagpur,2,3600.0,INR,2026-04-10,2026-04-17,yes,no,paid,AMS-1788
+EXP-0560,AMS-1779,TRIP-194,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-04-10,2026-04-17,no,no,paid,AMS-1788
+EXP-0561,AMS-1779,TRIP-194,taxi,Taxi,Nagpur,,1210.0,INR,2026-04-08,2026-04-17,yes,no,paid,AMS-1788
+EXP-0562,AMS-1254,TRIP-195,hotel,"Hotel, 2 nights",Hyderabad,2,12200.0,INR,2026-09-21,2026-10-01,yes,no,paid,AMS-1129
+EXP-0563,AMS-1254,TRIP-195,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-09-21,2026-10-01,no,no,paid,AMS-1129
+EXP-0564,AMS-1254,TRIP-195,taxi,Taxi,Hyderabad,,1220.0,INR,2026-09-19,2026-10-01,yes,no,paid,AMS-1129
+EXP-0565,AMS-1965,TRIP-196,hotel,"Hotel, 3 nights",Mysuru,3,10950.0,INR,2026-08-14,2026-08-24,yes,no,paid,AMS-1620
+EXP-0566,AMS-1965,TRIP-196,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-08-14,2026-08-24,no,no,paid,AMS-1620
+EXP-0567,AMS-1965,TRIP-196,taxi,Taxi,Mysuru,,800.0,INR,2026-08-11,2026-08-24,yes,no,paid,AMS-1620
+EXP-0568,AMS-1674,TRIP-197,hotel,"Hotel, 3 nights",Mysuru,3,8850.0,INR,2026-02-14,2026-03-06,yes,no,paid,AMS-1166
+EXP-0569,AMS-1674,TRIP-197,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-02-14,2026-03-06,no,no,paid,AMS-1166
+EXP-0570,AMS-1674,TRIP-197,taxi,Taxi,Mysuru,,1510.0,INR,2026-02-11,2026-03-06,yes,no,paid,AMS-1166
+EXP-0571,AMS-1598,TRIP-198,hotel,"Hotel, 1 night",Bengaluru,1,3050.0,INR,2026-08-02,2026-08-08,yes,no,paid,AMS-1047
+EXP-0572,AMS-1598,TRIP-198,daily_allowance,"Daily allowance, 2 days",Bengaluru,,2400.0,INR,2026-08-02,2026-08-08,no,no,paid,AMS-1047
+EXP-0573,AMS-1598,TRIP-198,taxi,Taxi,Bengaluru,,460.0,INR,2026-08-01,2026-08-08,no,no,paid,AMS-1047
+EXP-0574,AMS-1440,TRIP-199,hotel,"Hotel, 3 nights",Hyderabad,3,10950.0,INR,2026-10-08,2026-10-17,yes,no,paid,AMS-1052
+EXP-0575,AMS-1440,TRIP-199,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-10-08,2026-10-17,no,no,paid,AMS-1052
+EXP-0576,AMS-1440,TRIP-199,taxi,Taxi,Hyderabad,,1240.0,INR,2026-10-05,2026-10-17,yes,no,paid,AMS-1052
+EXP-0577,AMS-1816,TRIP-200,hotel,"Hotel, 1 night",Nagpur,1,2700.0,INR,2026-09-10,2026-09-18,yes,no,paid,AMS-1054
+EXP-0578,AMS-1816,TRIP-200,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-09-10,2026-09-18,no,no,paid,AMS-1054
+EXP-0579,AMS-1816,TRIP-200,taxi,Taxi,Nagpur,,650.0,INR,2026-09-09,2026-09-18,yes,no,paid,AMS-1054
+EXP-0580,AMS-1943,TRIP-201,hotel,"Hotel, 1 night",Chennai,1,4500.0,INR,2026-06-27,2026-07-11,yes,no,paid,AMS-1439
+EXP-0581,AMS-1943,TRIP-201,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-06-27,2026-07-11,no,no,paid,AMS-1439
+EXP-0582,AMS-1943,TRIP-201,taxi,Taxi,Chennai,,950.0,INR,2026-06-26,2026-07-11,yes,no,paid,AMS-1439
+EXP-0583,AMS-1413,TRIP-202,hotel,"Hotel, 1 night",Nagpur,1,2700.0,INR,2026-07-22,2026-08-06,yes,no,paid,AMS-1439
+EXP-0584,AMS-1413,TRIP-202,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-07-22,2026-08-06,no,no,paid,AMS-1439
+EXP-0585,AMS-1413,TRIP-202,taxi,Taxi,Nagpur,,1350.0,INR,2026-07-21,2026-08-06,yes,no,paid,AMS-1439
+EXP-0586,AMS-1547,TRIP-203,hotel,"Hotel, 1 night",Hyderabad,1,3300.0,INR,2026-02-28,2026-03-14,yes,no,paid,AMS-1049
+EXP-0587,AMS-1547,TRIP-203,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-02-28,2026-03-14,no,no,paid,AMS-1049
+EXP-0588,AMS-1547,TRIP-203,taxi,Taxi,Hyderabad,,1550.0,INR,2026-02-27,2026-03-14,yes,no,paid,AMS-1049
+EXP-0589,AMS-1531,TRIP-204,hotel,"Hotel, 3 nights",Coimbatore,3,12150.0,INR,2026-08-26,2026-09-08,yes,no,paid,AMS-1077
+EXP-0590,AMS-1531,TRIP-204,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-08-26,2026-09-08,no,no,paid,AMS-1077
+EXP-0591,AMS-1531,TRIP-204,taxi,Taxi,Coimbatore,,1100.0,INR,2026-08-23,2026-09-08,yes,no,paid,AMS-1077
+EXP-0592,AMS-1905,TRIP-205,hotel,"Hotel, 1 night",Pune,1,4050.0,INR,2026-03-30,2026-04-07,yes,no,paid,AMS-1597
+EXP-0593,AMS-1905,TRIP-205,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-03-30,2026-04-07,no,no,paid,AMS-1597
+EXP-0594,AMS-1905,TRIP-205,taxi,Taxi,Pune,,980.0,INR,2026-03-29,2026-04-07,yes,no,paid,AMS-1597
+EXP-0595,AMS-2121,TRIP-206,hotel,"Hotel, 3 nights",Houston,3,486.0,USD,2026-08-03,2026-08-16,yes,no,paid,AMS-1465
+EXP-0596,AMS-2121,TRIP-206,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-08-03,2026-08-16,no,no,paid,AMS-1465
+EXP-0597,AMS-2121,TRIP-206,taxi,Taxi,Houston,,83.0,USD,2026-07-31,2026-08-16,yes,no,paid,AMS-1465
+EXP-0598,AMS-1976,TRIP-207,hotel,"Hotel, 1 night",Mumbai,1,3300.0,INR,2026-06-29,2026-07-18,yes,no,paid,AMS-1361
+EXP-0599,AMS-1976,TRIP-207,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-06-29,2026-07-18,no,no,paid,AMS-1361
+EXP-0600,AMS-1976,TRIP-207,taxi,Taxi,Mumbai,,420.0,INR,2026-06-28,2026-07-18,no,no,paid,AMS-1361
+EXP-0601,AMS-1669,TRIP-208,hotel,"Hotel, 2 nights",Chicago,2,232.0,USD,2026-08-16,2026-08-23,yes,no,paid,AMS-1496
+EXP-0602,AMS-1669,TRIP-208,daily_allowance,"Daily allowance, 3 days",Chicago,,180.0,USD,2026-08-16,2026-08-23,no,no,paid,AMS-1496
+EXP-0603,AMS-1669,TRIP-208,taxi,Taxi,Chicago,,60.0,USD,2026-08-14,2026-08-23,yes,no,paid,AMS-1496
+EXP-0604,AMS-1083,TRIP-209,hotel,"Hotel, 2 nights",Pune,2,10900.0,INR,2026-03-03,2026-03-18,yes,no,paid,AMS-1041
+EXP-0605,AMS-1083,TRIP-209,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-03-03,2026-03-18,no,no,paid,AMS-1041
+EXP-0606,AMS-1083,TRIP-209,taxi,Taxi,Pune,,1030.0,INR,2026-03-01,2026-03-18,yes,no,paid,AMS-1041
+EXP-0607,AMS-1126,TRIP-210,hotel,"Hotel, 2 nights",Nagpur,2,5900.0,INR,2026-08-08,2026-08-12,yes,no,paid,AMS-1324
+EXP-0608,AMS-1126,TRIP-210,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-08-08,2026-08-12,no,no,paid,AMS-1324
+EXP-0609,AMS-1126,TRIP-210,taxi,Taxi,Nagpur,,420.0,INR,2026-08-06,2026-08-12,yes,no,paid,AMS-1324
+EXP-0610,AMS-1201,TRIP-211,hotel,"Hotel, 2 nights",Chennai,2,8800.0,INR,2026-08-27,2026-09-05,yes,no,paid,AMS-1310
+EXP-0611,AMS-1201,TRIP-211,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-08-27,2026-09-05,no,no,paid,AMS-1310
+EXP-0612,AMS-1201,TRIP-211,taxi,Taxi,Chennai,,1140.0,INR,2026-08-25,2026-09-05,yes,no,paid,AMS-1310
+EXP-0613,AMS-1422,TRIP-212,hotel,"Hotel, 2 nights",Delhi NCR,2,7200.0,INR,2026-05-04,2026-05-10,yes,no,paid,AMS-1542
+EXP-0614,AMS-1422,TRIP-212,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,3600.0,INR,2026-05-04,2026-05-10,no,no,paid,AMS-1542
+EXP-0615,AMS-1422,TRIP-212,taxi,Taxi,Delhi NCR,,990.0,INR,2026-05-02,2026-05-10,yes,no,paid,AMS-1542
+EXP-0616,AMS-1937,TRIP-213,hotel,"Hotel, 2 nights",Dallas,2,356.0,USD,2026-03-09,2026-03-26,yes,no,paid,AMS-1412
+EXP-0617,AMS-1937,TRIP-213,daily_allowance,"Daily allowance, 3 days",Dallas,,180.0,USD,2026-03-09,2026-03-26,no,no,paid,AMS-1412
+EXP-0618,AMS-1937,TRIP-213,taxi,Taxi,Dallas,,29.0,USD,2026-03-07,2026-03-26,yes,no,paid,AMS-1412
+EXP-0619,AMS-1592,TRIP-214,hotel,"Hotel, 3 nights",Mumbai,3,19200.0,INR,2026-06-25,2026-07-15,yes,no,paid,AMS-1096
+EXP-0620,AMS-1592,TRIP-214,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-06-25,2026-07-15,no,no,paid,AMS-1096
+EXP-0621,AMS-1592,TRIP-214,taxi,Taxi,Mumbai,,430.0,INR,2026-06-22,2026-07-15,yes,no,paid,AMS-1096
+EXP-0622,AMS-1329,TRIP-215,hotel,"Hotel, 1 night",Chicago,1,130.0,USD,2026-03-14,2026-03-24,yes,no,paid,AMS-1223
+EXP-0623,AMS-1329,TRIP-215,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-03-14,2026-03-24,no,no,paid,AMS-1223
+EXP-0624,AMS-1329,TRIP-215,taxi,Taxi,Chicago,,22.0,USD,2026-03-13,2026-03-24,yes,no,paid,AMS-1223
+EXP-0625,AMS-1429,TRIP-216,hotel,"Hotel, 3 nights",Mysuru,3,6150.0,INR,2026-07-11,2026-07-26,yes,no,paid,AMS-1053
+EXP-0626,AMS-1429,TRIP-216,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-07-11,2026-07-26,no,no,paid,AMS-1053
+EXP-0627,AMS-1429,TRIP-216,taxi,Taxi,Mysuru,,1480.0,INR,2026-07-08,2026-07-26,yes,no,paid,AMS-1053
+EXP-0628,AMS-1457,TRIP-217,hotel,"Hotel, 2 nights",Mumbai,2,7300.0,INR,2026-04-06,2026-04-25,yes,no,paid,AMS-1220
+EXP-0629,AMS-1457,TRIP-217,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-04-06,2026-04-25,no,no,paid,AMS-1220
+EXP-0630,AMS-1457,TRIP-217,taxi,Taxi,Mumbai,,1460.0,INR,2026-04-04,2026-04-25,yes,no,paid,AMS-1220
+EXP-0631,AMS-1196,TRIP-218,hotel,"Hotel, 1 night",Chennai,1,4500.0,INR,2026-09-08,2026-09-15,yes,no,paid,AMS-1788
+EXP-0632,AMS-1196,TRIP-218,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-09-08,2026-09-15,no,no,paid,AMS-1788
+EXP-0633,AMS-1196,TRIP-218,taxi,Taxi,Chennai,,440.0,INR,2026-09-07,2026-09-15,yes,no,paid,AMS-1788
+EXP-0634,AMS-1578,TRIP-219,hotel,"Hotel, 3 nights",Pune,3,19350.0,INR,2026-09-14,2026-09-20,yes,no,paid,AMS-1556
+EXP-0635,AMS-1578,TRIP-219,daily_allowance,"Daily allowance, 4 days",Pune,,7200.0,INR,2026-09-14,2026-09-20,no,no,paid,AMS-1556
+EXP-0636,AMS-1578,TRIP-219,taxi,Taxi,Pune,,1270.0,INR,2026-09-11,2026-09-20,yes,no,paid,AMS-1556
+EXP-0637,AMS-1404,TRIP-220,hotel,"Hotel, 1 night",Nagpur,1,3200.0,INR,2026-04-16,2026-04-26,yes,no,paid,AMS-1041
+EXP-0638,AMS-1404,TRIP-220,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-04-16,2026-04-26,no,no,paid,AMS-1041
+EXP-0639,AMS-1404,TRIP-220,taxi,Taxi,Nagpur,,710.0,INR,2026-04-15,2026-04-26,yes,no,paid,AMS-1041
+EXP-0640,AMS-1206,TRIP-221,hotel,"Hotel, 3 nights",Houston,3,414.0,USD,2026-10-13,2026-10-29,yes,no,approved,AMS-1658
+EXP-0641,AMS-1206,TRIP-221,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-10-13,2026-10-29,no,no,approved,AMS-1658
+EXP-0642,AMS-1206,TRIP-221,taxi,Taxi,Houston,,30.0,USD,2026-10-10,2026-10-29,yes,no,approved,AMS-1658
+EXP-0643,AMS-1828,TRIP-222,hotel,"Hotel, 1 night",Mysuru,1,3000.0,INR,2026-06-17,2026-07-03,yes,no,paid,AMS-1077
+EXP-0644,AMS-1828,TRIP-222,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-06-17,2026-07-03,no,no,paid,AMS-1077
+EXP-0645,AMS-1828,TRIP-222,taxi,Taxi,Mysuru,,1190.0,INR,2026-06-16,2026-07-03,yes,no,paid,AMS-1077
+EXP-0646,AMS-1669,TRIP-224,hotel,"Hotel, 2 nights",Chicago,2,334.0,USD,2026-05-16,2026-06-05,yes,no,paid,AMS-1496
+EXP-0647,AMS-1669,TRIP-224,daily_allowance,"Daily allowance, 3 days",Chicago,,180.0,USD,2026-05-16,2026-06-05,no,no,paid,AMS-1496
+EXP-0648,AMS-1669,TRIP-224,taxi,Taxi,Chicago,,28.0,USD,2026-05-14,2026-06-05,yes,no,paid,AMS-1496
+EXP-0649,AMS-2081,TRIP-225,hotel,"Hotel, 3 nights",Pune,3,8100.0,INR,2026-03-28,2026-03-30,yes,no,paid,AMS-1625
+EXP-0650,AMS-2081,TRIP-225,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-03-28,2026-03-30,no,no,paid,AMS-1625
+EXP-0651,AMS-2081,TRIP-225,taxi,Taxi,Pune,,1010.0,INR,2026-03-25,2026-03-30,yes,no,paid,AMS-1625
+EXP-0652,AMS-1852,TRIP-226,hotel,"Hotel, 3 nights",Nagpur,3,6450.0,INR,2026-05-19,2026-06-07,yes,no,paid,AMS-1132
+EXP-0653,AMS-1852,TRIP-226,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-05-19,2026-06-07,no,no,paid,AMS-1132
+EXP-0654,AMS-1852,TRIP-226,taxi,Taxi,Nagpur,,1530.0,INR,2026-05-16,2026-06-07,yes,no,paid,AMS-1132
+EXP-0655,AMS-1902,TRIP-227,hotel,"Hotel, 1 night",Coimbatore,1,2400.0,INR,2026-03-19,2026-03-26,yes,no,paid,AMS-1439
+EXP-0656,AMS-1902,TRIP-227,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-03-19,2026-03-26,no,no,paid,AMS-1439
+EXP-0657,AMS-1902,TRIP-227,taxi,Taxi,Coimbatore,,1290.0,INR,2026-03-18,2026-03-26,yes,no,paid,AMS-1439
+EXP-0658,AMS-1067,TRIP-228,hotel,"Hotel, 3 nights",Mumbai,3,15150.0,INR,2026-03-25,2026-03-29,yes,no,paid,AMS-1116
+EXP-0659,AMS-1067,TRIP-228,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-03-25,2026-03-29,no,no,paid,AMS-1116
+EXP-0660,AMS-1067,TRIP-228,taxi,Taxi,Mumbai,,1480.0,INR,2026-03-22,2026-03-29,yes,no,paid,AMS-1116
+EXP-0661,AMS-1359,TRIP-229,hotel,"Hotel, 2 nights",Chennai,2,10500.0,INR,2026-02-28,2026-03-08,yes,no,paid,AMS-1133
+EXP-0662,AMS-1359,TRIP-229,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-02-28,2026-03-08,no,no,paid,AMS-1133
+EXP-0663,AMS-1359,TRIP-229,taxi,Taxi,Chennai,,820.0,INR,2026-02-26,2026-03-08,yes,no,paid,AMS-1133
+EXP-0664,AMS-2116,TRIP-230,hotel,"Hotel, 2 nights",Dallas,2,288.0,USD,2026-04-04,2026-04-14,yes,no,paid,AMS-1074
+EXP-0665,AMS-2116,TRIP-230,daily_allowance,"Daily allowance, 3 days",Dallas,,180.0,USD,2026-04-04,2026-04-14,no,no,paid,AMS-1074
+EXP-0666,AMS-2116,TRIP-230,taxi,Taxi,Dallas,,52.0,USD,2026-04-02,2026-04-14,yes,no,paid,AMS-1074
+EXP-0667,AMS-1443,TRIP-231,hotel,"Hotel, 1 night",Nagpur,1,2950.0,INR,2026-08-22,2026-09-01,yes,no,paid,AMS-1169
+EXP-0668,AMS-1443,TRIP-231,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-08-22,2026-09-01,no,no,paid,AMS-1169
+EXP-0669,AMS-1443,TRIP-231,taxi,Taxi,Nagpur,,1150.0,INR,2026-08-21,2026-09-01,yes,no,paid,AMS-1169
+EXP-0670,AMS-1975,TRIP-232,hotel,"Hotel, 2 nights",Hyderabad,2,10300.0,INR,2026-10-10,2026-10-27,yes,no,approved,AMS-1563
+EXP-0671,AMS-1975,TRIP-232,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-10-10,2026-10-27,no,no,approved,AMS-1563
+EXP-0672,AMS-1975,TRIP-232,taxi,Taxi,Hyderabad,,360.0,INR,2026-10-08,2026-10-27,yes,no,approved,AMS-1563
+EXP-0673,AMS-1086,TRIP-233,hotel,"Hotel, 3 nights",Delhi NCR,3,17250.0,INR,2026-08-07,2026-08-23,yes,no,paid,AMS-1763
+EXP-0674,AMS-1086,TRIP-233,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-08-07,2026-08-23,no,no,paid,AMS-1763
+EXP-0675,AMS-1086,TRIP-233,taxi,Taxi,Delhi NCR,,560.0,INR,2026-08-04,2026-08-23,yes,no,paid,AMS-1763
+EXP-0676,AMS-1354,TRIP-234,hotel,"Hotel, 2 nights",Coimbatore,2,5500.0,INR,2026-05-24,2026-06-02,yes,no,paid,AMS-1646
+EXP-0677,AMS-1354,TRIP-234,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-05-24,2026-06-02,no,no,paid,AMS-1646
+EXP-0678,AMS-1354,TRIP-234,taxi,Taxi,Coimbatore,,1340.0,INR,2026-05-22,2026-06-02,yes,no,paid,AMS-1646
+EXP-0679,AMS-1672,TRIP-235,hotel,"Hotel, 3 nights",Mumbai,3,12000.0,INR,2026-07-21,2026-08-10,yes,no,paid,AMS-1075
+EXP-0680,AMS-1672,TRIP-235,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-07-21,2026-08-10,no,no,paid,AMS-1075
+EXP-0681,AMS-1672,TRIP-235,taxi,Taxi,Mumbai,,1020.0,INR,2026-07-18,2026-08-10,yes,no,paid,AMS-1075
+EXP-0682,AMS-1616,TRIP-236,hotel,"Hotel, 2 nights",Hyderabad,2,9100.0,INR,2026-07-10,2026-07-15,yes,no,paid,AMS-1597
+EXP-0683,AMS-1616,TRIP-236,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-07-10,2026-07-15,no,no,paid,AMS-1597
+EXP-0684,AMS-1616,TRIP-236,taxi,Taxi,Hyderabad,,1480.0,INR,2026-07-08,2026-07-15,yes,no,paid,AMS-1597
+EXP-0685,AMS-1043,TRIP-237,hotel,"Hotel, 3 nights",Dallas,3,591.0,USD,2026-03-01,2026-03-18,yes,no,paid,AMS-1072
+EXP-0686,AMS-1043,TRIP-237,daily_allowance,"Daily allowance, 4 days",Dallas,,300.0,USD,2026-03-01,2026-03-18,no,no,paid,AMS-1072
+EXP-0687,AMS-1043,TRIP-237,taxi,Taxi,Dallas,,71.0,USD,2026-02-26,2026-03-18,yes,no,paid,AMS-1072
+EXP-0688,AMS-1163,TRIP-238,hotel,"Hotel, 2 nights",Delhi NCR,2,7900.0,INR,2026-09-23,2026-10-08,yes,no,paid,AMS-1076
+EXP-0689,AMS-1163,TRIP-238,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-09-23,2026-10-08,no,no,paid,AMS-1076
+EXP-0690,AMS-1163,TRIP-238,taxi,Taxi,Delhi NCR,,1570.0,INR,2026-09-21,2026-10-08,yes,no,paid,AMS-1076
+EXP-0691,AMS-1268,TRIP-239,hotel,"Hotel, 2 nights",Nagpur,2,6000.0,INR,2026-07-26,2026-08-02,yes,no,paid,AMS-1048
+EXP-0692,AMS-1268,TRIP-239,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-07-26,2026-08-02,no,no,paid,AMS-1048
+EXP-0693,AMS-1268,TRIP-239,taxi,Taxi,Nagpur,,540.0,INR,2026-07-24,2026-08-02,yes,no,paid,AMS-1048
+EXP-0694,AMS-1989,TRIP-240,hotel,"Hotel, 2 nights",Houston,2,340.0,USD,2026-09-17,2026-10-05,yes,no,paid,AMS-1527
+EXP-0695,AMS-1989,TRIP-240,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-09-17,2026-10-05,no,no,paid,AMS-1527
+EXP-0696,AMS-1989,TRIP-240,taxi,Taxi,Houston,,49.0,USD,2026-09-15,2026-10-05,yes,no,paid,AMS-1527
+EXP-0697,AMS-1936,TRIP-241,hotel,"Hotel, 3 nights",Mumbai,3,10500.0,INR,2026-08-14,2026-09-01,yes,no,paid,AMS-1063
+EXP-0698,AMS-1936,TRIP-241,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-08-14,2026-09-01,no,no,paid,AMS-1063
+EXP-0699,AMS-1936,TRIP-241,taxi,Taxi,Mumbai,,310.0,INR,2026-08-11,2026-09-01,no,no,paid,AMS-1063
+EXP-0700,AMS-1987,TRIP-242,hotel,"Hotel, 1 night",Mumbai,1,4750.0,INR,2026-02-27,2026-03-19,yes,no,paid,AMS-1817
+EXP-0701,AMS-1987,TRIP-242,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-02-27,2026-03-19,no,no,paid,AMS-1817
+EXP-0702,AMS-1987,TRIP-242,taxi,Taxi,Mumbai,,760.0,INR,2026-02-26,2026-03-19,yes,no,paid,AMS-1817
+EXP-0703,AMS-1647,TRIP-243,hotel,"Hotel, 3 nights",Mysuru,3,7650.0,INR,2026-08-06,2026-08-15,yes,no,paid,AMS-1744
+EXP-0704,AMS-1647,TRIP-243,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-08-06,2026-08-15,no,no,paid,AMS-1744
+EXP-0705,AMS-1647,TRIP-243,taxi,Taxi,Mysuru,,610.0,INR,2026-08-03,2026-08-15,yes,no,paid,AMS-1744
+EXP-0706,AMS-1224,TRIP-244,hotel,"Hotel, 2 nights",Chennai,2,12200.0,INR,2026-06-10,2026-06-18,yes,no,paid,AMS-1346
+EXP-0707,AMS-1224,TRIP-244,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-06-10,2026-06-18,no,no,paid,AMS-1346
+EXP-0708,AMS-1224,TRIP-244,taxi,Taxi,Chennai,,1340.0,INR,2026-06-08,2026-06-18,yes,no,paid,AMS-1346
+EXP-0709,AMS-1213,TRIP-245,hotel,"Hotel, 1 night",Coimbatore,1,3600.0,INR,2026-05-15,2026-05-20,yes,no,paid,AMS-1116
+EXP-0710,AMS-1213,TRIP-245,daily_allowance,"Daily allowance, 2 days",Coimbatore,,2600.0,INR,2026-05-15,2026-05-20,no,no,paid,AMS-1116
+EXP-0711,AMS-1213,TRIP-245,taxi,Taxi,Coimbatore,,1130.0,INR,2026-05-14,2026-05-20,yes,no,paid,AMS-1116
+EXP-0712,AMS-1967,TRIP-246,hotel,"Hotel, 1 night",Hyderabad,1,3700.0,INR,2026-02-08,2026-02-20,yes,no,paid,AMS-1283
+EXP-0713,AMS-1967,TRIP-246,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-02-08,2026-02-20,no,no,paid,AMS-1283
+EXP-0714,AMS-1967,TRIP-246,taxi,Taxi,Hyderabad,,610.0,INR,2026-02-07,2026-02-20,yes,no,paid,AMS-1283
+EXP-0715,AMS-1041,TRIP-247,hotel,"Hotel, 3 nights",Chennai,3,21450.0,INR,2026-04-25,2026-05-13,yes,no,paid,AMS-1001
+EXP-0716,AMS-1041,TRIP-247,daily_allowance,"Daily allowance, 4 days",Chennai,,10000.0,INR,2026-04-25,2026-05-13,no,no,paid,AMS-1001
+EXP-0717,AMS-1041,TRIP-247,taxi,Taxi,Chennai,,1420.0,INR,2026-04-22,2026-05-13,yes,no,paid,AMS-1001
+EXP-0718,AMS-1632,TRIP-248,hotel,"Hotel, 3 nights",Hyderabad,3,13200.0,INR,2026-08-12,2026-08-28,yes,no,paid,AMS-1118
+EXP-0719,AMS-1632,TRIP-248,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-08-12,2026-08-28,no,no,paid,AMS-1118
+EXP-0720,AMS-1632,TRIP-248,taxi,Taxi,Hyderabad,,820.0,INR,2026-08-09,2026-08-28,yes,no,paid,AMS-1118
+EXP-0721,AMS-1679,TRIP-249,hotel,"Hotel, 2 nights",Coimbatore,2,3900.0,INR,2026-05-17,2026-06-01,yes,no,paid,AMS-1605
+EXP-0722,AMS-1679,TRIP-249,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-05-17,2026-06-01,no,no,paid,AMS-1605
+EXP-0723,AMS-1679,TRIP-249,taxi,Taxi,Coimbatore,,1230.0,INR,2026-05-15,2026-06-01,yes,no,paid,AMS-1605
+EXP-0724,AMS-1765,TRIP-250,hotel,"Hotel, 1 night",Nagpur,1,1900.0,INR,2026-04-07,2026-04-24,yes,no,paid,AMS-1563
+EXP-0725,AMS-1765,TRIP-250,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-04-07,2026-04-24,no,no,paid,AMS-1563
+EXP-0726,AMS-1765,TRIP-250,taxi,Taxi,Nagpur,,1470.0,INR,2026-04-06,2026-04-24,yes,no,paid,AMS-1563
+EXP-0727,AMS-2013,TRIP-251,hotel,"Hotel, 2 nights",Hyderabad,2,6500.0,INR,2026-06-20,2026-07-10,yes,no,paid,AMS-1077
+EXP-0728,AMS-2013,TRIP-251,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-06-20,2026-07-10,no,no,paid,AMS-1077
+EXP-0729,AMS-2013,TRIP-251,taxi,Taxi,Hyderabad,,1090.0,INR,2026-06-18,2026-07-10,yes,no,paid,AMS-1077
+EXP-0730,AMS-1664,TRIP-252,hotel,"Hotel, 1 night",Mumbai,1,4350.0,INR,2026-03-12,2026-03-19,yes,no,paid,AMS-1046
+EXP-0731,AMS-1664,TRIP-252,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-03-12,2026-03-19,no,no,paid,AMS-1046
+EXP-0732,AMS-1664,TRIP-252,taxi,Taxi,Mumbai,,1490.0,INR,2026-03-11,2026-03-19,yes,no,paid,AMS-1046
+EXP-0733,AMS-1997,TRIP-253,hotel,"Hotel, 2 nights",Houston,2,300.0,USD,2026-05-25,2026-06-06,yes,no,paid,AMS-1749
+EXP-0734,AMS-1997,TRIP-253,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-05-25,2026-06-06,no,no,paid,AMS-1749
+EXP-0735,AMS-1997,TRIP-253,taxi,Taxi,Houston,,54.0,USD,2026-05-23,2026-06-06,yes,no,paid,AMS-1749
+EXP-0736,AMS-1634,TRIP-254,hotel,"Hotel, 3 nights",Houston,3,525.0,USD,2026-08-09,2026-08-27,yes,no,paid,AMS-1465
+EXP-0737,AMS-1634,TRIP-254,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-08-09,2026-08-27,no,no,paid,AMS-1465
+EXP-0738,AMS-1634,TRIP-254,taxi,Taxi,Houston,,75.0,USD,2026-08-06,2026-08-27,yes,no,paid,AMS-1465
+EXP-0739,AMS-2114,TRIP-255,hotel,"Hotel, 3 nights",Hyderabad,3,9150.0,INR,2026-06-13,2026-06-16,yes,no,paid,AMS-1596
+EXP-0740,AMS-2114,TRIP-255,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-06-13,2026-06-16,no,no,paid,AMS-1596
+EXP-0741,AMS-2114,TRIP-255,taxi,Taxi,Hyderabad,,1360.0,INR,2026-06-10,2026-06-16,yes,no,paid,AMS-1596
+EXP-0742,AMS-1220,TRIP-256,hotel,"Hotel, 2 nights",Nagpur,2,7700.0,INR,2026-03-23,2026-04-12,yes,no,paid,AMS-1490
+EXP-0743,AMS-1220,TRIP-256,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-03-23,2026-04-12,no,no,paid,AMS-1490
+EXP-0744,AMS-1220,TRIP-256,taxi,Taxi,Nagpur,,1470.0,INR,2026-03-21,2026-04-12,yes,no,paid,AMS-1490
+EXP-0745,AMS-1968,TRIP-257,hotel,"Hotel, 2 nights",Houston,2,240.0,USD,2026-08-14,2026-08-22,yes,no,paid,AMS-1540
+EXP-0746,AMS-1968,TRIP-257,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-08-14,2026-08-22,no,no,paid,AMS-1540
+EXP-0747,AMS-1968,TRIP-257,taxi,Taxi,Houston,,54.0,USD,2026-08-12,2026-08-22,yes,no,paid,AMS-1540
+EXP-0748,AMS-1475,TRIP-258,hotel,"Hotel, 1 night",Delhi NCR,1,2750.0,INR,2026-07-21,2026-07-23,yes,no,paid,AMS-1390
+EXP-0749,AMS-1475,TRIP-258,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-07-21,2026-07-23,no,no,paid,AMS-1390
+EXP-0750,AMS-1475,TRIP-258,taxi,Taxi,Delhi NCR,,1270.0,INR,2026-07-20,2026-07-23,yes,no,paid,AMS-1390
+EXP-0751,AMS-1631,TRIP-259,hotel,"Hotel, 3 nights",Houston,3,471.0,USD,2026-10-02,2026-10-06,yes,no,paid,AMS-1540
+EXP-0752,AMS-1631,TRIP-259,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-10-02,2026-10-06,no,no,paid,AMS-1540
+EXP-0753,AMS-1631,TRIP-259,taxi,Taxi,Houston,,76.0,USD,2026-09-29,2026-10-06,yes,no,paid,AMS-1540
+EXP-0754,AMS-1667,TRIP-260,hotel,"Hotel, 3 nights",Delhi NCR,3,8550.0,INR,2026-05-27,2026-06-09,yes,no,paid,AMS-1389
+EXP-0755,AMS-1667,TRIP-260,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-05-27,2026-06-09,no,no,paid,AMS-1389
+EXP-0756,AMS-1667,TRIP-260,taxi,Taxi,Delhi NCR,,700.0,INR,2026-05-24,2026-06-09,yes,no,paid,AMS-1389
+EXP-0757,AMS-1398,TRIP-261,hotel,"Hotel, 3 nights",Coimbatore,3,9900.0,INR,2026-10-03,2026-10-11,yes,no,paid,AMS-1275
+EXP-0758,AMS-1398,TRIP-261,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-10-03,2026-10-11,no,no,paid,AMS-1275
+EXP-0759,AMS-1398,TRIP-261,taxi,Taxi,Coimbatore,,1430.0,INR,2026-09-30,2026-10-11,yes,no,paid,AMS-1275
+EXP-0760,AMS-1917,TRIP-262,hotel,"Hotel, 3 nights",Mysuru,3,11400.0,INR,2026-07-23,2026-07-28,yes,no,paid,AMS-1141
+EXP-0761,AMS-1917,TRIP-262,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-07-23,2026-07-28,no,no,paid,AMS-1141
+EXP-0762,AMS-1917,TRIP-262,taxi,Taxi,Mysuru,,1500.0,INR,2026-07-20,2026-07-28,yes,no,paid,AMS-1141
+EXP-0763,AMS-1881,TRIP-263,hotel,"Hotel, 2 nights",Chennai,2,8600.0,INR,2026-04-21,2026-04-30,yes,no,paid,AMS-1129
+EXP-0764,AMS-1881,TRIP-263,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-04-21,2026-04-30,no,no,paid,AMS-1129
+EXP-0765,AMS-1881,TRIP-263,taxi,Taxi,Chennai,,1080.0,INR,2026-04-19,2026-04-30,yes,no,paid,AMS-1129
+EXP-0766,AMS-1643,TRIP-264,hotel,"Hotel, 1 night",Nagpur,1,3100.0,INR,2026-08-05,2026-08-17,yes,no,paid,AMS-1140
+EXP-0767,AMS-1643,TRIP-264,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-08-05,2026-08-17,no,no,paid,AMS-1140
+EXP-0768,AMS-1643,TRIP-264,taxi,Taxi,Nagpur,,1480.0,INR,2026-08-04,2026-08-17,yes,no,paid,AMS-1140
+EXP-0769,AMS-1105,TRIP-265,hotel,"Hotel, 1 night",Delhi NCR,1,4950.0,INR,2026-04-21,2026-05-01,yes,no,paid,AMS-1110
+EXP-0770,AMS-1105,TRIP-265,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-04-21,2026-05-01,no,no,paid,AMS-1110
+EXP-0771,AMS-1105,TRIP-265,taxi,Taxi,Delhi NCR,,380.0,INR,2026-04-20,2026-05-01,no,no,paid,AMS-1110
+EXP-0772,AMS-1163,TRIP-266,hotel,"Hotel, 1 night",Nagpur,1,3500.0,INR,2026-05-01,2026-05-11,yes,no,paid,AMS-1076
+EXP-0773,AMS-1163,TRIP-266,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-05-01,2026-05-11,no,no,paid,AMS-1076
+EXP-0774,AMS-1163,TRIP-266,taxi,Taxi,Nagpur,,1160.0,INR,2026-04-30,2026-05-11,yes,no,paid,AMS-1076
+EXP-0775,AMS-1514,TRIP-267,hotel,"Hotel, 3 nights",Mumbai,3,9450.0,INR,2026-04-10,2026-04-16,yes,no,paid,AMS-1053
+EXP-0776,AMS-1514,TRIP-267,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-04-10,2026-04-16,no,no,paid,AMS-1053
+EXP-0777,AMS-1514,TRIP-267,taxi,Taxi,Mumbai,,450.0,INR,2026-04-07,2026-04-16,no,no,paid,AMS-1053
+EXP-0778,AMS-1774,TRIP-268,hotel,"Hotel, 3 nights",Mumbai,3,8250.0,INR,2026-08-05,2026-08-10,yes,no,paid,AMS-1361
+EXP-0779,AMS-1774,TRIP-268,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-08-05,2026-08-10,no,no,paid,AMS-1361
+EXP-0780,AMS-1774,TRIP-268,taxi,Taxi,Mumbai,,840.0,INR,2026-08-02,2026-08-10,yes,no,paid,AMS-1361
+EXP-0781,AMS-1506,TRIP-269,hotel,"Hotel, 1 night",Delhi NCR,1,4750.0,INR,2026-05-19,2026-06-03,yes,no,paid,AMS-1275
+EXP-0782,AMS-1506,TRIP-269,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-05-19,2026-06-03,no,no,paid,AMS-1275
+EXP-0783,AMS-1506,TRIP-269,taxi,Taxi,Delhi NCR,,1510.0,INR,2026-05-18,2026-06-03,yes,no,paid,AMS-1275
+EXP-0784,AMS-1324,TRIP-270,hotel,"Hotel, 1 night",Pune,1,5950.0,INR,2026-09-30,2026-10-13,yes,no,paid,AMS-1003
+EXP-0785,AMS-1324,TRIP-270,daily_allowance,"Daily allowance, 2 days",Pune,,3600.0,INR,2026-09-30,2026-10-13,no,no,paid,AMS-1003
+EXP-0786,AMS-1324,TRIP-270,taxi,Taxi,Pune,,400.0,INR,2026-09-29,2026-10-13,no,no,paid,AMS-1003
+EXP-0787,AMS-1224,TRIP-271,hotel,"Hotel, 1 night",Hyderabad,1,5850.0,INR,2026-07-06,2026-07-19,yes,no,paid,AMS-1346
+EXP-0788,AMS-1224,TRIP-271,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-07-06,2026-07-19,no,no,paid,AMS-1346
+EXP-0789,AMS-1224,TRIP-271,taxi,Taxi,Hyderabad,,350.0,INR,2026-07-05,2026-07-19,yes,no,paid,AMS-1346
+EXP-0790,AMS-1693,TRIP-272,hotel,"Hotel, 1 night",Chicago,1,120.0,USD,2026-07-14,2026-07-19,yes,no,paid,AMS-1496
+EXP-0791,AMS-1693,TRIP-272,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-07-14,2026-07-19,no,no,paid,AMS-1496
+EXP-0792,AMS-1693,TRIP-272,taxi,Taxi,Chicago,,78.0,USD,2026-07-13,2026-07-19,yes,no,paid,AMS-1496
+EXP-0793,AMS-1508,TRIP-273,hotel,"Hotel, 3 nights",Pune,3,12600.0,INR,2026-08-03,2026-08-06,yes,no,paid,AMS-1060
+EXP-0794,AMS-1508,TRIP-273,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-08-03,2026-08-06,no,no,paid,AMS-1060
+EXP-0795,AMS-1508,TRIP-273,taxi,Taxi,Pune,,1020.0,INR,2026-07-31,2026-08-06,yes,no,paid,AMS-1060
+EXP-0796,AMS-1261,TRIP-274,hotel,"Hotel, 1 night",Dallas,1,237.0,USD,2026-08-29,2026-09-18,yes,no,paid,AMS-1006
+EXP-0797,AMS-1261,TRIP-274,daily_allowance,"Daily allowance, 2 days",Dallas,,150.0,USD,2026-08-29,2026-09-18,no,no,paid,AMS-1006
+EXP-0798,AMS-1261,TRIP-274,taxi,Taxi,Dallas,,25.0,USD,2026-08-28,2026-09-18,yes,no,paid,AMS-1006
+EXP-0799,AMS-1992,TRIP-275,hotel,"Hotel, 2 nights",Mysuru,2,4700.0,INR,2026-08-02,2026-08-11,yes,no,paid,AMS-1763
+EXP-0800,AMS-1992,TRIP-275,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-08-02,2026-08-11,no,no,paid,AMS-1763
+EXP-0801,AMS-1992,TRIP-275,taxi,Taxi,Mysuru,,850.0,INR,2026-07-31,2026-08-11,yes,no,paid,AMS-1763
+EXP-0802,AMS-1879,TRIP-276,hotel,"Hotel, 2 nights",Mysuru,2,5800.0,INR,2026-04-26,2026-04-30,yes,no,paid,AMS-1161
+EXP-0803,AMS-1879,TRIP-276,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-04-26,2026-04-30,no,no,paid,AMS-1161
+EXP-0804,AMS-1879,TRIP-276,taxi,Taxi,Mysuru,,670.0,INR,2026-04-24,2026-04-30,yes,no,paid,AMS-1161
+EXP-0805,AMS-1102,TRIP-277,hotel,"Hotel, 1 night",Delhi NCR,1,4550.0,INR,2026-08-17,2026-08-30,yes,no,paid,AMS-1048
+EXP-0806,AMS-1102,TRIP-277,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-08-17,2026-08-30,no,no,paid,AMS-1048
+EXP-0807,AMS-1102,TRIP-277,taxi,Taxi,Delhi NCR,,930.0,INR,2026-08-16,2026-08-30,yes,no,paid,AMS-1048
+EXP-0808,AMS-1223,TRIP-278,hotel,"Hotel, 2 nights",Chicago,2,444.0,USD,2026-04-26,2026-05-11,yes,no,paid,AMS-1002
+EXP-0809,AMS-1223,TRIP-278,daily_allowance,"Daily allowance, 3 days",Chicago,,225.0,USD,2026-04-26,2026-05-11,no,no,paid,AMS-1002
+EXP-0810,AMS-1223,TRIP-278,taxi,Taxi,Chicago,,24.0,USD,2026-04-24,2026-05-11,no,no,paid,AMS-1002
+EXP-0811,AMS-1197,TRIP-279,hotel,"Hotel, 1 night",Pune,1,4150.0,INR,2026-02-12,2026-03-02,yes,no,paid,AMS-1646
+EXP-0812,AMS-1197,TRIP-279,daily_allowance,"Daily allowance, 2 days",Pune,,3600.0,INR,2026-02-12,2026-03-02,no,no,paid,AMS-1646
+EXP-0813,AMS-1197,TRIP-279,taxi,Taxi,Pune,,400.0,INR,2026-02-11,2026-03-02,yes,no,paid,AMS-1646
+EXP-0814,AMS-1477,TRIP-280,hotel,"Hotel, 2 nights",Pune,2,9000.0,INR,2026-06-03,2026-06-12,yes,no,paid,AMS-1051
+EXP-0815,AMS-1477,TRIP-280,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-06-03,2026-06-12,no,no,paid,AMS-1051
+EXP-0816,AMS-1477,TRIP-280,taxi,Taxi,Pune,,890.0,INR,2026-06-01,2026-06-12,yes,no,paid,AMS-1051
+EXP-0817,AMS-1548,TRIP-281,hotel,"Hotel, 2 nights",Nagpur,2,4400.0,INR,2026-02-13,2026-03-03,yes,no,paid,AMS-1265
+EXP-0818,AMS-1548,TRIP-281,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-02-13,2026-03-03,no,no,paid,AMS-1265
+EXP-0819,AMS-1548,TRIP-281,taxi,Taxi,Nagpur,,1040.0,INR,2026-02-11,2026-03-03,yes,no,paid,AMS-1265
+EXP-0820,AMS-1918,TRIP-282,hotel,"Hotel, 2 nights",Delhi NCR,2,9200.0,INR,2026-05-01,2026-05-17,yes,no,paid,AMS-1498
+EXP-0821,AMS-1918,TRIP-282,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-05-01,2026-05-17,no,no,paid,AMS-1498
+EXP-0822,AMS-1918,TRIP-282,taxi,Taxi,Delhi NCR,,870.0,INR,2026-04-29,2026-05-17,yes,no,paid,AMS-1498
+EXP-0823,AMS-1387,TRIP-283,hotel,"Hotel, 2 nights",Chennai,2,12200.0,INR,2026-04-17,2026-04-26,yes,no,paid,AMS-1376
+EXP-0824,AMS-1387,TRIP-283,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-04-17,2026-04-26,no,no,paid,AMS-1376
+EXP-0825,AMS-1387,TRIP-283,taxi,Taxi,Chennai,,1200.0,INR,2026-04-15,2026-04-26,yes,no,paid,AMS-1376
+EXP-0826,AMS-1980,TRIP-284,hotel,"Hotel, 3 nights",Delhi NCR,3,12150.0,INR,2026-02-28,2026-03-11,yes,no,paid,AMS-1053
+EXP-0827,AMS-1980,TRIP-284,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-02-28,2026-03-11,no,no,paid,AMS-1053
+EXP-0828,AMS-1980,TRIP-284,taxi,Taxi,Delhi NCR,,1550.0,INR,2026-02-25,2026-03-11,yes,no,paid,AMS-1053
+EXP-0829,AMS-1938,TRIP-285,hotel,"Hotel, 2 nights",Mysuru,2,3900.0,INR,2026-06-03,2026-06-06,yes,no,paid,AMS-1324
+EXP-0830,AMS-1938,TRIP-285,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-06-03,2026-06-06,no,no,paid,AMS-1324
+EXP-0831,AMS-1938,TRIP-285,taxi,Taxi,Mysuru,,1360.0,INR,2026-06-01,2026-06-06,yes,no,paid,AMS-1324
+EXP-0832,AMS-1734,TRIP-286,hotel,"Hotel, 3 nights",Nagpur,3,6300.0,INR,2026-09-07,2026-09-20,yes,no,paid,AMS-1044
+EXP-0833,AMS-1734,TRIP-286,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-09-07,2026-09-20,no,no,paid,AMS-1044
+EXP-0834,AMS-1734,TRIP-286,taxi,Taxi,Nagpur,,1050.0,INR,2026-09-04,2026-09-20,yes,no,paid,AMS-1044
+EXP-0835,AMS-1066,TRIP-287,hotel,"Hotel, 2 nights",Chennai,2,11000.0,INR,2026-03-23,2026-03-28,yes,no,paid,AMS-1454
+EXP-0836,AMS-1066,TRIP-287,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-03-23,2026-03-28,no,no,paid,AMS-1454
+EXP-0837,AMS-1066,TRIP-287,taxi,Taxi,Chennai,,490.0,INR,2026-03-21,2026-03-28,no,no,paid,AMS-1454
+EXP-0838,AMS-1969,TRIP-288,hotel,"Hotel, 1 night",Mumbai,1,3350.0,INR,2026-06-21,2026-06-27,yes,no,paid,AMS-1121
+EXP-0839,AMS-1969,TRIP-288,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-06-21,2026-06-27,no,no,paid,AMS-1121
+EXP-0840,AMS-1969,TRIP-288,taxi,Taxi,Mumbai,,860.0,INR,2026-06-20,2026-06-27,yes,no,paid,AMS-1121
+EXP-0841,AMS-2068,TRIP-289,hotel,"Hotel, 3 nights",Nagpur,3,5700.0,INR,2026-02-28,2026-03-09,yes,no,paid,AMS-1129
+EXP-0842,AMS-2068,TRIP-289,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-02-28,2026-03-09,no,no,paid,AMS-1129
+EXP-0843,AMS-2068,TRIP-289,taxi,Taxi,Nagpur,,1090.0,INR,2026-02-25,2026-03-09,yes,no,paid,AMS-1129
+EXP-0844,AMS-1771,TRIP-290,hotel,"Hotel, 1 night",Coimbatore,1,2100.0,INR,2026-02-08,2026-02-20,yes,no,paid,AMS-1731
+EXP-0845,AMS-1771,TRIP-290,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-02-08,2026-02-20,no,no,paid,AMS-1731
+EXP-0846,AMS-1771,TRIP-290,taxi,Taxi,Coimbatore,,600.0,INR,2026-02-07,2026-02-20,yes,no,paid,AMS-1731
+EXP-0847,AMS-1631,TRIP-291,hotel,"Hotel, 1 night",Chicago,1,122.0,USD,2026-09-01,2026-09-15,yes,no,paid,AMS-1540
+EXP-0848,AMS-1631,TRIP-291,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-09-01,2026-09-15,no,no,paid,AMS-1540
+EXP-0849,AMS-1631,TRIP-291,taxi,Taxi,Chicago,,24.0,USD,2026-08-31,2026-09-15,no,no,paid,AMS-1540
+EXP-0850,AMS-2111,TRIP-292,hotel,"Hotel, 3 nights",Nagpur,3,6150.0,INR,2026-04-28,2026-05-12,yes,no,paid,AMS-1143
+EXP-0851,AMS-2111,TRIP-292,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-04-28,2026-05-12,no,no,paid,AMS-1143
+EXP-0852,AMS-2111,TRIP-292,taxi,Taxi,Nagpur,,640.0,INR,2026-04-25,2026-05-12,yes,no,paid,AMS-1143
+EXP-0853,AMS-1936,TRIP-293,hotel,"Hotel, 1 night",Mumbai,1,4300.0,INR,2026-04-01,2026-04-15,yes,no,paid,AMS-1063
+EXP-0854,AMS-1936,TRIP-293,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-04-01,2026-04-15,no,no,paid,AMS-1063
+EXP-0855,AMS-1936,TRIP-293,taxi,Taxi,Mumbai,,1580.0,INR,2026-03-31,2026-04-15,yes,no,paid,AMS-1063
+EXP-0856,AMS-1481,TRIP-294,hotel,"Hotel, 1 night",Dallas,1,174.0,USD,2026-09-15,2026-09-27,yes,no,paid,AMS-1043
+EXP-0857,AMS-1481,TRIP-294,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-09-15,2026-09-27,no,no,paid,AMS-1043
+EXP-0858,AMS-1481,TRIP-294,taxi,Taxi,Dallas,,22.0,USD,2026-09-14,2026-09-27,no,no,paid,AMS-1043
+EXP-0859,AMS-1227,TRIP-295,hotel,"Hotel, 1 night",Mumbai,1,5000.0,INR,2026-06-10,2026-06-26,yes,no,paid,AMS-1576
+EXP-0860,AMS-1227,TRIP-295,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-06-10,2026-06-26,no,no,paid,AMS-1576
+EXP-0861,AMS-1227,TRIP-295,taxi,Taxi,Mumbai,,580.0,INR,2026-06-09,2026-06-26,yes,no,paid,AMS-1576
+EXP-0862,AMS-1463,TRIP-296,hotel,"Hotel, 3 nights",Bengaluru,3,9450.0,INR,2026-10-01,2026-10-17,yes,no,paid,AMS-1364
+EXP-0863,AMS-1463,TRIP-296,daily_allowance,"Daily allowance, 4 days",Bengaluru,,4800.0,INR,2026-10-01,2026-10-17,no,no,paid,AMS-1364
+EXP-0864,AMS-1463,TRIP-296,taxi,Taxi,Bengaluru,,970.0,INR,2026-09-28,2026-10-17,yes,no,paid,AMS-1364
+EXP-0865,AMS-1957,TRIP-297,hotel,"Hotel, 3 nights",Hyderabad,3,12000.0,INR,2026-04-27,2026-05-16,yes,no,paid,AMS-1143
+EXP-0866,AMS-1957,TRIP-297,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-04-27,2026-05-16,no,no,paid,AMS-1143
+EXP-0867,AMS-1957,TRIP-297,taxi,Taxi,Hyderabad,,310.0,INR,2026-04-24,2026-05-16,yes,no,paid,AMS-1143
+EXP-0868,AMS-1048,TRIP-298,hotel,"Hotel, 3 nights",Hyderabad,3,18150.0,INR,2026-05-12,2026-05-25,yes,no,paid,AMS-1107
+EXP-0869,AMS-1048,TRIP-298,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-05-12,2026-05-25,no,no,paid,AMS-1107
+EXP-0870,AMS-1048,TRIP-298,taxi,Taxi,Hyderabad,,910.0,INR,2026-05-09,2026-05-25,yes,no,paid,AMS-1107
+EXP-0871,AMS-1940,TRIP-299,hotel,"Hotel, 3 nights",Nagpur,3,8100.0,INR,2026-08-22,2026-09-10,yes,no,paid,AMS-1410
+EXP-0872,AMS-1940,TRIP-299,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-08-22,2026-09-10,no,no,paid,AMS-1410
+EXP-0873,AMS-1940,TRIP-299,taxi,Taxi,Nagpur,,1350.0,INR,2026-08-19,2026-09-10,yes,no,paid,AMS-1410
+EXP-0874,AMS-2029,TRIP-300,hotel,"Hotel, 3 nights",Pune,3,11400.0,INR,2026-03-14,2026-03-27,yes,no,paid,AMS-1070
+EXP-0875,AMS-2029,TRIP-300,daily_allowance,"Daily allowance, 4 days",Pune,,4800.0,INR,2026-03-14,2026-03-27,no,no,paid,AMS-1070
+EXP-0876,AMS-2029,TRIP-300,taxi,Taxi,Pune,,1350.0,INR,2026-03-11,2026-03-27,yes,no,paid,AMS-1070
+EXP-0877,AMS-1373,TRIP-301,hotel,"Hotel, 3 nights",Nagpur,3,12600.0,INR,2026-06-17,2026-06-22,yes,no,paid,AMS-1107
+EXP-0878,AMS-1373,TRIP-301,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-06-17,2026-06-22,no,no,paid,AMS-1107
+EXP-0879,AMS-1373,TRIP-301,taxi,Taxi,Nagpur,,360.0,INR,2026-06-14,2026-06-22,yes,no,paid,AMS-1107
+EXP-0880,AMS-1373,TRIP-302,hotel,"Hotel, 3 nights",Nagpur,3,9900.0,INR,2026-09-01,2026-09-16,yes,no,paid,AMS-1107
+EXP-0881,AMS-1373,TRIP-302,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-09-01,2026-09-16,no,no,paid,AMS-1107
+EXP-0882,AMS-1373,TRIP-302,taxi,Taxi,Nagpur,,1300.0,INR,2026-08-29,2026-09-16,yes,no,paid,AMS-1107
+EXP-0883,AMS-1765,TRIP-303,hotel,"Hotel, 1 night",Delhi NCR,1,4400.0,INR,2026-08-05,2026-08-14,yes,no,paid,AMS-1563
+EXP-0884,AMS-1765,TRIP-303,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-08-05,2026-08-14,no,no,paid,AMS-1563
+EXP-0885,AMS-1765,TRIP-303,taxi,Taxi,Delhi NCR,,1160.0,INR,2026-08-04,2026-08-14,yes,no,paid,AMS-1563
+EXP-0886,AMS-1931,TRIP-304,hotel,"Hotel, 2 nights",Hyderabad,2,5400.0,INR,2026-04-29,2026-05-05,yes,no,paid,AMS-1051
+EXP-0887,AMS-1931,TRIP-304,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-04-29,2026-05-05,no,no,paid,AMS-1051
+EXP-0888,AMS-1931,TRIP-304,taxi,Taxi,Hyderabad,,1390.0,INR,2026-04-27,2026-05-05,yes,no,paid,AMS-1051
+EXP-0889,AMS-1875,TRIP-305,hotel,"Hotel, 2 nights",Bengaluru,2,5700.0,INR,2026-10-07,2026-10-25,yes,no,paid,AMS-1096
+EXP-0890,AMS-1875,TRIP-305,daily_allowance,"Daily allowance, 3 days",Bengaluru,,3600.0,INR,2026-10-07,2026-10-25,no,no,paid,AMS-1096
+EXP-0891,AMS-1875,TRIP-305,taxi,Taxi,Bengaluru,,1380.0,INR,2026-10-05,2026-10-25,yes,no,paid,AMS-1096
+EXP-0892,AMS-1550,TRIP-306,hotel,"Hotel, 1 night",Hyderabad,1,5200.0,INR,2026-03-27,2026-04-04,yes,no,paid,AMS-1498
+EXP-0893,AMS-1550,TRIP-306,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-03-27,2026-04-04,no,no,paid,AMS-1498
+EXP-0894,AMS-1550,TRIP-306,taxi,Taxi,Hyderabad,,1530.0,INR,2026-03-26,2026-04-04,yes,no,paid,AMS-1498
+EXP-0895,AMS-1350,TRIP-307,hotel,"Hotel, 3 nights",Mumbai,3,9750.0,INR,2026-08-07,2026-08-13,yes,no,paid,AMS-1132
+EXP-0896,AMS-1350,TRIP-307,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-08-07,2026-08-13,no,no,paid,AMS-1132
+EXP-0897,AMS-1350,TRIP-307,taxi,Taxi,Mumbai,,1360.0,INR,2026-08-04,2026-08-13,yes,no,paid,AMS-1132
+EXP-0898,AMS-1583,TRIP-308,hotel,"Hotel, 1 night",Chennai,1,5850.0,INR,2026-06-22,2026-07-10,yes,no,paid,AMS-1495
+EXP-0899,AMS-1583,TRIP-308,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-06-22,2026-07-10,no,no,paid,AMS-1495
+EXP-0900,AMS-1583,TRIP-308,taxi,Taxi,Chennai,,1180.0,INR,2026-06-21,2026-07-10,yes,no,paid,AMS-1495
+EXP-0901,AMS-1237,TRIP-309,hotel,"Hotel, 3 nights",Nagpur,3,7950.0,INR,2026-06-06,2026-06-14,yes,no,paid,AMS-1046
+EXP-0902,AMS-1237,TRIP-309,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-06-06,2026-06-14,no,no,paid,AMS-1046
+EXP-0903,AMS-1237,TRIP-309,taxi,Taxi,Nagpur,,1240.0,INR,2026-06-03,2026-06-14,yes,no,paid,AMS-1046
+EXP-0904,AMS-2053,TRIP-310,hotel,"Hotel, 3 nights",Delhi NCR,3,17250.0,INR,2026-08-29,2026-09-12,yes,no,paid,AMS-1324
+EXP-0905,AMS-2053,TRIP-310,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-08-29,2026-09-12,no,no,paid,AMS-1324
+EXP-0906,AMS-2053,TRIP-310,taxi,Taxi,Delhi NCR,,1090.0,INR,2026-08-26,2026-09-12,yes,no,paid,AMS-1324
+EXP-0907,AMS-1442,TRIP-311,hotel,"Hotel, 2 nights",Delhi NCR,2,11400.0,INR,2026-08-10,2026-08-23,yes,no,paid,AMS-1083
+EXP-0908,AMS-1442,TRIP-311,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-08-10,2026-08-23,no,no,paid,AMS-1083
+EXP-0909,AMS-1442,TRIP-311,taxi,Taxi,Delhi NCR,,1450.0,INR,2026-08-08,2026-08-23,yes,no,paid,AMS-1083
+EXP-0910,AMS-2036,TRIP-312,hotel,"Hotel, 2 nights",Mysuru,2,5400.0,INR,2026-04-07,2026-04-09,yes,no,paid,AMS-1389
+EXP-0911,AMS-2036,TRIP-312,daily_allowance,"Daily allowance, 3 days",Mysuru,,2700.0,INR,2026-04-07,2026-04-09,no,no,paid,AMS-1389
+EXP-0912,AMS-2036,TRIP-312,taxi,Taxi,Mysuru,,1080.0,INR,2026-04-05,2026-04-09,yes,no,paid,AMS-1389
+EXP-0913,AMS-1797,TRIP-313,hotel,"Hotel, 2 nights",Hyderabad,2,5400.0,INR,2026-03-13,2026-03-28,yes,no,paid,AMS-1195
+EXP-0914,AMS-1797,TRIP-313,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-03-13,2026-03-28,no,no,paid,AMS-1195
+EXP-0915,AMS-1797,TRIP-313,taxi,Taxi,Hyderabad,,1550.0,INR,2026-03-11,2026-03-28,yes,no,paid,AMS-1195
+EXP-0916,AMS-1995,TRIP-314,hotel,"Hotel, 2 nights",Hyderabad,2,12500.0,INR,2026-10-03,2026-10-06,yes,no,paid,AMS-1110
+EXP-0917,AMS-1995,TRIP-314,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-10-03,2026-10-06,no,no,paid,AMS-1110
+EXP-0918,AMS-1995,TRIP-314,taxi,Taxi,Hyderabad,,580.0,INR,2026-10-01,2026-10-06,yes,no,paid,AMS-1110
+EXP-0919,AMS-2056,TRIP-315,hotel,"Hotel, 1 night",Coimbatore,1,2650.0,INR,2026-02-06,2026-02-22,yes,no,paid,AMS-1346
+EXP-0920,AMS-2056,TRIP-315,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-02-06,2026-02-22,no,no,paid,AMS-1346
+EXP-0921,AMS-2056,TRIP-315,taxi,Taxi,Coimbatore,,330.0,INR,2026-02-05,2026-02-22,yes,no,paid,AMS-1346
+EXP-0922,AMS-1343,TRIP-316,hotel,"Hotel, 2 nights",Mysuru,2,8500.0,INR,2026-04-15,2026-04-18,yes,no,paid,AMS-1061
+EXP-0923,AMS-1343,TRIP-316,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-04-15,2026-04-18,no,no,paid,AMS-1061
+EXP-0924,AMS-1343,TRIP-316,taxi,Taxi,Mysuru,,710.0,INR,2026-04-13,2026-04-18,yes,no,paid,AMS-1061
+EXP-0925,AMS-1461,TRIP-317,hotel,"Hotel, 3 nights",Coimbatore,3,6000.0,INR,2026-02-17,2026-03-09,yes,no,paid,AMS-1596
+EXP-0926,AMS-1461,TRIP-317,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-02-17,2026-03-09,no,no,paid,AMS-1596
+EXP-0927,AMS-1461,TRIP-317,taxi,Taxi,Coimbatore,,1100.0,INR,2026-02-14,2026-03-09,yes,no,paid,AMS-1596
+EXP-0928,AMS-1158,TRIP-318,hotel,"Hotel, 2 nights",Delhi NCR,2,12400.0,INR,2026-10-05,2026-10-10,yes,no,paid,AMS-1753
+EXP-0929,AMS-1158,TRIP-318,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-10-05,2026-10-10,no,no,paid,AMS-1753
+EXP-0930,AMS-1158,TRIP-318,taxi,Taxi,Delhi NCR,,690.0,INR,2026-10-03,2026-10-10,yes,no,paid,AMS-1753
+EXP-0931,AMS-1261,TRIP-319,hotel,"Hotel, 3 nights",Chicago,3,618.0,USD,2026-08-19,2026-08-21,yes,no,paid,AMS-1006
+EXP-0932,AMS-1261,TRIP-319,daily_allowance,"Daily allowance, 4 days",Chicago,,300.0,USD,2026-08-19,2026-08-21,no,no,paid,AMS-1006
+EXP-0933,AMS-1261,TRIP-319,taxi,Taxi,Chicago,,70.0,USD,2026-08-16,2026-08-21,yes,no,paid,AMS-1006
+EXP-0934,AMS-1047,TRIP-320,hotel,"Hotel, 2 nights",Mysuru,2,8300.0,INR,2026-02-27,2026-03-05,yes,no,paid,AMS-1490
+EXP-0935,AMS-1047,TRIP-320,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-02-27,2026-03-05,no,no,paid,AMS-1490
+EXP-0936,AMS-1047,TRIP-320,taxi,Taxi,Mysuru,,720.0,INR,2026-02-25,2026-03-05,yes,no,paid,AMS-1490
+EXP-0937,AMS-1679,TRIP-321,hotel,"Hotel, 1 night",Hyderabad,1,2750.0,INR,2026-07-07,2026-07-21,yes,no,paid,AMS-1605
+EXP-0938,AMS-1679,TRIP-321,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-07-07,2026-07-21,no,no,paid,AMS-1605
+EXP-0939,AMS-1679,TRIP-321,taxi,Taxi,Hyderabad,,1470.0,INR,2026-07-06,2026-07-21,yes,no,paid,AMS-1605
+EXP-0940,AMS-1693,TRIP-322,hotel,"Hotel, 2 nights",Houston,2,310.0,USD,2026-03-25,2026-04-02,yes,no,paid,AMS-1496
+EXP-0941,AMS-1693,TRIP-322,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-03-25,2026-04-02,no,no,paid,AMS-1496
+EXP-0942,AMS-1693,TRIP-322,taxi,Taxi,Houston,,39.0,USD,2026-03-23,2026-04-02,yes,no,paid,AMS-1496
+EXP-0943,AMS-1673,TRIP-324,hotel,"Hotel, 2 nights",Mysuru,2,8200.0,INR,2026-05-30,2026-06-04,yes,no,paid,AMS-1179
+EXP-0944,AMS-1673,TRIP-324,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-05-30,2026-06-04,no,no,paid,AMS-1179
+EXP-0945,AMS-1673,TRIP-324,taxi,Taxi,Mysuru,,1210.0,INR,2026-05-28,2026-06-04,yes,no,paid,AMS-1179
+EXP-0946,AMS-1940,TRIP-325,hotel,"Hotel, 2 nights",Hyderabad,2,11800.0,INR,2026-07-10,2026-07-23,yes,no,paid,AMS-1410
+EXP-0947,AMS-1940,TRIP-325,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-07-10,2026-07-23,no,no,paid,AMS-1410
+EXP-0948,AMS-1940,TRIP-325,taxi,Taxi,Hyderabad,,310.0,INR,2026-07-08,2026-07-23,no,no,paid,AMS-1410
+EXP-0949,AMS-2111,TRIP-326,hotel,"Hotel, 3 nights",Mumbai,3,13200.0,INR,2026-06-02,2026-06-22,yes,no,paid,AMS-1143
+EXP-0950,AMS-2111,TRIP-326,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-06-02,2026-06-22,no,no,paid,AMS-1143
+EXP-0951,AMS-2111,TRIP-326,taxi,Taxi,Mumbai,,920.0,INR,2026-05-30,2026-06-22,yes,no,paid,AMS-1143
+EXP-0952,AMS-1782,TRIP-327,hotel,"Hotel, 3 nights",Coimbatore,3,5400.0,INR,2026-10-05,2026-10-11,yes,no,paid,AMS-1568
+EXP-0953,AMS-1782,TRIP-327,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-10-05,2026-10-11,no,no,paid,AMS-1568
+EXP-0954,AMS-1782,TRIP-327,taxi,Taxi,Coimbatore,,800.0,INR,2026-10-02,2026-10-11,yes,no,paid,AMS-1568
+EXP-0955,AMS-1851,TRIP-328,hotel,"Hotel, 3 nights",Dallas,3,405.0,USD,2026-04-16,2026-05-04,yes,no,paid,AMS-1056
+EXP-0956,AMS-1851,TRIP-328,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-04-16,2026-05-04,no,no,paid,AMS-1056
+EXP-0957,AMS-1851,TRIP-328,taxi,Taxi,Dallas,,44.0,USD,2026-04-13,2026-05-04,yes,no,paid,AMS-1056
+EXP-0958,AMS-2043,TRIP-329,hotel,"Hotel, 3 nights",Hyderabad,3,17100.0,INR,2026-03-25,2026-04-05,yes,no,paid,AMS-1542
+EXP-0959,AMS-2043,TRIP-329,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-03-25,2026-04-05,no,no,paid,AMS-1542
+EXP-0960,AMS-2043,TRIP-329,taxi,Taxi,Hyderabad,,360.0,INR,2026-03-22,2026-04-05,yes,no,paid,AMS-1542
+EXP-0961,AMS-1424,TRIP-330,hotel,"Hotel, 3 nights",Chennai,3,13200.0,INR,2026-04-24,2026-04-28,yes,no,paid,AMS-1410
+EXP-0962,AMS-1424,TRIP-330,daily_allowance,"Daily allowance, 4 days",Chennai,,4800.0,INR,2026-04-24,2026-04-28,no,no,paid,AMS-1410
+EXP-0963,AMS-1424,TRIP-330,taxi,Taxi,Chennai,,920.0,INR,2026-04-21,2026-04-28,yes,no,paid,AMS-1410
+EXP-0964,AMS-1220,TRIP-331,hotel,"Hotel, 1 night",Delhi NCR,1,6450.0,INR,2026-06-09,2026-06-20,yes,no,paid,AMS-1490
+EXP-0965,AMS-1220,TRIP-331,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,3600.0,INR,2026-06-09,2026-06-20,no,no,paid,AMS-1490
+EXP-0966,AMS-1220,TRIP-331,taxi,Taxi,Delhi NCR,,570.0,INR,2026-06-08,2026-06-20,yes,no,paid,AMS-1490
+EXP-0967,AMS-1707,TRIP-332,hotel,"Hotel, 3 nights",Coimbatore,3,12300.0,INR,2026-02-26,2026-03-03,yes,no,paid,AMS-1079
+EXP-0968,AMS-1707,TRIP-332,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-02-26,2026-03-03,no,no,paid,AMS-1079
+EXP-0969,AMS-1707,TRIP-332,taxi,Taxi,Coimbatore,,790.0,INR,2026-02-23,2026-03-03,yes,no,paid,AMS-1079
+EXP-0970,AMS-1540,TRIP-333,hotel,"Hotel, 2 nights",New York,2,334.0,USD,2026-06-03,2026-06-10,yes,no,paid,AMS-1072
+EXP-0971,AMS-1540,TRIP-333,daily_allowance,"Daily allowance, 3 days",New York,,225.0,USD,2026-06-03,2026-06-10,no,no,paid,AMS-1072
+EXP-0972,AMS-1540,TRIP-333,taxi,Taxi,New York,,51.0,USD,2026-06-01,2026-06-10,yes,no,paid,AMS-1072
+EXP-0973,AMS-1360,TRIP-334,hotel,"Hotel, 1 night",Nagpur,1,4100.0,INR,2026-08-15,2026-08-22,yes,no,paid,AMS-1757
+EXP-0974,AMS-1360,TRIP-334,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-08-15,2026-08-22,no,no,paid,AMS-1757
+EXP-0975,AMS-1360,TRIP-334,taxi,Taxi,Nagpur,,1400.0,INR,2026-08-14,2026-08-22,yes,no,paid,AMS-1757
+EXP-0976,AMS-1968,TRIP-335,hotel,"Hotel, 1 night",Chicago,1,163.0,USD,2026-09-18,2026-09-24,yes,no,paid,AMS-1540
+EXP-0977,AMS-1968,TRIP-335,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-09-18,2026-09-24,no,no,paid,AMS-1540
+EXP-0978,AMS-1968,TRIP-335,taxi,Taxi,Chicago,,73.0,USD,2026-09-17,2026-09-24,yes,no,paid,AMS-1540
+EXP-0979,AMS-1048,TRIP-336,hotel,"Hotel, 1 night",Coimbatore,1,2850.0,INR,2026-03-16,2026-03-30,yes,no,paid,AMS-1107
+EXP-0980,AMS-1048,TRIP-336,daily_allowance,"Daily allowance, 2 days",Coimbatore,,2600.0,INR,2026-03-16,2026-03-30,no,no,paid,AMS-1107
+EXP-0981,AMS-1048,TRIP-336,taxi,Taxi,Coimbatore,,650.0,INR,2026-03-15,2026-03-30,yes,no,paid,AMS-1107
+EXP-0982,AMS-1819,TRIP-337,hotel,"Hotel, 1 night",New York,1,173.0,USD,2026-04-15,2026-04-27,yes,no,paid,AMS-1749
+EXP-0983,AMS-1819,TRIP-337,daily_allowance,"Daily allowance, 2 days",New York,,120.0,USD,2026-04-15,2026-04-27,no,no,paid,AMS-1749
+EXP-0984,AMS-1819,TRIP-337,taxi,Taxi,New York,,49.0,USD,2026-04-14,2026-04-27,yes,no,paid,AMS-1749
+EXP-0985,AMS-1750,TRIP-338,hotel,"Hotel, 3 nights",Coimbatore,3,9300.0,INR,2026-08-14,2026-08-30,yes,no,paid,AMS-1047
+EXP-0986,AMS-1750,TRIP-338,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-08-14,2026-08-30,no,no,paid,AMS-1047
+EXP-0987,AMS-1750,TRIP-338,taxi,Taxi,Coimbatore,,840.0,INR,2026-08-11,2026-08-30,yes,no,paid,AMS-1047
+EXP-0988,AMS-2097,TRIP-339,hotel,"Hotel, 2 nights",Chennai,2,10600.0,INR,2026-07-19,2026-08-04,yes,no,paid,AMS-1073
+EXP-0989,AMS-2097,TRIP-339,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-07-19,2026-08-04,no,no,paid,AMS-1073
+EXP-0990,AMS-2097,TRIP-339,taxi,Taxi,Chennai,,370.0,INR,2026-07-17,2026-08-04,yes,no,paid,AMS-1073
+EXP-0991,AMS-1605,TRIP-340,hotel,"Hotel, 3 nights",Mumbai,3,17550.0,INR,2026-03-07,2026-03-17,yes,no,paid,AMS-1454
+EXP-0992,AMS-1605,TRIP-340,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-03-07,2026-03-17,no,no,paid,AMS-1454
+EXP-0993,AMS-1605,TRIP-340,taxi,Taxi,Mumbai,,1200.0,INR,2026-03-04,2026-03-17,yes,no,paid,AMS-1454
+EXP-0994,AMS-2102,TRIP-341,hotel,"Hotel, 3 nights",Dallas,3,381.0,USD,2026-06-27,2026-07-05,yes,no,paid,AMS-1043
+EXP-0995,AMS-2102,TRIP-341,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-06-27,2026-07-05,no,no,paid,AMS-1043
+EXP-0996,AMS-2102,TRIP-341,taxi,Taxi,Dallas,,31.0,USD,2026-06-24,2026-07-05,yes,no,paid,AMS-1043
+EXP-0997,AMS-1136,TRIP-342,hotel,"Hotel, 3 nights",Mumbai,3,13800.0,INR,2026-03-16,2026-03-23,yes,no,paid,AMS-1075
+EXP-0998,AMS-1136,TRIP-342,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-03-16,2026-03-23,no,no,paid,AMS-1075
+EXP-0999,AMS-1136,TRIP-342,taxi,Taxi,Mumbai,,590.0,INR,2026-03-13,2026-03-23,yes,no,paid,AMS-1075
+EXP-1000,AMS-1216,TRIP-343,hotel,"Hotel, 1 night",Chennai,1,6100.0,INR,2026-10-07,2026-10-17,yes,no,paid,AMS-1791
+EXP-1001,AMS-1216,TRIP-343,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-10-07,2026-10-17,no,no,paid,AMS-1791
+EXP-1002,AMS-1216,TRIP-343,taxi,Taxi,Chennai,,660.0,INR,2026-10-06,2026-10-17,yes,no,paid,AMS-1791
+EXP-1003,AMS-1502,TRIP-344,hotel,"Hotel, 3 nights",Chennai,3,18300.0,INR,2026-07-06,2026-07-13,yes,no,paid,AMS-1195
+EXP-1004,AMS-1502,TRIP-344,daily_allowance,"Daily allowance, 4 days",Chennai,,7200.0,INR,2026-07-06,2026-07-13,no,no,paid,AMS-1195
+EXP-1005,AMS-1502,TRIP-344,taxi,Taxi,Chennai,,1210.0,INR,2026-07-03,2026-07-13,yes,no,paid,AMS-1195
+EXP-1006,AMS-1246,TRIP-345,hotel,"Hotel, 1 night",Mumbai,1,3950.0,INR,2026-04-02,2026-04-04,yes,no,paid,AMS-1607
+EXP-1007,AMS-1246,TRIP-345,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-04-02,2026-04-04,no,no,paid,AMS-1607
+EXP-1008,AMS-1246,TRIP-345,taxi,Taxi,Mumbai,,990.0,INR,2026-04-01,2026-04-04,yes,no,paid,AMS-1607
+EXP-1009,AMS-1400,TRIP-346,hotel,"Hotel, 1 night",Houston,1,159.0,USD,2026-05-25,2026-06-10,yes,no,paid,AMS-1540
+EXP-1010,AMS-1400,TRIP-346,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-05-25,2026-06-10,no,no,paid,AMS-1540
+EXP-1011,AMS-1400,TRIP-346,taxi,Taxi,Houston,,53.0,USD,2026-05-24,2026-06-10,yes,no,paid,AMS-1540
+EXP-1012,AMS-1469,TRIP-348,hotel,"Hotel, 1 night",Coimbatore,1,2000.0,INR,2026-03-17,2026-03-22,yes,no,paid,AMS-1061
+EXP-1013,AMS-1469,TRIP-348,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-03-17,2026-03-22,no,no,paid,AMS-1061
+EXP-1014,AMS-1469,TRIP-348,taxi,Taxi,Coimbatore,,1430.0,INR,2026-03-16,2026-03-22,yes,no,paid,AMS-1061
+EXP-1015,AMS-1487,TRIP-349,hotel,"Hotel, 1 night",Mysuru,1,3550.0,INR,2026-02-15,2026-02-21,yes,no,paid,AMS-1228
+EXP-1016,AMS-1487,TRIP-349,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-02-15,2026-02-21,no,no,paid,AMS-1228
+EXP-1017,AMS-1487,TRIP-349,taxi,Taxi,Mysuru,,720.0,INR,2026-02-14,2026-02-21,yes,no,paid,AMS-1228
+EXP-1018,AMS-1977,TRIP-350,hotel,"Hotel, 1 night",Hyderabad,1,4000.0,INR,2026-07-30,2026-08-11,yes,no,paid,AMS-1530
+EXP-1019,AMS-1977,TRIP-350,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-07-30,2026-08-11,no,no,paid,AMS-1530
+EXP-1020,AMS-1977,TRIP-350,taxi,Taxi,Hyderabad,,1210.0,INR,2026-07-29,2026-08-11,yes,no,paid,AMS-1530
+EXP-1021,AMS-1722,TRIP-351,hotel,"Hotel, 3 nights",New York,3,327.0,USD,2026-07-03,2026-07-09,yes,no,paid,AMS-1465
+EXP-1022,AMS-1722,TRIP-351,daily_allowance,"Daily allowance, 4 days",New York,,240.0,USD,2026-07-03,2026-07-09,no,no,paid,AMS-1465
+EXP-1023,AMS-1722,TRIP-351,taxi,Taxi,New York,,73.0,USD,2026-06-30,2026-07-09,yes,no,paid,AMS-1465
+EXP-1024,AMS-1397,TRIP-352,hotel,"Hotel, 3 nights",Nagpur,3,12300.0,INR,2026-06-23,2026-07-13,yes,no,paid,AMS-1646
+EXP-1025,AMS-1397,TRIP-352,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-06-23,2026-07-13,no,no,paid,AMS-1646
+EXP-1026,AMS-1397,TRIP-352,taxi,Taxi,Nagpur,,1430.0,INR,2026-06-20,2026-07-13,yes,no,paid,AMS-1646
+EXP-1027,AMS-1122,TRIP-353,hotel,"Hotel, 2 nights",Houston,2,260.0,USD,2026-04-12,2026-04-19,yes,no,paid,AMS-1223
+EXP-1028,AMS-1122,TRIP-353,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-04-12,2026-04-19,no,no,paid,AMS-1223
+EXP-1029,AMS-1122,TRIP-353,taxi,Taxi,Houston,,75.0,USD,2026-04-10,2026-04-19,yes,no,paid,AMS-1223
+EXP-1030,AMS-1339,TRIP-354,hotel,"Hotel, 2 nights",Pune,2,10300.0,INR,2026-09-02,2026-09-14,yes,no,paid,AMS-1345
+EXP-1031,AMS-1339,TRIP-354,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-09-02,2026-09-14,no,no,paid,AMS-1345
+EXP-1032,AMS-1339,TRIP-354,taxi,Taxi,Pune,,1280.0,INR,2026-08-31,2026-09-14,yes,no,paid,AMS-1345
+EXP-1033,AMS-1267,TRIP-355,hotel,"Hotel, 1 night",Hyderabad,1,3500.0,INR,2026-02-27,2026-03-06,yes,no,paid,AMS-1143
+EXP-1034,AMS-1267,TRIP-355,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-02-27,2026-03-06,no,no,paid,AMS-1143
+EXP-1035,AMS-1267,TRIP-355,taxi,Taxi,Hyderabad,,1430.0,INR,2026-02-26,2026-03-06,yes,no,paid,AMS-1143
+EXP-1036,AMS-1890,TRIP-356,hotel,"Hotel, 2 nights",Chennai,2,10400.0,INR,2026-02-19,2026-03-10,yes,no,paid,AMS-1045
+EXP-1037,AMS-1890,TRIP-356,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-02-19,2026-03-10,no,no,paid,AMS-1045
+EXP-1038,AMS-1890,TRIP-356,taxi,Taxi,Chennai,,380.0,INR,2026-02-17,2026-03-10,no,no,paid,AMS-1045
+EXP-1039,AMS-1898,TRIP-357,hotel,"Hotel, 3 nights",Nagpur,3,5400.0,INR,2026-06-29,2026-07-16,yes,no,paid,AMS-1061
+EXP-1040,AMS-1898,TRIP-357,daily_allowance,"Daily allowance, 4 days",Nagpur,,3600.0,INR,2026-06-29,2026-07-16,no,no,paid,AMS-1061
+EXP-1041,AMS-1898,TRIP-357,taxi,Taxi,Nagpur,,1080.0,INR,2026-06-26,2026-07-16,yes,no,paid,AMS-1061
+EXP-1042,AMS-1096,TRIP-358,hotel,"Hotel, 3 nights",Coimbatore,3,12750.0,INR,2026-07-24,2026-08-13,yes,no,paid,AMS-1490
+EXP-1043,AMS-1096,TRIP-358,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-07-24,2026-08-13,no,no,paid,AMS-1490
+EXP-1044,AMS-1096,TRIP-358,taxi,Taxi,Coimbatore,,1400.0,INR,2026-07-21,2026-08-13,yes,no,paid,AMS-1490
+EXP-1045,AMS-1089,TRIP-359,hotel,"Hotel, 3 nights",Dallas,3,390.0,USD,2026-02-19,2026-02-24,yes,no,paid,AMS-1496
+EXP-1046,AMS-1089,TRIP-359,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-02-19,2026-02-24,no,no,paid,AMS-1496
+EXP-1047,AMS-1089,TRIP-359,taxi,Taxi,Dallas,,22.0,USD,2026-02-16,2026-02-24,yes,no,paid,AMS-1496
+EXP-1048,AMS-1190,TRIP-360,hotel,"Hotel, 1 night",Mysuru,1,3600.0,INR,2026-07-23,2026-08-04,yes,no,paid,AMS-1076
+EXP-1049,AMS-1190,TRIP-360,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-07-23,2026-08-04,no,no,paid,AMS-1076
+EXP-1050,AMS-1190,TRIP-360,taxi,Taxi,Mysuru,,670.0,INR,2026-07-22,2026-08-04,yes,no,paid,AMS-1076
+EXP-1051,AMS-1807,TRIP-361,hotel,"Hotel, 1 night",Pune,1,4450.0,INR,2026-04-02,2026-04-18,yes,no,paid,AMS-1625
+EXP-1052,AMS-1807,TRIP-361,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-04-02,2026-04-18,no,no,paid,AMS-1625
+EXP-1053,AMS-1807,TRIP-361,taxi,Taxi,Pune,,980.0,INR,2026-04-01,2026-04-18,yes,no,paid,AMS-1625
+EXP-1054,AMS-1736,TRIP-362,hotel,"Hotel, 2 nights",Mumbai,2,5900.0,INR,2026-07-10,2026-07-28,yes,no,paid,AMS-1638
+EXP-1055,AMS-1736,TRIP-362,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-07-10,2026-07-28,no,no,paid,AMS-1638
+EXP-1056,AMS-1736,TRIP-362,taxi,Taxi,Mumbai,,730.0,INR,2026-07-08,2026-07-28,yes,no,paid,AMS-1638
+EXP-1057,AMS-1819,TRIP-363,hotel,"Hotel, 3 nights",Dallas,3,378.0,USD,2026-08-04,2026-08-12,yes,no,paid,AMS-1749
+EXP-1058,AMS-1819,TRIP-363,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-08-04,2026-08-12,no,no,paid,AMS-1749
+EXP-1059,AMS-1819,TRIP-363,taxi,Taxi,Dallas,,44.0,USD,2026-08-01,2026-08-12,yes,no,paid,AMS-1749
+EXP-1060,AMS-1923,TRIP-364,hotel,"Hotel, 1 night",Hyderabad,1,4050.0,INR,2026-03-07,2026-03-27,yes,no,paid,AMS-1609
+EXP-1061,AMS-1923,TRIP-364,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-03-07,2026-03-27,no,no,paid,AMS-1609
+EXP-1062,AMS-1923,TRIP-364,taxi,Taxi,Hyderabad,,530.0,INR,2026-03-06,2026-03-27,yes,no,paid,AMS-1609
+EXP-1063,AMS-1585,TRIP-365,hotel,"Hotel, 2 nights",Hyderabad,2,6300.0,INR,2026-09-27,2026-10-16,yes,no,paid,AMS-1170
+EXP-1064,AMS-1585,TRIP-365,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-09-27,2026-10-16,no,no,paid,AMS-1170
+EXP-1065,AMS-1585,TRIP-365,taxi,Taxi,Hyderabad,,1460.0,INR,2026-09-25,2026-10-16,yes,no,paid,AMS-1170
+EXP-1066,AMS-1816,TRIP-366,hotel,"Hotel, 2 nights",Coimbatore,2,4700.0,INR,2026-02-20,2026-02-23,yes,no,paid,AMS-1054
+EXP-1067,AMS-1816,TRIP-366,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-02-20,2026-02-23,no,no,paid,AMS-1054
+EXP-1068,AMS-1816,TRIP-366,taxi,Taxi,Coimbatore,,400.0,INR,2026-02-18,2026-02-23,no,no,paid,AMS-1054
+EXP-1069,AMS-2131,TRIP-367,hotel,"Hotel, 2 nights",Chennai,2,6900.0,INR,2026-06-10,2026-06-18,yes,no,paid,AMS-1067
+EXP-1070,AMS-2131,TRIP-367,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-06-10,2026-06-18,no,no,paid,AMS-1067
+EXP-1071,AMS-2131,TRIP-367,taxi,Taxi,Chennai,,1100.0,INR,2026-06-08,2026-06-18,yes,no,paid,AMS-1067
+EXP-1072,AMS-1339,TRIP-368,hotel,"Hotel, 1 night",Nagpur,1,3800.0,INR,2026-08-08,2026-08-16,yes,no,paid,AMS-1345
+EXP-1073,AMS-1339,TRIP-368,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-08-08,2026-08-16,no,no,paid,AMS-1345
+EXP-1074,AMS-1339,TRIP-368,taxi,Taxi,Nagpur,,390.0,INR,2026-08-07,2026-08-16,no,no,paid,AMS-1345
+EXP-1075,AMS-1276,TRIP-369,hotel,"Hotel, 1 night",Houston,1,136.0,USD,2026-07-11,2026-07-25,yes,no,paid,AMS-1493
+EXP-1076,AMS-1276,TRIP-369,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-07-11,2026-07-25,no,no,paid,AMS-1493
+EXP-1077,AMS-1276,TRIP-369,taxi,Taxi,Houston,,21.0,USD,2026-07-10,2026-07-25,yes,no,paid,AMS-1493
+EXP-1078,AMS-1750,TRIP-370,hotel,"Hotel, 3 nights",Mysuru,3,9600.0,INR,2026-07-25,2026-08-08,yes,no,paid,AMS-1047
+EXP-1079,AMS-1750,TRIP-370,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-07-25,2026-08-08,no,no,paid,AMS-1047
+EXP-1080,AMS-1750,TRIP-370,taxi,Taxi,Mysuru,,710.0,INR,2026-07-22,2026-08-08,yes,no,paid,AMS-1047
+EXP-1081,AMS-1743,TRIP-371,hotel,"Hotel, 1 night",Hyderabad,1,5450.0,INR,2026-06-15,2026-06-25,yes,no,paid,AMS-1143
+EXP-1082,AMS-1743,TRIP-371,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-06-15,2026-06-25,no,no,paid,AMS-1143
+EXP-1083,AMS-1743,TRIP-371,taxi,Taxi,Hyderabad,,890.0,INR,2026-06-14,2026-06-25,yes,no,paid,AMS-1143
+EXP-1084,AMS-1056,TRIP-372,hotel,"Hotel, 1 night",Dallas,1,168.0,USD,2026-03-09,2026-03-14,yes,no,paid,AMS-1072
+EXP-1085,AMS-1056,TRIP-372,daily_allowance,"Daily allowance, 2 days",Dallas,,150.0,USD,2026-03-09,2026-03-14,no,no,paid,AMS-1072
+EXP-1086,AMS-1056,TRIP-372,taxi,Taxi,Dallas,,34.0,USD,2026-03-08,2026-03-14,yes,no,paid,AMS-1072
+EXP-1087,AMS-1862,TRIP-373,hotel,"Hotel, 3 nights",Delhi NCR,3,12750.0,INR,2026-02-18,2026-02-22,yes,no,paid,AMS-1265
+EXP-1088,AMS-1862,TRIP-373,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-02-18,2026-02-22,no,no,paid,AMS-1265
+EXP-1089,AMS-1862,TRIP-373,taxi,Taxi,Delhi NCR,,1100.0,INR,2026-02-15,2026-02-22,yes,no,paid,AMS-1265
+EXP-1090,AMS-1088,TRIP-374,hotel,"Hotel, 1 night",Coimbatore,1,3700.0,INR,2026-10-03,2026-10-22,yes,no,paid,AMS-1141
+EXP-1091,AMS-1088,TRIP-374,daily_allowance,"Daily allowance, 2 days",Coimbatore,,2600.0,INR,2026-10-03,2026-10-22,no,no,paid,AMS-1141
+EXP-1092,AMS-1088,TRIP-374,taxi,Taxi,Coimbatore,,820.0,INR,2026-10-02,2026-10-22,yes,no,paid,AMS-1141
+EXP-1093,AMS-1590,TRIP-375,hotel,"Hotel, 1 night",Chicago,1,131.0,USD,2026-08-09,2026-08-15,yes,no,paid,AMS-1412
+EXP-1094,AMS-1590,TRIP-375,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-08-09,2026-08-15,no,no,paid,AMS-1412
+EXP-1095,AMS-1590,TRIP-375,taxi,Taxi,Chicago,,41.0,USD,2026-08-08,2026-08-15,yes,no,paid,AMS-1412
+EXP-1096,AMS-1436,TRIP-377,hotel,"Hotel, 1 night",Pune,1,2900.0,INR,2026-05-14,2026-05-17,yes,no,paid,AMS-1390
+EXP-1097,AMS-1436,TRIP-377,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-05-14,2026-05-17,no,no,paid,AMS-1390
+EXP-1098,AMS-1436,TRIP-377,taxi,Taxi,Pune,,1510.0,INR,2026-05-13,2026-05-17,yes,no,paid,AMS-1390
+EXP-1099,AMS-1993,TRIP-378,hotel,"Hotel, 3 nights",Mumbai,3,18750.0,INR,2026-07-21,2026-07-29,yes,no,paid,AMS-1511
+EXP-1100,AMS-1993,TRIP-378,daily_allowance,"Daily allowance, 4 days",Mumbai,,7200.0,INR,2026-07-21,2026-07-29,no,no,paid,AMS-1511
+EXP-1101,AMS-1993,TRIP-378,taxi,Taxi,Mumbai,,1310.0,INR,2026-07-18,2026-07-29,yes,no,paid,AMS-1511
+EXP-1102,AMS-1576,TRIP-379,hotel,"Hotel, 1 night",Pune,1,4400.0,INR,2026-09-28,2026-10-14,yes,no,paid,AMS-1107
+EXP-1103,AMS-1576,TRIP-379,daily_allowance,"Daily allowance, 2 days",Pune,,3600.0,INR,2026-09-28,2026-10-14,no,no,paid,AMS-1107
+EXP-1104,AMS-1576,TRIP-379,taxi,Taxi,Pune,,1440.0,INR,2026-09-27,2026-10-14,yes,no,paid,AMS-1107
+EXP-1105,AMS-1680,TRIP-380,hotel,"Hotel, 1 night",Chennai,1,3150.0,INR,2026-05-01,2026-05-06,yes,no,paid,AMS-1190
+EXP-1106,AMS-1680,TRIP-380,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-05-01,2026-05-06,no,no,paid,AMS-1190
+EXP-1107,AMS-1680,TRIP-380,taxi,Taxi,Chennai,,1420.0,INR,2026-04-30,2026-05-06,yes,no,paid,AMS-1190
+EXP-1108,AMS-1154,TRIP-381,hotel,"Hotel, 2 nights",Nagpur,2,8600.0,INR,2026-03-12,2026-03-19,yes,no,paid,AMS-1609
+EXP-1109,AMS-1154,TRIP-381,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-03-12,2026-03-19,no,no,paid,AMS-1609
+EXP-1110,AMS-1154,TRIP-381,taxi,Taxi,Nagpur,,360.0,INR,2026-03-10,2026-03-19,no,no,paid,AMS-1609
+EXP-1111,AMS-2123,TRIP-382,hotel,"Hotel, 1 night",Delhi NCR,1,3100.0,INR,2026-06-05,2026-06-14,yes,no,paid,AMS-1620
+EXP-1112,AMS-2123,TRIP-382,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-06-05,2026-06-14,no,no,paid,AMS-1620
+EXP-1113,AMS-2123,TRIP-382,taxi,Taxi,Delhi NCR,,470.0,INR,2026-06-04,2026-06-14,yes,no,paid,AMS-1620
+EXP-1114,AMS-2033,TRIP-383,hotel,"Hotel, 3 nights",New York,3,354.0,USD,2026-08-05,2026-08-14,yes,no,paid,AMS-1043
+EXP-1115,AMS-2033,TRIP-383,daily_allowance,"Daily allowance, 4 days",New York,,240.0,USD,2026-08-05,2026-08-14,no,no,paid,AMS-1043
+EXP-1116,AMS-2033,TRIP-383,taxi,Taxi,New York,,78.0,USD,2026-08-02,2026-08-14,yes,no,paid,AMS-1043
+EXP-1117,AMS-1125,TRIP-384,hotel,"Hotel, 2 nights",Mumbai,2,9300.0,INR,2026-07-25,2026-08-12,yes,no,paid,AMS-1450
+EXP-1118,AMS-1125,TRIP-384,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-07-25,2026-08-12,no,no,paid,AMS-1450
+EXP-1119,AMS-1125,TRIP-384,taxi,Taxi,Mumbai,,460.0,INR,2026-07-23,2026-08-12,yes,no,paid,AMS-1450
+EXP-1120,AMS-1467,TRIP-385,hotel,"Hotel, 2 nights",Mumbai,2,7800.0,INR,2026-03-10,2026-03-24,yes,no,paid,AMS-1498
+EXP-1121,AMS-1467,TRIP-385,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-03-10,2026-03-24,no,no,paid,AMS-1498
+EXP-1122,AMS-1467,TRIP-385,taxi,Taxi,Mumbai,,1010.0,INR,2026-03-08,2026-03-24,yes,no,paid,AMS-1498
+EXP-1123,AMS-1563,TRIP-386,hotel,"Hotel, 1 night",Mysuru,1,2800.0,INR,2026-08-01,2026-08-08,yes,no,paid,AMS-1003
+EXP-1124,AMS-1563,TRIP-386,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-08-01,2026-08-08,no,no,paid,AMS-1003
+EXP-1125,AMS-1563,TRIP-386,taxi,Taxi,Mysuru,,860.0,INR,2026-07-31,2026-08-08,yes,no,paid,AMS-1003
+EXP-1126,AMS-1655,TRIP-387,hotel,"Hotel, 2 nights",Chennai,2,7000.0,INR,2026-07-17,2026-08-01,yes,no,paid,AMS-1404
+EXP-1127,AMS-1655,TRIP-387,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-07-17,2026-08-01,no,no,paid,AMS-1404
+EXP-1128,AMS-1655,TRIP-387,taxi,Taxi,Chennai,,540.0,INR,2026-07-15,2026-08-01,yes,no,paid,AMS-1404
+EXP-1129,AMS-1710,TRIP-388,hotel,"Hotel, 3 nights",Dallas,3,444.0,USD,2026-08-08,2026-08-27,yes,no,paid,AMS-1540
+EXP-1130,AMS-1710,TRIP-388,daily_allowance,"Daily allowance, 4 days",Dallas,,240.0,USD,2026-08-08,2026-08-27,no,no,paid,AMS-1540
+EXP-1131,AMS-1710,TRIP-388,taxi,Taxi,Dallas,,77.0,USD,2026-08-05,2026-08-27,yes,no,paid,AMS-1540
+EXP-1132,AMS-1473,TRIP-389,hotel,"Hotel, 3 nights",Coimbatore,3,9450.0,INR,2026-05-07,2026-05-10,yes,no,paid,AMS-1150
+EXP-1133,AMS-1473,TRIP-389,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-05-07,2026-05-10,no,no,paid,AMS-1150
+EXP-1134,AMS-1473,TRIP-389,taxi,Taxi,Coimbatore,,600.0,INR,2026-05-04,2026-05-10,yes,no,paid,AMS-1150
+EXP-1135,AMS-1569,TRIP-390,hotel,"Hotel, 1 night",Mumbai,1,3450.0,INR,2026-06-11,2026-06-23,yes,no,paid,AMS-1596
+EXP-1136,AMS-1569,TRIP-390,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-06-11,2026-06-23,no,no,paid,AMS-1596
+EXP-1137,AMS-1569,TRIP-390,taxi,Taxi,Mumbai,,1150.0,INR,2026-06-10,2026-06-23,yes,no,paid,AMS-1596
+EXP-1138,AMS-1599,TRIP-391,hotel,"Hotel, 2 nights",Chennai,2,8400.0,INR,2026-02-24,2026-03-04,yes,no,paid,AMS-1095
+EXP-1139,AMS-1599,TRIP-391,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-02-24,2026-03-04,no,no,paid,AMS-1095
+EXP-1140,AMS-1599,TRIP-391,taxi,Taxi,Chennai,,450.0,INR,2026-02-22,2026-03-04,no,no,paid,AMS-1095
+EXP-1141,AMS-1404,TRIP-392,hotel,"Hotel, 2 nights",Mysuru,2,7900.0,INR,2026-10-11,2026-10-31,yes,no,approved,AMS-1041
+EXP-1142,AMS-1404,TRIP-392,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-10-11,2026-10-31,no,no,approved,AMS-1041
+EXP-1143,AMS-1404,TRIP-392,taxi,Taxi,Mysuru,,850.0,INR,2026-10-09,2026-10-31,yes,no,approved,AMS-1041
+EXP-1144,AMS-1769,TRIP-393,hotel,"Hotel, 2 nights",Mumbai,2,8500.0,INR,2026-08-01,2026-08-21,yes,no,paid,AMS-1115
+EXP-1145,AMS-1769,TRIP-393,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-08-01,2026-08-21,no,no,paid,AMS-1115
+EXP-1146,AMS-1769,TRIP-393,taxi,Taxi,Mumbai,,1430.0,INR,2026-07-30,2026-08-21,yes,no,paid,AMS-1115
+EXP-1147,AMS-1897,TRIP-394,hotel,"Hotel, 1 night",Mysuru,1,2900.0,INR,2026-07-07,2026-07-26,yes,no,paid,AMS-1069
+EXP-1148,AMS-1897,TRIP-394,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-07-07,2026-07-26,no,no,paid,AMS-1069
+EXP-1149,AMS-1897,TRIP-394,taxi,Taxi,Mysuru,,820.0,INR,2026-07-06,2026-07-26,yes,no,paid,AMS-1069
+EXP-1150,AMS-1734,TRIP-395,hotel,"Hotel, 1 night",Mumbai,1,4000.0,INR,2026-08-06,2026-08-22,yes,no,paid,AMS-1044
+EXP-1151,AMS-1734,TRIP-395,daily_allowance,"Daily allowance, 2 days",Mumbai,,2400.0,INR,2026-08-06,2026-08-22,no,no,paid,AMS-1044
+EXP-1152,AMS-1734,TRIP-395,taxi,Taxi,Mumbai,,1090.0,INR,2026-08-05,2026-08-22,yes,no,paid,AMS-1044
+EXP-1153,AMS-1757,TRIP-396,hotel,"Hotel, 1 night",Nagpur,1,4100.0,INR,2026-09-01,2026-09-09,yes,no,paid,AMS-1006
+EXP-1154,AMS-1757,TRIP-396,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-09-01,2026-09-09,no,no,paid,AMS-1006
+EXP-1155,AMS-1757,TRIP-396,taxi,Taxi,Nagpur,,1500.0,INR,2026-08-31,2026-09-09,yes,no,paid,AMS-1006
+EXP-1156,AMS-1941,TRIP-397,hotel,"Hotel, 1 night",Mysuru,1,3900.0,INR,2026-03-19,2026-03-24,yes,no,paid,AMS-1115
+EXP-1157,AMS-1941,TRIP-397,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-03-19,2026-03-24,no,no,paid,AMS-1115
+EXP-1158,AMS-1941,TRIP-397,taxi,Taxi,Mysuru,,470.0,INR,2026-03-18,2026-03-24,no,no,paid,AMS-1115
+EXP-1159,AMS-1657,TRIP-398,hotel,"Hotel, 3 nights",Mumbai,3,10950.0,INR,2026-07-09,2026-07-15,yes,no,paid,AMS-1065
+EXP-1160,AMS-1657,TRIP-398,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-07-09,2026-07-15,no,no,paid,AMS-1065
+EXP-1161,AMS-1657,TRIP-398,taxi,Taxi,Mumbai,,510.0,INR,2026-07-06,2026-07-15,yes,no,paid,AMS-1065
+EXP-1162,AMS-1491,TRIP-399,hotel,"Hotel, 2 nights",Pune,2,8800.0,INR,2026-07-13,2026-07-29,yes,no,paid,AMS-1345
+EXP-1163,AMS-1491,TRIP-399,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-07-13,2026-07-29,no,no,paid,AMS-1345
+EXP-1164,AMS-1491,TRIP-399,taxi,Taxi,Pune,,1180.0,INR,2026-07-11,2026-07-29,yes,no,paid,AMS-1345
+EXP-1165,AMS-1986,TRIP-400,hotel,"Hotel, 2 nights",Chennai,2,6600.0,INR,2026-09-18,2026-10-02,yes,no,paid,AMS-1607
+EXP-1166,AMS-1986,TRIP-400,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-09-18,2026-10-02,no,no,paid,AMS-1607
+EXP-1167,AMS-1986,TRIP-400,taxi,Taxi,Chennai,,1400.0,INR,2026-09-16,2026-10-02,yes,no,paid,AMS-1607
+EXP-1168,AMS-1392,TRIP-401,hotel,"Hotel, 3 nights",Hyderabad,3,15600.0,INR,2026-06-20,2026-07-03,yes,no,paid,AMS-1568
+EXP-1169,AMS-1392,TRIP-401,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-06-20,2026-07-03,no,no,paid,AMS-1568
+EXP-1170,AMS-1392,TRIP-401,taxi,Taxi,Hyderabad,,640.0,INR,2026-06-17,2026-07-03,yes,no,paid,AMS-1568
+EXP-1171,AMS-1774,TRIP-402,hotel,"Hotel, 3 nights",Mumbai,3,12000.0,INR,2026-09-03,2026-09-06,yes,no,paid,AMS-1361
+EXP-1172,AMS-1774,TRIP-402,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-09-03,2026-09-06,no,no,paid,AMS-1361
+EXP-1173,AMS-1774,TRIP-402,taxi,Taxi,Mumbai,,1140.0,INR,2026-08-31,2026-09-06,yes,no,paid,AMS-1361
+EXP-1174,AMS-1513,TRIP-403,hotel,"Hotel, 1 night",Mysuru,1,3050.0,INR,2026-05-17,2026-06-04,yes,no,paid,AMS-1170
+EXP-1175,AMS-1513,TRIP-403,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-05-17,2026-06-04,no,no,paid,AMS-1170
+EXP-1176,AMS-1513,TRIP-403,taxi,Taxi,Mysuru,,480.0,INR,2026-05-16,2026-06-04,no,no,paid,AMS-1170
+EXP-1177,AMS-1175,TRIP-404,hotel,"Hotel, 3 nights",Delhi NCR,3,18300.0,INR,2026-10-13,2026-10-21,yes,no,paid,AMS-1605
+EXP-1178,AMS-1175,TRIP-404,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-10-13,2026-10-21,no,no,paid,AMS-1605
+EXP-1179,AMS-1175,TRIP-404,taxi,Taxi,Delhi NCR,,700.0,INR,2026-10-10,2026-10-21,yes,no,paid,AMS-1605
+EXP-1180,AMS-2033,TRIP-405,hotel,"Hotel, 1 night",New York,1,179.0,USD,2026-03-05,2026-03-13,yes,no,paid,AMS-1043
+EXP-1181,AMS-2033,TRIP-405,daily_allowance,"Daily allowance, 2 days",New York,,120.0,USD,2026-03-05,2026-03-13,no,no,paid,AMS-1043
+EXP-1182,AMS-2033,TRIP-405,taxi,Taxi,New York,,32.0,USD,2026-03-04,2026-03-13,yes,no,paid,AMS-1043
+EXP-1183,AMS-1718,TRIP-406,hotel,"Hotel, 1 night",Pune,1,4350.0,INR,2026-05-27,2026-06-02,yes,no,paid,AMS-1324
+EXP-1184,AMS-1718,TRIP-406,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-05-27,2026-06-02,no,no,paid,AMS-1324
+EXP-1185,AMS-1718,TRIP-406,taxi,Taxi,Pune,,890.0,INR,2026-05-26,2026-06-02,yes,no,paid,AMS-1324
+EXP-1186,AMS-1606,TRIP-407,hotel,"Hotel, 1 night",Dallas,1,110.0,USD,2026-08-08,2026-08-19,yes,no,paid,AMS-1362
+EXP-1187,AMS-1606,TRIP-407,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-08-08,2026-08-19,no,no,paid,AMS-1362
+EXP-1188,AMS-1606,TRIP-407,taxi,Taxi,Dallas,,55.0,USD,2026-08-07,2026-08-19,yes,no,paid,AMS-1362
+EXP-1189,AMS-1838,TRIP-408,hotel,"Hotel, 1 night",New York,1,169.0,USD,2026-03-13,2026-03-24,yes,no,paid,AMS-1471
+EXP-1190,AMS-1838,TRIP-408,daily_allowance,"Daily allowance, 2 days",New York,,120.0,USD,2026-03-13,2026-03-24,no,no,paid,AMS-1471
+EXP-1191,AMS-1838,TRIP-408,taxi,Taxi,New York,,36.0,USD,2026-03-12,2026-03-24,yes,no,paid,AMS-1471
+EXP-1192,AMS-1220,TRIP-409,hotel,"Hotel, 3 nights",Mysuru,3,10950.0,INR,2026-04-09,2026-04-26,yes,no,paid,AMS-1490
+EXP-1193,AMS-1220,TRIP-409,daily_allowance,"Daily allowance, 4 days",Mysuru,,5200.0,INR,2026-04-09,2026-04-26,no,no,paid,AMS-1490
+EXP-1194,AMS-1220,TRIP-409,taxi,Taxi,Mysuru,,330.0,INR,2026-04-06,2026-04-26,no,no,paid,AMS-1490
+EXP-1195,AMS-1830,TRIP-410,hotel,"Hotel, 2 nights",Mumbai,2,8300.0,INR,2026-09-01,2026-09-21,yes,no,paid,AMS-1563
+EXP-1196,AMS-1830,TRIP-410,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-09-01,2026-09-21,no,no,paid,AMS-1563
+EXP-1197,AMS-1830,TRIP-410,taxi,Taxi,Mumbai,,1570.0,INR,2026-08-30,2026-09-21,yes,no,paid,AMS-1563
+EXP-1198,AMS-1783,TRIP-411,hotel,"Hotel, 2 nights",New York,2,228.0,USD,2026-06-02,2026-06-06,yes,no,paid,AMS-1640
+EXP-1199,AMS-1783,TRIP-411,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-06-02,2026-06-06,no,no,paid,AMS-1640
+EXP-1200,AMS-1783,TRIP-411,taxi,Taxi,New York,,66.0,USD,2026-05-31,2026-06-06,yes,no,paid,AMS-1640
+EXP-1201,AMS-2086,TRIP-412,hotel,"Hotel, 2 nights",Chennai,2,7200.0,INR,2026-08-19,2026-08-23,yes,no,paid,AMS-1163
+EXP-1202,AMS-2086,TRIP-412,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-08-19,2026-08-23,no,no,paid,AMS-1163
+EXP-1203,AMS-2086,TRIP-412,taxi,Taxi,Chennai,,880.0,INR,2026-08-17,2026-08-23,yes,no,paid,AMS-1163
+EXP-1204,AMS-1651,TRIP-413,hotel,"Hotel, 2 nights",Pune,2,9000.0,INR,2026-05-17,2026-06-05,yes,no,paid,AMS-1103
+EXP-1205,AMS-1651,TRIP-413,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-05-17,2026-06-05,no,no,paid,AMS-1103
+EXP-1206,AMS-1651,TRIP-413,taxi,Taxi,Pune,,1050.0,INR,2026-05-15,2026-06-05,yes,no,paid,AMS-1103
+EXP-1207,AMS-1402,TRIP-414,hotel,"Hotel, 2 nights",Delhi NCR,2,7100.0,INR,2026-08-18,2026-08-29,yes,no,paid,AMS-1337
+EXP-1208,AMS-1402,TRIP-414,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,3600.0,INR,2026-08-18,2026-08-29,no,no,paid,AMS-1337
+EXP-1209,AMS-1402,TRIP-414,taxi,Taxi,Delhi NCR,,570.0,INR,2026-08-16,2026-08-29,yes,no,paid,AMS-1337
+EXP-1210,AMS-1901,TRIP-415,hotel,"Hotel, 1 night",Coimbatore,1,3950.0,INR,2026-03-10,2026-03-22,yes,no,paid,AMS-1208
+EXP-1211,AMS-1901,TRIP-415,daily_allowance,"Daily allowance, 2 days",Coimbatore,,2600.0,INR,2026-03-10,2026-03-22,no,no,paid,AMS-1208
+EXP-1212,AMS-1901,TRIP-415,taxi,Taxi,Coimbatore,,1540.0,INR,2026-03-09,2026-03-22,yes,no,paid,AMS-1208
+EXP-1213,AMS-1807,TRIP-416,hotel,"Hotel, 1 night",Chennai,1,3000.0,INR,2026-09-27,2026-10-11,yes,no,paid,AMS-1625
+EXP-1214,AMS-1807,TRIP-416,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-09-27,2026-10-11,no,no,paid,AMS-1625
+EXP-1215,AMS-1807,TRIP-416,taxi,Taxi,Chennai,,400.0,INR,2026-09-26,2026-10-11,no,no,paid,AMS-1625
+EXP-1216,AMS-1324,TRIP-417,hotel,"Hotel, 2 nights",Hyderabad,2,9800.0,INR,2026-05-09,2026-05-24,yes,no,paid,AMS-1003
+EXP-1217,AMS-1324,TRIP-417,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-05-09,2026-05-24,no,no,paid,AMS-1003
+EXP-1218,AMS-1324,TRIP-417,taxi,Taxi,Hyderabad,,770.0,INR,2026-05-07,2026-05-24,yes,no,paid,AMS-1003
+EXP-1219,AMS-1300,TRIP-418,hotel,"Hotel, 2 nights",Delhi NCR,2,6200.0,INR,2026-02-22,2026-03-01,yes,no,paid,AMS-1684
+EXP-1220,AMS-1300,TRIP-418,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,3600.0,INR,2026-02-22,2026-03-01,no,no,paid,AMS-1684
+EXP-1221,AMS-1300,TRIP-418,taxi,Taxi,Delhi NCR,,570.0,INR,2026-02-20,2026-03-01,yes,no,paid,AMS-1684
+EXP-1222,AMS-1491,TRIP-419,hotel,"Hotel, 2 nights",Mumbai,2,7600.0,INR,2026-05-18,2026-06-07,yes,no,paid,AMS-1345
+EXP-1223,AMS-1491,TRIP-419,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-05-18,2026-06-07,no,no,paid,AMS-1345
+EXP-1224,AMS-1491,TRIP-419,taxi,Taxi,Mumbai,,1480.0,INR,2026-05-16,2026-06-07,yes,no,paid,AMS-1345
+EXP-1225,AMS-1250,TRIP-420,hotel,"Hotel, 1 night",Hyderabad,1,3450.0,INR,2026-06-17,2026-07-05,yes,no,paid,AMS-1361
+EXP-1226,AMS-1250,TRIP-420,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-06-17,2026-07-05,no,no,paid,AMS-1361
+EXP-1227,AMS-1250,TRIP-420,taxi,Taxi,Hyderabad,,1550.0,INR,2026-06-16,2026-07-05,yes,no,paid,AMS-1361
+EXP-1228,AMS-1488,TRIP-421,hotel,"Hotel, 2 nights",Nagpur,2,3700.0,INR,2026-08-02,2026-08-11,yes,no,paid,AMS-1620
+EXP-1229,AMS-1488,TRIP-421,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-08-02,2026-08-11,no,no,paid,AMS-1620
+EXP-1230,AMS-1488,TRIP-421,taxi,Taxi,Nagpur,,1110.0,INR,2026-07-31,2026-08-11,yes,no,paid,AMS-1620
+EXP-1231,AMS-2077,TRIP-422,hotel,"Hotel, 3 nights",Houston,3,534.0,USD,2026-04-14,2026-04-22,yes,no,paid,AMS-1290
+EXP-1232,AMS-2077,TRIP-422,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-04-14,2026-04-22,no,no,paid,AMS-1290
+EXP-1233,AMS-2077,TRIP-422,taxi,Taxi,Houston,,45.0,USD,2026-04-11,2026-04-22,yes,no,paid,AMS-1290
+EXP-1234,AMS-1127,TRIP-423,hotel,"Hotel, 1 night",Chicago,1,166.0,USD,2026-02-25,2026-03-13,yes,no,paid,AMS-1362
+EXP-1235,AMS-1127,TRIP-423,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-02-25,2026-03-13,no,no,paid,AMS-1362
+EXP-1236,AMS-1127,TRIP-423,taxi,Taxi,Chicago,,29.0,USD,2026-02-24,2026-03-13,yes,no,paid,AMS-1362
+EXP-1237,AMS-1452,TRIP-424,hotel,"Hotel, 3 nights",New York,3,423.0,USD,2026-05-28,2026-06-17,yes,no,paid,AMS-1362
+EXP-1238,AMS-1452,TRIP-424,daily_allowance,"Daily allowance, 4 days",New York,,240.0,USD,2026-05-28,2026-06-17,no,no,paid,AMS-1362
+EXP-1239,AMS-1452,TRIP-424,taxi,Taxi,New York,,61.0,USD,2026-05-25,2026-06-17,yes,no,paid,AMS-1362
+EXP-1240,AMS-1071,TRIP-425,hotel,"Hotel, 1 night",Mysuru,1,3300.0,INR,2026-05-25,2026-05-28,yes,no,paid,AMS-1041
+EXP-1241,AMS-1071,TRIP-425,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-05-25,2026-05-28,no,no,paid,AMS-1041
+EXP-1242,AMS-1071,TRIP-425,taxi,Taxi,Mysuru,,490.0,INR,2026-05-24,2026-05-28,yes,no,paid,AMS-1041
+EXP-1243,AMS-1628,TRIP-426,hotel,"Hotel, 1 night",Mysuru,1,2200.0,INR,2026-08-12,2026-08-22,yes,no,paid,AMS-1114
+EXP-1244,AMS-1628,TRIP-426,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-08-12,2026-08-22,no,no,paid,AMS-1114
+EXP-1245,AMS-1628,TRIP-426,taxi,Taxi,Mysuru,,990.0,INR,2026-08-11,2026-08-22,yes,no,paid,AMS-1114
+EXP-1246,AMS-1180,TRIP-427,hotel,"Hotel, 3 nights",Bengaluru,3,19200.0,INR,2026-02-25,2026-03-11,yes,no,paid,AMS-1118
+EXP-1247,AMS-1180,TRIP-427,daily_allowance,"Daily allowance, 4 days",Bengaluru,,7200.0,INR,2026-02-25,2026-03-11,no,no,paid,AMS-1118
+EXP-1248,AMS-1180,TRIP-427,taxi,Taxi,Bengaluru,,790.0,INR,2026-02-22,2026-03-11,yes,no,paid,AMS-1118
+EXP-1249,AMS-2061,TRIP-428,hotel,"Hotel, 3 nights",Mysuru,3,7950.0,INR,2026-03-31,2026-04-06,yes,no,paid,AMS-1078
+EXP-1250,AMS-2061,TRIP-428,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-03-31,2026-04-06,no,no,paid,AMS-1078
+EXP-1251,AMS-2061,TRIP-428,taxi,Taxi,Mysuru,,1200.0,INR,2026-03-28,2026-04-06,yes,no,paid,AMS-1078
+EXP-1252,AMS-1349,TRIP-429,hotel,"Hotel, 2 nights",Coimbatore,2,4400.0,INR,2026-08-27,2026-08-29,yes,no,paid,AMS-1301
+EXP-1253,AMS-1349,TRIP-429,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-08-27,2026-08-29,no,no,paid,AMS-1301
+EXP-1254,AMS-1349,TRIP-429,taxi,Taxi,Coimbatore,,480.0,INR,2026-08-25,2026-08-29,yes,no,paid,AMS-1301
+EXP-1255,AMS-1902,TRIP-430,hotel,"Hotel, 1 night",Chennai,1,3850.0,INR,2026-09-06,2026-09-09,yes,no,paid,AMS-1439
+EXP-1256,AMS-1902,TRIP-430,daily_allowance,"Daily allowance, 2 days",Chennai,,2400.0,INR,2026-09-06,2026-09-09,no,no,paid,AMS-1439
+EXP-1257,AMS-1902,TRIP-430,taxi,Taxi,Chennai,,1120.0,INR,2026-09-05,2026-09-09,yes,no,paid,AMS-1439
+EXP-1258,AMS-1369,TRIP-431,hotel,"Hotel, 2 nights",Hyderabad,2,5700.0,INR,2026-05-28,2026-06-17,yes,no,paid,AMS-1689
+EXP-1259,AMS-1369,TRIP-431,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-05-28,2026-06-17,no,no,paid,AMS-1689
+EXP-1260,AMS-1369,TRIP-431,taxi,Taxi,Hyderabad,,530.0,INR,2026-05-26,2026-06-17,yes,no,paid,AMS-1689
+EXP-1261,AMS-1454,TRIP-432,hotel,"Hotel, 1 night",Mumbai,1,7850.0,INR,2026-07-14,2026-07-31,yes,no,paid,AMS-1002
+EXP-1262,AMS-1454,TRIP-432,daily_allowance,"Daily allowance, 2 days",Mumbai,,5000.0,INR,2026-07-14,2026-07-31,no,no,paid,AMS-1002
+EXP-1263,AMS-1454,TRIP-432,taxi,Taxi,Mumbai,,1400.0,INR,2026-07-13,2026-07-31,yes,no,paid,AMS-1002
+EXP-1264,AMS-1156,TRIP-433,hotel,"Hotel, 2 nights",Houston,2,248.0,USD,2026-09-06,2026-09-12,yes,no,paid,AMS-1074
+EXP-1265,AMS-1156,TRIP-433,daily_allowance,"Daily allowance, 3 days",Houston,,180.0,USD,2026-09-06,2026-09-12,no,no,paid,AMS-1074
+EXP-1266,AMS-1156,TRIP-433,taxi,Taxi,Houston,,44.0,USD,2026-09-04,2026-09-12,yes,no,paid,AMS-1074
+EXP-1267,AMS-1997,TRIP-434,hotel,"Hotel, 3 nights",New York,3,345.0,USD,2026-03-23,2026-03-25,yes,no,paid,AMS-1749
+EXP-1268,AMS-1997,TRIP-434,daily_allowance,"Daily allowance, 4 days",New York,,240.0,USD,2026-03-23,2026-03-25,no,no,paid,AMS-1749
+EXP-1269,AMS-1997,TRIP-434,taxi,Taxi,New York,,22.0,USD,2026-03-20,2026-03-25,yes,no,paid,AMS-1749
+EXP-1270,AMS-1803,TRIP-435,hotel,"Hotel, 2 nights",Nagpur,2,3900.0,INR,2026-04-01,2026-04-21,yes,no,paid,AMS-1576
+EXP-1271,AMS-1803,TRIP-435,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-04-01,2026-04-21,no,no,paid,AMS-1576
+EXP-1272,AMS-1803,TRIP-435,taxi,Taxi,Nagpur,,1290.0,INR,2026-03-30,2026-04-21,yes,no,paid,AMS-1576
+EXP-1273,AMS-2056,TRIP-436,hotel,"Hotel, 2 nights",Pune,2,7400.0,INR,2026-07-19,2026-08-01,yes,no,paid,AMS-1346
+EXP-1274,AMS-2056,TRIP-436,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-07-19,2026-08-01,no,no,paid,AMS-1346
+EXP-1275,AMS-2056,TRIP-436,taxi,Taxi,Pune,,1590.0,INR,2026-07-17,2026-08-01,yes,no,paid,AMS-1346
+EXP-1276,AMS-1823,TRIP-437,hotel,"Hotel, 1 night",Dallas,1,218.0,USD,2026-04-16,2026-05-06,yes,no,paid,AMS-1004
+EXP-1277,AMS-1823,TRIP-437,daily_allowance,"Daily allowance, 2 days",Dallas,,150.0,USD,2026-04-16,2026-05-06,no,no,paid,AMS-1004
+EXP-1278,AMS-1823,TRIP-437,taxi,Taxi,Dallas,,21.0,USD,2026-04-15,2026-05-06,yes,no,paid,AMS-1004
+EXP-1279,AMS-1125,TRIP-438,hotel,"Hotel, 2 nights",Delhi NCR,2,11100.0,INR,2026-07-15,2026-07-25,yes,no,paid,AMS-1450
+EXP-1280,AMS-1125,TRIP-438,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-07-15,2026-07-25,no,no,paid,AMS-1450
+EXP-1281,AMS-1125,TRIP-438,taxi,Taxi,Delhi NCR,,1200.0,INR,2026-07-13,2026-07-25,yes,no,paid,AMS-1450
+EXP-1282,AMS-1393,TRIP-439,hotel,"Hotel, 2 nights",Hyderabad,2,10200.0,INR,2026-07-15,2026-07-31,yes,no,paid,AMS-1568
+EXP-1283,AMS-1393,TRIP-439,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-07-15,2026-07-31,no,no,paid,AMS-1568
+EXP-1284,AMS-1393,TRIP-439,taxi,Taxi,Hyderabad,,810.0,INR,2026-07-13,2026-07-31,yes,no,paid,AMS-1568
+EXP-1285,AMS-1147,TRIP-440,hotel,"Hotel, 2 nights",Coimbatore,2,8000.0,INR,2026-04-22,2026-05-09,yes,no,paid,AMS-1607
+EXP-1286,AMS-1147,TRIP-440,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-04-22,2026-05-09,no,no,paid,AMS-1607
+EXP-1287,AMS-1147,TRIP-440,taxi,Taxi,Coimbatore,,1160.0,INR,2026-04-20,2026-05-09,yes,no,paid,AMS-1607
+EXP-1288,AMS-1598,TRIP-441,hotel,"Hotel, 2 nights",Coimbatore,2,3800.0,INR,2026-09-29,2026-10-16,yes,no,paid,AMS-1047
+EXP-1289,AMS-1598,TRIP-441,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-09-29,2026-10-16,no,no,paid,AMS-1047
+EXP-1290,AMS-1598,TRIP-441,taxi,Taxi,Coimbatore,,1240.0,INR,2026-09-27,2026-10-16,yes,no,paid,AMS-1047
+EXP-1291,AMS-1288,TRIP-442,hotel,"Hotel, 1 night",Mysuru,1,2650.0,INR,2026-04-17,2026-04-22,yes,no,paid,AMS-1390
+EXP-1292,AMS-1288,TRIP-442,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-04-17,2026-04-22,no,no,paid,AMS-1390
+EXP-1293,AMS-1288,TRIP-442,taxi,Taxi,Mysuru,,1000.0,INR,2026-04-16,2026-04-22,yes,no,paid,AMS-1390
+EXP-1294,AMS-1465,TRIP-443,hotel,"Hotel, 1 night",Dallas,1,166.0,USD,2026-05-24,2026-06-04,yes,no,paid,AMS-1003
+EXP-1295,AMS-1465,TRIP-443,daily_allowance,"Daily allowance, 2 days",Dallas,,150.0,USD,2026-05-24,2026-06-04,no,no,paid,AMS-1003
+EXP-1296,AMS-1465,TRIP-443,taxi,Taxi,Dallas,,76.0,USD,2026-05-23,2026-06-04,yes,no,paid,AMS-1003
+EXP-1297,AMS-1218,TRIP-444,hotel,"Hotel, 2 nights",Delhi NCR,2,10800.0,INR,2026-08-31,2026-09-03,yes,no,paid,AMS-1048
+EXP-1298,AMS-1218,TRIP-444,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-08-31,2026-09-03,no,no,paid,AMS-1048
+EXP-1299,AMS-1218,TRIP-444,taxi,Taxi,Delhi NCR,,700.0,INR,2026-08-29,2026-09-03,yes,no,paid,AMS-1048
+EXP-1300,AMS-1337,TRIP-445,hotel,"Hotel, 3 nights",Pune,3,16650.0,INR,2026-07-01,2026-07-04,yes,no,paid,AMS-1100
+EXP-1301,AMS-1337,TRIP-445,daily_allowance,"Daily allowance, 4 days",Pune,,7200.0,INR,2026-07-01,2026-07-04,no,no,paid,AMS-1100
+EXP-1302,AMS-1337,TRIP-445,taxi,Taxi,Pune,,820.0,INR,2026-06-28,2026-07-04,yes,no,paid,AMS-1100
+EXP-1303,AMS-1907,TRIP-446,hotel,"Hotel, 2 nights",New York,2,224.0,USD,2026-05-21,2026-06-10,yes,no,paid,AMS-1465
+EXP-1304,AMS-1907,TRIP-446,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-05-21,2026-06-10,no,no,paid,AMS-1465
+EXP-1305,AMS-1907,TRIP-446,taxi,Taxi,New York,,18.0,USD,2026-05-19,2026-06-10,no,no,paid,AMS-1465
+EXP-1306,AMS-1895,TRIP-447,hotel,"Hotel, 1 night",Nagpur,1,1800.0,INR,2026-04-04,2026-04-22,yes,no,paid,AMS-1053
+EXP-1307,AMS-1895,TRIP-447,daily_allowance,"Daily allowance, 2 days",Nagpur,,1800.0,INR,2026-04-04,2026-04-22,no,no,paid,AMS-1053
+EXP-1308,AMS-1895,TRIP-447,taxi,Taxi,Nagpur,,440.0,INR,2026-04-03,2026-04-22,no,no,paid,AMS-1053
+EXP-1309,AMS-1302,TRIP-448,hotel,"Hotel, 3 nights",Delhi NCR,3,11250.0,INR,2026-02-11,2026-02-20,yes,no,paid,AMS-1190
+EXP-1310,AMS-1302,TRIP-448,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-02-11,2026-02-20,no,no,paid,AMS-1190
+EXP-1311,AMS-1302,TRIP-448,taxi,Taxi,Delhi NCR,,1110.0,INR,2026-02-08,2026-02-20,yes,no,paid,AMS-1190
+EXP-1312,AMS-1215,TRIP-449,hotel,"Hotel, 2 nights",Mysuru,2,8000.0,INR,2026-05-22,2026-06-02,yes,no,paid,AMS-1044
+EXP-1313,AMS-1215,TRIP-449,daily_allowance,"Daily allowance, 3 days",Mysuru,,3900.0,INR,2026-05-22,2026-06-02,no,no,paid,AMS-1044
+EXP-1314,AMS-1215,TRIP-449,taxi,Taxi,Mysuru,,620.0,INR,2026-05-20,2026-06-02,yes,no,paid,AMS-1044
+EXP-1315,AMS-1851,TRIP-450,hotel,"Hotel, 1 night",Chicago,1,130.0,USD,2026-02-12,2026-02-15,yes,no,paid,AMS-1056
+EXP-1316,AMS-1851,TRIP-450,daily_allowance,"Daily allowance, 2 days",Chicago,,120.0,USD,2026-02-12,2026-02-15,no,no,paid,AMS-1056
+EXP-1317,AMS-1851,TRIP-450,taxi,Taxi,Chicago,,24.0,USD,2026-02-11,2026-02-15,yes,no,paid,AMS-1056
+EXP-1318,AMS-1610,TRIP-451,hotel,"Hotel, 2 nights",Mumbai,2,9400.0,INR,2026-06-26,2026-07-06,yes,no,paid,AMS-1057
+EXP-1319,AMS-1610,TRIP-451,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-06-26,2026-07-06,no,no,paid,AMS-1057
+EXP-1320,AMS-1610,TRIP-451,taxi,Taxi,Mumbai,,300.0,INR,2026-06-24,2026-07-06,no,no,paid,AMS-1057
+EXP-1321,AMS-1919,TRIP-452,hotel,"Hotel, 2 nights",Hyderabad,2,8900.0,INR,2026-06-04,2026-06-15,yes,no,paid,AMS-1066
+EXP-1322,AMS-1919,TRIP-452,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-06-04,2026-06-15,no,no,paid,AMS-1066
+EXP-1323,AMS-1919,TRIP-452,taxi,Taxi,Hyderabad,,1550.0,INR,2026-06-02,2026-06-15,yes,no,paid,AMS-1066
+EXP-1324,AMS-2040,TRIP-453,hotel,"Hotel, 3 nights",Delhi NCR,3,10950.0,INR,2026-03-25,2026-04-14,yes,no,paid,AMS-1389
+EXP-1325,AMS-2040,TRIP-453,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-03-25,2026-04-14,no,no,paid,AMS-1389
+EXP-1326,AMS-2040,TRIP-453,taxi,Taxi,Delhi NCR,,1140.0,INR,2026-03-22,2026-04-14,yes,no,paid,AMS-1389
+EXP-1327,AMS-1774,TRIP-454,hotel,"Hotel, 1 night",Delhi NCR,1,3750.0,INR,2026-07-29,2026-08-03,yes,no,paid,AMS-1361
+EXP-1328,AMS-1774,TRIP-454,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-07-29,2026-08-03,no,no,paid,AMS-1361
+EXP-1329,AMS-1774,TRIP-454,taxi,Taxi,Delhi NCR,,1240.0,INR,2026-07-28,2026-08-03,yes,no,paid,AMS-1361
+EXP-1330,AMS-1636,TRIP-455,hotel,"Hotel, 1 night",Dallas,1,163.0,USD,2026-09-27,2026-10-04,yes,no,paid,AMS-1540
+EXP-1331,AMS-1636,TRIP-455,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-09-27,2026-10-04,no,no,paid,AMS-1540
+EXP-1332,AMS-1636,TRIP-455,taxi,Taxi,Dallas,,74.0,USD,2026-09-26,2026-10-04,yes,no,paid,AMS-1540
+EXP-1333,AMS-2031,TRIP-456,hotel,"Hotel, 3 nights",Nagpur,3,10950.0,INR,2026-08-07,2026-08-13,yes,no,paid,AMS-1563
+EXP-1334,AMS-2031,TRIP-456,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-08-07,2026-08-13,no,no,paid,AMS-1563
+EXP-1335,AMS-2031,TRIP-456,taxi,Taxi,Nagpur,,890.0,INR,2026-08-04,2026-08-13,yes,no,paid,AMS-1563
+EXP-1336,AMS-1962,TRIP-457,hotel,"Hotel, 3 nights",Mysuru,3,6450.0,INR,2026-09-07,2026-09-13,yes,no,paid,AMS-1487
+EXP-1337,AMS-1962,TRIP-457,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-09-07,2026-09-13,no,no,paid,AMS-1487
+EXP-1338,AMS-1962,TRIP-457,taxi,Taxi,Mysuru,,520.0,INR,2026-09-04,2026-09-13,yes,no,paid,AMS-1487
+EXP-1339,AMS-1516,TRIP-458,hotel,"Hotel, 2 nights",New York,2,242.0,USD,2026-07-16,2026-07-31,yes,no,paid,AMS-1496
+EXP-1340,AMS-1516,TRIP-458,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-07-16,2026-07-31,no,no,paid,AMS-1496
+EXP-1341,AMS-1516,TRIP-458,taxi,Taxi,New York,,40.0,USD,2026-07-14,2026-07-31,yes,no,paid,AMS-1496
+EXP-1342,AMS-1765,TRIP-459,hotel,"Hotel, 1 night",Coimbatore,1,2550.0,INR,2026-10-06,2026-10-11,yes,no,paid,AMS-1563
+EXP-1343,AMS-1765,TRIP-459,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-10-06,2026-10-11,no,no,paid,AMS-1563
+EXP-1344,AMS-1765,TRIP-459,taxi,Taxi,Coimbatore,,910.0,INR,2026-10-05,2026-10-11,yes,no,paid,AMS-1563
+EXP-1345,AMS-1880,TRIP-460,hotel,"Hotel, 3 nights",Mumbai,3,9600.0,INR,2026-02-18,2026-03-05,yes,no,paid,AMS-1620
+EXP-1346,AMS-1880,TRIP-460,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-02-18,2026-03-05,no,no,paid,AMS-1620
+EXP-1347,AMS-1880,TRIP-460,taxi,Taxi,Mumbai,,850.0,INR,2026-02-15,2026-03-05,yes,no,paid,AMS-1620
+EXP-1348,AMS-1315,TRIP-461,hotel,"Hotel, 2 nights",Pune,2,8700.0,INR,2026-04-02,2026-04-22,yes,no,paid,AMS-1115
+EXP-1349,AMS-1315,TRIP-461,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-04-02,2026-04-22,no,no,paid,AMS-1115
+EXP-1350,AMS-1315,TRIP-461,taxi,Taxi,Pune,,1530.0,INR,2026-03-31,2026-04-22,yes,no,paid,AMS-1115
+EXP-1351,AMS-1064,TRIP-462,hotel,"Hotel, 3 nights",Hyderabad,3,19350.0,INR,2026-02-08,2026-02-17,yes,no,paid,AMS-1219
+EXP-1352,AMS-1064,TRIP-462,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-02-08,2026-02-17,no,no,paid,AMS-1219
+EXP-1353,AMS-1064,TRIP-462,taxi,Taxi,Hyderabad,,690.0,INR,2026-02-05,2026-02-17,yes,no,paid,AMS-1219
+EXP-1354,AMS-1938,TRIP-463,hotel,"Hotel, 3 nights",Mysuru,3,8100.0,INR,2026-06-14,2026-06-20,yes,no,paid,AMS-1324
+EXP-1355,AMS-1938,TRIP-463,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-06-14,2026-06-20,no,no,paid,AMS-1324
+EXP-1356,AMS-1938,TRIP-463,taxi,Taxi,Mysuru,,800.0,INR,2026-06-11,2026-06-20,yes,no,paid,AMS-1324
+EXP-1357,AMS-2079,TRIP-464,hotel,"Hotel, 2 nights",Nagpur,2,5800.0,INR,2026-09-27,2026-10-05,yes,no,paid,AMS-1166
+EXP-1358,AMS-2079,TRIP-464,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-09-27,2026-10-05,no,no,paid,AMS-1166
+EXP-1359,AMS-2079,TRIP-464,taxi,Taxi,Nagpur,,1450.0,INR,2026-09-25,2026-10-05,yes,no,paid,AMS-1166
+EXP-1360,AMS-1782,TRIP-465,hotel,"Hotel, 1 night",Delhi NCR,1,3200.0,INR,2026-02-28,2026-03-04,yes,no,paid,AMS-1568
+EXP-1361,AMS-1782,TRIP-465,daily_allowance,"Daily allowance, 2 days",Delhi NCR,,2400.0,INR,2026-02-28,2026-03-04,no,no,paid,AMS-1568
+EXP-1362,AMS-1782,TRIP-465,taxi,Taxi,Delhi NCR,,720.0,INR,2026-02-27,2026-03-04,yes,no,paid,AMS-1568
+EXP-1363,AMS-1693,TRIP-466,hotel,"Hotel, 3 nights",Houston,3,417.0,USD,2026-03-03,2026-03-21,yes,no,paid,AMS-1496
+EXP-1364,AMS-1693,TRIP-466,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-03-03,2026-03-21,no,no,paid,AMS-1496
+EXP-1365,AMS-1693,TRIP-466,taxi,Taxi,Houston,,37.0,USD,2026-02-28,2026-03-21,yes,no,paid,AMS-1496
+EXP-1366,AMS-1527,TRIP-467,hotel,"Hotel, 3 nights",New York,3,681.0,USD,2026-09-29,2026-10-04,yes,no,paid,AMS-1085
+EXP-1367,AMS-1527,TRIP-467,daily_allowance,"Daily allowance, 4 days",New York,,300.0,USD,2026-09-29,2026-10-04,no,no,paid,AMS-1085
+EXP-1368,AMS-1527,TRIP-467,taxi,Taxi,New York,,65.0,USD,2026-09-26,2026-10-04,yes,no,paid,AMS-1085
+EXP-1369,AMS-1712,TRIP-468,hotel,"Hotel, 1 night",Coimbatore,1,2750.0,INR,2026-07-01,2026-07-09,yes,no,paid,AMS-1346
+EXP-1370,AMS-1712,TRIP-468,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-07-01,2026-07-09,no,no,paid,AMS-1346
+EXP-1371,AMS-1712,TRIP-468,taxi,Taxi,Coimbatore,,1090.0,INR,2026-06-30,2026-07-09,yes,no,paid,AMS-1346
+EXP-1372,AMS-1325,TRIP-469,hotel,"Hotel, 3 nights",Coimbatore,3,8850.0,INR,2026-04-06,2026-04-14,yes,no,paid,AMS-1542
+EXP-1373,AMS-1325,TRIP-469,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-04-06,2026-04-14,no,no,paid,AMS-1542
+EXP-1374,AMS-1325,TRIP-469,taxi,Taxi,Coimbatore,,490.0,INR,2026-04-03,2026-04-14,yes,no,paid,AMS-1542
+EXP-1375,AMS-1650,TRIP-470,hotel,"Hotel, 2 nights",Bengaluru,2,9900.0,INR,2026-07-16,2026-07-20,yes,no,paid,AMS-1275
+EXP-1376,AMS-1650,TRIP-470,daily_allowance,"Daily allowance, 3 days",Bengaluru,,5400.0,INR,2026-07-16,2026-07-20,no,no,paid,AMS-1275
+EXP-1377,AMS-1650,TRIP-470,taxi,Taxi,Bengaluru,,1440.0,INR,2026-07-14,2026-07-20,yes,no,paid,AMS-1275
+EXP-1378,AMS-1334,TRIP-471,hotel,"Hotel, 2 nights",Pune,2,10400.0,INR,2026-07-10,2026-07-12,yes,no,paid,AMS-1075
+EXP-1379,AMS-1334,TRIP-471,daily_allowance,"Daily allowance, 3 days",Pune,,5400.0,INR,2026-07-10,2026-07-12,no,no,paid,AMS-1075
+EXP-1380,AMS-1334,TRIP-471,taxi,Taxi,Pune,,910.0,INR,2026-07-08,2026-07-12,yes,no,paid,AMS-1075
+EXP-1381,AMS-1627,TRIP-472,hotel,"Hotel, 2 nights",Delhi NCR,2,9000.0,INR,2026-03-24,2026-04-04,yes,no,paid,AMS-1439
+EXP-1382,AMS-1627,TRIP-472,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,3600.0,INR,2026-03-24,2026-04-04,no,no,paid,AMS-1439
+EXP-1383,AMS-1627,TRIP-472,taxi,Taxi,Delhi NCR,,1120.0,INR,2026-03-22,2026-04-04,yes,no,paid,AMS-1439
+EXP-1384,AMS-1384,TRIP-473,hotel,"Hotel, 3 nights",Delhi NCR,3,16200.0,INR,2026-10-10,2026-10-13,yes,no,paid,AMS-1041
+EXP-1385,AMS-1384,TRIP-473,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,7200.0,INR,2026-10-10,2026-10-13,no,no,paid,AMS-1041
+EXP-1386,AMS-1384,TRIP-473,taxi,Taxi,Delhi NCR,,1140.0,INR,2026-10-07,2026-10-13,yes,no,paid,AMS-1041
+EXP-1387,AMS-2134,TRIP-474,hotel,"Hotel, 2 nights",Hyderabad,2,8700.0,INR,2026-08-18,2026-09-05,yes,no,paid,AMS-1597
+EXP-1388,AMS-2134,TRIP-474,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-08-18,2026-09-05,no,no,paid,AMS-1597
+EXP-1389,AMS-2134,TRIP-474,taxi,Taxi,Hyderabad,,1180.0,INR,2026-08-16,2026-09-05,yes,no,paid,AMS-1597
+EXP-1390,AMS-1617,TRIP-475,hotel,"Hotel, 2 nights",Chennai,2,12200.0,INR,2026-02-25,2026-03-07,yes,no,paid,AMS-1096
+EXP-1391,AMS-1617,TRIP-475,daily_allowance,"Daily allowance, 3 days",Chennai,,5400.0,INR,2026-02-25,2026-03-07,no,no,paid,AMS-1096
+EXP-1392,AMS-1617,TRIP-475,taxi,Taxi,Chennai,,1390.0,INR,2026-02-23,2026-03-07,yes,no,paid,AMS-1096
+EXP-1393,AMS-2110,TRIP-476,hotel,"Hotel, 1 night",Pune,1,4100.0,INR,2026-05-14,2026-05-22,yes,no,paid,AMS-1121
+EXP-1394,AMS-2110,TRIP-476,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-05-14,2026-05-22,no,no,paid,AMS-1121
+EXP-1395,AMS-2110,TRIP-476,taxi,Taxi,Pune,,1140.0,INR,2026-05-13,2026-05-22,yes,no,paid,AMS-1121
+EXP-1396,AMS-1091,TRIP-477,hotel,"Hotel, 1 night",Dallas,1,128.0,USD,2026-06-11,2026-06-30,yes,no,paid,AMS-1496
+EXP-1397,AMS-1091,TRIP-477,daily_allowance,"Daily allowance, 2 days",Dallas,,120.0,USD,2026-06-11,2026-06-30,no,no,paid,AMS-1496
+EXP-1398,AMS-1091,TRIP-477,taxi,Taxi,Dallas,,55.0,USD,2026-06-10,2026-06-30,yes,no,paid,AMS-1496
+EXP-1399,AMS-1289,TRIP-478,hotel,"Hotel, 3 nights",Bengaluru,3,12300.0,INR,2026-02-08,2026-02-14,yes,no,paid,AMS-1487
+EXP-1400,AMS-1289,TRIP-478,daily_allowance,"Daily allowance, 4 days",Bengaluru,,7200.0,INR,2026-02-08,2026-02-14,no,no,paid,AMS-1487
+EXP-1401,AMS-1289,TRIP-478,taxi,Taxi,Bengaluru,,1390.0,INR,2026-02-05,2026-02-14,yes,no,paid,AMS-1487
+EXP-1402,AMS-1649,TRIP-479,hotel,"Hotel, 3 nights",Delhi NCR,3,11400.0,INR,2026-08-07,2026-08-10,yes,no,paid,AMS-1163
+EXP-1403,AMS-1649,TRIP-479,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-08-07,2026-08-10,no,no,paid,AMS-1163
+EXP-1404,AMS-1649,TRIP-479,taxi,Taxi,Delhi NCR,,930.0,INR,2026-08-04,2026-08-10,yes,no,paid,AMS-1163
+EXP-1405,AMS-1463,TRIP-480,hotel,"Hotel, 1 night",Mysuru,1,2700.0,INR,2026-10-10,2026-10-15,yes,no,paid,AMS-1364
+EXP-1406,AMS-1463,TRIP-480,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-10-10,2026-10-15,no,no,paid,AMS-1364
+EXP-1407,AMS-1463,TRIP-480,taxi,Taxi,Mysuru,,360.0,INR,2026-10-09,2026-10-15,no,no,paid,AMS-1364
+EXP-1408,AMS-2090,TRIP-482,hotel,"Hotel, 1 night",Hyderabad,1,3450.0,INR,2026-08-11,2026-08-22,yes,no,paid,AMS-1753
+EXP-1409,AMS-2090,TRIP-482,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-08-11,2026-08-22,no,no,paid,AMS-1753
+EXP-1410,AMS-2090,TRIP-482,taxi,Taxi,Hyderabad,,620.0,INR,2026-08-10,2026-08-22,yes,no,paid,AMS-1753
+EXP-1411,AMS-1668,TRIP-483,hotel,"Hotel, 3 nights",Mumbai,3,11550.0,INR,2026-04-02,2026-04-17,yes,no,paid,AMS-1095
+EXP-1412,AMS-1668,TRIP-483,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-04-02,2026-04-17,no,no,paid,AMS-1095
+EXP-1413,AMS-1668,TRIP-483,taxi,Taxi,Mumbai,,1280.0,INR,2026-03-30,2026-04-17,yes,no,paid,AMS-1095
+EXP-1414,AMS-1309,TRIP-484,hotel,"Hotel, 3 nights",Nagpur,3,10500.0,INR,2026-02-23,2026-03-10,yes,no,paid,AMS-1511
+EXP-1415,AMS-1309,TRIP-484,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-02-23,2026-03-10,no,no,paid,AMS-1511
+EXP-1416,AMS-1309,TRIP-484,taxi,Taxi,Nagpur,,550.0,INR,2026-02-20,2026-03-10,yes,no,paid,AMS-1511
+EXP-1417,AMS-1969,TRIP-485,hotel,"Hotel, 2 nights",Chennai,2,8200.0,INR,2026-02-21,2026-03-11,yes,no,paid,AMS-1121
+EXP-1418,AMS-1969,TRIP-485,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-02-21,2026-03-11,no,no,paid,AMS-1121
+EXP-1419,AMS-1969,TRIP-485,taxi,Taxi,Chennai,,960.0,INR,2026-02-19,2026-03-11,yes,no,paid,AMS-1121
+EXP-1420,AMS-1982,TRIP-486,hotel,"Hotel, 3 nights",Mumbai,3,11850.0,INR,2026-09-05,2026-09-17,yes,no,paid,AMS-1607
+EXP-1421,AMS-1982,TRIP-486,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-09-05,2026-09-17,no,no,paid,AMS-1607
+EXP-1422,AMS-1982,TRIP-486,taxi,Taxi,Mumbai,,680.0,INR,2026-09-02,2026-09-17,yes,no,paid,AMS-1607
+EXP-1423,AMS-1775,TRIP-487,hotel,"Hotel, 2 nights",Nagpur,2,4300.0,INR,2026-07-20,2026-08-04,yes,no,paid,AMS-1115
+EXP-1424,AMS-1775,TRIP-487,daily_allowance,"Daily allowance, 3 days",Nagpur,,2700.0,INR,2026-07-20,2026-08-04,no,no,paid,AMS-1115
+EXP-1425,AMS-1775,TRIP-487,taxi,Taxi,Nagpur,,460.0,INR,2026-07-18,2026-08-04,yes,no,paid,AMS-1115
+EXP-1426,AMS-1475,TRIP-488,hotel,"Hotel, 3 nights",Hyderabad,3,10350.0,INR,2026-04-26,2026-05-01,yes,no,paid,AMS-1390
+EXP-1427,AMS-1475,TRIP-488,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-04-26,2026-05-01,no,no,paid,AMS-1390
+EXP-1428,AMS-1475,TRIP-488,taxi,Taxi,Hyderabad,,1230.0,INR,2026-04-23,2026-05-01,yes,no,paid,AMS-1390
+EXP-1429,AMS-1823,TRIP-489,hotel,"Hotel, 2 nights",New York,2,358.0,USD,2026-05-09,2026-05-27,yes,no,paid,AMS-1004
+EXP-1430,AMS-1823,TRIP-489,daily_allowance,"Daily allowance, 3 days",New York,,225.0,USD,2026-05-09,2026-05-27,no,no,paid,AMS-1004
+EXP-1431,AMS-1823,TRIP-489,taxi,Taxi,New York,,55.0,USD,2026-05-07,2026-05-27,yes,no,paid,AMS-1004
+EXP-1432,AMS-1044,TRIP-490,hotel,"Hotel, 3 nights",Coimbatore,3,9150.0,INR,2026-07-30,2026-08-14,yes,no,paid,AMS-1490
+EXP-1433,AMS-1044,TRIP-490,daily_allowance,"Daily allowance, 4 days",Coimbatore,,5200.0,INR,2026-07-30,2026-08-14,no,no,paid,AMS-1490
+EXP-1434,AMS-1044,TRIP-490,taxi,Taxi,Coimbatore,,380.0,INR,2026-07-27,2026-08-14,yes,no,paid,AMS-1490
+EXP-1435,AMS-2127,TRIP-491,hotel,"Hotel, 3 nights",Delhi NCR,3,12900.0,INR,2026-04-29,2026-05-06,yes,no,paid,AMS-1143
+EXP-1436,AMS-2127,TRIP-491,daily_allowance,"Daily allowance, 4 days",Delhi NCR,,4800.0,INR,2026-04-29,2026-05-06,no,no,paid,AMS-1143
+EXP-1437,AMS-2127,TRIP-491,taxi,Taxi,Delhi NCR,,430.0,INR,2026-04-26,2026-05-06,yes,no,paid,AMS-1143
+EXP-1438,AMS-1864,TRIP-492,hotel,"Hotel, 2 nights",Hyderabad,2,8500.0,INR,2026-03-14,2026-03-24,yes,no,paid,AMS-1220
+EXP-1439,AMS-1864,TRIP-492,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-03-14,2026-03-24,no,no,paid,AMS-1220
+EXP-1440,AMS-1864,TRIP-492,taxi,Taxi,Hyderabad,,600.0,INR,2026-03-12,2026-03-24,yes,no,paid,AMS-1220
+EXP-1441,AMS-1876,TRIP-493,hotel,"Hotel, 1 night",Coimbatore,1,2650.0,INR,2026-06-08,2026-06-16,yes,no,paid,AMS-1176
+EXP-1442,AMS-1876,TRIP-493,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-06-08,2026-06-16,no,no,paid,AMS-1176
+EXP-1443,AMS-1876,TRIP-493,taxi,Taxi,Coimbatore,,1400.0,INR,2026-06-07,2026-06-16,yes,no,paid,AMS-1176
+EXP-1444,AMS-1496,TRIP-494,hotel,"Hotel, 1 night",New York,1,226.0,USD,2026-02-05,2026-02-11,yes,no,paid,AMS-1072
+EXP-1445,AMS-1496,TRIP-494,daily_allowance,"Daily allowance, 2 days",New York,,150.0,USD,2026-02-05,2026-02-11,no,no,paid,AMS-1072
+EXP-1446,AMS-1496,TRIP-494,taxi,Taxi,New York,,43.0,USD,2026-02-04,2026-02-11,yes,no,paid,AMS-1072
+EXP-1447,AMS-1904,TRIP-495,hotel,"Hotel, 1 night",Hyderabad,1,3950.0,INR,2026-06-20,2026-06-30,yes,no,paid,AMS-1063
+EXP-1448,AMS-1904,TRIP-495,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-06-20,2026-06-30,no,no,paid,AMS-1063
+EXP-1449,AMS-1904,TRIP-495,taxi,Taxi,Hyderabad,,990.0,INR,2026-06-19,2026-06-30,yes,no,paid,AMS-1063
+EXP-1450,AMS-1119,TRIP-496,hotel,"Hotel, 1 night",Nagpur,1,2750.0,INR,2026-05-31,2026-06-19,yes,no,paid,AMS-1114
+EXP-1451,AMS-1119,TRIP-496,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-05-31,2026-06-19,no,no,paid,AMS-1114
+EXP-1452,AMS-1119,TRIP-496,taxi,Taxi,Nagpur,,1310.0,INR,2026-05-30,2026-06-19,yes,no,paid,AMS-1114
+EXP-1453,AMS-1195,TRIP-497,hotel,"Hotel, 1 night",Mysuru,1,3750.0,INR,2026-09-29,2026-10-16,yes,no,paid,AMS-1107
+EXP-1454,AMS-1195,TRIP-497,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-09-29,2026-10-16,no,no,paid,AMS-1107
+EXP-1455,AMS-1195,TRIP-497,taxi,Taxi,Mysuru,,1460.0,INR,2026-09-28,2026-10-16,yes,no,paid,AMS-1107
+EXP-1456,AMS-1171,TRIP-498,hotel,"Hotel, 1 night",Chennai,1,5650.0,INR,2026-02-17,2026-03-09,yes,no,paid,AMS-1059
+EXP-1457,AMS-1171,TRIP-498,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-02-17,2026-03-09,no,no,paid,AMS-1059
+EXP-1458,AMS-1171,TRIP-498,taxi,Taxi,Chennai,,1550.0,INR,2026-02-16,2026-03-09,yes,no,paid,AMS-1059
+EXP-1459,AMS-1409,TRIP-499,hotel,"Hotel, 1 night",Bengaluru,1,4600.0,INR,2026-02-25,2026-03-04,yes,no,paid,AMS-1055
+EXP-1460,AMS-1409,TRIP-499,daily_allowance,"Daily allowance, 2 days",Bengaluru,,3600.0,INR,2026-02-25,2026-03-04,no,no,paid,AMS-1055
+EXP-1461,AMS-1409,TRIP-499,taxi,Taxi,Bengaluru,,720.0,INR,2026-02-24,2026-03-04,yes,no,paid,AMS-1055
+EXP-1462,AMS-1269,TRIP-500,hotel,"Hotel, 1 night",Chennai,1,5150.0,INR,2026-04-22,2026-04-24,yes,no,paid,AMS-1176
+EXP-1463,AMS-1269,TRIP-500,daily_allowance,"Daily allowance, 2 days",Chennai,,3600.0,INR,2026-04-22,2026-04-24,no,no,paid,AMS-1176
+EXP-1464,AMS-1269,TRIP-500,taxi,Taxi,Chennai,,1170.0,INR,2026-04-21,2026-04-24,yes,no,paid,AMS-1176
+EXP-1465,AMS-1212,TRIP-501,hotel,"Hotel, 2 nights",Nagpur,2,8300.0,INR,2026-07-13,2026-07-20,yes,no,paid,AMS-1275
+EXP-1466,AMS-1212,TRIP-501,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-07-13,2026-07-20,no,no,paid,AMS-1275
+EXP-1467,AMS-1212,TRIP-501,taxi,Taxi,Nagpur,,850.0,INR,2026-07-11,2026-07-20,yes,no,paid,AMS-1275
+EXP-1468,AMS-1221,TRIP-502,hotel,"Hotel, 3 nights",Houston,3,522.0,USD,2026-10-08,2026-10-14,yes,no,paid,AMS-1640
+EXP-1469,AMS-1221,TRIP-502,daily_allowance,"Daily allowance, 4 days",Houston,,240.0,USD,2026-10-08,2026-10-14,no,no,paid,AMS-1640
+EXP-1470,AMS-1221,TRIP-502,taxi,Taxi,Houston,,40.0,USD,2026-10-05,2026-10-14,yes,no,paid,AMS-1640
+EXP-1471,AMS-1909,TRIP-503,hotel,"Hotel, 3 nights",Hyderabad,3,11250.0,INR,2026-03-04,2026-03-19,yes,no,paid,AMS-1079
+EXP-1472,AMS-1909,TRIP-503,daily_allowance,"Daily allowance, 4 days",Hyderabad,,4800.0,INR,2026-03-04,2026-03-19,no,no,paid,AMS-1079
+EXP-1473,AMS-1909,TRIP-503,taxi,Taxi,Hyderabad,,720.0,INR,2026-03-01,2026-03-19,yes,no,paid,AMS-1079
+EXP-1474,AMS-2099,TRIP-504,hotel,"Hotel, 2 nights",Chennai,2,8600.0,INR,2026-08-12,2026-08-19,yes,no,paid,AMS-1140
+EXP-1475,AMS-2099,TRIP-504,daily_allowance,"Daily allowance, 3 days",Chennai,,3600.0,INR,2026-08-12,2026-08-19,no,no,paid,AMS-1140
+EXP-1476,AMS-2099,TRIP-504,taxi,Taxi,Chennai,,1350.0,INR,2026-08-10,2026-08-19,yes,no,paid,AMS-1140
+EXP-1477,AMS-1901,TRIP-505,hotel,"Hotel, 2 nights",Nagpur,2,7300.0,INR,2026-03-10,2026-03-29,yes,no,paid,AMS-1208
+EXP-1478,AMS-1901,TRIP-505,daily_allowance,"Daily allowance, 3 days",Nagpur,,3900.0,INR,2026-03-10,2026-03-29,no,no,paid,AMS-1208
+EXP-1479,AMS-1901,TRIP-505,taxi,Taxi,Nagpur,,1380.0,INR,2026-03-08,2026-03-29,yes,no,paid,AMS-1208
+EXP-1480,AMS-1638,TRIP-506,hotel,"Hotel, 1 night",Hyderabad,1,4550.0,INR,2026-09-06,2026-09-09,yes,no,paid,AMS-1135
+EXP-1481,AMS-1638,TRIP-506,daily_allowance,"Daily allowance, 2 days",Hyderabad,,3600.0,INR,2026-09-06,2026-09-09,no,no,paid,AMS-1135
+EXP-1482,AMS-1638,TRIP-506,taxi,Taxi,Hyderabad,,1150.0,INR,2026-09-05,2026-09-09,yes,no,paid,AMS-1135
+EXP-1483,AMS-1720,TRIP-507,hotel,"Hotel, 1 night",Nagpur,1,3850.0,INR,2026-09-18,2026-10-04,yes,no,paid,AMS-1454
+EXP-1484,AMS-1720,TRIP-507,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-09-18,2026-10-04,no,no,paid,AMS-1454
+EXP-1485,AMS-1720,TRIP-507,taxi,Taxi,Nagpur,,550.0,INR,2026-09-17,2026-10-04,yes,no,paid,AMS-1454
+EXP-1486,AMS-1572,TRIP-508,hotel,"Hotel, 2 nights",Coimbatore,2,7400.0,INR,2026-07-29,2026-08-01,yes,no,paid,AMS-1361
+EXP-1487,AMS-1572,TRIP-508,daily_allowance,"Daily allowance, 3 days",Coimbatore,,3900.0,INR,2026-07-29,2026-08-01,no,no,paid,AMS-1361
+EXP-1488,AMS-1572,TRIP-508,taxi,Taxi,Coimbatore,,840.0,INR,2026-07-27,2026-08-01,yes,no,paid,AMS-1361
+EXP-1489,AMS-1753,TRIP-509,hotel,"Hotel, 2 nights",Hyderabad,2,13000.0,INR,2026-06-28,2026-07-16,yes,no,paid,AMS-1135
+EXP-1490,AMS-1753,TRIP-509,daily_allowance,"Daily allowance, 3 days",Hyderabad,,5400.0,INR,2026-06-28,2026-07-16,no,no,paid,AMS-1135
+EXP-1491,AMS-1753,TRIP-509,taxi,Taxi,Hyderabad,,1440.0,INR,2026-06-26,2026-07-16,yes,no,paid,AMS-1135
+EXP-1492,AMS-1585,TRIP-510,hotel,"Hotel, 2 nights",Pune,2,9000.0,INR,2026-09-21,2026-10-11,yes,no,paid,AMS-1170
+EXP-1493,AMS-1585,TRIP-510,daily_allowance,"Daily allowance, 3 days",Pune,,3600.0,INR,2026-09-21,2026-10-11,no,no,paid,AMS-1170
+EXP-1494,AMS-1585,TRIP-510,taxi,Taxi,Pune,,1050.0,INR,2026-09-19,2026-10-11,yes,no,paid,AMS-1170
+EXP-1495,AMS-1570,TRIP-511,hotel,"Hotel, 3 nights",Mumbai,3,9150.0,INR,2026-10-02,2026-10-22,yes,no,paid,AMS-1066
+EXP-1496,AMS-1570,TRIP-511,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-10-02,2026-10-22,no,no,paid,AMS-1066
+EXP-1497,AMS-1570,TRIP-511,taxi,Taxi,Mumbai,,1450.0,INR,2026-09-29,2026-10-22,yes,no,paid,AMS-1066
+EXP-1498,AMS-1590,TRIP-512,hotel,"Hotel, 1 night",Houston,1,166.0,USD,2026-03-19,2026-03-28,yes,no,paid,AMS-1412
+EXP-1499,AMS-1590,TRIP-512,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-03-19,2026-03-28,no,no,paid,AMS-1412
+EXP-1500,AMS-1590,TRIP-512,taxi,Taxi,Houston,,84.0,USD,2026-03-18,2026-03-28,yes,no,paid,AMS-1412
+EXP-1501,AMS-1830,TRIP-513,hotel,"Hotel, 3 nights",Coimbatore,3,8850.0,INR,2026-08-08,2026-08-26,yes,no,paid,AMS-1563
+EXP-1502,AMS-1830,TRIP-513,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-08-08,2026-08-26,no,no,paid,AMS-1563
+EXP-1503,AMS-1830,TRIP-513,taxi,Taxi,Coimbatore,,1270.0,INR,2026-08-05,2026-08-26,yes,no,paid,AMS-1563
+EXP-1504,AMS-1504,TRIP-514,hotel,"Hotel, 3 nights",Mysuru,3,8550.0,INR,2026-02-16,2026-02-24,yes,no,paid,AMS-1379
+EXP-1505,AMS-1504,TRIP-514,daily_allowance,"Daily allowance, 4 days",Mysuru,,3600.0,INR,2026-02-16,2026-02-24,no,no,paid,AMS-1379
+EXP-1506,AMS-1504,TRIP-514,taxi,Taxi,Mysuru,,540.0,INR,2026-02-13,2026-02-24,yes,no,paid,AMS-1379
+EXP-1507,AMS-1254,TRIP-515,hotel,"Hotel, 2 nights",Bengaluru,2,11600.0,INR,2026-04-05,2026-04-20,yes,no,paid,AMS-1129
+EXP-1508,AMS-1254,TRIP-515,daily_allowance,"Daily allowance, 3 days",Bengaluru,,5400.0,INR,2026-04-05,2026-04-20,no,no,paid,AMS-1129
+EXP-1509,AMS-1254,TRIP-515,taxi,Taxi,Bengaluru,,340.0,INR,2026-04-03,2026-04-20,yes,no,paid,AMS-1129
+EXP-1510,AMS-1949,TRIP-516,hotel,"Hotel, 1 night",Mysuru,1,1950.0,INR,2026-07-02,2026-07-22,yes,no,paid,AMS-1213
+EXP-1511,AMS-1949,TRIP-516,daily_allowance,"Daily allowance, 2 days",Mysuru,,1800.0,INR,2026-07-02,2026-07-22,no,no,paid,AMS-1213
+EXP-1512,AMS-1949,TRIP-516,taxi,Taxi,Mysuru,,1090.0,INR,2026-07-01,2026-07-22,yes,no,paid,AMS-1213
+EXP-1513,AMS-1780,TRIP-517,hotel,"Hotel, 2 nights",Coimbatore,2,5400.0,INR,2026-02-18,2026-03-05,yes,no,paid,AMS-1055
+EXP-1514,AMS-1780,TRIP-517,daily_allowance,"Daily allowance, 3 days",Coimbatore,,2700.0,INR,2026-02-18,2026-03-05,no,no,paid,AMS-1055
+EXP-1515,AMS-1780,TRIP-517,taxi,Taxi,Coimbatore,,330.0,INR,2026-02-16,2026-03-05,no,no,paid,AMS-1055
+EXP-1516,AMS-1439,TRIP-518,hotel,"Hotel, 1 night",Mysuru,1,3000.0,INR,2026-05-14,2026-05-24,yes,no,paid,AMS-1003
+EXP-1517,AMS-1439,TRIP-518,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-05-14,2026-05-24,no,no,paid,AMS-1003
+EXP-1518,AMS-1439,TRIP-518,taxi,Taxi,Mysuru,,1320.0,INR,2026-05-13,2026-05-24,yes,no,paid,AMS-1003
+EXP-1519,AMS-1847,TRIP-519,hotel,"Hotel, 2 nights",Mumbai,2,10100.0,INR,2026-02-19,2026-03-08,yes,no,paid,AMS-1345
+EXP-1520,AMS-1847,TRIP-519,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-02-19,2026-03-08,no,no,paid,AMS-1345
+EXP-1521,AMS-1847,TRIP-519,taxi,Taxi,Mumbai,,360.0,INR,2026-02-17,2026-03-08,yes,no,paid,AMS-1345
+EXP-1522,AMS-1126,TRIP-520,hotel,"Hotel, 1 night",Nagpur,1,3300.0,INR,2026-05-31,2026-06-12,yes,no,paid,AMS-1324
+EXP-1523,AMS-1126,TRIP-520,daily_allowance,"Daily allowance, 2 days",Nagpur,,2600.0,INR,2026-05-31,2026-06-12,no,no,paid,AMS-1324
+EXP-1524,AMS-1126,TRIP-520,taxi,Taxi,Nagpur,,480.0,INR,2026-05-30,2026-06-12,no,no,paid,AMS-1324
+EXP-1525,AMS-1946,TRIP-521,hotel,"Hotel, 1 night",Pune,1,2950.0,INR,2026-09-01,2026-09-20,yes,no,paid,AMS-1070
+EXP-1526,AMS-1946,TRIP-521,daily_allowance,"Daily allowance, 2 days",Pune,,2400.0,INR,2026-09-01,2026-09-20,no,no,paid,AMS-1070
+EXP-1527,AMS-1946,TRIP-521,taxi,Taxi,Pune,,810.0,INR,2026-08-31,2026-09-20,yes,no,paid,AMS-1070
+EXP-1528,AMS-2038,TRIP-522,hotel,"Hotel, 3 nights",Chicago,3,354.0,USD,2026-03-23,2026-04-04,yes,no,paid,AMS-1056
+EXP-1529,AMS-2038,TRIP-522,daily_allowance,"Daily allowance, 4 days",Chicago,,240.0,USD,2026-03-23,2026-04-04,no,no,paid,AMS-1056
+EXP-1530,AMS-2038,TRIP-522,taxi,Taxi,Chicago,,45.0,USD,2026-03-20,2026-04-04,yes,no,paid,AMS-1056
+EXP-1531,AMS-1570,TRIP-523,hotel,"Hotel, 1 night",Hyderabad,1,4500.0,INR,2026-03-23,2026-04-08,yes,no,paid,AMS-1066
+EXP-1532,AMS-1570,TRIP-523,daily_allowance,"Daily allowance, 2 days",Hyderabad,,2400.0,INR,2026-03-23,2026-04-08,no,no,paid,AMS-1066
+EXP-1533,AMS-1570,TRIP-523,taxi,Taxi,Hyderabad,,1130.0,INR,2026-03-22,2026-04-08,yes,no,paid,AMS-1066
+EXP-1534,AMS-1122,TRIP-524,hotel,"Hotel, 2 nights",New York,2,344.0,USD,2026-05-06,2026-05-13,yes,no,paid,AMS-1223
+EXP-1535,AMS-1122,TRIP-524,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-05-06,2026-05-13,no,no,paid,AMS-1223
+EXP-1536,AMS-1122,TRIP-524,taxi,Taxi,New York,,64.0,USD,2026-05-04,2026-05-13,yes,no,paid,AMS-1223
+EXP-1537,AMS-2025,TRIP-525,hotel,"Hotel, 2 nights",Mumbai,2,6300.0,INR,2026-02-12,2026-02-21,yes,no,paid,AMS-1050
+EXP-1538,AMS-2025,TRIP-525,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-02-12,2026-02-21,no,no,paid,AMS-1050
+EXP-1539,AMS-2025,TRIP-525,taxi,Taxi,Mumbai,,610.0,INR,2026-02-10,2026-02-21,yes,no,paid,AMS-1050
+EXP-1540,AMS-1641,TRIP-526,hotel,"Hotel, 1 night",Houston,1,164.0,USD,2026-07-22,2026-08-11,yes,no,paid,AMS-1493
+EXP-1541,AMS-1641,TRIP-526,daily_allowance,"Daily allowance, 2 days",Houston,,120.0,USD,2026-07-22,2026-08-11,no,no,paid,AMS-1493
+EXP-1542,AMS-1641,TRIP-526,taxi,Taxi,Houston,,19.0,USD,2026-07-21,2026-08-11,no,no,paid,AMS-1493
+EXP-1543,AMS-1397,TRIP-527,hotel,"Hotel, 3 nights",Hyderabad,3,19050.0,INR,2026-05-28,2026-05-30,yes,no,paid,AMS-1646
+EXP-1544,AMS-1397,TRIP-527,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-05-28,2026-05-30,no,no,paid,AMS-1646
+EXP-1545,AMS-1397,TRIP-527,taxi,Taxi,Hyderabad,,470.0,INR,2026-05-25,2026-05-30,no,no,paid,AMS-1646
+EXP-1546,AMS-1262,TRIP-528,hotel,"Hotel, 1 night",Coimbatore,1,2550.0,INR,2026-02-13,2026-03-03,yes,no,paid,AMS-1047
+EXP-1547,AMS-1262,TRIP-528,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-02-13,2026-03-03,no,no,paid,AMS-1047
+EXP-1548,AMS-1262,TRIP-528,taxi,Taxi,Coimbatore,,1360.0,INR,2026-02-12,2026-03-03,yes,no,paid,AMS-1047
+EXP-1549,AMS-1481,TRIP-529,hotel,"Hotel, 2 nights",New York,2,290.0,USD,2026-08-06,2026-08-24,yes,no,paid,AMS-1043
+EXP-1550,AMS-1481,TRIP-529,daily_allowance,"Daily allowance, 3 days",New York,,180.0,USD,2026-08-06,2026-08-24,no,no,paid,AMS-1043
+EXP-1551,AMS-1481,TRIP-529,taxi,Taxi,New York,,85.0,USD,2026-08-04,2026-08-24,yes,no,paid,AMS-1043
+EXP-1552,AMS-1410,TRIP-530,hotel,"Hotel, 2 nights",Delhi NCR,2,11900.0,INR,2026-04-15,2026-04-25,yes,no,paid,AMS-1005
+EXP-1553,AMS-1410,TRIP-530,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-04-15,2026-04-25,no,no,paid,AMS-1005
+EXP-1554,AMS-1410,TRIP-530,taxi,Taxi,Delhi NCR,,1150.0,INR,2026-04-13,2026-04-25,yes,no,paid,AMS-1005
+EXP-1555,AMS-1219,TRIP-531,hotel,"Hotel, 2 nights",Coimbatore,2,11500.0,INR,2026-05-21,2026-06-07,yes,no,paid,AMS-1001
+EXP-1556,AMS-1219,TRIP-531,daily_allowance,"Daily allowance, 3 days",Coimbatore,,5400.0,INR,2026-05-21,2026-06-07,no,no,paid,AMS-1001
+EXP-1557,AMS-1219,TRIP-531,taxi,Taxi,Coimbatore,,790.0,INR,2026-05-19,2026-06-07,yes,no,paid,AMS-1001
+EXP-1558,AMS-1828,TRIP-532,hotel,"Hotel, 3 nights",Coimbatore,3,8100.0,INR,2026-10-09,2026-10-13,yes,no,paid,AMS-1077
+EXP-1559,AMS-1828,TRIP-532,daily_allowance,"Daily allowance, 4 days",Coimbatore,,3600.0,INR,2026-10-09,2026-10-13,no,no,paid,AMS-1077
+EXP-1560,AMS-1828,TRIP-532,taxi,Taxi,Coimbatore,,1550.0,INR,2026-10-06,2026-10-13,yes,no,paid,AMS-1077
+EXP-1561,AMS-1605,TRIP-533,hotel,"Hotel, 1 night",Mysuru,1,3650.0,INR,2026-04-24,2026-05-10,yes,no,paid,AMS-1454
+EXP-1562,AMS-1605,TRIP-533,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-04-24,2026-05-10,no,no,paid,AMS-1454
+EXP-1563,AMS-1605,TRIP-533,taxi,Taxi,Mysuru,,490.0,INR,2026-04-23,2026-05-10,yes,no,paid,AMS-1454
+EXP-1564,AMS-1131,TRIP-534,hotel,"Hotel, 1 night",Mysuru,1,3700.0,INR,2026-02-08,2026-02-28,yes,no,paid,AMS-1095
+EXP-1565,AMS-1131,TRIP-534,daily_allowance,"Daily allowance, 2 days",Mysuru,,2600.0,INR,2026-02-08,2026-02-28,no,no,paid,AMS-1095
+EXP-1566,AMS-1131,TRIP-534,taxi,Taxi,Mysuru,,730.0,INR,2026-02-07,2026-02-28,yes,no,paid,AMS-1095
+EXP-1567,AMS-1584,TRIP-535,hotel,"Hotel, 3 nights",Hyderabad,3,11700.0,INR,2026-04-18,2026-04-27,yes,no,paid,AMS-1054
+EXP-1568,AMS-1584,TRIP-535,daily_allowance,"Daily allowance, 4 days",Hyderabad,,7200.0,INR,2026-04-18,2026-04-27,no,no,paid,AMS-1054
+EXP-1569,AMS-1584,TRIP-535,taxi,Taxi,Hyderabad,,890.0,INR,2026-04-15,2026-04-27,yes,no,paid,AMS-1054
+EXP-1570,AMS-2115,TRIP-536,hotel,"Hotel, 2 nights",Mumbai,2,8200.0,INR,2026-07-08,2026-07-20,yes,no,paid,AMS-1065
+EXP-1571,AMS-2115,TRIP-536,daily_allowance,"Daily allowance, 3 days",Mumbai,,3600.0,INR,2026-07-08,2026-07-20,no,no,paid,AMS-1065
+EXP-1572,AMS-2115,TRIP-536,taxi,Taxi,Mumbai,,910.0,INR,2026-07-06,2026-07-20,yes,no,paid,AMS-1065
+EXP-1573,AMS-1674,TRIP-537,hotel,"Hotel, 2 nights",Hyderabad,2,8800.0,INR,2026-04-21,2026-05-11,yes,no,paid,AMS-1166
+EXP-1574,AMS-1674,TRIP-537,daily_allowance,"Daily allowance, 3 days",Hyderabad,,3600.0,INR,2026-04-21,2026-05-11,no,no,paid,AMS-1166
+EXP-1575,AMS-1674,TRIP-537,taxi,Taxi,Hyderabad,,1550.0,INR,2026-04-19,2026-05-11,yes,no,paid,AMS-1166
+EXP-1576,AMS-1357,TRIP-538,hotel,"Hotel, 3 nights",Mumbai,3,13050.0,INR,2026-10-06,2026-10-24,yes,no,paid,AMS-1324
+EXP-1577,AMS-1357,TRIP-538,daily_allowance,"Daily allowance, 4 days",Mumbai,,4800.0,INR,2026-10-06,2026-10-24,no,no,paid,AMS-1324
+EXP-1578,AMS-1357,TRIP-538,taxi,Taxi,Mumbai,,1340.0,INR,2026-10-03,2026-10-24,yes,no,paid,AMS-1324
+EXP-1579,AMS-1321,TRIP-539,hotel,"Hotel, 3 nights",Chicago,3,348.0,USD,2026-02-22,2026-02-24,yes,no,paid,AMS-1375
+EXP-1580,AMS-1321,TRIP-539,daily_allowance,"Daily allowance, 4 days",Chicago,,240.0,USD,2026-02-22,2026-02-24,no,no,paid,AMS-1375
+EXP-1581,AMS-1321,TRIP-539,taxi,Taxi,Chicago,,47.0,USD,2026-02-19,2026-02-24,yes,no,paid,AMS-1375
+EXP-1582,AMS-1406,TRIP-540,hotel,"Hotel, 3 nights",Nagpur,3,13350.0,INR,2026-04-04,2026-04-11,yes,no,paid,AMS-1054
+EXP-1583,AMS-1406,TRIP-540,daily_allowance,"Daily allowance, 4 days",Nagpur,,5200.0,INR,2026-04-04,2026-04-11,no,no,paid,AMS-1054
+EXP-1584,AMS-1406,TRIP-540,taxi,Taxi,Nagpur,,1320.0,INR,2026-04-01,2026-04-11,yes,no,paid,AMS-1054
+EXP-1585,AMS-1937,TRIP-541,hotel,"Hotel, 1 night",New York,1,157.0,USD,2026-07-24,2026-07-30,yes,no,paid,AMS-1412
+EXP-1586,AMS-1937,TRIP-541,daily_allowance,"Daily allowance, 2 days",New York,,120.0,USD,2026-07-24,2026-07-30,no,no,paid,AMS-1412
+EXP-1587,AMS-1937,TRIP-541,taxi,Taxi,New York,,79.0,USD,2026-07-23,2026-07-30,yes,no,paid,AMS-1412
+EXP-1588,AMS-1063,TRIP-542,hotel,"Hotel, 2 nights",Delhi NCR,2,8100.0,INR,2026-04-18,2026-05-06,yes,no,paid,AMS-1004
+EXP-1589,AMS-1063,TRIP-542,daily_allowance,"Daily allowance, 3 days",Delhi NCR,,5400.0,INR,2026-04-18,2026-05-06,no,no,paid,AMS-1004
+EXP-1590,AMS-1063,TRIP-542,taxi,Taxi,Delhi NCR,,800.0,INR,2026-04-16,2026-05-06,yes,no,paid,AMS-1004
+EXP-1591,AMS-1550,TRIP-543,hotel,"Hotel, 1 night",Mumbai,1,4350.0,INR,2026-08-28,2026-09-09,yes,no,paid,AMS-1498
+EXP-1592,AMS-1550,TRIP-543,daily_allowance,"Daily allowance, 2 days",Mumbai,,3600.0,INR,2026-08-28,2026-09-09,no,no,paid,AMS-1498
+EXP-1593,AMS-1550,TRIP-543,taxi,Taxi,Mumbai,,1160.0,INR,2026-08-27,2026-09-09,yes,no,paid,AMS-1498
+EXP-1594,AMS-1717,TRIP-544,hotel,"Hotel, 2 nights",Mumbai,2,10800.0,INR,2026-08-20,2026-09-02,yes,no,paid,AMS-1166
+EXP-1595,AMS-1717,TRIP-544,daily_allowance,"Daily allowance, 3 days",Mumbai,,5400.0,INR,2026-08-20,2026-09-02,no,no,paid,AMS-1166
+EXP-1596,AMS-1717,TRIP-544,taxi,Taxi,Mumbai,,1470.0,INR,2026-08-18,2026-09-02,yes,no,paid,AMS-1166
+EXP-1597,AMS-1931,TRIP-545,hotel,"Hotel, 1 night",Coimbatore,1,2200.0,INR,2026-03-07,2026-03-12,yes,no,paid,AMS-1051
+EXP-1598,AMS-1931,TRIP-545,daily_allowance,"Daily allowance, 2 days",Coimbatore,,1800.0,INR,2026-03-07,2026-03-12,no,no,paid,AMS-1051
+EXP-1599,AMS-1931,TRIP-545,taxi,Taxi,Coimbatore,,480.0,INR,2026-03-06,2026-03-12,yes,no,paid,AMS-1051
