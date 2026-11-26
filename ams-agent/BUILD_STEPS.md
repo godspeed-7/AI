@@ -83,3 +83,47 @@ wrong tool choices, a context too big, or jobs needing other powers.
 multi-agent (orchestrator–worker, supervisor) · split by capability,
 not data source · role-based access control (RBAC) · least privilege ·
 tools by role · roles from the identity provider (group claims).
+
+## 5. Walk 5: Context
+
+**Did:** tests first: Q35–Q38 (grade and office; the same for a US
+person; "what's my name?"; "I've moved to Austin"). The context now
+carries job, department, grade and office; `about_asker()`
+([context.py](src/ams_agent/context.py)) turns it into one line, which
+`with_asker` (`@dynamic_prompt`, [agent.py](src/ams_agent/agent.py))
+adds to the END of the fixed prompt before every model call. Payroll
+from the office (`PAYROLL`, config.py). Profile added to the scope.
+**Why:** the model knows only what it's sent: it said "I don't know"
+to "what's my grade?" though the app knew. Office decides which rules
+apply. No name: Gemini never needs it. The rest comes from tools.
+**Checked:** baseline 1 / 4 (Q37 only because the guard blocked it);
+now **15 / 38** (was 11 / 34): Q35–Q38 pass, no other changes. Prompt
+for two people: same start, no name; the header isn't flagged as a leak.
+**Next time:** put what every answer needs in the prompt, the rest in
+tools; fixed text first, per-person text last.
+**Terms:** context engineering · dynamic system prompt · trusted
+context · just-in-time context (load late) · data minimisation ·
+prompt caching (stable prefix) · context window · context rot.
+
+## 6. Walk 6: Orchestrate
+
+**Did:** kept the agent loop (`create_agent`) and gave it brakes in
+code, a budget per question ([budget.py](src/ams_agent/budget.py),
+values in config.py): 5 model calls (LangChain's limit, our reply), 8
+tool calls (more are refused; the model answers with what it has), 90
+seconds and 30,000 tokens (`RunBudget`, ours: no built-in). One fixed
+reply for all; the reason goes to the log and the results
+(`stopped_by`, plus `tokens` per question).
+**Why:** a loop the model controls can fail to stop: one stuck
+question could use the whole Gemini minute for everyone (OWASP LLM10).
+**Checked:** a fake model that never stops trips each brake (5 calls;
+8 tools run, 7 refused; 90 s; tokens); a normal answer passes. Full
+run **15 / 38**, no verdict changed, nothing stopped: at most 2 model
+calls, 19 s, 1,008 tokens.
+**Next time:** measure use first, then set each budget with headroom.
+**Later:** a graph (code owns the order) → walks 9–10, leave booking;
+loop fingerprint, parallel workers, helpers, supervisor, swarm, A2A,
+plan-and-execute, to-dos → the year-end review.
+**Terms:** agent loop (ReAct) · orchestration · budgets / guardrails on
+the loop (max turns) · unbounded consumption (OWASP LLM10, denial of
+wallet) · graceful degradation · fake model (test double).

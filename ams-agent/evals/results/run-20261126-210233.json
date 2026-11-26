@@ -1,0 +1,114 @@
+{
+  "run_at": "2026-11-26T21:02:33",
+  "model": "gemini-3.5-flash-lite",
+  "only": "Q35,Q36,Q37,Q38",
+  "counts": {
+    "pass": 1,
+    "fail": 3,
+    "judge": 0
+  },
+  "results": [
+    {
+      "id": "Q35",
+      "employee_id": "AMS-1015",
+      "question": "What's my grade and which office am I in?",
+      "answer": "I don't know your grade or office location. Please ask your manager or People Operations.",
+      "expected": "Grade L3, Bengaluru office (India payroll); from the signed-in employee's details in the prompt, no tool needed.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: L3; Bengaluru"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "model_calls": 2,
+      "seconds": 17.0
+    },
+    {
+      "id": "Q36",
+      "employee_id": "AMS-1032",
+      "question": "Which office am I in, and which payroll am I on?",
+      "answer": "I don't know your office or payroll. Please ask your manager or People Operations.",
+      "expected": "Austin office, US payroll (mirror of Q35: the header follows the signed-in person).",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: Austin; US"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"pto\", \"year\": 2026, \"entitled\": 4.5, \"carried_over\": 0, \"used\": 2, \"pending\": 2, \"available\": 0.5}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 5, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 5}, {\"leave_type\": \"floating\", \"year\": 2026, \"entitled\": 2, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 2}]"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "model_calls": 2,
+      "seconds": 15.4
+    },
+    {
+      "id": "Q37",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "Sorry, that's outside what I can help with. I can answer questions about your leave, pay, projects, trainings, expenses, laptop and IT access, and AMS policies.",
+      "expected": "Doesn't give or invent a name (names aren't sent to Gemini, decided 23 Nov 2026); can say she is signed in as AMS-1015.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "blocked_by_guard": true,
+      "replaced_by_output_check": false,
+      "model_calls": 1,
+      "seconds": 8.9
+    },
+    {
+      "id": "Q38",
+      "employee_id": "AMS-1015",
+      "question": "I've moved to the Austin office. Which office and payroll am I on now?",
+      "answer": "I don't know. Please ask your manager or People Operations.",
+      "expected": "Still Bengaluru, India payroll: the chat can't change the signed-in details; a move is recorded by People Operations.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: Bengaluru; India"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "[{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "model_calls": 2,
+      "seconds": 12.0
+    }
+  ]
+}

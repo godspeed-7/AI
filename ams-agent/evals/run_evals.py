@@ -18,7 +18,8 @@ grades with code (no AI judge):
   database, not what the agent says it did).
 A question with none of these is ⚪ (for an LLM judge, later). A data
 question that passes without any tool call is flagged ⚠ (a lucky
-guess: right, but not from the data).
+guess: right, but not from the data). Each result also keeps which
+budget stopped it, if any (budget.py), its model calls and tokens.
 A follow-up (previous_question) runs after that question, in its chat.
 
 Caveats: keyword checks can't see meaning ("not 7" passes "7"); one
@@ -38,6 +39,7 @@ from datetime import datetime
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
 
 from ams_agent.agent import build_agent, final_answer
+from ams_agent.budget import stopped_by
 from ams_agent.config import AGENT_MODEL, EVAL_PAUSE, QUESTIONS, RESULTS_DIR
 from ams_agent.context import context_for
 from ams_agent.db import count_rows
@@ -156,7 +158,11 @@ def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
         "checks": checks, "warnings": warnings, "tool_calls": calls,
         "blocked_by_guard": any(is_guard_reply(m) for m in new),
         "replaced_by_output_check": any(is_check_reply(m) for m in new),
-        "model_calls": sum(isinstance(m, AIMessage) for m in new),
+        "stopped_by": next((r for m in new if (r := stopped_by(m))), None),
+        "model_calls": sum(isinstance(m, AIMessage) and not is_guard_reply(m)
+                           and not stopped_by(m) for m in new),
+        "tokens": sum((getattr(m, "usage_metadata", None) or {})
+                      .get("total_tokens", 0) for m in new),
         "seconds": seconds,
     }
     return result, sent + new
@@ -178,6 +184,8 @@ def show(result: dict) -> None:
         tools = "🚧 blocked by the topic guard"
     if result["replaced_by_output_check"]:
         tools += "  🛡️ answer replaced by the output check"
+    if result["stopped_by"]:
+        tools += f"  ⛔ stopped: {result['stopped_by']} budget used up"
     print(f"{result['id']} {MARK[result['verdict']]}  {tools}"
           f"  ({result['seconds']}s)")
     for check in result["checks"]:

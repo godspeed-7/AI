@@ -19,6 +19,8 @@ TODAY = date(2026, 11, 16)
 
 # Its staff get the hr role at sign-in (walk 4, context.py).
 HR_DEPARTMENT = "People Operations"
+# Payroll isn't stored; it follows the office (ams-data/db/README.md).
+PAYROLL = {"Bengaluru": "India", "Pune": "India", "Austin": "US"}
 
 # The agent's model: picks the tools and writes the answer. Needs the
 # internet and GOOGLE_API_KEY. Temperature stays at Gemini's default:
@@ -29,8 +31,15 @@ AGENT_RETRIES = 2  # on errors that can pass (429 too busy, 500, 503)
 # All Gemini calls together (agent + topic guard), paced in models.py:
 # the free tier allows 15 a minute per model; 12 leaves room.
 CALLS_PER_MINUTE = 12
-# Model calls per question before the agent loop stops (the step limit).
-MAX_MODEL_CALLS = 5
+# The budget per question (walk 6, budget.py): past any of these the
+# agent stops with a fixed reply. Measured use plus headroom (26 Nov,
+# 38 questions): 1-2 model calls, 1 tool call, 19 seconds at most (81
+# once, with retries), 1,008 tokens at most. Tokens get the most room:
+# the whole chat is resent each question, and walk 7's tools add text.
+MAX_MODEL_CALLS = 5  # the step limit
+MAX_TOOL_CALLS = 8  # more are refused; the model answers with what it has
+MAX_SECONDS = 90  # checked before each model call
+MAX_TOKENS = 30_000  # input + output, as Gemini reports them
 
 # The topic guard (walk 3, topic_guard.py): one small check per
 # question, before the agent. The same model, given only the allow-list

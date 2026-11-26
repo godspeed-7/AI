@@ -29,6 +29,7 @@ import streamlit as st
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
 
 from ams_agent.agent import build_agent, final_answer
+from ams_agent.budget import stopped_by
 from ams_agent.config import MAX_MESSAGE_CHARS, MAX_QUESTIONS_PER_MINUTE
 from ams_agent.context import context_for, role_names
 from ams_agent.db import find_employee
@@ -63,6 +64,8 @@ def steps_of(message) -> list[str]:
     """What one new message shows as steps, in markdown."""
     if is_guard_reply(message):
         return ["🚧 Topic check: off-topic, so a fixed reply (no agent run)"]
+    if reason := stopped_by(message):
+        return [f"⛔ Budget: the {reason} budget ran out, so a fixed reply"]
     if is_check_reply(message):
         return [("🛡️ Output check: the answer quoted the instructions,"
                  " so it was replaced")]
