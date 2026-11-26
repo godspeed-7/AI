@@ -62,3 +62,24 @@ deny-list · fail open vs fail closed · false positive · rate limiting
 (sliding window) · client-side throttling (token bucket) · topic vs
 permission · red-teaming · output check · canary token · word shingles ·
 system prompt leakage (OWASP LLM07).
+
+## 4. Walk 4: Route
+
+**Did:** decided the shape: one entry point (the chat), one agent, no
+router. Roles worked out by code at sign-in
+([context.py](src/ams_agent/context.py)): everyone is an employee,
+someone with direct reports a manager, People Operations staff hr;
+they ride in the runtime context with the ID (`context_for()`, used by
+the app and the eval runner) and show in the sidebar.
+**Why:** a router splits by job, not by data: every question is "look
+up my records", about 10 tools. Roles now, so walk 7 can give each role
+only its tools (don't offer a door someone can never use).
+**Checked:** by code: Ananya → employee; Pooja → employee, manager;
+Shruti → employee, hr; Neha → all three; unknown ID refused; context
+frozen. Sign-in by AppTest. Live Q01 and Q28 still pass.
+**Next time:** add a router or a second agent only when evals show
+wrong tool choices, a context too big, or jobs needing other powers.
+**Terms:** entry points · router (routing workflow) · single vs
+multi-agent (orchestrator–worker, supervisor) · split by capability,
+not data source · role-based access control (RBAC) · least privilege ·
+tools by role · roles from the identity provider (group claims).

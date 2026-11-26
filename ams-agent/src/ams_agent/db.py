@@ -3,6 +3,7 @@
 In:  DB_PATH (config.py), built by load_data.py.
 Out: connect() -> a connection whose rows read like dicts;
      find_employee(id) -> the sign-in screen's lookup;
+     count_reports(id) -> direct reports, for the manager role;
      count_rows(table) -> for the evals' database checks.
 
 Strategy: the database is opened with mode=ro, so no tool can change
@@ -29,14 +30,23 @@ def connect() -> sqlite3.Connection:
 
 
 def find_employee(employee_id: str) -> dict | None:
-    """Name, office, grade and title for an ID, or None if unknown."""
+    """Name, office, department, grade and title for an ID, or None."""
     with closing(connect()) as con:
         row = con.execute(
-            "SELECT employee_id, name, office, grade, job_title"
+            "SELECT employee_id, name, office, department, grade, job_title"
             " FROM employees WHERE employee_id = ?",
             (employee_id,),
         ).fetchone()
     return dict(row) if row else None
+
+
+def count_reports(employee_id: str) -> int:
+    """How many people have this person as their manager."""
+    with closing(connect()) as con:
+        return con.execute(
+            "SELECT COUNT(*) FROM employees WHERE manager_id = ?",
+            (employee_id,),
+        ).fetchone()[0]
 
 
 def count_rows(table: str) -> int:

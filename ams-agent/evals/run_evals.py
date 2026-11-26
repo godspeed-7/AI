@@ -6,8 +6,9 @@ Out: a line per question (✅ pass, ❌ fail, ⚪ needs a judge), the
      score, and evals/results/run-<time>.json with every answer, tool
      call, tool result and grade.
 
-Strategy: for each question the runner sets Context(employee_id)
-itself (a test fixture, like a test that starts signed in), asks, and
+Strategy: for each question the runner builds the context itself
+(context_for(employee_id), the app's sign-in code: a test fixture,
+like a test that starts signed in), asks, and
 grades with code (no AI judge):
 - must_include: every ;-separated fact must be in the answer
   (| separates alternatives); numbers match whole, so 7 doesn't match
@@ -38,7 +39,7 @@ from langchain.messages import AIMessage, HumanMessage, ToolMessage
 
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.config import AGENT_MODEL, EVAL_PAUSE, QUESTIONS, RESULTS_DIR
-from ams_agent.context import Context
+from ams_agent.context import context_for
 from ams_agent.db import count_rows
 from ams_agent.output_check import is_check_reply
 from ams_agent.topic_guard import is_guard_reply
@@ -128,7 +129,7 @@ def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
     started = time.perf_counter()
     try:
         state = agent.invoke({"messages": sent},
-                             context=Context(question["employee_id"]))
+                             context=context_for(question["employee_id"]))
         new, error = state["messages"][len(sent):], None
     # Any failure is recorded as a fail, and the run goes on.
     except Exception as e:  # noqa: BLE001

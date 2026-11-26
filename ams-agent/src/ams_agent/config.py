@@ -17,6 +17,9 @@ RESULTS_DIR = ROOT / "evals" / "results"
 # the agent's "today" is this date, not the computer's.
 TODAY = date(2026, 11, 16)
 
+# Its staff get the hr role at sign-in (walk 4, context.py).
+HR_DEPARTMENT = "People Operations"
+
 # The agent's model: picks the tools and writes the answer. Needs the
 # internet and GOOGLE_API_KEY. Temperature stays at Gemini's default:
 # Google advises against lowering it for Gemini 3 models.

@@ -1,7 +1,8 @@
 """The AMS agent: Gemini + the tools + short instructions, in a loop.
 
 In:  build_agent(); then agent.invoke({"messages": [...]},
-     context=Context(employee_id)) or agent.stream(...) the same way.
+     context=context_for(employee_id)) or agent.stream(...) the same
+     way.
 Out: the run's messages: the model's tool calls, the tool results and,
      last, the answer (final_answer() picks it out).
 

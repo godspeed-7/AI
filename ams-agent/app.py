@@ -7,10 +7,10 @@ Out: a chat for the signed-in employee; under each question, the
      agent's steps as they finish (the tool it asked for, the tool's
      result), then the answer.
 
-Strategy: sign-in puts the employee in st.session_state; every
-question first passes the request limits (limits.py: length, and
-questions a minute per person), then runs the agent with
-Context(employee_id) taken from the session, never from the chat
+Strategy: sign-in puts the employee and their context (ID and roles,
+context.py) in st.session_state; every question first passes the
+request limits (limits.py: length, and questions a minute per person),
+then runs the agent with that context, never one from the chat
 (inside the agent, the topic guard runs first). stream_mode="updates"
 gives one event per finished step. The chat's messages stay in the
 session and go with each question, so follow-ups work.
@@ -30,7 +30,7 @@ from langchain.messages import AIMessage, HumanMessage, ToolMessage
 
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.config import MAX_MESSAGE_CHARS, MAX_QUESTIONS_PER_MINUTE
-from ams_agent.context import Context
+from ams_agent.context import context_for, role_names
 from ams_agent.db import find_employee
 from ams_agent.limits import RateLimiter, too_long
 from ams_agent.output_check import is_check_reply
@@ -117,13 +117,15 @@ def sign_in_screen() -> None:
     if not person:
         st.error(f"No employee with the ID AMS-{digits}.")
         return
-    st.session_state.update(person=person, messages=[], turns=[])
+    # The ID and roles every question runs with, set once, by code.
+    st.session_state.update(person=person,
+                            context=context_for(person["employee_id"]),
+                            messages=[], turns=[])
     st.rerun()
 
 
 def ask(question: str) -> None:
     """Run the agent on one question, showing each step as it ends."""
-    person = st.session_state.person
     sent = st.session_state.messages + [HumanMessage(question)]
     new, steps = [], []
     with st.chat_message("user"):
@@ -133,7 +135,7 @@ def ask(question: str) -> None:
             try:
                 for update in agent().stream(
                         {"messages": sent},
-                        context=Context(person["employee_id"]),
+                        context=st.session_state.context,
                         stream_mode="updates"):
                     for node, change in update.items():
                         messages, found = read_update(node, change)
@@ -161,6 +163,8 @@ def chat_screen() -> None:
         st.markdown(f"**{person['name']}** ({person['employee_id']})")
         st.caption(f"{person['job_title']}, {person['grade']},"
                    f" {person['office']}")
+        st.caption("Roles: "
+                   + ", ".join(role_names(st.session_state.context)))
         st.caption("Dev-only sign-in")
         if st.button("Sign out"):
             st.session_state.clear()
