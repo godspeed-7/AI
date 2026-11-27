@@ -1,4 +1,4 @@
-"""The agent's tools: code that looks up facts for the model (walks 7, 8).
+"""The agent's tools: code that looks up facts for the model.
 
 In:  the signed-in employee's context (context.py) and, optionally, who
      the question is about (`employee`: a name or ID, from the model).
@@ -11,7 +11,7 @@ Strategy: fixed SQL tools: we write every query, the model only picks
 the tool and whom it is about (never text-to-SQL). Before any query,
 permissions.target() decides whose records may be read: the asker's
 own, their team's (managers), anyone's (hr); otherwise nothing is read
-and the tool says "Not allowed" (walk 8). get_team exists for managers
+and the tool says "Not allowed". get_team exists for managers
 only: it is offered by role (permissions.offer_by_role) and checks the
 role again itself. Deterministic: code does the sums and the date
 checks (available days, time at AMS, overdue), the model explains.

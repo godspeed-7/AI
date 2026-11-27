@@ -1,4 +1,4 @@
-"""A second look at each draft answer, before the person sees it (walk 12).
+"""A second look at each draft answer, before the person sees it.
 
 In:  AnswerReview(), in the agent's middleware (agent.py).
 Out: nothing when the draft is approved; otherwise one more round: a
@@ -37,7 +37,9 @@ from langchain.messages import (
 from langgraph.channels.untracked_value import UntrackedValue
 from pydantic import BaseModel, Field
 
-from ams_agent.config import BACKUP_MODEL, REVIEW_ROUNDS, REVIEW_TIMEOUT
+# As REVIEW_MODEL: REVIEWER here is the name on the reviewer's notes.
+from ams_agent.config import BACKUP, REVIEW_ROUNDS
+from ams_agent.config import REVIEWER as REVIEW_MODEL
 from ams_agent.models import chat_model
 from ams_agent.resilience import answered_by
 
@@ -101,7 +103,7 @@ class AnswerReview(AgentMiddleware):
 
     def __init__(self, about_asker=None) -> None:
         super().__init__()
-        self.reviewer = chat_model(REVIEW_TIMEOUT).with_structured_output(
+        self.reviewer = chat_model(REVIEW_MODEL).with_structured_output(
             ReviewVerdict)
         self.about_asker = about_asker  # context -> the asker's line
 
@@ -120,7 +122,7 @@ class AnswerReview(AgentMiddleware):
                                   " employee's question.")
             return {"messages": [AIMessage(EMPTY_REPLY, name=REVIEWER)],
                     "jump_to": "end"}
-        if rounds >= REVIEW_ROUNDS or answered_by(draft) == BACKUP_MODEL:
+        if rounds >= REVIEW_ROUNDS or answered_by(draft) == BACKUP.name:
             return None
         verdict = self.review(state["messages"], runtime)
         if verdict is None or verdict.approved or not (

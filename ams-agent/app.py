@@ -14,7 +14,7 @@ minute per person), then runs the agent with that context, never one
 from the chat (inside the agent, the topic guard runs first). Only the
 new message is sent: the agent's checkpointer keeps the chat under its
 ID, so follow-ups work. stream_mode="updates" gives one event per
-finished step. A booking pauses (walk 9): the app shows the exact
+finished step. A booking pauses: the app shows the exact
 action with Confirm / Cancel, and the click resumes the run.
 
 Caveats:
@@ -24,14 +24,14 @@ Caveats:
   tools don't change.
 - A refresh signs you out (session_state lives per browser tab); sign
   in again and the chat comes back, with a booking still waiting for
-  Confirm (walk 14). Chats unused for 30 days are deleted.
+  Confirm. Chats unused for 30 days are deleted.
 - The answer appears once it has passed the checks (reviewer, output
   check), never word by word: streamed text can't be un-shown if a
-  check replaces it. The steps stream as they happen (walk 13).
+  check replaces it. The steps stream as they happen.
 - Employee IDs are shown with names (respond.py); Gemini sees IDs only.
 - Under each answer: thumbs up / down; each answer is kept 30 days for
   review with its background checks (quality.py); tracing is off until
-  TRACING is switched on (tracing.py, walk 15).
+  TRACING is switched on (tracing.py).
 """
 
 import streamlit as st
@@ -41,7 +41,7 @@ from langgraph.types import Command
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.budget import stopped_by
 from ams_agent.config import (
-    BACKUP_MODEL,
+    BACKUP,
     MAX_MESSAGE_CHARS,
     MAX_QUESTIONS_PER_MINUTE,
 )
@@ -70,11 +70,11 @@ from ams_agent.tracing import run_config
 
 @st.cache_resource
 def memory():
-    """The durable chats and preferences (walk 14), opened once; old
+    """The durable chats and preferences (memory.py), opened once; old
     chats are deleted when the app starts."""
     saver, store = open_memory()
     delete_old_chats(saver)
-    delete_old_answers()  # the review log's 30 days too (walk 15)
+    delete_old_answers()  # the review log's 30 days too
     return saver, store
 
 
@@ -95,7 +95,7 @@ def limiter() -> RateLimiter:
 
 
 def refused(question: str, employee_id: str) -> str | None:
-    """Why a question is stopped before the agent (walk 3), or None."""
+    """Why a question is stopped before the agent, or None."""
     if reason := too_long(question):
         return reason
     if seconds := limiter().wait(employee_id):
@@ -118,7 +118,7 @@ def steps_of(message) -> list[str]:
         return [("🛡️ Output check: the answer quoted the instructions,"
                  " so it was replaced")]
     who = ("Backup model (Gemini unavailable)"
-           if answered_by(message) == BACKUP_MODEL else "Model")
+           if answered_by(message) == BACKUP.name else "Model")
     if isinstance(message, AIMessage) and message.tool_calls:
         return [f"🛠️ {who} asks for `{call['name']}` {call['args'] or ''}"
                 for call in message.tool_calls]
@@ -173,8 +173,8 @@ def sign_in_screen() -> None:
         st.error(f"No employee with the ID AMS-{digits}.")
         return
     # The ID and roles every question runs with, set once, by code. The
-    # chat ID comes from the sign-in too, so their chat comes back
-    # (walk 14), and nobody can open anyone else's.
+    # chat ID comes from the sign-in too, so their chat comes back,
+    # and nobody can open anyone else's.
     employee_id = person["employee_id"]
     delete_old_chats(memory()[0])
     turns = history(agent(), employee_id)
@@ -208,7 +208,7 @@ def run(payload, turn: dict) -> None:
                         turn["steps"].extend(found)
                         for step in found:
                             st.markdown(step)
-            # Any failure: a plain message, never the exception (walk 13).
+            # Any failure: a plain message, never the exception.
             except Exception as e:  # noqa: BLE001
                 status.update(label="Failed", state="error")
                 st.error(error_message(e))
@@ -218,11 +218,11 @@ def run(payload, turn: dict) -> None:
         if paused:  # shown as Confirm / Cancel on the next rerun
             st.session_state.pending = {"ask": paused, "turn": turn}
             st.rerun()
-        # Names back in, for the screen only (walk 13); the chat keeps IDs.
+        # Names back in, for the screen only; the chat keeps IDs.
         turn["answer"] = for_person(
             final_answer(new) or "Sorry, I couldn't answer that.")
         st.markdown(turn["answer"])
-        # Kept for review, checked in the background (walk 15).
+        # Kept for review, checked in the background.
         turn["row"] = record(st.session_state.context.employee_id,
                              turn["question"], turn["answer"], new)
     st.session_state.turns.append(turn)

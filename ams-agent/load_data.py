@@ -11,10 +11,11 @@ A number with a leading zero ("007") stays text. The CSVs stay the
 source of truth: this database is rebuilt from them, never edited.
 
 The holidays exist only as tables in the handbook text, so they are
-read from there once, into data code can count leave days with (walk
-9). One rule is kept by the database itself: a person can't have two
-pending or approved requests for the same leave and dates (a partial
-unique index, walk 10), so a repeat is refused even if code misses it.
+read from there once, into data code can count leave days with
+(leave_booking.py). One rule is kept by the database itself: a person
+can't have two pending or approved requests for the same leave and
+dates (a partial unique index), so a repeat is refused even if code
+misses it.
 
 Caveats: no foreign keys (1,200 people is small). Restricted holidays
 (India, 2 chosen per person) are not company holidays: not loaded.

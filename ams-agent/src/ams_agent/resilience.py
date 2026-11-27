@@ -1,7 +1,7 @@
-"""When a model call fails: retry what can pass, then the backup (walk 11).
+"""When a model call fails: retry what can pass, then the backup.
 
 In:  recovery(fallback), the agent's model-call middleware (agent.py);
-     backup_model(), also the topic guard's backup.
+     the models: config.AGENT and config.BACKUP (also the guard's).
 Out: a model answer from Gemini, or from local qwen3:8b when Gemini
      keeps failing; answered_by(message) says which.
 
@@ -32,15 +32,9 @@ from langchain.agents.middleware import (
     ModelRetryMiddleware,
 )
 from langchain.agents.middleware._retry import default_retry_on
-from langchain_ollama import ChatOllama
 
-from ams_agent.config import (
-    BACKUP_MODEL,
-    BACKUP_TIMEOUT,
-    BREAKER_FAILURES,
-    BREAKER_SECONDS,
-    MODEL_RETRIES,
-)
+from ams_agent.config import AGENT, BACKUP, BREAKER_FAILURES, BREAKER_SECONDS
+from ams_agent.models import chat_model
 
 log = logging.getLogger(__name__)
 DAILY_QUOTA = "PerDay"  # in Google's error once the day's requests are used
@@ -49,12 +43,6 @@ DAILY_QUOTA = "PerDay"  # in Google's error once the day's requests are used
 def can_retry(error: BaseException) -> bool:
     """Retry only what can pass: LangChain's rule, minus the daily quota."""
     return DAILY_QUOTA not in str(error) and default_retry_on(error)
-
-
-def backup_model() -> ChatOllama:
-    """Local qwen3:8b, thinking on."""
-    return ChatOllama(model=BACKUP_MODEL, reasoning=True,
-                      client_kwargs={"timeout": BACKUP_TIMEOUT})
 
 
 def answered_by(message) -> str:
@@ -110,7 +98,7 @@ class CircuitBreaker(AgentMiddleware):
             self.breaker.record(gemini_ok=False)
             raise
         last = response.result[-1] if response.result else None
-        self.breaker.record(gemini_ok=answered_by(last) != BACKUP_MODEL)
+        self.breaker.record(gemini_ok=answered_by(last) != BACKUP.name)
         return response
 
 
@@ -120,10 +108,10 @@ BREAKER = Breaker()  # one per process: every chat shares what it learns
 def recovery(fallback: bool = True) -> list[AgentMiddleware]:
     """The model-call middleware, outermost first; retries only with
     fallback=False (the evals)."""
-    retry = ModelRetryMiddleware(max_retries=MODEL_RETRIES,
+    retry = ModelRetryMiddleware(max_retries=AGENT.retries,
                                  retry_on=can_retry, on_failure="error")
     if not fallback:
         return [retry]
-    backup = backup_model()
+    backup = chat_model(BACKUP)
     return [CircuitBreaker(backup, BREAKER), ModelFallbackMiddleware(backup),
             retry]

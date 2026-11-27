@@ -32,7 +32,7 @@ def connect(write: bool = False) -> sqlite3.Connection:
             f"{path} is missing: run `uv run python load_data.py`.")
     mode = "rw" if write else "ro"
     con = sqlite3.connect(f"{path.as_uri()}?mode={mode}", uri=True,
-                          timeout=5)
+                          timeout=config.SQLITE_WAIT)
     con.row_factory = sqlite3.Row
     return con
 

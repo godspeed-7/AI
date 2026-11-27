@@ -1,4 +1,4 @@
-"""Two eval runs side by side: what changed, and is it safe? (walk 15)
+"""Two eval runs side by side: what changed, and is it safe?
 
 In:  uv run python evals/compare_runs.py <before.json> <after.json>
      (two files from evals/results/).

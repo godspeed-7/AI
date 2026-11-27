@@ -1,4 +1,4 @@
-"""How often the LLM judge agrees with a person (walk 15).
+"""How often the LLM judge agrees with a person.
 
 In:  uv run python evals/calibrate_judge.py
      evals/judge_key.csv: answers a person graded (question_id, answer,

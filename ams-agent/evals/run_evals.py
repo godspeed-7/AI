@@ -23,13 +23,13 @@ question that passes without any tool call is flagged ⚠ (a lucky
 guess: right, but not from the data). Each result also keeps which
 budget stopped it, if any (budget.py), its model calls and tokens.
 A follow-up (previous_question) runs after that question, in a copy of
-its chat. Bookings (walks 9-10): each question runs on a clean copy of
+its chat. Bookings: each question runs on a clean copy of
 the database (rebuilt from the CSVs once per run; a follow-up gets its
 parent's), never the app's; `confirm` (yes / no) is the person's answer
 at the Confirm step, and a question with it must have asked first;
 anything else is cancelled.
 
-Measuring (walk 15): --repeat N asks each question N times and lists
+Measuring: --repeat N asks each question N times and lists
 the flaky ones (pass and fail on the same question: noise, not a
 change); --judge lets the LLM judge (judge.py) grade what code can't
 and flag code failures it thinks are right, for a person. Safety gates
@@ -62,13 +62,14 @@ from ams_agent import config, judge
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.budget import stopped_by
 from ams_agent.config import (
-    AGENT_MODEL,
     EVAL_DB_PATH,
+    EVAL_MAX_CONFIRMS,
     EVAL_PAUSE,
     GATE_CATEGORIES,
     QUESTIONS,
     RESULTS_DIR,
     ROOT,
+    settings,
 )
 from ams_agent.context import context_for
 from ams_agent.db import count_rows
@@ -84,7 +85,6 @@ MARK = {"pass": "✅", "fail": "❌", "judge": "⚪", "error": "🔌"}
 # Google's error once the free tier's requests for the day are used up:
 # later questions would only fail the same way, so the run stops.
 DAILY_QUOTA = "PerDay"
-MAX_PAUSES = 3  # Confirm steps answered per question, at most
 
 
 def normalise(text: str) -> str:
@@ -179,7 +179,7 @@ def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
                              config=chat)
         # The person's stand-in: the confirm column says yes or no; no
         # answer given means no (an unplanned booking is never saved).
-        while state.get("__interrupt__") and len(asked) < MAX_PAUSES:
+        while state.get("__interrupt__") and len(asked) < EVAL_MAX_CONFIRMS:
             asked.append(state["__interrupt__"][0].value["summary"])
             yes = question.get("confirm") == "yes"
             state = agent.invoke(Command(resume={"confirmed": yes}),
@@ -190,7 +190,7 @@ def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
     except Exception as e:  # noqa: BLE001
         new, error = [], hide_key(f"{type(e).__name__}: {e}")
     seconds = round(time.perf_counter() - started, 1)
-    # Graded as the person sees it: names put back (walk 13).
+    # Graded as the person sees it: names put back.
     answer = for_person(final_answer(new))
     rows_added = {t: count_rows(t) - before[t] for t in tables}
     checks = grade(question, answer, rows_added, asked)
@@ -386,7 +386,7 @@ def main() -> None:
     path = RESULTS_DIR / f"run-{datetime.now():%Y%m%d-%H%M%S}.json"
     path.write_text(json.dumps(
         {"run_at": datetime.now().isoformat(timespec="seconds"),
-         "model": AGENT_MODEL, "only": args.only, "counts": counts,
+         "settings": settings(), "only": args.only, "counts": counts,
          "not_run": [q["id"] for _, q in trials[len(results):]],
          "repeat": args.repeat, "gates_ok": gates_ok, "stopped": stopped,
          "results": results}, indent=2, ensure_ascii=False))

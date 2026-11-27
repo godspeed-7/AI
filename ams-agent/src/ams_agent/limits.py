@@ -1,4 +1,4 @@
-"""Request limits, checked in code before the agent runs (walk 3).
+"""Request limits, checked in code before the agent runs.
 
 In:  too_long(text) and RateLimiter.wait(employee_id), called by app.py
      before each question.

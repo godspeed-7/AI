@@ -1,4 +1,4 @@
-"""The brakes on the agent loop: a budget per question (walk 6).
+"""The brakes on the agent loop: a budget per question.
 
 In:  brakes(), put in the agent's middleware first (agent.py).
 Out: a run that ends with STOP_REPLY when a budget runs out; the
@@ -11,13 +11,13 @@ Strategy: four budgets in code (OWASP LLM10, unbounded consumption):
 - tool calls (MAX_TOOL_CALLS): ToolCallLimitMiddleware; calls over the
   limit are refused and the model answers with what it has;
 - time (MAX_SECONDS; BACKUP_MAX_SECONDS once the slower backup model
-  answers or the breaker is open, walk 11) and tokens (MAX_TOKENS):
+  answers or the breaker is open) and tokens (MAX_TOKENS):
   RunBudget, as LangChain has no limit for these. It starts the clock
   before the topic guard, and checks both before every model call.
 The counts live in the run's state, so they restart for each question.
 
 Caveats: a check runs between calls, so a slow call still finishes (up
-to AGENT_TIMEOUT); the topic guard's tokens aren't counted.
+to AGENT.timeout); the topic guard's tokens aren't counted.
 """
 
 import logging
@@ -36,8 +36,8 @@ from langchain.messages import AIMessage
 from langgraph.channels.untracked_value import UntrackedValue
 
 from ams_agent.config import (
+    BACKUP,
     BACKUP_MAX_SECONDS,
-    BACKUP_MODEL,
     MAX_MODEL_CALLS,
     MAX_SECONDS,
     MAX_TOKENS,
@@ -96,7 +96,7 @@ class RunBudget(AgentMiddleware):
     @hook_config(can_jump_to=["end"])
     def before_model(self, state, runtime) -> dict | None:
         now = self.clock()
-        # The slower backup model gets its own, longer time (walk 11).
+        # The slower backup model gets its own, longer time.
         backup = state.get("run_backup") or BREAKER.is_open()
         limit = self.backup_seconds if backup else self.seconds
         if now - state.get("run_started", now) > limit:
@@ -108,7 +108,7 @@ class RunBudget(AgentMiddleware):
     def after_model(self, state, runtime) -> dict | None:
         usage = getattr(state["messages"][-1], "usage_metadata", None)
         used = (usage or {}).get("total_tokens", 0)
-        backup = answered_by(state["messages"][-1]) == BACKUP_MODEL
+        backup = answered_by(state["messages"][-1]) == BACKUP.name
         return {"run_tokens": state.get("run_tokens", 0) + used,
                 "run_backup": state.get("run_backup", False) or backup}
 

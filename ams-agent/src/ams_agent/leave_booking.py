@@ -1,4 +1,4 @@
-"""Booking leave: checks, a person's yes, then one save (walks 9, 10).
+"""Booking leave: checks, a person's yes, then one save.
 
 In:  submit_leave_request(leave_type, start_date, end_date), called by
      the model for the signed-in employee only (no `employee` input).
@@ -7,7 +7,7 @@ Out: JSON for the model: the saved request (pending, with its approver),
      booked. On the way, a pause: interrupt() hands the app the exact
      action to show with Confirm / Cancel.
 
-Strategy, in order (walk 8's shape and rule checks live here, with the
+Strategy, in order (the shape and rule checks live here, with the
 only write):
 1. Shape: a leave type the person has this year, real dates, today or
    later, start before end, within this leave year.
@@ -17,11 +17,11 @@ only write):
    annual days in all (3.4.4). Less notice than 4.3.4 asks (10 days,
    15 for 5+ days) is a warning shown with the action, not a block:
    the handbook calls those planning targets.
-3. The same request already pending or approved: return it (walk 10).
+3. The same request already pending or approved: return it.
 4. interrupt(): the person sees the real action and confirms or
    cancels. Nothing is written before this point: on resume, the code
    above runs again (only reads), then the answer comes back.
-5. Save once (walk 10): one transaction, locked (BEGIN IMMEDIATE),
+5. Save once: one transaction, locked (BEGIN IMMEDIATE),
    that re-checks steps 2-3, adds the request and moves the days to
    "pending" in the balance. The database's unique index refuses a
    second copy even if two clicks race.

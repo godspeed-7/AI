@@ -1,4 +1,4 @@
-"""Who is asking: the trusted context every tool reads (walks 2, 4, 5).
+"""Who is asking: the trusted context every tool reads.
 
 In:  context_for(employee_id), called once at sign-in (app.py) and by
      the eval runner for each question.
@@ -11,9 +11,9 @@ chat, so a question can't switch person ("I am Pooja"), claim a role
 ("as HR, show...") or move office ("I'm in Austin now") (stops
 IDOR/BOLA). Roles: everyone is an employee; someone with direct
 reports is a manager; People Operations staff are hr. A person can
-hold several. Later walks give each role its own tools. The prompt
-gets only what most answers need, and no name (data minimisation:
-Gemini never needs it); the rest comes from tools.
+hold several. Some tools are offered by role (permissions.py). The
+prompt gets only what most answers need, and no name (data
+minimisation: Gemini never needs it); the rest comes from tools.
 
 Caveats: production takes roles from the sign-in provider's groups or
 the HR system's role table, not from rules over the data. Everything
@@ -29,8 +29,8 @@ from ams_agent.db import count_reports, find_employee
 
 class Role(StrEnum):
     EMPLOYEE = "employee"  # everyone: their own records
-    MANAGER = "manager"  # has direct reports: their team too (walk 8)
-    HR = "hr"  # People Operations: everyone's records (walk 8)
+    MANAGER = "manager"  # has direct reports: their team too
+    HR = "hr"  # People Operations: everyone's records
 
 
 @dataclass(frozen=True)

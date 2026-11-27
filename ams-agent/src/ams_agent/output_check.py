@@ -8,7 +8,7 @@ Out: after each run, either nothing (the answer stands) or the answer
 Strategy: an independent check on the output, in code (OWASP LLM07):
 no model call, the same result every time. An answer leaks if it
 holds the CANARY (a random marker made at start-up, kept even when
-the prompt is translated) or any run of SHINGLE words in a row from
+the prompt is translated) or any run of LEAK_WORDS words in a row from
 the prompt (word shingles: 8 words don't match by chance). It runs
 inside the agent, so the app and the evals both go through it.
 
@@ -24,10 +24,11 @@ import secrets
 from langchain.agents.middleware import AgentMiddleware
 from langchain.messages import AIMessage
 
+from ams_agent.config import LEAK_WORDS
+
 log = logging.getLogger(__name__)
 
 CANARY = f"ams-{secrets.token_hex(4)}"  # new at each start, e.g. ams-3f9c1e7a
-SHINGLE = 8  # words in a row that count as quoting the prompt
 SAFE_REPLY = ("Sorry, I couldn't answer that. Please ask your manager or"
               " People Operations.")
 CHECK_NAME = "output_check"  # marks the replacement among the messages
@@ -39,9 +40,10 @@ def words(text: str) -> list[str]:
 
 
 def shingles(text: str) -> set[tuple[str, ...]]:
-    """Every run of SHINGLE words in a row."""
+    """Every run of LEAK_WORDS words in a row."""
     w = words(text)
-    return {tuple(w[i:i + SHINGLE]) for i in range(len(w) - SHINGLE + 1)}
+    return {tuple(w[i:i + LEAK_WORDS])
+            for i in range(len(w) - LEAK_WORDS + 1)}
 
 
 def is_check_reply(message) -> bool:

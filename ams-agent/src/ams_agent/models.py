@@ -1,35 +1,46 @@
-"""The Gemini models: one place that makes them, one shared pace.
+"""Every model client, made from its job's settings in config.py.
 
-In:  chat_model(timeout) from agent.py (the agent) and topic_guard.py
-     (the check).
-Out: a ChatGoogleGenerativeAI client; every one shares PACE.
+In:  chat_model(job), with a job from config.py (AGENT, GUARD, ...).
+Out: a LangChain chat model (ChatGoogleGenerativeAI or ChatOllama) with
+     the job's time limit, retries, thinking, temperature and pace.
 
-Strategy: client-side throttling. The free tier allows 15 calls a
-minute per model, counted across the guard and the agent, so every
-call waits its turn on one shared limiter (a token bucket) set below
-that, instead of failing with 429 and being retried. The bucket holds
-3, so a single question doesn't wait between its own calls.
+Strategy: the one place that knows the providers, so the other files
+ask for a job, never a provider, and moving a job to another model is a
+config change. Client-side throttling: jobs with the same Pace share
+one limiter (a token bucket), so together they stay under a free
+tier's per-minute cap instead of failing with 429 and being retried.
 
-Caveats: the limiter lives in this process: the app and an eval run at
+Caveats: a limiter lives in this process: the app and an eval run at
 the same time each have their own, and together can still go over.
 """
 
+from functools import cache
+
 from langchain_core.rate_limiters import InMemoryRateLimiter
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
 
-from ams_agent.config import AGENT_MODEL, AGENT_RETRIES, CALLS_PER_MINUTE
-
-# A burst of 3 lets one question's calls (guard, model, model) go at
-# once; in any minute: 3 + 12 refills = at most 15, the free tier's cap.
-PACE = InMemoryRateLimiter(requests_per_second=CALLS_PER_MINUTE / 60,
-                           max_bucket_size=3)
+from ams_agent.config import Model, Pace
 
 
-def chat_model(timeout: float, model: str = AGENT_MODEL,
-               thinking: str | None = None, retries: int = AGENT_RETRIES):
-    """thinking: a Gemini thinking level; None keeps the model's own.
-    retries: the client's own; the agent's are middleware (0 here)."""
-    return ChatGoogleGenerativeAI(model=model, timeout=timeout,
-                                  max_retries=retries,
-                                  rate_limiter=PACE,
-                                  thinking_level=thinking)
+@cache
+def limiter(pace: Pace) -> InMemoryRateLimiter:
+    """One limiter per Pace, shared by every job that uses it."""
+    return InMemoryRateLimiter(requests_per_second=pace.per_minute / 60,
+                               max_bucket_size=pace.burst)
+
+
+def chat_model(job: Model, client_retries: bool = True):
+    """client_retries=False: the client itself never retries (the
+    agent's retries are middleware, resilience.py: one retry layer)."""
+    retries = job.retries if client_retries else 0
+    if job.provider == "google":
+        return ChatGoogleGenerativeAI(
+            model=job.name, timeout=job.timeout, max_retries=retries,
+            thinking_level=job.thinking, temperature=job.temperature,
+            rate_limiter=limiter(job.pace) if job.pace else None)
+    if job.provider == "ollama":  # its client has no retries
+        return ChatOllama(model=job.name, reasoning=job.thinking,
+                          temperature=job.temperature,
+                          client_kwargs={"timeout": job.timeout})
+    raise ValueError(f"unknown provider: {job.provider}")

@@ -1,4 +1,4 @@
-"""What the app keeps after an answer, and for how long (walk 14).
+"""What the app keeps after an answer, and for how long.
 
 In:  open_memory() once per app; chat_id(employee_id) from sign-in.
 Out: a durable checkpointer (each person's chat, and a pending Confirm)

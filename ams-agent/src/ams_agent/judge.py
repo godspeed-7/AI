@@ -1,4 +1,4 @@
-"""An LLM judge for meaning, where keyword checks can't see it (walk 15).
+"""An LLM judge for meaning, where keyword checks can't see it.
 
 In:  grade(question, expected, answer), from the eval runner (--judge).
 Out: JudgeVerdict(correct, reason), or None if the judge failed.
@@ -22,15 +22,12 @@ import json
 import logging
 import re
 
-from langchain_core.rate_limiters import InMemoryRateLimiter
-from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, ValidationError
 
-from ams_agent.config import JUDGE_MODEL, JUDGE_PER_MINUTE, JUDGE_TIMEOUT
+from ams_agent.config import JUDGE
+from ams_agent.models import chat_model
 
 log = logging.getLogger(__name__)
-PACE = InMemoryRateLimiter(requests_per_second=JUDGE_PER_MINUTE / 60,
-                           max_bucket_size=1)
 
 PROMPT = """\
 You grade an HR assistant's answer against the expected answer.
@@ -52,10 +49,8 @@ class JudgeVerdict(BaseModel):
     reason: str = ""
 
 
-def judge_model() -> ChatGoogleGenerativeAI:
-    return ChatGoogleGenerativeAI(model=JUDGE_MODEL, timeout=JUDGE_TIMEOUT,
-                                  max_retries=2, rate_limiter=PACE,
-                                  temperature=0)
+def judge_model():
+    return chat_model(JUDGE)
 
 
 def parse(text: str) -> JudgeVerdict | None:

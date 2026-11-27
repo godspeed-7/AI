@@ -41,8 +41,8 @@ from langgraph.store.memory import InMemoryStore
 
 from ams_agent.budget import brakes
 from ams_agent.config import (
-    AGENT_THINKING,
-    AGENT_TIMEOUT,
+    AGENT,
+    SUMMARY,
     SUMMARY_AT_TOKENS,
     SUMMARY_KEEP_MESSAGES,
     TODAY,
@@ -78,7 +78,7 @@ Keep answers short and give the numbers.
 @dynamic_prompt
 def with_asker(request: ModelRequest) -> str:
     """The fixed prompt, then who is asking (from the trusted context)
-    and what they asked to be remembered (walk 14)."""
+    and what they asked to be remembered (memory.py)."""
     context = request.runtime.context
     prompt = f"{SYSTEM_PROMPT}\n\n{about_asker(context)}"
     if kept := preferences(request.runtime.store, context.employee_id):
@@ -90,7 +90,7 @@ def with_asker(request: ModelRequest) -> str:
 
 
 def tool_failed(error: Exception) -> str:
-    """What the model reads when a tool keeps failing (walk 11)."""
+    """What the model reads when a tool keeps failing."""
     return (f"This tool is unavailable right now ({type(error).__name__})."
             " Answer from the other tools if you can, and say that this"
             " part couldn't be checked.")
@@ -102,15 +102,15 @@ def build_agent(fallback: bool = True, checkpointer=None, store=None):
     evals): no backup model, for the guard nor the agent. checkpointer,
     store: the app's durable ones (memory.py); in memory by default."""
     return create_agent(
-        chat_model(AGENT_TIMEOUT, thinking=AGENT_THINKING, retries=0),
+        chat_model(AGENT, client_retries=False),  # retries: recovery()
         tools=TOOLS,
         context_schema=Context,  # the prompt: with_asker, below
         middleware=[
             *brakes(),  # first: the clock starts before the guard
             TopicGuard(fallback),  # an off-topic question ends here
-            # A long chat: its old part becomes a summary (walk 14).
+            # A long chat: its old part becomes a summary.
             SummarizationMiddleware(
-                chat_model(AGENT_TIMEOUT),
+                chat_model(SUMMARY),
                 trigger=("tokens", SUMMARY_AT_TOKENS),
                 keep=("messages", SUMMARY_KEEP_MESSAGES)),
             with_asker,  # before every model call
@@ -121,10 +121,10 @@ def build_agent(fallback: bool = True, checkpointer=None, store=None):
             AnswerReview(about_asker),  # a second look at each draft
             PromptLeakCheck(SYSTEM_PROMPT),  # after the answer
         ],
-        # Each chat's state, so a booking can pause for Confirm and resume
-        # (walk 9); the app's is on disk, so it survives restarts (14).
+        # Each chat's state, so a booking can pause for Confirm and resume;
+        # the app's is on disk (memory.py), so it survives restarts.
         checkpointer=checkpointer or InMemorySaver(),
-        store=store or InMemoryStore(),  # preferences across chats (14)
+        store=store or InMemoryStore(),  # preferences across chats
     )
 
 

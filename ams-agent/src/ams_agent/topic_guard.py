@@ -1,4 +1,4 @@
-"""The topic guard: off-topic questions get a fixed reply (walk 3).
+"""The topic guard: off-topic questions get a fixed reply.
 
 In:  TopicGuard(), first in the agent's middleware (agent.py).
 Out: before each run, either nothing (the agent runs as usual) or
@@ -15,10 +15,10 @@ question goes on to the agent, which still has its prompt scope and
 read-only tools.
 
 It judges the topic only, never permission: "What does Ananya earn?"
-is an HR topic; whether the asker may see it is code's job (walk 8).
+is an HR topic; whether the asker may see it is code's job (permissions.py).
 
 When Gemini fails, the same check runs on the local backup model
-(walk 11); only if both fail does it let the question through.
+(config.BACKUP); only if both fail does it let the question through.
 
 Caveats: one extra model call per question. The check is a model, so
 it can be wrong both ways; the eval's mirror questions measure that
@@ -32,9 +32,8 @@ from langchain.agents.middleware import AgentMiddleware, hook_config
 from langchain.messages import AIMessage, HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 
-from ams_agent.config import GUARD_MESSAGES, GUARD_MODEL, GUARD_TIMEOUT
+from ams_agent.config import BACKUP, GUARD, GUARD_MESSAGES
 from ams_agent.models import chat_model
-from ams_agent.resilience import backup_model
 from ams_agent.scope import SUMMARY, TOPICS
 
 log = logging.getLogger(__name__)
@@ -86,11 +85,11 @@ class TopicGuard(AgentMiddleware):
 
     def __init__(self, fallback: bool = True) -> None:
         super().__init__()
-        self.classifier = chat_model(
-            GUARD_TIMEOUT, GUARD_MODEL).with_structured_output(TopicVerdict)
+        self.classifier = chat_model(GUARD).with_structured_output(
+            TopicVerdict)
         if fallback:  # Gemini down: the local backup checks the topic
             self.classifier = self.classifier.with_fallbacks(
-                [backup_model().with_structured_output(TopicVerdict)])
+                [chat_model(BACKUP).with_structured_output(TopicVerdict)])
 
     @hook_config(can_jump_to=["end"])
     def before_agent(self, state, runtime) -> dict | None:

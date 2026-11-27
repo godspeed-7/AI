@@ -9,7 +9,7 @@ Strategy: one source, so the agent and the guard can't drift apart
 (before: the guard allowed questions about colleagues, the prompt
 said "own records only"). The scope names topics, never permissions:
 whether someone may see a colleague's records is decided in code
-(walk 8), so the text says so instead of deciding it.
+(permissions.py), so the text says so instead of deciding it.
 """
 
 TOPICS = """\

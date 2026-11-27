@@ -1,4 +1,4 @@
-"""Handbook search as a tool: the tuned RAG pipeline (walk 7).
+"""Handbook search as a tool: the tuned RAG pipeline.
 
 In:  a search text the model writes, e.g. "annual leave carry-over
      India".
@@ -17,7 +17,7 @@ Caveats:
 - Needs Qdrant running with the ingested collection (ams-assistant's
   ingest.py, re-run whenever a handbook changes) and Ollama's
   embedding model; the reranker (~2 GB) loads in warm_up(). A search
-  over SEARCH_TIMEOUT is given up on (walk 11); Qdrant's and Ollama's
+  over SEARCH_TIMEOUT is given up on; Qdrant's and Ollama's
   own time limits are the pipeline's (ams-assistant, not changed). On a
   laptop CPU a new search takes up to ~10 s (a repeat is cached).
 - The search text is written by the model, not a person; the 97.34%
@@ -30,10 +30,9 @@ from ams_assistant.pipeline import PRODUCTION, retrieve
 from ams_assistant.prompts import format_docs
 from langchain.tools import tool
 
-from ams_agent.config import SEARCH_TIMEOUT
+from ams_agent.config import SEARCH_QUERY_CHARS, SEARCH_TIMEOUT
 
-MAX_QUERY_CHARS = 300  # a search text, not a document
-# Searches run here, so one that hangs can be given up on (walk 11).
+# Searches run here, so one that hangs can be given up on.
 SEARCHES = ThreadPoolExecutor(max_workers=2, thread_name_prefix="search")
 
 
@@ -54,7 +53,7 @@ def search_policies(query: str) -> str:
         query: What to look for, in plain words, e.g. "annual leave
             carry-over India" or "hotel limit per night US".
     """
-    query = query.strip()[:MAX_QUERY_CHARS]
+    query = query.strip()[:SEARCH_QUERY_CHARS]
     if not query:
         return "Give a search text, e.g. 'annual leave carry-over India'."
     search = SEARCHES.submit(retrieve, [query], PRODUCTION)

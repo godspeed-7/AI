@@ -1,4 +1,4 @@
-"""What the person sees: names on screen, plain errors (walk 13).
+"""What the person sees: names on screen, plain errors.
 
 In:  for_person(text): an answer (or a Confirm summary) as the model
      wrote it; error_message(error): a failed run's exception.

@@ -1,4 +1,4 @@
-"""Watching live answers: thumbs, background checks, retention (walk 15).
+"""Watching live answers: thumbs, background checks, retention.
 
 In:  record(employee_id, question, answer, messages) after each answer
      (app.py); feedback(row_id, thumbs, comment) from the thumbs.
@@ -25,7 +25,12 @@ from datetime import datetime, timedelta
 from langchain.messages import AIMessage, ToolMessage
 
 from ams_agent.budget import stopped_by
-from ams_agent.config import BACKUP_MODEL, QUALITY_DB_PATH, QUALITY_KEEP_DAYS
+from ams_agent.config import (
+    BACKUP,
+    QUALITY_DB_PATH,
+    QUALITY_KEEP_DAYS,
+    SQLITE_WAIT,
+)
 from ams_agent.output_check import is_check_reply
 from ams_agent.permissions import NOT_ALLOWED
 from ams_agent.resilience import answered_by
@@ -35,7 +40,7 @@ from ams_agent.topic_guard import is_guard_reply
 
 def connect() -> sqlite3.Connection:
     QUALITY_DB_PATH.parent.mkdir(exist_ok=True)
-    con = sqlite3.connect(QUALITY_DB_PATH, timeout=5)
+    con = sqlite3.connect(QUALITY_DB_PATH, timeout=SQLITE_WAIT)
     con.execute("CREATE TABLE IF NOT EXISTS answers (id INTEGER PRIMARY"
                 " KEY, at TEXT, employee_id TEXT, question TEXT, answer"
                 " TEXT, flags TEXT, thumbs INTEGER, comment TEXT)")
@@ -54,7 +59,7 @@ def checks(messages: list) -> list[str]:
             flags.append("reviewer_sent_back")
         if is_guard_reply(m):
             flags.append("off_topic")
-        if isinstance(m, AIMessage) and answered_by(m) == BACKUP_MODEL:
+        if isinstance(m, AIMessage) and answered_by(m) == BACKUP.name:
             flags.append("backup_model")
         if isinstance(m, ToolMessage) and (
                 m.status == "error" or "unavailable right now" in m.text):

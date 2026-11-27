@@ -1,4 +1,4 @@
-"""What a person should look at, and turning it into a test (walk 15).
+"""What a person should look at, and turning it into a test.
 
 In:  uv run python evals/review_queue.py [--days 1]
      uv run python evals/review_queue.py --to-test 42

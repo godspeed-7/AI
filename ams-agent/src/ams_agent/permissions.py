@@ -1,4 +1,4 @@
-"""Who may see whose records: one check, in code (walk 8).
+"""Who may see whose records: one check, in code.
 
 In:  the asker's Context (from sign-in) and who the question is about,
      as the model wrote it: nothing (themselves), an ID or a name.
@@ -19,7 +19,7 @@ unknown person gets the same NOT_ALLOWED as a forbidden one, so the
 replies can't reveal who works here (no enumeration). Several matches:
 the model is asked which one, by ID.
 
-Tools by role (walk 4's idea, least privilege): a tool in TOOL_ROLES
+Tools by role (least privilege): a tool in TOOL_ROLES
 is offered only to those roles, so the model can't even try it for
 anyone else; the tool checks the role again (defence in depth).
 

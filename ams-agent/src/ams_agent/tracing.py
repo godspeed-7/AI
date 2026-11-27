@@ -1,4 +1,4 @@
-"""Traces of every run in our local Langfuse, when switched on (walk 15).
+"""Traces of every run in our local Langfuse, when switched on.
 
 In:  run_config(employee_id, chat_id) for each agent run (app.py);
      TRACING (config.py) and the LANGFUSE_* keys (environment).
@@ -8,8 +8,8 @@ Out: the config that records the run (every model and tool call, time,
 
 Strategy: LangChain hands every step to the callbacks in a run's
 config, so one Langfuse CallbackHandler records the whole run. Labels:
-the employee ID, never a name (names exist only on the screen, walk
-13). Our local Langfuse only: traces hold HR data. Retention: set the
+the employee ID, never a name (names exist only on the screen,
+respond.py). Our local Langfuse only: traces hold HR data. Retention: set the
 project's data retention to 30 days in Langfuse's settings.
 
 Caveats: OFF until switched on (TRACING = True): you asked that test
