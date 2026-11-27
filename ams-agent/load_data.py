@@ -1,23 +1,32 @@
 """Loads the 12 HR tables (ams-data/db/*.csv) into the agent's database.
 
-In:  uv run python load_data.py
+In:  uv run python load_data.py; or build(path) (the eval runner).
 Out: data/hr.sqlite (rebuilt each time), one table per CSV with the
-     same columns; prints each table's row count.
+     same columns, plus `holidays` (office, holiday_date, name) from the
+     Employee Handbook's calendar (chapter 6); prints each row count.
 
 Strategy: each column's type comes from its values: all whole numbers
 -> INTEGER, all numbers -> REAL, otherwise TEXT; an empty cell is NULL.
 A number with a leading zero ("007") stays text. The CSVs stay the
 source of truth: this database is rebuilt from them, never edited.
 
-Caveats: no indexes or foreign keys yet (1,200 people is small).
+The holidays exist only as tables in the handbook text, so they are
+read from there once, into data code can count leave days with (walk
+9). One rule is kept by the database itself: a person can't have two
+pending or approved requests for the same leave and dates (a partial
+unique index, walk 10), so a repeat is refused even if code misses it.
+
+Caveats: no foreign keys (1,200 people is small). Restricted holidays
+(India, 2 chosen per person) are not company holidays: not loaded.
 """
 
 import csv
 import re
 import sqlite3
 from contextlib import closing
+from datetime import datetime
 
-from ams_agent.config import CSV_DIR, DB_PATH
+from ams_agent.config import CSV_DIR, DB_PATH, HANDBOOK, HOLIDAY_SECTIONS
 
 WHOLE = re.compile(r"-?(0|[1-9]\d*)")
 DECIMAL = re.compile(r"-?(0|[1-9]\d*)\.\d+")
@@ -56,16 +65,50 @@ def load_table(con: sqlite3.Connection, path) -> int:
     return len(rows)
 
 
-def main() -> None:
-    DB_PATH.parent.mkdir(exist_ok=True)
-    fresh = DB_PATH.with_suffix(".building")
+HOLIDAY_ROW = re.compile(r"(.+?) \| (\d{1,2} \w+ \d{4}) \| \w+")
+SECTION = re.compile(r"\d+(\.\d+)+ ")
+
+
+def holidays() -> list[tuple[str, str, str]]:
+    """(office, ISO date, name) from each office's fixed-holiday table."""
+    lines = HANDBOOK.read_text(encoding="utf-8").splitlines()
+    found = []
+    for office, section in HOLIDAY_SECTIONS.items():
+        start = next(i for i, line in enumerate(lines)
+                     if line.startswith(f"{section} "))
+        for line in lines[start + 1:]:
+            if SECTION.match(line):
+                break  # the next section
+            if match := HOLIDAY_ROW.fullmatch(line.strip()):
+                day = datetime.strptime(match[2], "%d %B %Y").date()
+                found.append((office, day.isoformat(), match[1]))
+    return found
+
+
+def build(target) -> None:
+    """Every table into a new database at `target`, swapped in at the end."""
+    target.parent.mkdir(exist_ok=True)
+    fresh = target.with_suffix(".building")
     fresh.unlink(missing_ok=True)
     with closing(sqlite3.connect(fresh)) as con:
         for path in sorted(CSV_DIR.glob("*.csv")):
             print(f"{path.stem:22} {load_table(con, path):6,} rows")
+        rows = holidays()
+        con.execute("CREATE TABLE holidays"
+                    " (office TEXT, holiday_date TEXT, name TEXT)")
+        con.executemany("INSERT INTO holidays VALUES (?, ?, ?)", rows)
+        print(f"{'holidays':22} {len(rows):6,} rows")
+        con.execute(
+            "CREATE UNIQUE INDEX one_request_per_leave ON leave_requests"
+            " (employee_id, leave_type, start_date, end_date)"
+            " WHERE status IN ('pending', 'approved')")
         con.commit()
-    fresh.replace(DB_PATH)  # swap in only once every table loaded
-    print(f"-> {DB_PATH}")
+    fresh.replace(target)  # swap in only once every table loaded
+    print(f"-> {target}")
+
+
+def main() -> None:
+    build(DB_PATH)
 
 
 if __name__ == "__main__":

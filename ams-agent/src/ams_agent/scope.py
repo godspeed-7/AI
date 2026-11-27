@@ -14,12 +14,15 @@ whether someone may see a colleague's records is decided in code
 
 TOPICS = """\
 - the employee's own profile (ID, job, department, grade, office,
-  payroll), leave, pay, bonus, ratings, projects, trainings, expenses,
-  laptop, phone, IT access, notice period and last day
+  payroll), leave, pay, bonus, ratings, projects, trainings, travel,
+  expenses, corporate card, laptop, phone, IT access and service desk
+  tickets, office and ODC access, notice period and last day
 - the same things about a colleague (e.g. "How much leave does Rahul
   have left?"); whether the employee may see them is checked in code,
   not by you
 - AMS policies and handbooks
+- how the assistant should answer them (e.g. shorter answers) and what
+  it remembers about them
 - greetings, thanks, and what this assistant can do"""
 
 SUMMARY = ("your profile, leave, pay, projects, trainings, expenses, laptop"

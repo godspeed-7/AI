@@ -10,7 +10,8 @@ Strategy: four budgets in code (OWASP LLM10, unbounded consumption):
   with our reply instead of its own text;
 - tool calls (MAX_TOOL_CALLS): ToolCallLimitMiddleware; calls over the
   limit are refused and the model answers with what it has;
-- time (MAX_SECONDS) and tokens (MAX_TOKENS, as Gemini reports them):
+- time (MAX_SECONDS; BACKUP_MAX_SECONDS once the slower backup model
+  answers or the breaker is open, walk 11) and tokens (MAX_TOKENS):
   RunBudget, as LangChain has no limit for these. It starts the clock
   before the topic guard, and checks both before every model call.
 The counts live in the run's state, so they restart for each question.
@@ -35,11 +36,14 @@ from langchain.messages import AIMessage
 from langgraph.channels.untracked_value import UntrackedValue
 
 from ams_agent.config import (
+    BACKUP_MAX_SECONDS,
+    BACKUP_MODEL,
     MAX_MODEL_CALLS,
     MAX_SECONDS,
     MAX_TOKENS,
     MAX_TOOL_CALLS,
 )
+from ams_agent.resilience import BREAKER, answered_by
 
 log = logging.getLogger(__name__)
 
@@ -69,6 +73,8 @@ class BudgetState(AgentState):
                                        PrivateStateAttr]]
     run_tokens: NotRequired[Annotated[int, UntrackedValue,
                                       PrivateStateAttr]]
+    run_backup: NotRequired[Annotated[bool, UntrackedValue,
+                                      PrivateStateAttr]]
 
 
 class RunBudget(AgentMiddleware):
@@ -77,17 +83,23 @@ class RunBudget(AgentMiddleware):
     state_schema = BudgetState
 
     def __init__(self, seconds: float = MAX_SECONDS,
-                 tokens: int = MAX_TOKENS, clock=time.monotonic) -> None:
+                 tokens: int = MAX_TOKENS, clock=time.monotonic,
+                 backup_seconds: float = BACKUP_MAX_SECONDS) -> None:
         super().__init__()
         self.seconds, self.tokens, self.clock = seconds, tokens, clock
+        self.backup_seconds = backup_seconds
 
     def before_agent(self, state, runtime) -> dict:
-        return {"run_started": self.clock(), "run_tokens": 0}
+        return {"run_started": self.clock(), "run_tokens": 0,
+                "run_backup": False}
 
     @hook_config(can_jump_to=["end"])
     def before_model(self, state, runtime) -> dict | None:
         now = self.clock()
-        if now - state.get("run_started", now) > self.seconds:
+        # The slower backup model gets its own, longer time (walk 11).
+        backup = state.get("run_backup") or BREAKER.is_open()
+        limit = self.backup_seconds if backup else self.seconds
+        if now - state.get("run_started", now) > limit:
             return stop("seconds")
         if state.get("run_tokens", 0) > self.tokens:
             return stop("tokens")
@@ -96,7 +108,9 @@ class RunBudget(AgentMiddleware):
     def after_model(self, state, runtime) -> dict | None:
         usage = getattr(state["messages"][-1], "usage_metadata", None)
         used = (usage or {}).get("total_tokens", 0)
-        return {"run_tokens": state.get("run_tokens", 0) + used}
+        backup = answered_by(state["messages"][-1]) == BACKUP_MODEL
+        return {"run_tokens": state.get("run_tokens", 0) + used,
+                "run_backup": state.get("run_backup", False) or backup}
 
 
 class ModelCallBudget(ModelCallLimitMiddleware):

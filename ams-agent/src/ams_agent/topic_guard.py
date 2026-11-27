@@ -17,6 +17,9 @@ read-only tools.
 It judges the topic only, never permission: "What does Ananya earn?"
 is an HR topic; whether the asker may see it is code's job (walk 8).
 
+When Gemini fails, the same check runs on the local backup model
+(walk 11); only if both fail does it let the question through.
+
 Caveats: one extra model call per question. The check is a model, so
 it can be wrong both ways; the eval's mirror questions measure that
 (Q29, Q32, Q34 must get no off-topic answer; Q24, Q31, Q33 must not be
@@ -31,6 +34,7 @@ from pydantic import BaseModel, Field
 
 from ams_agent.config import GUARD_MESSAGES, GUARD_MODEL, GUARD_TIMEOUT
 from ams_agent.models import chat_model
+from ams_agent.resilience import backup_model
 from ams_agent.scope import SUMMARY, TOPICS
 
 log = logging.getLogger(__name__)
@@ -64,8 +68,10 @@ class TopicVerdict(BaseModel):
 
 def transcript(messages: list) -> str:
     """The last few chat messages as text (tool steps left out)."""
-    chat = [m for m in messages
-            if isinstance(m, (HumanMessage, AIMessage)) and m.text.strip()]
+    chat = [m for m in messages  # the reviewer's notes aren't the chat
+            if isinstance(m, (HumanMessage, AIMessage)) and m.text.strip()
+            and m.name != "reviewer"  # nor the chat's summary
+            and not m.additional_kwargs.get("lc_source")]
     lines = [f"{'Employee' if isinstance(m, HumanMessage) else 'Assistant'}:"
              f" {m.text.strip()[:500]}" for m in chat[-GUARD_MESSAGES:]]
     return "<conversation>\n" + "\n".join(lines) + "\n</conversation>"
@@ -78,10 +84,13 @@ def is_guard_reply(message) -> bool:
 class TopicGuard(AgentMiddleware):
     """Runs once per question, before the agent starts."""
 
-    def __init__(self) -> None:
+    def __init__(self, fallback: bool = True) -> None:
         super().__init__()
         self.classifier = chat_model(
             GUARD_TIMEOUT, GUARD_MODEL).with_structured_output(TopicVerdict)
+        if fallback:  # Gemini down: the local backup checks the topic
+            self.classifier = self.classifier.with_fallbacks(
+                [backup_model().with_structured_output(TopicVerdict)])
 
     @hook_config(can_jump_to=["end"])
     def before_agent(self, state, runtime) -> dict | None:

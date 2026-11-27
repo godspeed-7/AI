@@ -1,13 +1,17 @@
 """Opens the agent's HR database, read-only.
 
-In:  DB_PATH (config.py), built by load_data.py.
-Out: connect() -> a connection whose rows read like dicts;
+In:  config.DB_PATH, built by load_data.py.
+Out: connect() -> a read-only connection whose rows read like dicts
+     (connect(write=True): the leave booking's, the only writer);
      find_employee(id) -> the sign-in screen's lookup;
      count_reports(id) -> direct reports, for the manager role;
+     managers_above(id), people_named(name), direct_reports(id) -> for
+     the permission check (permissions.py);
      count_rows(table) -> for the evals' database checks.
 
 Strategy: the database is opened with mode=ro, so no tool can change
-data, even by mistake (least privilege). Values always go in as ?
+data, even by mistake (least privilege); only the booking tool asks
+for a writable connection. Values always go in as ?
 parameters, never pasted into the SQL (parameterised queries); a table
 name can't be a parameter, so count_rows checks it against the real
 tables first (an allowlist).
@@ -16,15 +20,19 @@ tables first (an allowlist).
 import sqlite3
 from contextlib import closing
 
-from ams_agent.config import DB_PATH
+from ams_agent import config
 
 
-def connect() -> sqlite3.Connection:
-    """A read-only connection; rows can be read by column name."""
-    if not DB_PATH.exists():
+def connect(write: bool = False) -> sqlite3.Connection:
+    """A read-only connection; rows can be read by column name.
+    write=True is for the leave booking only (leave_booking.py)."""
+    path = config.DB_PATH  # read each time: the eval runner points it
+    if not path.exists():  # at its own copy
         raise FileNotFoundError(
-            f"{DB_PATH} is missing: run `uv run python load_data.py`.")
-    con = sqlite3.connect(f"{DB_PATH.as_uri()}?mode=ro", uri=True)
+            f"{path} is missing: run `uv run python load_data.py`.")
+    mode = "rw" if write else "ro"
+    con = sqlite3.connect(f"{path.as_uri()}?mode={mode}", uri=True,
+                          timeout=5)
     con.row_factory = sqlite3.Row
     return con
 
@@ -57,3 +65,41 @@ def count_rows(table: str) -> int:
         if table not in tables:
             raise ValueError(f"no table named {table!r}")
         return con.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
+
+
+def managers_above(employee_id: str) -> set[str]:
+    """Everyone above this person: their manager, that manager's..."""
+    with closing(connect()) as con:
+        rows = con.execute(
+            "WITH RECURSIVE up(id) AS ("
+            " SELECT manager_id FROM employees WHERE employee_id = ?"
+            " UNION SELECT e.manager_id FROM employees e JOIN up"
+            " ON e.employee_id = up.id WHERE e.manager_id IS NOT NULL)"
+            " SELECT id FROM up WHERE id IS NOT NULL",
+            (employee_id,),
+        ).fetchall()
+    return {r[0] for r in rows}
+
+
+def people_named(name: str) -> list[str]:
+    """IDs whose full, first or last name is `name` (any case)."""
+    with closing(connect()) as con:
+        rows = con.execute(
+            "SELECT employee_id FROM employees WHERE lower(name) = lower(?)"
+            " OR lower(substr(name, 1, instr(name, ' ') - 1)) = lower(?)"
+            " OR lower(substr(name, instr(name, ' ') + 1)) = lower(?)"
+            " ORDER BY employee_id",
+            (name, name, name),
+        ).fetchall()
+    return [r[0] for r in rows]
+
+
+def direct_reports(employee_id: str) -> list[dict]:
+    """The people who report to this person: ID, job, grade, office."""
+    with closing(connect()) as con:
+        rows = con.execute(
+            "SELECT employee_id, job_title, grade, office, status"
+            " FROM employees WHERE manager_id = ? ORDER BY employee_id",
+            (employee_id,),
+        ).fetchall()
+    return [dict(r) for r in rows]

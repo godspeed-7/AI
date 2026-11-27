@@ -25,7 +25,11 @@ PACE = InMemoryRateLimiter(requests_per_second=CALLS_PER_MINUTE / 60,
                            max_bucket_size=3)
 
 
-def chat_model(timeout: float, model: str = AGENT_MODEL):
+def chat_model(timeout: float, model: str = AGENT_MODEL,
+               thinking: str | None = None, retries: int = AGENT_RETRIES):
+    """thinking: a Gemini thinking level; None keeps the model's own.
+    retries: the client's own; the agent's are middleware (0 here)."""
     return ChatGoogleGenerativeAI(model=model, timeout=timeout,
-                                  max_retries=AGENT_RETRIES,
-                                  rate_limiter=PACE)
+                                  max_retries=retries,
+                                  rate_limiter=PACE,
+                                  thinking_level=thinking)
