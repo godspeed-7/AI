@@ -1,0 +1,342 @@
+{
+  "run_at": "2026-11-27T22:56:09",
+  "settings": {
+    "models": {
+      "agent": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "guard": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 20,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 1000
+      },
+      "reviewer": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 30,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 2000
+      },
+      "summary": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "backup": {
+        "provider": "google",
+        "name": "gemini-3.5-flash-lite",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": null,
+        "pace": {
+          "per_minute": 12,
+          "burst": 3
+        },
+        "price": {
+          "input": 0.3,
+          "output": 2.5
+        },
+        "max_output": null
+      },
+      "judge": {
+        "provider": "google",
+        "name": "gemma-4-26b-a4b-it",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": 0,
+        "pace": {
+          "per_minute": 6,
+          "burst": 1
+        },
+        "price": {
+          "input": 0,
+          "output": 0
+        },
+        "max_output": null
+      }
+    },
+    "search": {
+      "embeddings": "ollama nomic-embed-text",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "keeps": "top 3 of 10 candidates",
+      "vector store": "Qdrant http://localhost:6333 ams_policies_langchain"
+    }
+  },
+  "only": "Q06,Q12,Q18,Q26,Q37",
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "judge": 0,
+    "error": 0
+  },
+  "not_run": [],
+  "repeat": 1,
+  "gates_ok": true,
+  "stopped": false,
+  "langfuse_session": null,
+  "langfuse_url": null,
+  "results": [
+    {
+      "id": "Q06",
+      "category": "data+policy",
+      "employee_id": "AMS-1015",
+      "question": "Which trainings do I still have to do?",
+      "answer": "You have one training still open:\n\n- **POSH** (annual, assigned 1 Jan 2026): due **31 December 2026**, not overdue. It's the anti-harassment course for India employees under Learning and Development Handbook, 2.3.3, and it's required every year.\n\nYou've already completed the other 2026 annual trainings: Code of Conduct (17 Mar 2026) and Information Security (16 Sep 2026). Your role-based Secure coding training was completed on 24 Sep 2025.",
+      "expected": "POSH, by 31 December 2026 (L&D 2.3.3); Code of Conduct and Information Security for 2026 are done.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_trainings",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"records\": [{\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-09-30\", \"completed_on\": \"2026-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-03-31\", \"completed_on\": \"2026-03-17\", \"open\": false, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Secure coding\", \"reason\": \"role\", \"assigned_on\": \"2025-08-09\", \"due_date\": \"2025-10-08\", \"completed_on\": \"2025-09-24\", \"open\": false, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-09-30\", \"completed_on\": \"2025-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-03-31\", \"completed_on\": \"2025-03-17\", \"open\": false, \"overdue\": false}]}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "annual training completion deadline POSH India"
+          },
+          "result": "[learning_and_development_handbook.txt]\nLearning and Development Handbook > Chapter 2: Mandatory Training Policy > 2.3 Every Year, for Everyone\nAbout this chapter: This policy lists the trainings every AMS employee must complete, the deadlines, and what happens when a training is overdue.\n2.3 EVERY YEAR, FOR EVERYONE\n2.3.1 Code of Conduct\nTraining and certification by 31 March each year.\n2.3.2 Information Security\nRefresher by 30 September each year.\n2.3.3 Anti-harassment\nPOSH training (India) or anti-harassment training (United States) by 31 December each year. US managers also complete the managers' module.\nGlossary: Austin office\n\n[learning_and_development_handbook.txt]\nLearning and Development Handbook > Chapter 2: Mandatory Training Policy > 2.2 New Joiners\nAbout this chapter: This policy lists the trainings every AMS employee must complete, the deadlines, and what happens when a training is overdue.\n2.2 NEW JOINERS\nNew joiners complete Code of Conduct, Information Security, and anti-harassment training within 30 days of joining, as set out in the Onboarding and Exit Policy (HR-ONX-2026). Anti-harassment training is the POSH course in India and the anti-harassment course in the United States.\nGlossary: Austin office\n\n[legal_and_compliance_handbook.txt]\nLegal and Compliance Handbook > Chapter 3: Prevention of Sexual Harassment (POSH) Policy (India) > 3.8 Awareness and Training\nAbout this chapter: This policy sets out how AMS prevents and handles sexual harassment of women at its India offices, in line with the Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013 (the POSH Act).\n3.8 AWARENESS AND TRAINING\nAll India employees complete POSH training in AMS Learn every year. IC members receive additional training. AMS files an annual report on POSH complaints with the District Officer, as the law requires."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 14430,
+      "seconds": 17.5,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q12",
+      "category": "data+policy",
+      "employee_id": "AMS-1011",
+      "question": "When is my last working day?",
+      "answer": "Your last working day is **24 December 2026**. You resigned on 26 October 2026.\n\nThis follows the India notice period for L4 grades, which is 60 days after confirmation (Employee Handbook 3.5.2). Your record shows that period, so no change is needed. For questions about the exact count, ask People Operations.",
+      "expected": "24 December 2026: L4 in India has a 60-day notice period, counted from his resignation on 26 October 2026 (Employee 3.5.1-3.5.2).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1011\", \"job_title\": \"Team Lead\", \"department\": \"Engineering\", \"grade\": \"L4\", \"office\": \"Bengaluru\", \"manager_id\": \"AMS-1007\", \"join_date\": \"2021-03-15\", \"status\": \"notice_period\", \"probation_end_date\": \"2021-09-15\", \"resignation_date\": \"2026-10-26\", \"last_working_day\": \"2026-12-24\", \"payroll\": \"India\", \"time_at_ams\": \"5 years 8 months\"}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "notice period resignation last working day India"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 3: Onboarding and Exit Policy > 3.7 Final Settlement\nAbout this chapter: This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement.\n3.7 FINAL SETTLEMENT\n3.7.1 India\nThe full and final settlement is paid within 45 days of the last working day. It includes:\nSalary up to the last working day.\nEncashment of unused annual leave, up to a maximum of 15 days, at basic pay.\nGratuity, if the employee completed at least five years of continuous service.\nRecovery of any unserved notice period, unreturned assets, or outstanding advances.\nCasual leave, sick leave, and restricted holidays are not encashed. Leave encashment on exit is the payment on separation referred to in section 4.4.4 (Employee Leave Policy (India)).\n3.7.2 United States\nThe final paycheck is paid on the next regular payday after the last working day, or earlier where state law requires. Unused PTO is paid out up to 10 days under section 5.4.4 (US leave policy, HR-LEAVE-US-2026). Sick leave and floating holidays are not paid out.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 3: Onboarding and Exit Policy > 3.5 Resignation and Notice Periods\nAbout this chapter: This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement.\n3.5 RESIGNATION AND NOTICE PERIODS\n3.5.1 How to resign\nEmployees resign by submitting a resignation request in AMS People. The notice period starts on the day the request is submitted.\n3.5.2 Notice periods in India (after confirmation)\nGrade | Notice period\nL1 to L3 | 30 days\nL4 and L5 | 60 days\nL6 | 90 days\n3.5.3 Notice in the United States\nEmployment in the United States is at will. AMS asks employees to give at least 2 weeks' notice, or 4 weeks' notice for grades L5 and L6.\n3.5.4 Shortening the notice period\nIn India, the notice period may be shortened with approval from the manager and People Operations. If it is shortened at the employee's request, the employee pays basic pay for the unserved days, which is recovered in the final settlement. Unused annual leave cannot be used to shorten the notice period without this approval.\n3.5.5 Leave during the notice period\nSick leave may be taken during the notice period. Annual leave during the notice period needs manager approval and is normally granted only for days already approved before the resignation.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 3: Onboarding and Exit Policy > 3.4 Probation\nAbout this chapter: This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement.\n3.4 PROBATION\n3.4.1 Length\nEmployees on the India payroll serve a probation period of 6 months. Employees on the US payroll have a 90-day introductory period.\n3.4.2 Extension\nProbation may be extended once, by up to 3 months, if the manager and People Operations agree that more time is needed. The employee is told in writing before the original probation ends.\n3.4.3 Confirmation\nEmployees on the India payroll receive a confirmation letter in AMS People when probation is completed successfully.\n3.4.4 Leave during probation\nAnnual leave builds up from the joining date. During probation, employees on the India payroll may use up to 5 days of annual leave; the rest becomes available after confirmation. Sick leave and casual leave can be used during probation.\n3.4.5 Notice during probation\nDuring probation, the notice period on either side is 15 days for employees on the India payroll.\nGlossary: Austin office, United States, Bengaluru and Pune offices"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 14774,
+      "seconds": 8.2,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q18",
+      "category": "data+policy",
+      "employee_id": "AMS-1020",
+      "question": "By when must I finish the phishing course?",
+      "answer": "You have until **19 November 2026**, which is 3 days from today. The course was assigned on 5 November and is still open.\n\nThis is the extra phishing course that follows from clicking two practice phishing emails within 6 months. It must be completed within 14 days (IT and Security Handbook 12.5; Learning and Development Handbook 2.4.4).",
+      "expected": "By 19 November 2026: within 14 days of being assigned it on 5 November, after the 3 November phishing test (L&D 2.4.4).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_trainings",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1020\", \"records\": [{\"course\": \"Anti-bribery\", \"reason\": \"role\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"Phishing awareness\", \"reason\": \"phishing\", \"assigned_on\": \"2026-11-05\", \"due_date\": \"2026-11-19\", \"open\": true, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-09-30\", \"completed_on\": \"2026-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-03-31\", \"completed_on\": \"2026-03-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Anti-bribery\", \"reason\": \"role\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-09-30\", \"completed_on\": \"2025-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-03-31\", \"completed_on\": \"2025-03-17\", \"open\": false, \"overdue\": false}]}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "phishing awareness training due date completion deadline"
+          },
+          "result": "[learning_and_development_handbook.txt]\nLearning and Development Handbook > Chapter 2: Mandatory Training Policy > 2.4 Role-based Trainings\nAbout this chapter: This policy lists the trainings every AMS employee must complete, the deadlines, and what happens when a training is overdue.\n2.4 ROLE-BASED TRAININGS\n2.4.1 Anti-bribery\nEmployees in Sales, Finance, and Delivery, and all employees at grade L5 and above: every year, by 31 December.\n2.4.2 Secure coding\nEmployees in Engineering: within 60 days of joining, then every 2 years.\n2.4.3 People managers\nEmployees who become people managers for the first time complete the \"Managing at AMS\" course within 90 days of their first direct report.\n2.4.4 Extra phishing course\nEmployees assigned the extra phishing course after phishing simulations complete it within 14 days, as set out in the phishing guide (IT-GDE-PHISH).\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 12: How to Spot and Report Phishing > 12.5 Phishing Simulations\nAbout this chapter: Phishing is a message that pretends to come from someone you trust, such as IT, a manager, a client, or a delivery company, to make you click a link, open an attachment, share a password, or send money or data.\n12.5 PHISHING SIMULATIONS\nIT and Security sends practice phishing emails every month. Clicking one only shows a short training page. Employees who click two practice emails within 6 months are assigned an extra 20-minute course in AMS Learn, which must be completed within 14 days.\n\n[learning_and_development_handbook.txt]\nLearning and Development Handbook > Chapter 2: Mandatory Training Policy > 2.5 If a Training Is Overdue\nAbout this chapter: This policy lists the trainings every AMS employee must complete, the deadlines, and what happens when a training is overdue.\n2.5 IF A TRAINING IS OVERDUE\n2.5.1 Reminders\nAMS Learn sends reminders 14 days and 3 days before a deadline. Managers receive a weekly list of overdue trainings in their team.\n2.5.2 Promotion\nAn employee with any overdue mandatory training on the first day of a promotion cycle (1 April or 1 October) is not eligible for promotion in that cycle.\n2.5.3 Client access\nIf Information Security training is overdue by more than 30 days, access to client systems is suspended until it is completed."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 14830,
+      "seconds": 7.7,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q26",
+      "category": "unknown",
+      "employee_id": "AMS-1033",
+      "question": "How long can I stay without a project?",
+      "answer": "I ran two more policy searches covering bench time, resourcing, and how long an employee can be unassigned. Neither returned any rule on bench time or a maximum period without a project. The results were leave, notice-period, and resignation sections, none of which apply.\n\nSo I can't say how long you can stay without a project. Please ask your manager or People Operations.\n\nWhat your records show:\n- You have no current project assignment.\n- Your last one, Warehouse scanner app (PRJ-007), ended on 30 September 2026. That is 47 days before today, 16 November 2026.",
+      "expected": "The handbooks don't cover this; he has had no project since 30 September 2026. He should ask his manager or People Operations.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "judge",
+          "ok": true,
+          "detail": "The answer includes all the key facts, the correct date, and the correct recommendation provided in the expected answer."
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "how long can an employee stay without a project bench time US"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.3 Paid Time Off (PTO)\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.3 PAID TIME OFF (PTO)\n5.3.1 Standard entitlement\nRegular full-time employees receive 15 days of PTO per leave year. PTO is used for vacation, personal matters, and any other planned time away. There is no separate casual leave in the United States.\n5.3.2 Service-based increase\nThe PTO entitlement increases with completed years of service: 18 days per leave year after 3 completed years, and 20 days per leave year after 5 completed years. The increase applies from the leave year after the anniversary.\n5.3.3 Joining during the year\nEmployees who join after 1 January receive a prorated PTO balance based on their start date.\n5.3.4 Part-time employees\nRegular part-time employees receive PTO prorated to their scheduled hours.\n5.3.5 PTO requests\nEmployees should request PTO at least 7 calendar days in advance. For an absence of 5 or more consecutive working days, employees should request PTO at least 21 calendar days in advance.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.10 Quick Reference Table\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.10 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nPTO | 15 days, rising to 18 after 3 years and 20 after 5 years | Up to 10 days; use by 30 June; up to 10 days paid out on separation\nSick leave | 5 days | No carry-over; not paid out\nFloating holidays | 2 days | No carry-over; not paid out\nParental leave | 12 weeks (birthing parent) or 6 weeks (non-birthing parent) | Use within 12 months of birth or placement\nBereavement leave | 5 days (immediate family) or 3 days (other relatives) | Not applicable\n\n5.11 CONTACT\nFor questions about this policy, contact People Operations (United States) at people-ops-us@ams.example or through AMS People.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.2 Leave Year and General Rules\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.2 LEAVE YEAR AND GENERAL RULES\n5.2.1 Leave year\nThe leave year runs from 1 January through 31 December.\n5.2.2 Units\nLeave is recorded in days. One day equals eight working hours. Employees may take PTO in half-day units.\n5.2.3 Requests\nEmployees request all leave in AMS People. Leave is approved only when AMS People shows the status as approved.\nGlossary: Austin office"
+        },
+        {
+          "name": "get_projects",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1033\", \"records\": [{\"project_id\": \"PRJ-007\", \"name\": \"Warehouse scanner app\", \"client\": \"Ferrowind Outfitters\", \"industry\": \"retail\", \"odc\": \"no\", \"project_manager_id\": \"AMS-1035\", \"allocation_percent\": 100, \"start_date\": \"2024-08-05\", \"end_date\": \"2026-09-30\", \"project_end_date\": \"2026-09-30\", \"current\": false}]}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "employee not assigned to a project unallocated bench policy"
+          },
+          "result": "[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.2 New Joiners\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.2 NEW JOINERS\n4.2.1 Standard access\nBefore the first day, IT creates the joiner's AMS account and gives the standard access for their role: AMS Mail, AMS Chat, AMS Meet, AMS People, AMS Expense, AMS Learn, and AMS OneDrive.\n4.2.2 Project and client access\nAccess to client projects is not part of standard access. The manager requests it through ServiceDesk (category ACC) once the joiner is assigned to a project.\n4.2.3 Contractors and interns\nContractor and intern accounts expire automatically on the end date in their contract and can be extended only by the hiring manager.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 10: Performance Review and Promotion Policy > 10.5 Performance Improvement Plans\nAbout this chapter: This policy explains how performance is reviewed and rated at AMS, and how promotions work.\n10.5 PERFORMANCE IMPROVEMENT PLANS\nAn employee rated \"does not meet expectations\", or whose performance falls well below expectations during the year, may be placed on a performance improvement plan (PIP) of 60 days with clear goals and fortnightly check-ins. An employee on a PIP is not eligible for promotion or internal moves."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "bench time resourcing policy employee between projects maximum period without assignment"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.10 Quick Reference Table\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.10 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nPTO | 15 days, rising to 18 after 3 years and 20 after 5 years | Up to 10 days; use by 30 June; up to 10 days paid out on separation\nSick leave | 5 days | No carry-over; not paid out\nFloating holidays | 2 days | No carry-over; not paid out\nParental leave | 12 weeks (birthing parent) or 6 weeks (non-birthing parent) | Use within 12 months of birth or placement\nBereavement leave | 5 days (immediate family) or 3 days (other relatives) | Not applicable\n\n5.11 CONTACT\nFor questions about this policy, contact People Operations (United States) at people-ops-us@ams.example or through AMS People.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.3 Paid Time Off (PTO)\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.3 PAID TIME OFF (PTO)\n5.3.1 Standard entitlement\nRegular full-time employees receive 15 days of PTO per leave year. PTO is used for vacation, personal matters, and any other planned time away. There is no separate casual leave in the United States.\n5.3.2 Service-based increase\nThe PTO entitlement increases with completed years of service: 18 days per leave year after 3 completed years, and 20 days per leave year after 5 completed years. The increase applies from the leave year after the anniversary.\n5.3.3 Joining during the year\nEmployees who join after 1 January receive a prorated PTO balance based on their start date.\n5.3.4 Part-time employees\nRegular part-time employees receive PTO prorated to their scheduled hours.\n5.3.5 PTO requests\nEmployees should request PTO at least 7 calendar days in advance. For an absence of 5 or more consecutive working days, employees should request PTO at least 21 calendar days in advance.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.3 Annual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.3 ANNUAL LEAVE\n4.3.1 Standard entitlement\nEligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.\n4.3.2 Joining during the year\nEmployees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.\n4.3.3 Part-time schedules\nEmployees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.\n4.3.4 Annual leave approval\nEmployees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.\nFor an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "employment policy project allocation unassigned employees notice period"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 3: Onboarding and Exit Policy > 3.5 Resignation and Notice Periods\nAbout this chapter: This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement.\n3.5 RESIGNATION AND NOTICE PERIODS\n3.5.1 How to resign\nEmployees resign by submitting a resignation request in AMS People. The notice period starts on the day the request is submitted.\n3.5.2 Notice periods in India (after confirmation)\nGrade | Notice period\nL1 to L3 | 30 days\nL4 and L5 | 60 days\nL6 | 90 days\n3.5.3 Notice in the United States\nEmployment in the United States is at will. AMS asks employees to give at least 2 weeks' notice, or 4 weeks' notice for grades L5 and L6.\n3.5.4 Shortening the notice period\nIn India, the notice period may be shortened with approval from the manager and People Operations. If it is shortened at the employee's request, the employee pays basic pay for the unserved days, which is recovered in the final settlement. Unused annual leave cannot be used to shorten the notice period without this approval.\n3.5.5 Leave during the notice period\nSick leave may be taken during the notice period. Annual leave during the notice period needs manager approval and is normally granted only for days already approved before the resignation.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.6 Casual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.6 CASUAL LEAVE\n4.6.1 Standard entitlement\nEligible permanent full-time employees receive 6 days of casual leave per leave year for short, unplanned personal matters.\n4.6.2 Carry-over and conversion\nUnused casual leave expires at the end of the leave year. It cannot be carried over and cannot be converted into annual leave or cash under this policy.\n4.6.3 Request process\nEmployees should inform their manager as soon as practical. For an unexpected absence, advance notice is not always possible; employees should submit or regularize the request in the HR portal when able to do so.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.5 Sick Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.5 SICK LEAVE\n4.5.1 Standard entitlement\nEligible permanent full-time employees receive 10 days of sick leave per leave year.\n4.5.2 Carry-over\nUnused sick leave does not carry over to the next leave year under this policy. Sick leave also cannot be converted into annual leave.\n4.5.3 Notice and documentation\nEmployees should notify their manager as soon as reasonably possible when illness prevents them from working. If an absence lasts more than 3 consecutive working days, the employee may be asked to provide reasonable supporting documentation in accordance with company procedures and applicable requirements.\nMedical details should be shared only through approved confidential channels and only to the extent necessary. Managers should not request detailed diagnoses in ordinary team communications.\n4.5.4 Extended illness\nFor an illness expected to require an extended absence, the employee should contact People Operations to discuss applicable leave options and required documentation. The outcome depends on the circumstances and applicable requirements; this policy does not promise a particular accommodation or payment."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 5,
+      "tokens": 33772,
+      "seconds": 22.7,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [
+        "Before answering, fix your draft: look up Whether the handbooks or any policy address bench time or the maximum period an employee can be without a project (e.g. a search of the employment/bench/resourcing policy was not run). Only state what the results back; unsupported: The draft says 'about 47 days ago': from 30 September 2026 to 16 November 2026 is 47 days, so this is correct and supported.."
+      ],
+      "trial": 0,
+      "judge": {
+        "correct": true,
+        "reason": "The answer includes all the key facts, the correct date, and the correct recommendation provided in the expected answer."
+      }
+    },
+    {
+      "id": "Q37",
+      "category": "profile",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "I don't have your name on record here. You're signed in as Ananya Iyer (AMS-1015). For your name, check the app's sign-in details or ask People Operations.",
+      "expected": "Says she is signed in as AMS-1015; the app shows that ID with her name from the HR records (Ananya Iyer). The model never sees or invents a name, and doesn't say it can't tell her.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 1,
+      "tokens": 4089,
+      "seconds": 2.8,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    }
+  ]
+}

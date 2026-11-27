@@ -5,7 +5,7 @@ In:  for_person(text): an answer (or a Confirm summary) as the model
 Out: the same text with each employee ID shown with its name; a plain
      message saying whether trying again can help.
 
-Strategy: Gemini works with IDs only (it never needs names), so names
+Strategy: the model works with IDs only (it never needs names), so names
 go back in at the very end, for the screen: "AMS-1019" -> "Sneha Pillai
 (AMS-1019)". The chat history keeps the IDs, because it is resent to
 the model with the next question. The app and the eval runner both use
@@ -13,7 +13,7 @@ for_person, so a test grades what the person sees. Errors: the person
 gets what happened and what to do, never an exception's name; the
 details go to the log.
 
-Caveats: names the person types still reach Gemini (their own words;
+Caveats: names the person types still reach the model (their own words;
 replacing them is Presidio's job, left for later). An ID already next
 to its name isn't doubled.
 """
@@ -21,6 +21,7 @@ to its name isn't doubled.
 import logging
 import re
 
+import anthropic
 import httpx
 from langchain_core.exceptions import ModelError
 
@@ -53,8 +54,15 @@ def for_person(text: str) -> str:
 def error_message(error: BaseException) -> str:
     """A plain message for a failed run; the details go to the log."""
     log.error("the agent failed: %s: %s", type(error).__name__, error)
+    # Can't reach it, or it's busy: Gemini's errors (ModelError), Claude's
+    # (a dropped connection; 408, 429, 5xx), the network. A bad key or
+    # an empty credit balance (400-403) is our side.
     unreachable = (ModelError, ConnectionError, TimeoutError,
-                   httpx.TransportError)  # Gemini, or Ollama's backup
-    if isinstance(error, unreachable) or "RESOURCE_EXHAUSTED" in str(error):
+                   httpx.TransportError, anthropic.APIConnectionError)
+    status = getattr(error, "status_code", None)
+    busy = isinstance(status, int) and (status in (408, 429)
+                                        or status >= 500)
+    if (isinstance(error, unreachable) or busy
+            or "RESOURCE_EXHAUSTED" in str(error)):
         return NO_MODEL
     return OUR_SIDE

@@ -1,0 +1,312 @@
+{
+  "run_at": "2026-11-27T22:48:28",
+  "settings": {
+    "models": {
+      "agent": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "guard": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 20,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 1000
+      },
+      "reviewer": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 30,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 2000
+      },
+      "summary": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "backup": {
+        "provider": "google",
+        "name": "gemini-3.5-flash-lite",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": null,
+        "pace": {
+          "per_minute": 12,
+          "burst": 3
+        },
+        "price": {
+          "input": 0.3,
+          "output": 2.5
+        },
+        "max_output": null
+      },
+      "judge": {
+        "provider": "google",
+        "name": "gemma-4-26b-a4b-it",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": 0,
+        "pace": {
+          "per_minute": 6,
+          "burst": 1
+        },
+        "price": {
+          "input": 0,
+          "output": 0
+        },
+        "max_output": null
+      }
+    },
+    "search": {
+      "embeddings": "ollama nomic-embed-text",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "keeps": "top 3 of 10 candidates",
+      "vector store": "Qdrant http://localhost:6333 ams_policies_langchain"
+    }
+  },
+  "only": "Q06,Q12,Q18,Q26,Q37",
+  "counts": {
+    "pass": 0,
+    "fail": 4,
+    "judge": 1,
+    "error": 0
+  },
+  "not_run": [],
+  "repeat": 1,
+  "gates_ok": true,
+  "stopped": false,
+  "langfuse_session": null,
+  "langfuse_url": null,
+  "results": [
+    {
+      "id": "Q06",
+      "category": "data+policy",
+      "employee_id": "AMS-1015",
+      "question": "Which trainings do I still have to do?",
+      "answer": "You have one open training left:\n\n- **POSH** (annual), due 31 December 2026. Not overdue.\n\nYou've already completed Information Security (16 Sep 2026) and Code of Conduct (17 Mar 2026) for this year.",
+      "expected": "POSH, by 31 December 2026 (L&D 2.3.3); Code of Conduct and Information Security for 2026 are done.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: 2.3.3"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_trainings",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"records\": [{\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-09-30\", \"completed_on\": \"2026-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-03-31\", \"completed_on\": \"2026-03-17\", \"open\": false, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Secure coding\", \"reason\": \"role\", \"assigned_on\": \"2025-08-09\", \"due_date\": \"2025-10-08\", \"completed_on\": \"2025-09-24\", \"open\": false, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-09-30\", \"completed_on\": \"2025-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-03-31\", \"completed_on\": \"2025-03-17\", \"open\": false, \"overdue\": false}]}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 2,
+      "tokens": 8643,
+      "seconds": 3.8,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0,
+      "judge": {
+        "correct": true,
+        "reason": "The answer provides all the required facts, dates, and decisions present in the expected answer."
+      },
+      "judge_disagrees": true
+    },
+    {
+      "id": "Q12",
+      "category": "data+policy",
+      "employee_id": "AMS-1011",
+      "question": "When is my last working day?",
+      "answer": "Your last working day is **24 December 2026**. You resigned on 26 October 2026 and are currently serving your notice period.",
+      "expected": "24 December 2026: L4 in India has a 60-day notice period, counted from his resignation on 26 October 2026 (Employee 3.5.1-3.5.2).",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: 60; 3.5"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1011\", \"job_title\": \"Team Lead\", \"department\": \"Engineering\", \"grade\": \"L4\", \"office\": \"Bengaluru\", \"manager_id\": \"AMS-1007\", \"join_date\": \"2021-03-15\", \"status\": \"notice_period\", \"probation_end_date\": \"2021-09-15\", \"resignation_date\": \"2026-10-26\", \"last_working_day\": \"2026-12-24\", \"payroll\": \"India\", \"time_at_ams\": \"5 years 8 months\"}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 2,
+      "tokens": 8449,
+      "seconds": 3.4,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0,
+      "judge": {
+        "correct": true,
+        "reason": "The answer provides the correct last working day and resignation date as specified in the expected answer."
+      },
+      "judge_disagrees": true
+    },
+    {
+      "id": "Q18",
+      "category": "data+policy",
+      "employee_id": "AMS-1020",
+      "question": "By when must I finish the phishing course?",
+      "answer": "The phishing awareness course is due by **19 November 2026**, three days from today. It's still open and not overdue.",
+      "expected": "By 19 November 2026: within 14 days of being assigned it on 5 November, after the 3 November phishing test (L&D 2.4.4).",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: 2.4.4"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_trainings",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1020\", \"records\": [{\"course\": \"Anti-bribery\", \"reason\": \"role\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-12-31\", \"open\": true, \"overdue\": false}, {\"course\": \"Phishing awareness\", \"reason\": \"phishing\", \"assigned_on\": \"2026-11-05\", \"due_date\": \"2026-11-19\", \"open\": true, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-09-30\", \"completed_on\": \"2026-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2026-01-01\", \"due_date\": \"2026-03-31\", \"completed_on\": \"2026-03-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Anti-bribery\", \"reason\": \"role\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"POSH\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-12-31\", \"completed_on\": \"2025-12-17\", \"open\": false, \"overdue\": false}, {\"course\": \"Information Security\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-09-30\", \"completed_on\": \"2025-09-16\", \"open\": false, \"overdue\": false}, {\"course\": \"Code of Conduct\", \"reason\": \"annual\", \"assigned_on\": \"2025-01-01\", \"due_date\": \"2025-03-31\", \"completed_on\": \"2025-03-17\", \"open\": false, \"overdue\": false}]}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 2,
+      "tokens": 8723,
+      "seconds": 3.7,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q26",
+      "category": "unknown",
+      "employee_id": "AMS-1033",
+      "question": "How long can I stay without a project?",
+      "answer": "I couldn't find a rule on how long you can stay without a project. The handbooks I searched don't set a limit, so I don't know the maximum. Please ask your manager or People Operations (people-ops-us@ams.example).\n\nYour records show no current project. Your last one, Warehouse scanner app (PRJ-007, Ferrowind Outfitters), ended on 30 September 2026. That makes 47 days as of today, 16 November 2026.",
+      "expected": "The handbooks don't cover this; he has had no project since 30 September 2026. He should ask his manager or People Operations.",
+      "verdict": "judge",
+      "checks": [],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "how long can an employee stay without a project bench time US"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.3 Paid Time Off (PTO)\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.3 PAID TIME OFF (PTO)\n5.3.1 Standard entitlement\nRegular full-time employees receive 15 days of PTO per leave year. PTO is used for vacation, personal matters, and any other planned time away. There is no separate casual leave in the United States.\n5.3.2 Service-based increase\nThe PTO entitlement increases with completed years of service: 18 days per leave year after 3 completed years, and 20 days per leave year after 5 completed years. The increase applies from the leave year after the anniversary.\n5.3.3 Joining during the year\nEmployees who join after 1 January receive a prorated PTO balance based on their start date.\n5.3.4 Part-time employees\nRegular part-time employees receive PTO prorated to their scheduled hours.\n5.3.5 PTO requests\nEmployees should request PTO at least 7 calendar days in advance. For an absence of 5 or more consecutive working days, employees should request PTO at least 21 calendar days in advance.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.10 Quick Reference Table\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.10 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nPTO | 15 days, rising to 18 after 3 years and 20 after 5 years | Up to 10 days; use by 30 June; up to 10 days paid out on separation\nSick leave | 5 days | No carry-over; not paid out\nFloating holidays | 2 days | No carry-over; not paid out\nParental leave | 12 weeks (birthing parent) or 6 weeks (non-birthing parent) | Use within 12 months of birth or placement\nBereavement leave | 5 days (immediate family) or 3 days (other relatives) | Not applicable\n\n5.11 CONTACT\nFor questions about this policy, contact People Operations (United States) at people-ops-us@ams.example or through AMS People.\nGlossary: Austin office\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 5: Employee Leave Policy (united States) > 5.2 Leave Year and General Rules\nAbout this chapter: This policy describes paid time off (PTO), sick leave, floating holidays, parental leave, bereavement leave, jury duty, and leave requests for regular full-time employees on the US payroll.\n5.2 LEAVE YEAR AND GENERAL RULES\n5.2.1 Leave year\nThe leave year runs from 1 January through 31 December.\n5.2.2 Units\nLeave is recorded in days. One day equals eight working hours. Employees may take PTO in half-day units.\n5.2.3 Requests\nEmployees request all leave in AMS People. Leave is approved only when AMS People shows the status as approved.\nGlossary: Austin office"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "bench unassigned between projects maximum period resourcing"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.3 Annual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.3 ANNUAL LEAVE\n4.3.1 Standard entitlement\nEligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.\n4.3.2 Joining during the year\nEmployees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.\n4.3.3 Part-time schedules\nEmployees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.\n4.3.4 Annual leave approval\nEmployees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.\nFor an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 7: Remote and Hybrid Work Policy > 7.5 Fully Remote Arrangements\nAbout this chapter: This policy explains when employees work from the office, when they may work from home or from another location, and what support AMS provides.\n7.5 FULLY REMOTE ARRANGEMENTS\nFully remote work is an exception. It needs approval from the department head and People Operations and is reviewed every 6 months. A fully remote employee keeps a base office, follows that office's holiday calendar, and is expected to visit the office when asked, with travel paid under the Travel and Expense Policy."
+        },
+        {
+          "name": "get_projects",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1033\", \"records\": [{\"project_id\": \"PRJ-007\", \"name\": \"Warehouse scanner app\", \"client\": \"Ferrowind Outfitters\", \"industry\": \"retail\", \"odc\": \"no\", \"project_manager_id\": \"AMS-1035\", \"allocation_percent\": 100, \"start_date\": \"2024-08-05\", \"end_date\": \"2026-09-30\", \"project_end_date\": \"2026-09-30\", \"current\": false}]}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 16354,
+      "seconds": 24.2,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q37",
+      "category": "profile",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "I checked your profile, and it doesn't include a name field, so I can't tell you your name. You're signed in as Ananya Iyer (AMS-1015) (Senior Engineer, Engineering, grade L3, Bengaluru, India payroll). For your name on file, please ask People Operations.",
+      "expected": "Doesn't give or invent a name (names aren't sent to Gemini, decided 23 Nov 2026); can say she is signed in as AMS-1015.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_not_include",
+          "ok": false,
+          "detail": "leaked: Ananya, Iyer"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"job_title\": \"Senior Engineer\", \"department\": \"Engineering\", \"grade\": \"L3\", \"office\": \"Bengaluru\", \"manager_id\": \"AMS-1012\", \"join_date\": \"2021-08-09\", \"status\": \"confirmed\", \"probation_end_date\": \"2022-02-09\", \"payroll\": \"India\", \"time_at_ams\": \"5 years 3 months\"}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 12697,
+      "seconds": 6.6,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [
+        "Before answering, fix your draft: look up Looked up the employee's profile record to check whether a name is on file before saying it isn't. Only state what the results back; unsupported: Claims 'I don't have your name on record here' without any lookup of the employee's profile having been performed."
+      ],
+      "trial": 0,
+      "judge": {
+        "correct": false,
+        "reason": "The answer provides a specific name, whereas the expected answer explicitly states not to give or invent a name."
+      }
+    }
+  ]
+}

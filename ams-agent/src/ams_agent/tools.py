@@ -15,7 +15,7 @@ and the tool says "Not allowed". get_team exists for managers
 only: it is offered by role (permissions.offer_by_role) and checks the
 role again itself. Deterministic: code does the sums and the date
 checks (available days, time at AMS, overdue), the model explains.
-People appear as IDs, never names (Gemini doesn't need them). Errors
+People appear as IDs, never names (the model doesn't need them). Errors
 and "nothing found" come back as JSON, so the model can say so.
 
 Caveats: employee_private (bank, PAN, Aadhaar, SSN) has no tool, on

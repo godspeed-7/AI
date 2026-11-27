@@ -1,12 +1,14 @@
 """Runs the eval questions through the agent and grades them with code.
 
-In:  uv run python evals/run_evals.py [--only Q01,Q27]
+In:  uv run python evals/run_evals.py [--only Q01,Q27 | --smoke]
      (after load_data.py); the questions are evals/questions.csv.
+     --smoke: the dozen in SMOKE_SET, after a change; the full set
+     once per batch of changes.
 Out: a line per question (✅ pass, ❌ fail, ⚪ needs a judge, 🔌 API
      error: not graded), the score over the graded questions, and
      evals/results/run-<time>.json with every answer, tool call, tool
-     result and grade. Once Gemini's daily quota is used up, the run
-     stops and saves what it has.
+     result and grade. Once the model's quota or credit runs out, the
+     run stops and saves what it has.
 
 Strategy: for each question the runner builds the context itself
 (context_for(employee_id), the app's sign-in code: a test fixture,
@@ -35,7 +37,9 @@ change); --judge lets the LLM judge (judge.py) grade what code can't
 and flag code failures it thinks are right, for a person. Safety gates
 (GATE_CATEGORIES: attack, refuse) are never averaged: one failure, or
 one not checked, and the run exits with code 1, like a failing test.
-compare_runs.py compares two runs.
+compare_runs.py compares two runs. A full run (no --only) is traced
+in our local Langfuse as one session, a trace per question with its
+cost (TRACE_FULL_EVALS, tracing.py); quick --only runs never are.
 
 Caveats: keyword checks can't see meaning ("not 7" passes "7"); one
 run each, so a flaky question can pass or fail by chance; one question
@@ -58,7 +62,7 @@ from datetime import datetime
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
 from langgraph.types import Command
 
-from ams_agent import config, judge
+from ams_agent import config, judge, tracing
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.budget import stopped_by
 from ams_agent.config import (
@@ -66,9 +70,12 @@ from ams_agent.config import (
     EVAL_MAX_CONFIRMS,
     EVAL_PAUSE,
     GATE_CATEGORIES,
+    PROVIDER_KEYS,
     QUESTIONS,
     RESULTS_DIR,
     ROOT,
+    SMOKE_SET,
+    TRACE_FULL_EVALS,
     settings,
 )
 from ams_agent.context import context_for
@@ -82,9 +89,10 @@ from ams_agent.topic_guard import is_guard_reply
 DATA_CATEGORIES = {"data", "data+policy"}  # need a tool to answer
 SECTION = re.compile(r"\d+(\.\d+)+")  # 4.4, 3.4.1
 MARK = {"pass": "✅", "fail": "❌", "judge": "⚪", "error": "🔌"}
-# Google's error once the free tier's requests for the day are used up:
-# later questions would only fail the same way, so the run stops.
-DAILY_QUOTA = "PerDay"
+# Errors after which later questions would only fail the same way, so
+# the run stops: Gemini's daily quota, an empty Claude credit balance.
+STOP_ERRORS = {"PerDay": "Gemini's daily quota is used up",
+               "credit balance": "The Claude credit balance is used up"}
 
 
 def normalise(text: str) -> str:
@@ -159,18 +167,25 @@ def tool_calls(messages: list) -> list[dict]:
 
 
 def hide_key(text: str) -> str:
-    """Error messages never show the API key, even by accident."""
-    key = os.environ.get("GOOGLE_API_KEY")
-    return text.replace(key, "***") if key else text
+    """Error messages never show an API key, even by accident."""
+    for name in filter(None, PROVIDER_KEYS.values()):
+        if key := os.environ.get(name):
+            text = text.replace(key, "***")
+    return text
 
 
-def run_one(agent, question: dict, earlier: list) -> tuple[dict, list]:
-    """Ask one question; returns its result and the chat so far."""
+def run_one(agent, question: dict, earlier: list, traced: bool = False,
+            session: str | None = None,
+            name: str | None = None) -> tuple[dict, list]:
+    """Ask one question; returns its result and the chat so far.
+    traced: one trace in the run's Langfuse session, named name."""
     tables = {q.split()[0] for q in [question["db_change"]] if q}
     before = {t: count_rows(t) for t in tables}
     sent = earlier + [HumanMessage(question["question"])]
     # Its own chat: a follow-up starts from a copy of the earlier turns.
-    chat = {"configurable": {"thread_id": f"{question['id']}-{time.time()}"}}
+    chat = tracing.run_config(question["employee_id"],
+                              f"{question['id']}-{time.time()}", traced,
+                              session, ("eval",), name or question["id"])
     context = context_for(question["employee_id"])
     asked = []  # each booking the agent paused on, as the person saw it
     started = time.perf_counter()
@@ -334,16 +349,26 @@ def main() -> None:
                         help="ask each question this many times (noise)")
     parser.add_argument("--judge", action="store_true",
                         help="the LLM judge grades what code can't")
+    parser.add_argument("--smoke", action="store_true",
+                        help="only the smoke set (SMOKE_SET, config.py)")
     args = parser.parse_args()
+    if args.smoke:  # the smoke set is an --only run: never traced
+        args.only = ",".join(SMOKE_SET)
     # Each line as it happens, even when the output goes to a file.
     if hasattr(sys.stdout, "reconfigure"):  # not when captured
         sys.stdout.reconfigure(line_buffering=True)
     with QUESTIONS.open(newline="", encoding="utf-8") as f:
         questions = chosen(list(csv.DictReader(f)), args.only)
 
+    started = datetime.now()
+    # Only a full run is traced: --only runs are building, not measuring.
+    traced = TRACE_FULL_EVALS and not args.only
+    session = f"eval-{started:%Y%m%d-%H%M%S}" if traced else None
+    print(f"Traced in Langfuse as session {session}" if traced
+          else "Not traced (an --only run)")
     warm_up()  # the search models load before the clock starts
     clean = fresh_database()
-    agent = build_agent(fallback=False)  # measure Gemini only
+    agent = build_agent(fallback=False)  # the main model only
     results, chats = [], {}
     followed = {q["previous_question"] for q in questions}
     trials = [(t, q) for t in range(args.repeat) for q in questions]
@@ -357,7 +382,10 @@ def main() -> None:
         shutil.copy(snapshot(parent) if parent in chats else clean,
                     EVAL_DB_PATH)
         earlier = chats.get(parent, [])
-        result, chats[question["id"]] = run_one(agent, question, earlier)
+        name = question["id"] if args.repeat == 1 else \
+            f"{question['id']} try {trial + 1}"
+        result, chats[question["id"]] = run_one(agent, question, earlier,
+                                                traced, session, name)
         result["trial"] = trial
         if args.judge:
             add_judge(result, question)
@@ -365,8 +393,9 @@ def main() -> None:
         show(result)
         if question["id"] in followed:
             shutil.copy(EVAL_DB_PATH, snapshot(question["id"]))
-        if DAILY_QUOTA in (result["error"] or ""):
-            print("     Gemini's daily quota is used up: stopping the run.")
+        if stop := next((why for found, why in STOP_ERRORS.items()
+                         if found in (result["error"] or "")), None):
+            print(f"     {stop}: stopping the run.")
             stopped = True
             break
 
@@ -382,13 +411,19 @@ def main() -> None:
     if people := [r["id"] for r in results if r.get("judge_disagrees")]:
         print("Code and judge disagree (a person decides):",
               ", ".join(people))
+    url = None
+    if traced:
+        tracing.flush()  # every trace sent before the process ends
+        url = tracing.session_url(session)
+        print(f"Cost and traces: {url or session}")
     RESULTS_DIR.mkdir(exist_ok=True)
-    path = RESULTS_DIR / f"run-{datetime.now():%Y%m%d-%H%M%S}.json"
+    path = RESULTS_DIR / f"run-{started:%Y%m%d-%H%M%S}.json"
     path.write_text(json.dumps(
         {"run_at": datetime.now().isoformat(timespec="seconds"),
          "settings": settings(), "only": args.only, "counts": counts,
          "not_run": [q["id"] for _, q in trials[len(results):]],
          "repeat": args.repeat, "gates_ok": gates_ok, "stopped": stopped,
+         "langfuse_session": session, "langfuse_url": url,
          "results": results}, indent=2, ensure_ascii=False))
     print(f"-> {path}")
     # Like a failing test suite: a safety gate failed, or wasn't checked.

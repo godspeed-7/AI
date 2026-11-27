@@ -2,24 +2,26 @@
 
 In:  recovery(fallback), the agent's model-call middleware (agent.py);
      the models: config.AGENT and config.BACKUP (also the guard's).
-Out: a model answer from Gemini, or from local qwen3:8b when Gemini
-     keeps failing; answered_by(message) says which.
+Out: a model answer from the main model (AGENT), or from the backup
+     (another company's) when it keeps failing; answered_by(message)
+     says which.
 
 Strategy, from the outside in:
-- CircuitBreaker: after BREAKER_FAILURES Gemini failures in a row, skip
-  Gemini for BREAKER_SECONDS and go straight to the backup (no waiting
-  for an error we know is coming), then try Gemini once again.
+- CircuitBreaker: after BREAKER_FAILURES main-model failures in a row,
+  skip it for BREAKER_SECONDS and go straight to the backup (no waiting
+  for an error we know is coming), then try the main model once again.
 - ModelFallbackMiddleware (LangChain): a call that still fails goes to
-  the backup (thinking on, as always for qwen3).
+  the backup.
 - ModelRetryMiddleware (LangChain): retry only what can pass (a
-  time-out, 429 per minute, 5xx), waiting longer each time; never a
-  bad key or request (is_retryable False), nor the daily quota ("retry
-  in 14 hours" won't pass in seconds). The one retry layer: the Gemini
-  client itself doesn't retry the agent's calls.
-The evals use none of the backup (fallback=False): they measure Gemini.
+  time-out, a dropped connection, 429 too many requests, 5xx), waiting
+  longer each time; never a bad key or request (400, 401, 403), an
+  empty credit balance, nor Gemini's daily quota ("retry in 14 hours"
+  won't pass in seconds). The one retry layer: the agent's client
+  itself doesn't retry.
+The evals use none of the backup (fallback=False): they measure the
+main model.
 
-Caveats: the breaker lives in this process (one per server). The
-backup needs Ollama running locally; it is slower (~13 s a round).
+Caveats: the breaker lives in this process (one per server).
 """
 
 import logging
@@ -41,8 +43,15 @@ DAILY_QUOTA = "PerDay"  # in Google's error once the day's requests are used
 
 
 def can_retry(error: BaseException) -> bool:
-    """Retry only what can pass: LangChain's rule, minus the daily quota."""
-    return DAILY_QUOTA not in str(error) and default_retry_on(error)
+    """Retry only what can pass. Claude's errors carry an HTTP status
+    (LangChain doesn't sort them); others follow LangChain's rule,
+    minus Gemini's daily quota."""
+    if DAILY_QUOTA in str(error):
+        return False
+    status = getattr(error, "status_code", None)
+    if isinstance(status, int):
+        return status in (408, 409, 429) or status >= 500
+    return default_retry_on(error)
 
 
 def answered_by(message) -> str:
@@ -52,7 +61,7 @@ def answered_by(message) -> str:
 
 
 class Breaker:
-    """Counts Gemini failures in a row; open = skip Gemini for a while."""
+    """Counts main-model failures in a row; open = skip it for a while."""
 
     def __init__(self, failures: int = BREAKER_FAILURES,
                  seconds: float = BREAKER_SECONDS, clock=time.monotonic):
@@ -65,20 +74,20 @@ class Breaker:
             if self.opened is None:
                 return False
             if self.clock() - self.opened >= self.seconds:
-                self.opened = None  # half-open: Gemini gets one more try
+                self.opened = None  # half-open: one more try
                 self.in_a_row = self.failures - 1
                 return False
             return True
 
-    def record(self, gemini_ok: bool) -> None:
+    def record(self, main_ok: bool) -> None:
         with self.lock:
-            if gemini_ok:
+            if main_ok:
                 self.in_a_row, self.opened = 0, None
                 return
             self.in_a_row += 1
             if self.in_a_row >= self.failures and self.opened is None:
                 self.opened = self.clock()
-                log.warning("Gemini failed %d times in a row: backup only"
+                log.warning("Main model failed %d times in a row: backup only"
                             " for %d s", self.in_a_row, self.seconds)
 
 
@@ -95,10 +104,10 @@ class CircuitBreaker(AgentMiddleware):
         try:
             response = handler(request)
         except Exception:
-            self.breaker.record(gemini_ok=False)
+            self.breaker.record(main_ok=False)
             raise
         last = response.result[-1] if response.result else None
-        self.breaker.record(gemini_ok=answered_by(last) != BACKUP.name)
+        self.breaker.record(main_ok=answered_by(last) != BACKUP.name)
         return response
 
 

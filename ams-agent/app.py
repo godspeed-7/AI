@@ -28,10 +28,10 @@ Caveats:
 - The answer appears once it has passed the checks (reviewer, output
   check), never word by word: streamed text can't be un-shown if a
   check replaces it. The steps stream as they happen.
-- Employee IDs are shown with names (respond.py); Gemini sees IDs only.
+- Employee IDs are shown with names (respond.py); the model sees IDs only.
 - Under each answer: thumbs up / down; each answer is kept 30 days for
-  review with its background checks (quality.py); tracing is off until
-  TRACING is switched on (tracing.py).
+  review with its background checks (quality.py); each question is
+  traced in our local Langfuse while TRACE_APP is on (tracing.py).
 """
 
 import streamlit as st
@@ -44,6 +44,7 @@ from ams_agent.config import (
     BACKUP,
     MAX_MESSAGE_CHARS,
     MAX_QUESTIONS_PER_MINUTE,
+    TRACE_APP,
 )
 from ams_agent.context import context_for, role_names
 from ams_agent.db import find_employee
@@ -117,7 +118,7 @@ def steps_of(message) -> list[str]:
     if is_check_reply(message):
         return [("🛡️ Output check: the answer quoted the instructions,"
                  " so it was replaced")]
-    who = ("Backup model (Gemini unavailable)"
+    who = ("Backup model (main model unavailable)"
            if answered_by(message) == BACKUP.name else "Model")
     if isinstance(message, AIMessage) and message.tool_calls:
         return [f"🛠️ {who} asks for `{call['name']}` {call['args'] or ''}"
@@ -198,7 +199,8 @@ def run(payload, turn: dict) -> None:
                 for update in agent().stream(
                         payload, context=context,
                         config=run_config(context.employee_id,
-                                          st.session_state.chat_id),
+                                          st.session_state.chat_id,
+                                          traced=TRACE_APP, tags=("app",)),
                         stream_mode="updates"):
                     for node, change in update.items():
                         if node == "__interrupt__":

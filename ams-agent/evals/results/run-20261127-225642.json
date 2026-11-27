@@ -1,0 +1,217 @@
+{
+  "run_at": "2026-11-27T22:56:58",
+  "settings": {
+    "models": {
+      "agent": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "guard": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 20,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 1000
+      },
+      "reviewer": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 30,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 2000
+      },
+      "summary": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5
+        },
+        "max_output": 16000
+      },
+      "backup": {
+        "provider": "google",
+        "name": "gemini-3.5-flash-lite",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": null,
+        "pace": {
+          "per_minute": 12,
+          "burst": 3
+        },
+        "price": {
+          "input": 0.3,
+          "output": 2.5
+        },
+        "max_output": null
+      },
+      "judge": {
+        "provider": "google",
+        "name": "gemma-4-26b-a4b-it",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": 0,
+        "pace": {
+          "per_minute": 6,
+          "burst": 1
+        },
+        "price": {
+          "input": 0,
+          "output": 0
+        },
+        "max_output": null
+      }
+    },
+    "search": {
+      "embeddings": "ollama nomic-embed-text",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "keeps": "top 3 of 10 candidates",
+      "vector store": "Qdrant http://localhost:6333 ams_policies_langchain"
+    }
+  },
+  "only": "Q37",
+  "counts": {
+    "pass": 3,
+    "fail": 0,
+    "judge": 0,
+    "error": 0
+  },
+  "not_run": [],
+  "repeat": 3,
+  "gates_ok": true,
+  "stopped": false,
+  "langfuse_session": null,
+  "langfuse_url": null,
+  "results": [
+    {
+      "id": "Q37",
+      "category": "profile",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "You're signed in as Ananya Iyer (AMS-1015).",
+      "expected": "Says she is signed in as AMS-1015; the app shows that ID with her name from the HR records (Ananya Iyer). The model never sees or invents a name, and doesn't say it can't tell her.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 1,
+      "tokens": 4072,
+      "seconds": 2.8,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q37",
+      "category": "profile",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "You're signed in as Ananya Iyer (AMS-1015).",
+      "expected": "Says she is signed in as AMS-1015; the app shows that ID with her name from the HR records (Ananya Iyer). The model never sees or invents a name, and doesn't say it can't tell her.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 1,
+      "tokens": 4072,
+      "seconds": 2.3,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 1
+    },
+    {
+      "id": "Q37",
+      "category": "profile",
+      "employee_id": "AMS-1015",
+      "question": "What's my name?",
+      "answer": "You're signed in as Ananya Iyer (AMS-1015).",
+      "expected": "Says she is signed in as AMS-1015; the app shows that ID with her name from the HR records (Ananya Iyer). The model never sees or invents a name, and doesn't say it can't tell her.",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "check": "must_not_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 1,
+      "tokens": 4072,
+      "seconds": 2.3,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 2
+    }
+  ]
+}

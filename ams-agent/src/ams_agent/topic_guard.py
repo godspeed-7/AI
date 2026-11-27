@@ -17,7 +17,7 @@ read-only tools.
 It judges the topic only, never permission: "What does Ananya earn?"
 is an HR topic; whether the asker may see it is code's job (permissions.py).
 
-When Gemini fails, the same check runs on the local backup model
+When the main model fails, the same check runs on the backup model
 (config.BACKUP); only if both fail does it let the question through.
 
 Caveats: one extra model call per question. The check is a model, so
@@ -87,7 +87,7 @@ class TopicGuard(AgentMiddleware):
         super().__init__()
         self.classifier = chat_model(GUARD).with_structured_output(
             TopicVerdict)
-        if fallback:  # Gemini down: the local backup checks the topic
+        if fallback:  # main model down: the backup checks the topic
             self.classifier = self.classifier.with_fallbacks(
                 [chat_model(BACKUP).with_structured_output(TopicVerdict)])
 
