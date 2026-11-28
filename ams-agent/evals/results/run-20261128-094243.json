@@ -1,0 +1,311 @@
+{
+  "run_at": "2026-11-28T09:43:41",
+  "settings": {
+    "models": {
+      "agent": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 16000
+      },
+      "guard": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 20,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 1000
+      },
+      "reviewer": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 30,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 2000
+      },
+      "summary": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 16000
+      },
+      "backup": {
+        "provider": "google",
+        "name": "gemini-3.5-flash-lite",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": null,
+        "pace": {
+          "per_minute": 12,
+          "burst": 3
+        },
+        "price": {
+          "input": 0.3,
+          "output": 2.5,
+          "cache_read": null,
+          "cache_write": null
+        },
+        "max_output": null
+      },
+      "judge": {
+        "provider": "google",
+        "name": "gemma-4-26b-a4b-it",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": 0,
+        "pace": {
+          "per_minute": 6,
+          "burst": 1
+        },
+        "price": {
+          "input": 0,
+          "output": 0,
+          "cache_read": null,
+          "cache_write": null
+        },
+        "max_output": null
+      }
+    },
+    "search": {
+      "embeddings": "ollama nomic-embed-text",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "keeps": "top 3 of 10 candidates",
+      "vector store": "Qdrant http://localhost:6333 ams_policies_langchain"
+    }
+  },
+  "only": "Q13",
+  "counts": {
+    "pass": 0,
+    "fail": 3,
+    "judge": 0,
+    "error": 0
+  },
+  "not_run": [],
+  "repeat": 3,
+  "gates_ok": true,
+  "stopped": false,
+  "langfuse_session": null,
+  "langfuse_url": null,
+  "results": [
+    {
+      "id": "Q13",
+      "category": "data+policy",
+      "employee_id": "AMS-1032",
+      "question": "Why can't I open the client systems?",
+      "answer": "I can't see a specific cause in your records, and I don't have an access request on file for you.\n\n- **Projects:** You're on Delivery route planning (PRJ-006) for Ferrowind Outfitters at 100%. It is not an ODC project, so a client-room badge isn't the issue.\n- **Service desk:** You have no tickets on record, so no access request has been raised.\n\nUnder IT and Security Handbook 4.3.1, access is requested through a ServiceDesk ticket in category ACC, stating the system, the level of access and the business reason. Under 4.3.2, it needs approval from your manager (Daniel Brooks, AMS-1008) and the system owner. Client production systems also need IT and Security approval. Under 4.3.3, client systems can take up to 10 working days after approval.\n\nIf you haven't raised one yet, ask your project manager (Tyler Morgan, AMS-1035) which client system you need and what access level, then raise the ACC ticket. If one is already open, or you're not sure whether your access was requested, check with your manager or People Operations.",
+      "expected": "His Information Security training (due 14 October 2026) is 33 days overdue, so client access is suspended until he finishes it (L&D 2.2, 2.5.3); secure coding is overdue too.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: Information Security or InfoSec or Info Sec; 33; 2.5.3"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_projects",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"records\": [{\"project_id\": \"PRJ-006\", \"name\": \"Delivery route planning\", \"client\": \"Ferrowind Outfitters\", \"industry\": \"retail\", \"odc\": \"no\", \"project_manager_id\": \"AMS-1035\", \"allocation_percent\": 100, \"start_date\": \"2026-09-28\", \"project_end_date\": \"2027-04-30\", \"current\": true}]}"
+        },
+        {
+          "name": "get_tickets",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"found\": 0, \"note\": \"no service desk tickets on record\"}"
+        },
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"job_title\": \"Engineer\", \"department\": \"Engineering\", \"grade\": \"L2\", \"office\": \"Austin\", \"manager_id\": \"AMS-1008\", \"join_date\": \"2026-09-14\", \"status\": \"probation\", \"probation_end_date\": \"2026-12-13\", \"payroll\": \"US\", \"time_at_ams\": \"2 months\"}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "client systems access ODC probation"
+          },
+          "result": "[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.6 CCTV\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.6 CCTV\nCCTV covers entrances, reception, corridors, and ODCs, but never washrooms, changing rooms, or the wellness room. Recordings are kept for 30 days, or longer during an investigation.\n\n3.7 CONTACT\nFacilities: facilities@ams.example. Building security is available 24 hours a day at extension 2222.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.3 Requesting Access\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.3 REQUESTING ACCESS\n4.3.1 How to request\nAdditional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.\n4.3.2 Approvals\nEvery access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.\n4.3.3 Timing\nApproved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "IT access client systems request US"
+          },
+          "result": "[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.3 Requesting Access\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.3 REQUESTING ACCESS\n4.3.1 How to request\nAdditional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.\n4.3.2 Approvals\nEvery access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.\n4.3.3 Timing\nApproved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 10: How to Raise a ServiceDesk Ticket > 10.3 Categories\nAbout this chapter: ServiceDesk is the IT support system. Use it for laptop problems, access requests, software requests, network and VPN problems, and anything security-related.\n10.3 CATEGORIES\nHW: hardware, such as a broken laptop, monitor, or headset, or a request for new equipment.\nACC: access, such as a new system, a password reset, or temporary admin rights.\nSW: software, such as a request for software that is not in the Software Centre.\nNET: network and VPN problems, including AMS Connect error codes.\nSEC: security, such as a lost device, a suspicious sign-in, or data sent to the wrong person.\nMOB: the AMS Mobile app and AMS Authenticator on phones.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 7: Software and SaaS Approval Policy > 7.5 Client-provided Software\nAbout this chapter: This policy explains which software and online services (SaaS) may be used for AMS work and how to request new ones.\n7.5 CLIENT-PROVIDED SOFTWARE\nSoftware that a client requires for its project may be installed after the client confirms it in writing and the project manager raises a ServiceDesk request (category SW). It is removed when the project ends."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 16111,
+      "seconds": 24.2,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q13",
+      "category": "data+policy",
+      "employee_id": "AMS-1032",
+      "question": "Why can't I open the client systems?",
+      "answer": "I can't see why from your records yet, but I can see one likely cause: you have no access request on file.\n\n- **No access request:** Your service desk history shows no tickets. Client system access has to be requested through a ServiceDesk access request (category ACC), stating the system, the access level and the business reason (IT and Security Handbook 4.3.1).\n- **Approval:** It needs approval from your manager (Daniel Brooks, AMS-1008) and the system owner. Access to restricted client production environments also needs IT and Security approval (4.3.2).\n- **Timing:** Client systems depend on the client's own process and can take up to 10 working days (4.3.3).\n- **Your project:** You're on Delivery route planning (PRJ-006) for Ferrowind Outfitters at 100%. It isn't an ODC, so ODC badge access isn't the issue (Administration and Facilities Handbook 3.4.2).\n- **Probation:** I found no rule that restricts system access during probation. Your probation runs to 13 December 2026 (Employee Handbook 3.4.1 covers the length).\n\nIf you tell me which client system you're trying to open, I can check further. Next steps are to raise an ACC request in ServiceDesk, or ask your manager (Daniel Brooks, AMS-1008) whether one has already been made. If you're still blocked after that, ask People Operations.",
+      "expected": "His Information Security training (due 14 October 2026) is 33 days overdue, so client access is suspended until he finishes it (L&D 2.2, 2.5.3); secure coding is overdue too.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: Information Security or InfoSec or Info Sec; 33; 2.5.3"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_projects",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"records\": [{\"project_id\": \"PRJ-006\", \"name\": \"Delivery route planning\", \"client\": \"Ferrowind Outfitters\", \"industry\": \"retail\", \"odc\": \"no\", \"project_manager_id\": \"AMS-1035\", \"allocation_percent\": 100, \"start_date\": \"2026-09-28\", \"project_end_date\": \"2027-04-30\", \"current\": true}]}"
+        },
+        {
+          "name": "get_tickets",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"found\": 0, \"note\": \"no service desk tickets on record\"}"
+        },
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"job_title\": \"Engineer\", \"department\": \"Engineering\", \"grade\": \"L2\", \"office\": \"Austin\", \"manager_id\": \"AMS-1008\", \"join_date\": \"2026-09-14\", \"status\": \"probation\", \"probation_end_date\": \"2026-12-13\", \"payroll\": \"US\", \"time_at_ams\": \"2 months\"}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "ODC client room access probation"
+          },
+          "result": "[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.6 CCTV\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.6 CCTV\nCCTV covers entrances, reception, corridors, and ODCs, but never washrooms, changing rooms, or the wellness room. Recordings are kept for 30 days, or longer during an investigation.\n\n3.7 CONTACT\nFacilities: facilities@ams.example. Building security is available 24 hours a day at extension 2222.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 4: Visitor Policy > 4.4 During the Visit\nAbout this chapter: This policy explains how visitors are registered, received, and escorted in AMS offices.\n4.4 DURING THE VISIT\n4.4.1 Escort\nThe host, or another AMS employee named by the host, escorts the visitor at all times, including to washrooms and the cafeteria.\n4.4.2 Restricted areas\nVisitors may not enter client project areas (ODCs), server rooms, or IT stores.\n4.4.3 Photos and recording\nVisitors may not take photos or recordings inside the office without approval from Facilities."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "IT access client systems request approval"
+          },
+          "result": "[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.3 Requesting Access\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.3 REQUESTING ACCESS\n4.3.1 How to request\nAdditional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.\n4.3.2 Approvals\nEvery access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.\n4.3.3 Timing\nApproved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 7: Software and SaaS Approval Policy > 7.1 Purpose and Scope\n7.1 PURPOSE AND SCOPE\nThis policy explains which software and online services (SaaS) may be used for AMS work and how to request new ones. Unapproved tools can leak client data or bring in malware, so every tool used for work must be approved first. Open-source libraries used inside client code follow the client's own rules and are not covered here.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 7: Software and SaaS Approval Policy > 7.3 Requesting New Software\nAbout this chapter: This policy explains which software and online services (SaaS) may be used for AMS work and how to request new ones.\n7.3 REQUESTING NEW SOFTWARE\n7.3.1 How to request\nSoftware that is not in the Software Centre is requested through ServiceDesk (category SW), with the product name, what it will be used for, and the type of information it will handle.\n7.3.2 Review\nIT and Security reviews the request within 5 working days. Tools that will handle Confidential or Restricted information also need approval from Legal and Compliance, which can add up to 10 working days.\n7.3.3 Paid software\nPaid software also needs budget approval from the department head and is bought by Finance through a purchase request. Employees must not buy software with a personal card or a corporate card and claim it in AMS Expense.\n7.3.4 Free trials\nFree trials of online services count as new software and need the same approval, because they often ask for company data."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "probation employees access restrictions systems"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 3: Onboarding and Exit Policy > 3.4 Probation\nAbout this chapter: This policy covers what happens before and after an employee joins AMS, the probation period, resignation and notice periods, the exit process, and the final settlement.\n3.4 PROBATION\n3.4.1 Length\nEmployees on the India payroll serve a probation period of 6 months. Employees on the US payroll have a 90-day introductory period.\n3.4.2 Extension\nProbation may be extended once, by up to 3 months, if the manager and People Operations agree that more time is needed. The employee is told in writing before the original probation ends.\n3.4.3 Confirmation\nEmployees on the India payroll receive a confirmation letter in AMS People when probation is completed successfully.\n3.4.4 Leave during probation\nAnnual leave builds up from the joining date. During probation, employees on the India payroll may use up to 5 days of annual leave; the rest becomes available after confirmation. Sick leave and casual leave can be used during probation.\n3.4.5 Notice during probation\nDuring probation, the notice period on either side is 15 days for employees on the India payroll.\nGlossary: Austin office, United States, Bengaluru and Pune offices\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.3 Requesting Access\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.3 REQUESTING ACCESS\n4.3.1 How to request\nAdditional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.\n4.3.2 Approvals\nEvery access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.\n4.3.3 Timing\nApproved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.1 Purpose and Scope\n4.1 PURPOSE AND SCOPE\nThis policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed. It follows the principle of least privilege: each person gets only the access they need for their current role. It covers AMS systems (such as AMS People, AMS Expense, and AMS Mail) and client systems that AMS employees use on client projects."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 19244,
+      "seconds": 14.7,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 1
+    },
+    {
+      "id": "Q13",
+      "category": "data+policy",
+      "employee_id": "AMS-1032",
+      "question": "Why can't I open the client systems?",
+      "answer": "I can't see a client-system access request on your record, so the likely reason is that access hasn't been set up yet.\n\n- **Your project:** You're on Delivery route planning for Ferrowind Outfitters (PRJ-006), at 100% since 28 Sep 2026. It's not an ODC, so this isn't a badge issue.\n- **Your tickets:** You have no service desk tickets on record, so no ACC access request has been logged for you.\n- **Why:** Client project access isn't part of standard access. Your manager has to request it through ServiceDesk (category ACC) once you're assigned to a project (IT and Security Handbook 4.2.2). Each request needs approval from your manager and the system owner (4.3.2). If the client system is a restricted production environment, IT and Security must also approve it (4.3.2).\n- **Timing:** Client systems depend on the client's own process and can take up to 10 working days (IT and Security Handbook 4.3.3).\n\nNext step: ask your manager, Daniel Brooks (AMS-1008), to raise the ACC request for the client system you need. If the request has been raised and it's been more than 10 working days, contact People Operations.",
+      "expected": "His Information Security training (due 14 October 2026) is 33 days overdue, so client access is suspended until he finishes it (L&D 2.2, 2.5.3); secure coding is overdue too.",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: Information Security or InfoSec or Info Sec; 33; 2.5.3"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_projects",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"records\": [{\"project_id\": \"PRJ-006\", \"name\": \"Delivery route planning\", \"client\": \"Ferrowind Outfitters\", \"industry\": \"retail\", \"odc\": \"no\", \"project_manager_id\": \"AMS-1035\", \"allocation_percent\": 100, \"start_date\": \"2026-09-28\", \"project_end_date\": \"2027-04-30\", \"current\": true}]}"
+        },
+        {
+          "name": "get_tickets",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"found\": 0, \"note\": \"no service desk tickets on record\"}"
+        },
+        {
+          "name": "get_profile",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1032\", \"job_title\": \"Engineer\", \"department\": \"Engineering\", \"grade\": \"L2\", \"office\": \"Austin\", \"manager_id\": \"AMS-1008\", \"join_date\": \"2026-09-14\", \"status\": \"probation\", \"probation_end_date\": \"2026-12-13\", \"payroll\": \"US\", \"time_at_ams\": \"2 months\"}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "client systems access ODC probation"
+          },
+          "result": "[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.6 CCTV\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.6 CCTV\nCCTV covers entrances, reception, corridors, and ODCs, but never washrooms, changing rooms, or the wellness room. Recordings are kept for 30 days, or longer during an investigation.\n\n3.7 CONTACT\nFacilities: facilities@ams.example. Building security is available 24 hours a day at extension 2222.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.3 Requesting Access\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.3 REQUESTING ACCESS\n4.3.1 How to request\nAdditional access is requested through a ServiceDesk access request (category ACC), stating the system, the level of access, and the business reason.\n4.3.2 Approvals\nEvery access request needs approval from the employee's manager and the system owner. Access to Restricted systems, such as client production environments, also needs approval from IT and Security.\n4.3.3 Timing\nApproved access is set up within 1 working day for AMS systems. Client systems depend on the client's own process and can take up to 10 working days."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "IT access to client systems project assignment"
+          },
+          "result": "[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.2 New Joiners\nAbout this chapter: This policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed.\n4.2 NEW JOINERS\n4.2.1 Standard access\nBefore the first day, IT creates the joiner's AMS account and gives the standard access for their role: AMS Mail, AMS Chat, AMS Meet, AMS People, AMS Expense, AMS Learn, and AMS OneDrive.\n4.2.2 Project and client access\nAccess to client projects is not part of standard access. The manager requests it through ServiceDesk (category ACC) once the joiner is assigned to a project.\n4.2.3 Contractors and interns\nContractor and intern accounts expire automatically on the end date in their contract and can be extended only by the hiring manager.\n\n[it_and_security_handbook.txt]\nIT and Security Handbook > Chapter 4: Access and Accounts Policy > 4.1 Purpose and Scope\n4.1 PURPOSE AND SCOPE\nThis policy explains how AMS accounts and access to systems are created, changed, reviewed, and removed. It follows the principle of least privilege: each person gets only the access they need for their current role. It covers AMS systems (such as AMS People, AMS Expense, and AMS Mail) and client systems that AMS employees use on client projects.\n\n[administration_and_facilities_handbook.txt]\nAdministration and Facilities Handbook > Chapter 3: Office Access and Badge Policy > 3.4 Client Project Areas\nAbout this chapter: This policy explains who may enter AMS offices, when, and how access badges work.\n3.4 CLIENT PROJECT AREAS\n3.4.1 What they are\nSome floors are client project areas, also called offshore development centres (ODCs), set up for a single client with extra security required by the client contract.\n3.4.2 Access\nODC access is added to a badge only on request of the project manager and approval by Facilities. Access is removed on the day the employee leaves the project.\n3.4.3 Rules inside\nPersonal phones, smartwatches, bags, and USB devices are not allowed inside an ODC and are kept in the lockers at the entrance. Printing inside an ODC needs the client's approval. Visitors are never allowed in ODCs."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 16274,
+      "seconds": 9.3,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 2
+    }
+  ]
+}

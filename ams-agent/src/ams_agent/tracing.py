@@ -1,44 +1,102 @@
 """Traces of the runs worth keeping, in our local Langfuse.
 
 In:  run_config(employee_id, chat_id, traced, ...) for each agent run
-     (app.py, run_evals.py); TRACE_APP, TRACE_FULL_EVALS, LANGFUSE_URL
-     and each job's price (config.py); the LANGFUSE_* keys (environment).
-Out: the run's config: the chat ID always; when traced, the Langfuse
-     handler that records the run (each model and tool call, time,
-     tokens, cost) with user = employee ID, a session and tags.
-     session_url(id): a link to a session; flush(): send what's queued;
-     sync_prices(): each job's price from config.py into Langfuse
+     (app.py, run_evals.py); TRACE_*, LANGFUSE_URL and each job's price
+     (config.py); the LANGFUSE_* keys (environment).
+Out: the run's config: the chat ID always; when traced, a handler that
+     records the run (each model and tool call, time, tokens, cost) as
+     TRACE_NAME, with user = employee ID, tags and a session if given.
+     new_trace_id(), score(), unscore(): a trace's ID made up front, so
+     scores can go on it later (thumbs, online checks). flush();
+     sync_prices(): each job's price into Langfuse
      (`uv run python -m ams_agent.tracing`).
 
-Strategy: two doors trace, the app and the eval runner on a full run;
-anything else that builds the agent (quick --only runs, the checks,
-scripts) passes no handler, so it sends nothing, and Langfuse's views
-hold no test noise. Cost = tokens x the price Langfuse holds for the
-model; ours come from config.py, so one place sets them. Labels: the
-employee ID, never a name. Our local Langfuse only: traces hold HR data.
+Strategy: two doors trace: the app (environment TRACE_ENVIRONMENT) and
+a full eval run (a Langfuse experiment: run_evals.py). Anything else
+passes no handler and sends nothing, so Langfuse holds no test noise.
+Step types: Langfuse's LangChain handler guesses them from names ("..
+before_agent" -> agent), so ours are set by name (STEP_TYPES): the
+checks show as guardrail and evaluator. Counter checks (QUIET_STEPS)
+are DEBUG, hidden in the trace view by default. Cost = tokens x the price
+Langfuse holds, from config.py. Labels: the employee ID, never a name.
 
-Caveats: if Langfuse is down, runs go untraced (never stopped). Cost is
-worked out when a trace arrives: a price changed later leaves old
-traces as they were. The bill itself is the provider's.
+Caveats: Langfuse down: runs go untraced, scores are dropped (never an
+error). STEP_TYPES overrides one of the handler's private methods: an
+SDK update can break it (the checks would show). Cost is worked out
+when a trace arrives: a price changed later leaves old traces as is.
 """
 
 import logging
 import re
 from functools import cache
 
-from ams_agent.config import JOBS, LANGFUSE_URL
+from langfuse import Langfuse, is_langfuse_span
+from langfuse.langchain import CallbackHandler
+from langfuse.langchain.CallbackHandler import LANGSMITH_TAG_HIDDEN
+
+from ams_agent.config import (
+    JOBS,
+    LANGFUSE_URL,
+    TRACE_ENVIRONMENT,
+    TRACE_NAME,
+)
 
 log = logging.getLogger(__name__)
+
+# The type Langfuse shows for each agent step, by its name in the graph
+# (a middleware hook is "Class.hook"). Any other step is a chain; model
+# and tool calls keep the handler's own types (generation, tool).
+STEP_TYPES = {
+    TRACE_NAME: "agent",
+    "TopicGuard.before_agent": "guardrail",
+    "PromptLeakCheck.after_agent": "guardrail",
+    "AnswerReview.after_model": "evaluator",
+}
+
+
+# Steps that only check a counter (or reset one, or parse a verdict the
+# step above already shows): level DEBUG, which Langfuse's trace view
+# hides by default (Min Level). Still recorded: Min Level DEBUG shows
+# them. A brake that stops a run still shows in the answer and, in the
+# app, in the "budget" score.
+QUIET_STEPS = {
+    "RunBudget.before_agent", "RunBudget.before_model",
+    "RunBudget.after_model", "ModelCallBudget.before_model",
+    "ModelCallBudget.after_model", "ToolCallLimitMiddleware.after_model",
+    "AnswerReview.before_agent", "PydanticToolsParser",
+}
+
+
+class Handler(CallbackHandler):
+    """Langfuse's LangChain handler, with our steps' types and levels."""
+
+    def on_chain_start(self, serialized, inputs, *, run_id,
+                       parent_run_id=None, tags=None, metadata=None,
+                       **kwargs):
+        # LangChain's "hidden" tag: the handler records the step as DEBUG.
+        if self.get_langchain_run_name(serialized, **kwargs) in QUIET_STEPS:
+            tags = [*(tags or []), LANGSMITH_TAG_HIDDEN]
+        return super().on_chain_start(
+            serialized, inputs, run_id=run_id, parent_run_id=parent_run_id,
+            tags=tags, metadata=metadata, **kwargs)
+
+    def _get_observation_type_from_serialized(self, serialized,
+                                              callback_type, **kwargs):
+        if callback_type == "chain":
+            name = self.get_langchain_run_name(serialized, **kwargs)
+            return STEP_TYPES.get(name, "chain")
+        return super()._get_observation_type_from_serialized(
+            serialized, callback_type, **kwargs)
 
 
 @cache
 def client():
     """The Langfuse client, or None if it can't be reached."""
     try:
-        from langfuse import Langfuse, is_langfuse_span
         # Only our handler's records: the Anthropic SDK reports each call
         # too (OpenTelemetry), which would count every call twice.
         langfuse = Langfuse(base_url=LANGFUSE_URL,
+                            environment=TRACE_ENVIRONMENT,
                             should_export_span=is_langfuse_span)
         if langfuse.auth_check():
             return langfuse
@@ -51,40 +109,59 @@ def client():
 
 
 @cache
-def handler():
-    """One Langfuse handler per process, or None."""
-    if client() is None:
-        return None
-    from langfuse.langchain import CallbackHandler
-    return CallbackHandler()
+def shared_handler() -> Handler:
+    """One handler for the runs without a trace ID of their own: an
+    experiment's, each inside its item's trace."""
+    return Handler()
+
+
+def new_trace_id() -> str:
+    """A trace's ID, made before the run, so scores can follow it."""
+    return Langfuse.create_trace_id()
 
 
 def run_config(employee_id: str, chat_id: str, traced: bool = False,
                session: str | None = None, tags: tuple = (),
-               name: str | None = None) -> dict:
-    """The run's config: the chat ID always; when traced, the handler,
-    with the session (the chat, unless given), tags and a trace name."""
+               trace_id: str | None = None) -> dict:
+    """The run's config: the chat ID always; when traced, a handler that
+    records it as TRACE_NAME, in trace_id if given (a booking resumed
+    with the same ID stays one trace), with the session if given."""
     config = {"configurable": {"thread_id": chat_id}}
-    if traced and (listener := handler()):
-        config |= {"callbacks": [listener],
-                   "metadata": {"langfuse_user_id": employee_id,
-                                "langfuse_session_id": session or chat_id,
-                                "langfuse_tags": list(tags)}}
-        if name:  # the trace's name in Langfuse, e.g. "Q21"
-            config["run_name"] = name
-            config["metadata"]["langfuse_trace_name"] = name
-    return config
+    if not traced or client() is None:
+        return config
+    listener = (Handler(trace_context={"trace_id": trace_id}) if trace_id
+                else shared_handler())
+    metadata = {"langfuse_user_id": employee_id,
+                "langfuse_tags": list(tags),
+                "langfuse_trace_name": TRACE_NAME}
+    if session:
+        metadata["langfuse_session_id"] = session
+    return config | {"callbacks": [listener], "run_name": TRACE_NAME,
+                     "metadata": metadata}
 
 
-def session_url(session_id: str) -> str | None:
-    """A session's page in Langfuse, or None."""
-    if (langfuse := client()) is None:
-        return None
+def score(trace_id: str | None, name: str, value: int, comment: str = "",
+          score_id: str | None = None) -> None:
+    """A yes / no score (1 / 0) on a trace. Sent again with the same
+    score_id, it replaces the last. Never stops the app."""
+    if not trace_id or (langfuse := client()) is None:
+        return
     try:
-        project = langfuse.api.projects.get().data[0].id
-    except Exception:  # noqa: BLE001
-        return None
-    return f"{LANGFUSE_URL}/project/{project}/sessions/{session_id}"
+        langfuse.create_score(trace_id=trace_id, name=name, value=value,
+                              data_type="BOOLEAN", comment=comment or None,
+                              score_id=score_id)
+    except Exception as e:  # noqa: BLE001
+        log.warning("score %s not sent (%s)", name, type(e).__name__)
+
+
+def unscore(score_id: str) -> None:
+    """Take a score back (e.g. a thumb un-clicked)."""
+    if (langfuse := client()) is None:
+        return
+    try:
+        langfuse.api.scores.delete(score_id)
+    except Exception as e:  # noqa: BLE001
+        log.warning("score not deleted (%s)", type(e).__name__)
 
 
 def flush() -> None:

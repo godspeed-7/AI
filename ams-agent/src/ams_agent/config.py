@@ -165,6 +165,9 @@ MAX_MESSAGE_CHARS = 2000  # a question longer than this is refused
 MAX_QUESTIONS_PER_MINUTE = 10  # per employee, in any 60 seconds
 GUARD_MESSAGES = 5  # the guard reads the question + the 2 turns before
 REVIEW_ROUNDS = 1  # the reviewer's extra rounds, at most
+# Earlier turns the reviewer sees (question, lookups, answer), so a
+# follow-up's facts count as backed; a cap, so long chats stay cheap.
+REVIEW_EARLIER_TURNS = 2
 LEAK_WORDS = 8  # output check: words in a row that quote the prompt
 
 
@@ -222,7 +225,15 @@ SMOKE_SET = ("Q01", "Q05", "Q12", "Q20", "Q21", "Q23", "Q27", "Q28",
 # keeping, so its views hold no test noise. Quick runs (--only), the
 # code checks and scripts never trace.
 TRACE_APP = True  # each question asked in the app: one trace
-TRACE_FULL_EVALS = True  # each full golden-set run: one session
+TRACE_FULL_EVALS = True  # each full golden-set run: one experiment
+# The app's traces carry this environment; an experiment's carry
+# "sdk-experiment" (Langfuse sets it), so eval runs never mix into the
+# app's numbers.
+TRACE_ENVIRONMENT = "development"
+# Every agent run's name in Langfuse. Fixed, as Langfuse advises: what
+# changes (the question's ID) lives in the experiment item instead.
+TRACE_NAME = "answer-question"
+EXPERIMENT_NAME = "ams-agent eval"  # what our full runs are filed under
 # 127.0.0.1, not localhost: another dev server (node) also listens on
 # port 3000, and "localhost" reaches it instead of Langfuse.
 LANGFUSE_URL = "http://127.0.0.1:3000"
@@ -301,7 +312,8 @@ def overview() -> str:
         "Checks": (
             f"questions up to {MAX_MESSAGE_CHARS:,} characters,"
             f" {MAX_QUESTIONS_PER_MINUTE} a minute; reviewer:"
-            f" {REVIEW_ROUNDS} round; prompt leak: {LEAK_WORDS} words in"
+            f" {REVIEW_ROUNDS} round, sees {REVIEW_EARLIER_TURNS} earlier"
+            f" turns; prompt leak: {LEAK_WORDS} words in"
             " a row"),
         "Memory": (
             f"chats kept {CHAT_KEEP_DAYS} days; summarised past"
@@ -317,9 +329,12 @@ def overview() -> str:
             f" {JUDGE_BUSY_WAIT} s apart; live answers kept"
             f" {QUALITY_KEEP_DAYS} days"),
         "Traced in Langfuse": (
-            f"app questions {'on' if TRACE_APP else 'off'}, full eval runs"
-            f" {'on' if TRACE_FULL_EVALS else 'off'} ({LANGFUSE_URL});"
-            " --only runs, checks and scripts never"),
+            f"app questions {'on' if TRACE_APP else 'off'} (environment"
+            f" {TRACE_ENVIRONMENT}, with thumbs and online checks as"
+            f" scores), full eval runs {'on' if TRACE_FULL_EVALS else 'off'}"
+            f" (experiments, \"{EXPERIMENT_NAME}\"); each run named"
+            f" {TRACE_NAME}; {LANGFUSE_URL}; --only runs, checks and"
+            " scripts never"),
     }
     lines.append("")
     for heading, text in limits.items():

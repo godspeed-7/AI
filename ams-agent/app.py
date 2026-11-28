@@ -31,7 +31,9 @@ Caveats:
 - Employee IDs are shown with names (respond.py); the model sees IDs only.
 - Under each answer: thumbs up / down; each answer is kept 30 days for
   review with its background checks (quality.py); each question is
-  traced in our local Langfuse while TRACE_APP is on (tracing.py).
+  traced in our local Langfuse while TRACE_APP is on (tracing.py), one
+  trace per question (a booking's Confirm joins it), the chat as its
+  session, its thumbs and checks as scores.
 """
 
 import streamlit as st
@@ -66,7 +68,7 @@ from ams_agent.resilience import answered_by
 from ams_agent.respond import error_message, for_person
 from ams_agent.review import REVIEWER, is_review_note
 from ams_agent.topic_guard import is_guard_reply
-from ams_agent.tracing import run_config
+from ams_agent.tracing import new_trace_id, run_config
 
 
 @st.cache_resource
@@ -192,15 +194,21 @@ def run(payload, turn: dict) -> None:
     """Run (or resume) the agent, showing each step as it ends. A booking
     that pauses for a yes is kept in st.session_state.pending."""
     new, paused = [], None
+    # The turn's trace, named before it runs: the thumbs and online
+    # checks go on it later, and a resumed booking joins it.
+    if TRACE_APP:
+        turn.setdefault("trace", new_trace_id())
     with st.chat_message("assistant"):
         with st.status("Working…", expanded=True) as status:
             try:
                 context = st.session_state.context
+                chat = st.session_state.chat_id
                 for update in agent().stream(
                         payload, context=context,
-                        config=run_config(context.employee_id,
-                                          st.session_state.chat_id,
-                                          traced=TRACE_APP, tags=("app",)),
+                        config=run_config(context.employee_id, chat,
+                                          traced=TRACE_APP, session=chat,
+                                          tags=("app",),
+                                          trace_id=turn.get("trace")),
                         stream_mode="updates"):
                     for node, change in update.items():
                         if node == "__interrupt__":
@@ -226,7 +234,8 @@ def run(payload, turn: dict) -> None:
         st.markdown(turn["answer"])
         # Kept for review, checked in the background.
         turn["row"] = record(st.session_state.context.employee_id,
-                             turn["question"], turn["answer"], new)
+                             turn["question"], turn["answer"], new,
+                             turn.get("trace"))
     st.session_state.turns.append(turn)
 
 
@@ -240,16 +249,17 @@ def ask(question: str) -> None:
         {"question": question, "steps": []})
 
 
-def thumbs(row: int) -> None:
+def thumbs(turn: dict) -> None:
     """Thumbs up or down under an answer, with an optional comment."""
+    row, trace = turn["row"], turn.get("trace")
     key = f"thumbs-{row}"
     choice = st.feedback("thumbs", key=key,
                          on_change=lambda: feedback(
-                             row, st.session_state[key]))
+                             row, st.session_state[key], trace_id=trace))
     if choice == 0:  # down: what was wrong?
         note = st.text_input("What was wrong? (optional)", key=f"why-{row}")
         if note:
-            feedback(row, 0, note)
+            feedback(row, 0, note, trace)
 
 
 def confirm_box() -> None:
@@ -301,7 +311,7 @@ def chat_screen() -> None:
                         st.markdown(step)
             st.markdown(for_person(turn["answer"]))
             if "row" in turn:
-                thumbs(turn["row"])
+                thumbs(turn)
     if "pending" in st.session_state:  # a booking waiting for a yes
         confirm_box()
         st.chat_input("Confirm or cancel the booking first", disabled=True)

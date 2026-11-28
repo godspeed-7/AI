@@ -37,9 +37,13 @@ change); --judge lets the LLM judge (judge.py) grade what code can't
 and flag code failures it thinks are right, for a person. Safety gates
 (GATE_CATEGORIES: attack, refuse) are never averaged: one failure, or
 one not checked, and the run exits with code 1, like a failing test.
-compare_runs.py compares two runs. A full run (no --only) is traced
-in our local Langfuse as one session, a trace per question with its
-cost (TRACE_FULL_EVALS, tracing.py); quick --only runs never are.
+compare_runs.py compares two runs. A full run (no --only) is also a
+Langfuse experiment (TRACE_FULL_EVALS): each question an item, its
+trace with cost, and scores: passed (with what failed), safety (a
+gate), judge (--judge). Langfuse lines items up across runs by what
+was asked, so two runs compare side by side (Experiments > Compare).
+With --repeat, each try is its own experiment. Quick --only runs are
+never traced.
 
 Caveats: keyword checks can't see meaning ("not 7" passes "7"); one
 run each, so a flaky question can pass or fail by chance; one question
@@ -60,15 +64,18 @@ import time
 from datetime import datetime
 
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
+from langfuse import Evaluation
 from langgraph.types import Command
 
 from ams_agent import config, judge, tracing
 from ams_agent.agent import build_agent, final_answer
 from ams_agent.budget import stopped_by
 from ams_agent.config import (
+    AGENT,
     EVAL_DB_PATH,
     EVAL_MAX_CONFIRMS,
     EVAL_PAUSE,
+    EXPERIMENT_NAME,
     GATE_CATEGORIES,
     PROVIDER_KEYS,
     QUESTIONS,
@@ -174,18 +181,17 @@ def hide_key(text: str) -> str:
     return text
 
 
-def run_one(agent, question: dict, earlier: list, traced: bool = False,
-            session: str | None = None,
-            name: str | None = None) -> tuple[dict, list]:
+def run_one(agent, question: dict, earlier: list,
+            traced: bool = False) -> tuple[dict, list]:
     """Ask one question; returns its result and the chat so far.
-    traced: one trace in the run's Langfuse session, named name."""
+    traced: recorded in Langfuse, inside its experiment item's trace."""
     tables = {q.split()[0] for q in [question["db_change"]] if q}
     before = {t: count_rows(t) for t in tables}
     sent = earlier + [HumanMessage(question["question"])]
     # Its own chat: a follow-up starts from a copy of the earlier turns.
     chat = tracing.run_config(question["employee_id"],
                               f"{question['id']}-{time.time()}", traced,
-                              session, ("eval",), name or question["id"])
+                              tags=("eval",))
     context = context_for(question["employee_id"])
     asked = []  # each booking the agent paused on, as the person saw it
     started = time.perf_counter()
@@ -342,6 +348,127 @@ def snapshot(question_id: str):
     return EVAL_DB_PATH.with_name(f"hr-eval-after-{question_id}.sqlite")
 
 
+def experiment_item(question: dict) -> dict:
+    """A question as Langfuse shows it. Runs line up item by item by
+    their input, so the input is only what was asked (and after which
+    question); the ID and category go in the metadata."""
+    asked = {"employee_id": question["employee_id"],
+             "question": question["question"]}
+    if question["previous_question"]:
+        asked["follows"] = question["previous_question"]
+    return {"input": asked, "expected_output": question["expected_answer"],
+            "metadata": {"id": question["id"],
+                         "category": question["category"]}}
+
+
+def scores(result: dict) -> list[Evaluation]:
+    """A question's scores on its trace: passed (every check, with what
+    failed), safety (a gate, the same yes / no), judge (with --judge).
+    An ungraded question (⚪) gets none."""
+    found = []
+    if result["verdict"] in ("pass", "fail"):
+        ok = int(result["verdict"] == "pass")
+        notes = [f"{c['check']}: {c['detail']}" for c in result["checks"]
+                 if not c["ok"]] + [f"⚠ {w}" for w in result["warnings"]]
+        found.append(Evaluation(name="passed", value=ok, data_type="BOOLEAN",
+                                comment="; ".join(notes)[:500]
+                                or "every check passed"))
+        if result["category"] in GATE_CATEGORIES:
+            found.append(Evaluation(name="safety", value=ok,
+                                    data_type="BOOLEAN"))
+    if verdict := result.get("judge"):
+        found.append(Evaluation(name="judge", value=int(verdict["correct"]),
+                                comment=verdict["reason"][:500],
+                                data_type="BOOLEAN"))
+    return found
+
+
+class EvalRun:
+    """The questions, asked in order: each on its own copy of the
+    database, a follow-up after its parent's chat. Keeps the results,
+    and why the run stopped early (quota, credit), if it did."""
+
+    def __init__(self, questions: list[dict], judged: bool,
+                 traced: bool) -> None:
+        self.questions, self.judged, self.traced = questions, judged, traced
+        self.clean = fresh_database()
+        self.agent = build_agent(fallback=False)  # the main model only
+        self.followed = {q["previous_question"] for q in questions}
+        self.results: list[dict] = []
+        self.chats: dict[str, list] = {}
+        self.stopped: str | None = None
+
+    def ask(self, question: dict, trial: int) -> dict | None:
+        """One question, shown and kept; None once the run has stopped."""
+        if self.stopped:
+            return None
+        if self.results:
+            time.sleep(EVAL_PAUSE)
+        parent = question["previous_question"]
+        # Each question on a clean copy; a follow-up on its parent's
+        # database, so "book it again" sees the first booking.
+        shutil.copy(snapshot(parent) if parent in self.chats
+                    else self.clean, EVAL_DB_PATH)
+        result, self.chats[question["id"]] = run_one(
+            self.agent, question, self.chats.get(parent, []), self.traced)
+        result["trial"] = trial
+        if self.judged:
+            add_judge(result, question)
+        self.results.append(result)
+        show(result)
+        if question["id"] in self.followed:
+            shutil.copy(EVAL_DB_PATH, snapshot(question["id"]))
+        if why := next((why for found, why in STOP_ERRORS.items()
+                        if found in (result["error"] or "")), None):
+            print(f"     {why}: stopping the run.")
+            self.stopped = why
+        return result
+
+    def experiment(self, trial: int, name: str, metadata: dict) -> dict:
+        """One pass as a Langfuse experiment: each question an item (its
+        trace, its scores), in order, one at a time, since a follow-up
+        needs its parent's chat. Returns the run's name and page."""
+        by_id = {q["id"]: q for q in self.questions}
+        done: dict[str, dict] = {}
+
+        def task(*, item, **_):
+            result = self.ask(by_id[item["metadata"]["id"]], trial)
+            if result is None:
+                raise RuntimeError(f"not run: {self.stopped}")
+            done[result["id"]] = result
+            if result["error"]:  # Langfuse counts it as an error
+                raise RuntimeError(result["error"])
+            return result["answer"]
+
+        def grade(*, metadata, **_):
+            return scores(done[metadata["id"]])
+
+        found = tracing.client().run_experiment(
+            name=EXPERIMENT_NAME, run_name=name,
+            description=f"{len(self.questions)} questions",
+            data=[experiment_item(q) for q in self.questions],
+            task=task, evaluators=[grade], max_concurrency=1,
+            metadata=metadata)
+        return {"name": found.run_name, "url": found.experiment_url}
+
+    def every_try(self, repeat: int, name: str,
+                  metadata: dict) -> list[dict]:
+        """Every question, repeat times. Traced, each try is an
+        experiment, `name` (+ "try 2/3"); returns their names and pages."""
+        experiments = []
+        for trial in range(repeat):
+            if self.traced:
+                experiments.append(self.experiment(
+                    trial, name if repeat == 1
+                    else f"{name} · try {trial + 1}/{repeat}", metadata))
+            else:  # once stopped, ask() skips the rest
+                for question in self.questions:
+                    self.ask(question, trial)
+            if self.stopped:
+                break
+        return experiments
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--only", help="question IDs, e.g. Q01,Q27")
@@ -361,44 +488,20 @@ def main() -> None:
         questions = chosen(list(csv.DictReader(f)), args.only)
 
     started = datetime.now()
+    path = RESULTS_DIR / f"run-{started:%Y%m%d-%H%M%S}.json"
     # Only a full run is traced: --only runs are building, not measuring.
-    traced = TRACE_FULL_EVALS and not args.only
-    session = f"eval-{started:%Y%m%d-%H%M%S}" if traced else None
-    print(f"Traced in Langfuse as session {session}" if traced
-          else "Not traced (an --only run)")
+    traced = bool(TRACE_FULL_EVALS and not args.only and tracing.client())
+    print(f'Traced in Langfuse: experiments "{EXPERIMENT_NAME}"' if traced
+          else "Not traced (an --only run, or Langfuse is down)")
     warm_up()  # the search models load before the clock starts
-    clean = fresh_database()
-    agent = build_agent(fallback=False)  # the main model only
-    results, chats = [], {}
-    followed = {q["previous_question"] for q in questions}
-    trials = [(t, q) for t in range(args.repeat) for q in questions]
-    stopped = False
-    for n, (trial, question) in enumerate(trials):
-        if n:
-            time.sleep(EVAL_PAUSE)
-        parent = question["previous_question"]
-        # Each question on a clean copy; a follow-up on its parent's
-        # database, so "book it again" sees the first booking.
-        shutil.copy(snapshot(parent) if parent in chats else clean,
-                    EVAL_DB_PATH)
-        earlier = chats.get(parent, [])
-        name = question["id"] if args.repeat == 1 else \
-            f"{question['id']} try {trial + 1}"
-        result, chats[question["id"]] = run_one(agent, question, earlier,
-                                                traced, session, name)
-        result["trial"] = trial
-        if args.judge:
-            add_judge(result, question)
-        results.append(result)
-        show(result)
-        if question["id"] in followed:
-            shutil.copy(EVAL_DB_PATH, snapshot(question["id"]))
-        if stop := next((why for found, why in STOP_ERRORS.items()
-                         if found in (result["error"] or "")), None):
-            print(f"     {stop}: stopping the run.")
-            stopped = True
-            break
+    run = EvalRun(questions, args.judge, traced)
+    experiments = run.every_try(
+        args.repeat, f"{AGENT.name} · {started:%-d %b %H:%M}",
+        {"results": f"evals/results/{path.name}",
+         "judge": "on" if args.judge else "off"})
 
+    results = run.results
+    trials = [(t, q) for t in range(args.repeat) for q in questions]
     counts = {v: sum(r["verdict"] == v for r in results) for v in MARK}
     graded = counts["pass"] + counts["fail"]
     not_run = len(trials) - len(results)
@@ -411,19 +514,19 @@ def main() -> None:
     if people := [r["id"] for r in results if r.get("judge_disagrees")]:
         print("Code and judge disagree (a person decides):",
               ", ".join(people))
-    url = None
     if traced:
         tracing.flush()  # every trace sent before the process ends
-        url = tracing.session_url(session)
-        print(f"Cost and traces: {url or session}")
+        for found in experiments:
+            print(f"In Langfuse (scores, cost, traces):"
+                  f" {found['url'] or found['name']}")
     RESULTS_DIR.mkdir(exist_ok=True)
-    path = RESULTS_DIR / f"run-{started:%Y%m%d-%H%M%S}.json"
     path.write_text(json.dumps(
         {"run_at": datetime.now().isoformat(timespec="seconds"),
          "settings": settings(), "only": args.only, "counts": counts,
          "not_run": [q["id"] for _, q in trials[len(results):]],
-         "repeat": args.repeat, "gates_ok": gates_ok, "stopped": stopped,
-         "langfuse_session": session, "langfuse_url": url,
+         "repeat": args.repeat, "gates_ok": gates_ok,
+         "stopped": run.stopped is not None,
+         "langfuse_experiments": experiments,
          "results": results}, indent=2, ensure_ascii=False))
     print(f"-> {path}")
     # Like a failing test suite: a safety gate failed, or wasn't checked.

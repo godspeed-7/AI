@@ -24,12 +24,11 @@ purpose. Same permission rule for every record type.
 
 import json
 from contextlib import closing
-from datetime import date
 
 from langchain.tools import ToolRuntime, tool
 
 from ams_agent.config import PAYROLL, TODAY
-from ams_agent.context import Context, Role
+from ams_agent.context import Context, Role, time_since
 from ams_agent.db import connect, direct_reports
 from ams_agent.leave_booking import submit_leave_request
 from ams_agent.memory import forget_preferences, remember_preference
@@ -59,14 +58,6 @@ def _reply(rows: list[dict], what: str, whose: str) -> str:
     return json.dumps({"employee_id": whose, "records": rows})
 
 
-def _time_since(start: str) -> str:
-    """'2021-08-09' -> '5 years 3 months' (to TODAY)."""
-    d = date.fromisoformat(start)
-    months = (TODAY.year - d.year) * 12 + TODAY.month - d.month
-    months -= TODAY.day < d.day
-    return f"{months // 12} years {months % 12} months"
-
-
 @tool(parse_docstring=True)
 def get_profile(runtime: ToolRuntime[Context],
                 employee: str | None = None) -> str:
@@ -94,7 +85,7 @@ def get_profile(runtime: ToolRuntime[Context],
         return _reply(rows, "employment record", whose)
     profile = {"employee_id": whose, **rows[0]}
     profile["payroll"] = PAYROLL.get(profile["office"], "unknown")
-    profile["time_at_ams"] = _time_since(profile["join_date"])
+    profile["time_at_ams"] = time_since(profile["join_date"])
     return json.dumps(profile)
 
 

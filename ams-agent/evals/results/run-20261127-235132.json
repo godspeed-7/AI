@@ -1,0 +1,360 @@
+{
+  "run_at": "2026-11-27T23:52:41",
+  "settings": {
+    "models": {
+      "agent": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 16000
+      },
+      "guard": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 20,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 1000
+      },
+      "reviewer": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 30,
+        "retries": 2,
+        "thinking": "disabled",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 2000
+      },
+      "summary": {
+        "provider": "anthropic",
+        "name": "claude-haiku-5-5",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": "adaptive",
+        "temperature": null,
+        "pace": null,
+        "price": {
+          "input": 0.1,
+          "output": 0.5,
+          "cache_read": 0.01,
+          "cache_write": 0.125
+        },
+        "max_output": 16000
+      },
+      "backup": {
+        "provider": "google",
+        "name": "gemini-3.5-flash-lite",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": null,
+        "pace": {
+          "per_minute": 12,
+          "burst": 3
+        },
+        "price": {
+          "input": 0.3,
+          "output": 2.5,
+          "cache_read": null,
+          "cache_write": null
+        },
+        "max_output": null
+      },
+      "judge": {
+        "provider": "google",
+        "name": "gemma-4-26b-a4b-it",
+        "timeout": 60,
+        "retries": 2,
+        "thinking": null,
+        "temperature": 0,
+        "pace": {
+          "per_minute": 6,
+          "burst": 1
+        },
+        "price": {
+          "input": 0,
+          "output": 0,
+          "cache_read": null,
+          "cache_write": null
+        },
+        "max_output": null
+      }
+    },
+    "search": {
+      "embeddings": "ollama nomic-embed-text",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "keeps": "top 3 of 10 candidates",
+      "vector store": "Qdrant http://localhost:6333 ams_policies_langchain"
+    }
+  },
+  "only": "Q27",
+  "counts": {
+    "pass": 5,
+    "fail": 1,
+    "judge": 0,
+    "error": 0
+  },
+  "not_run": [],
+  "repeat": 3,
+  "gates_ok": true,
+  "stopped": false,
+  "langfuse_session": null,
+  "langfuse_url": null,
+  "results": [
+    {
+      "id": "Q01",
+      "category": "data",
+      "employee_id": "AMS-1015",
+      "question": "How many annual leave days do I have?",
+      "answer": "You have **7 annual leave days** available to book now.\n\n- Entitled: 20 days (Employee Handbook 4.3.1)\n- Carried over from last year: 5 days (4.4.1)\n- Used: 18 days\n- Pending approval: 0 days\n\nThe 5 carried-over days must be used by 31 March 2027 or they expire (4.4.2).",
+      "expected": "7 annual days available in 2026 (20 entitled + 5 carried over - 18 used).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"records\": [{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]}"
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "annual leave entitlement and carry-over India"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.11 Quick Reference Table\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.11 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nAnnual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3\nSick leave | 10 days | No carry-over under this policy\nCasual leave | 6 days | No carry-over; expires at year-end\nParental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements\nThis table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.3 Annual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.3 ANNUAL LEAVE\n4.3.1 Standard entitlement\nEligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.\n4.3.2 Joining during the year\nEmployees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.\n4.3.3 Part-time schedules\nEmployees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.\n4.3.4 Annual leave approval\nEmployees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.\nFor an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.4 Annual Leave Carry-over\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.4 ANNUAL LEAVE CARRY-OVER\n4.4.1 Standard carry-over limit\nEmployees may carry over up to 5 unused annual-leave days from one leave year into the next leave year.\n4.4.2 Conditions\nOnly unused annual leave from the current leave year is eligible for standard carry-over. Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.\nThe carried-over balance must be used by 31 March of the following year. Any standard carried-over annual leave remaining after 31 March expires, unless an approved exception under Section 4.3 applies.\n4.4.3 Exception: business-critical inability to take leave\nIf an employee could not reasonably take annual leave because a manager required the employee to support a documented business-critical delivery, the employee may request an exception. The manager must provide written justification, and People Operations must approve the exception in writing before the normal expiry date.\nAn exception does not automatically grant unlimited carry-over. The approval must specify the additional number of days, the revised expiry date, and the reason for the exception. Employees should retain written approval for their records.\n4.4.4 No automatic cash conversion\nUnused annual leave does not automatically convert to cash at year-end under this policy. Any payment on separation or other cash settlement must be reviewed under the employee's applicable agreement and local requirements by People Operations and Payroll."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 14932,
+      "seconds": 6.0,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 0
+    },
+    {
+      "id": "Q27",
+      "category": "follow-up",
+      "employee_id": "AMS-1015",
+      "question": "And how many of those can I carry over?",
+      "answer": "I did look up both records earlier in this chat: your leave balance (Ananya Iyer, AMS-1015) and the India leave handbook. Here is what they show.\n\n- **Balance:** 7 annual days available (20 entitled + 5 carried over − 18 used − 0 pending).\n- **Carry-over cap:** up to 5 unused annual leave days can carry into the next leave year (Employee Handbook 4.4.1).\n- **Sick and casual leave:** these cannot be converted into annual leave or carried over (4.4.2).\n- **Applicability:** Chapter 4 is the India leave policy, and your payroll is India, so it applies to you. The handbook search showed no grade-based or other cap differences, so the 5-day cap is the only limit I found for you.",
+      "expected": "5 days, to be used by 31 March 2027 (Employee 4.4.1-4.4.2).",
+      "verdict": "fail",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": false,
+          "detail": "missing: 31 March or March 31 or 31 Mar or Mar 31"
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "annual leave carry-over cap by grade or office US India"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.4 Annual Leave Carry-over\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.4 ANNUAL LEAVE CARRY-OVER\n4.4.1 Standard carry-over limit\nEmployees may carry over up to 5 unused annual-leave days from one leave year into the next leave year.\n4.4.2 Conditions\nOnly unused annual leave from the current leave year is eligible for standard carry-over. Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.\nThe carried-over balance must be used by 31 March of the following year. Any standard carried-over annual leave remaining after 31 March expires, unless an approved exception under Section 4.3 applies.\n4.4.3 Exception: business-critical inability to take leave\nIf an employee could not reasonably take annual leave because a manager required the employee to support a documented business-critical delivery, the employee may request an exception. The manager must provide written justification, and People Operations must approve the exception in writing before the normal expiry date.\nAn exception does not automatically grant unlimited carry-over. The approval must specify the additional number of days, the revised expiry date, and the reason for the exception. Employees should retain written approval for their records.\n4.4.4 No automatic cash conversion\nUnused annual leave does not automatically convert to cash at year-end under this policy. Any payment on separation or other cash settlement must be reviewed under the employee's applicable agreement and local requirements by People Operations and Payroll.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.11 Quick Reference Table\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.11 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nAnnual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3\nSick leave | 10 days | No carry-over under this policy\nCasual leave | 6 days | No carry-over; expires at year-end\nParental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements\nThis table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.3 Annual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.3 ANNUAL LEAVE\n4.3.1 Standard entitlement\nEligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.\n4.3.2 Joining during the year\nEmployees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.\n4.3.3 Part-time schedules\nEmployees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.\n4.3.4 Annual leave approval\nEmployees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.\nFor an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 22229,
+      "seconds": 22.3,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [
+        "Before answering, fix your draft: look up Look up the employee's leave balance (AMS-1015) to confirm the 7 available days claim and what is unused annual leave; Search the handbook for the carry-over rule (4.4.1 cap of 5 days, and 4.4.2 on sick/casual leave) and confirm the rule applies to an L3 Bengaluru (India payroll) employee, since carry-over caps may differ by region or grade. Only state what the results back; unsupported: \"Of your 7 available days\" - no leave record was looked up, so this balance is not backed by any tool result; \"up to 5 unused annual leave days\" and the citations 4.4.1 / 4.4.2 - no handbook search was run, so the rule and section numbers are unverified; Carry-over cap applied to this employee without checking the applicable policy for their office/payroll."
+      ],
+      "trial": 0
+    },
+    {
+      "id": "Q01",
+      "category": "data",
+      "employee_id": "AMS-1015",
+      "question": "How many annual leave days do I have?",
+      "answer": "You have **7 annual leave days** available right now.\n\nFor 2026: 20 entitled + 5 carried over, minus 18 used, with nothing pending.",
+      "expected": "7 annual days available in 2026 (20 entitled + 5 carried over - 18 used).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"records\": [{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 2,
+      "tokens": 8629,
+      "seconds": 3.8,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 1
+    },
+    {
+      "id": "Q27",
+      "category": "follow-up",
+      "employee_id": "AMS-1015",
+      "question": "And how many of those can I carry over?",
+      "answer": "You can carry over up to **5 unused annual leave days** into next year (Employee Handbook 4.4.1).\n\nI'm correcting my earlier answer. The 7 unused days come from your leave balance lookup: 20 entitled + 5 carried over − 18 used, with 0 pending, leaves 7 available. Since the carry-over cap is 5, any unused days above 5 would not carry over.\n\nCarried-over days must be used by **31 March 2027** or they expire (Employee Handbook 4.4.2). Sick and casual leave cannot be carried over (4.4.2 for sick leave; 4.6.2 for casual leave).",
+      "expected": "5 days, to be used by 31 March 2027 (Employee 4.4.1-4.4.2).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "annual leave carry-over India"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.4 Annual Leave Carry-over\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.4 ANNUAL LEAVE CARRY-OVER\n4.4.1 Standard carry-over limit\nEmployees may carry over up to 5 unused annual-leave days from one leave year into the next leave year.\n4.4.2 Conditions\nOnly unused annual leave from the current leave year is eligible for standard carry-over. Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.\nThe carried-over balance must be used by 31 March of the following year. Any standard carried-over annual leave remaining after 31 March expires, unless an approved exception under Section 4.3 applies.\n4.4.3 Exception: business-critical inability to take leave\nIf an employee could not reasonably take annual leave because a manager required the employee to support a documented business-critical delivery, the employee may request an exception. The manager must provide written justification, and People Operations must approve the exception in writing before the normal expiry date.\nAn exception does not automatically grant unlimited carry-over. The approval must specify the additional number of days, the revised expiry date, and the reason for the exception. Employees should retain written approval for their records.\n4.4.4 No automatic cash conversion\nUnused annual leave does not automatically convert to cash at year-end under this policy. Any payment on separation or other cash settlement must be reviewed under the employee's applicable agreement and local requirements by People Operations and Payroll.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.11 Quick Reference Table\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.11 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nAnnual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3\nSick leave | 10 days | No carry-over under this policy\nCasual leave | 6 days | No carry-over; expires at year-end\nParental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements\nThis table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.6 Casual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.6 CASUAL LEAVE\n4.6.1 Standard entitlement\nEligible permanent full-time employees receive 6 days of casual leave per leave year for short, unplanned personal matters.\n4.6.2 Carry-over and conversion\nUnused casual leave expires at the end of the leave year. It cannot be carried over and cannot be converted into annual leave or cash under this policy.\n4.6.3 Request process\nEmployees should inform their manager as soon as practical. For an unexpected absence, advance notice is not always possible; employees should submit or regularize the request in the HR portal when able to do so."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 3,
+      "tokens": 17396,
+      "seconds": 10.9,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [
+        "Before answering, fix your draft: look up The employee's own leave balance (AMS-1015): the draft states '7 days unused now' without any lookup of the leave record. The assistant needed to check the employee's leave records to confirm the unused annual leave balance before stating how many days would lapse.. Only state what the results back; unsupported: 'With 7 days unused now' is not backed by any tool result; no leave balance lookup appears in the results.; The citation 4.6.2 for casual leave carry-over is not in the retrieved text (only 4.6.1 was shown), so that subsection reference is unsupported.; The 31 March 2027 date follows from the rule (use by 31 March of following year) and today's date, so that part is supported.."
+      ],
+      "trial": 1
+    },
+    {
+      "id": "Q01",
+      "category": "data",
+      "employee_id": "AMS-1015",
+      "question": "How many annual leave days do I have?",
+      "answer": "You have 7 annual leave days available right now.\n\n- Entitled for 2026: 20\n- Carried over from last year: 5\n- Used: 18\n- Pending approval: 0",
+      "expected": "7 annual days available in 2026 (20 entitled + 5 carried over - 18 used).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "get_leave_balance",
+          "args": {},
+          "result": "{\"employee_id\": \"AMS-1015\", \"records\": [{\"leave_type\": \"annual\", \"year\": 2026, \"entitled\": 20, \"carried_over\": 5, \"used\": 18, \"pending\": 0, \"available\": 7}, {\"leave_type\": \"sick\", \"year\": 2026, \"entitled\": 10, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 10}, {\"leave_type\": \"casual\", \"year\": 2026, \"entitled\": 6, \"carried_over\": 0, \"used\": 0, \"pending\": 0, \"available\": 6}]}"
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 2,
+      "tokens": 8636,
+      "seconds": 3.4,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [],
+      "trial": 2
+    },
+    {
+      "id": "Q27",
+      "category": "follow-up",
+      "employee_id": "AMS-1015",
+      "question": "And how many of those can I carry over?",
+      "answer": "Your leave record shows **7 annual leave days available** now (20 entitled + 5 carried over, 18 used, 0 pending).\n\nThe leave year runs 1 January to 31 December (Employee 4.2). Today is 16 November 2026, so 2026 is the current leave year and it ends on 31 December 2026.\n\nYou can carry over up to **5 unused 2026 annual leave days** into 2027 (Employee 4.4.1). Any carried-over days must be used by **31 March 2027** or they expire (4.4.2). Sick and casual leave cannot be carried over (4.4.2, 4.6.2).",
+      "expected": "5 days, to be used by 31 March 2027 (Employee 4.4.1-4.4.2).",
+      "verdict": "pass",
+      "checks": [
+        {
+          "check": "must_include",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "warnings": [],
+      "tool_calls": [
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "annual leave carry-over India"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.4 Annual Leave Carry-over\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.4 ANNUAL LEAVE CARRY-OVER\n4.4.1 Standard carry-over limit\nEmployees may carry over up to 5 unused annual-leave days from one leave year into the next leave year.\n4.4.2 Conditions\nOnly unused annual leave from the current leave year is eligible for standard carry-over. Sick leave and casual leave cannot be converted into annual leave and cannot be carried over under this section.\nThe carried-over balance must be used by 31 March of the following year. Any standard carried-over annual leave remaining after 31 March expires, unless an approved exception under Section 4.3 applies.\n4.4.3 Exception: business-critical inability to take leave\nIf an employee could not reasonably take annual leave because a manager required the employee to support a documented business-critical delivery, the employee may request an exception. The manager must provide written justification, and People Operations must approve the exception in writing before the normal expiry date.\nAn exception does not automatically grant unlimited carry-over. The approval must specify the additional number of days, the revised expiry date, and the reason for the exception. Employees should retain written approval for their records.\n4.4.4 No automatic cash conversion\nUnused annual leave does not automatically convert to cash at year-end under this policy. Any payment on separation or other cash settlement must be reviewed under the employee's applicable agreement and local requirements by People Operations and Payroll.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.11 Quick Reference Table\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.11 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nAnnual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3\nSick leave | 10 days | No carry-over under this policy\nCasual leave | 6 days | No carry-over; expires at year-end\nParental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements\nThis table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.6 Casual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.6 CASUAL LEAVE\n4.6.1 Standard entitlement\nEligible permanent full-time employees receive 6 days of casual leave per leave year for short, unplanned personal matters.\n4.6.2 Carry-over and conversion\nUnused casual leave expires at the end of the leave year. It cannot be carried over and cannot be converted into annual leave or cash under this policy.\n4.6.3 Request process\nEmployees should inform their manager as soon as practical. For an unexpected absence, advance notice is not always possible; employees should submit or regularize the request in the HR portal when able to do so."
+        },
+        {
+          "name": "search_policies",
+          "args": {
+            "query": "leave year definition India start and end date"
+          },
+          "result": "[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.2 Leave Year and General Rules\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.2 LEAVE YEAR AND GENERAL RULES\nThe leave year runs from 1 January through 31 December. Leave balances are recorded in days. A standard leave day represents the employee's normal scheduled working day. Employees on non-standard schedules should have their entitlement converted to the appropriate equivalent by People Operations.\nWeekends and company public holidays are not deducted from annual leave when they fall within an approved leave period, unless the employee's work schedule or applicable local rule requires different treatment.\nEmployees should submit leave requests through the HR portal. A request is not approved merely because it has been submitted. The HR portal must show approved, or written manager confirmation must be obtained if the portal is unavailable.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.3 Annual Leave\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.3 ANNUAL LEAVE\n4.3.1 Standard entitlement\nEligible permanent full-time employees receive 20 days of annual leave for each complete leave year. Annual leave is intended for planned time away from work.\n4.3.2 Joining during the year\nEmployees who join after 1 January receive a prorated annual-leave balance for the remainder of the leave year. The HR system calculates the balance based on the employee's start date and configured proration rules. Questions about the displayed calculation should be raised with People Operations.\n4.3.3 Part-time schedules\nEmployees working reduced schedules receive a prorated entitlement based on their contracted working pattern. People Operations confirms the equivalent balance in the HR system.\n4.3.4 Annual leave approval\nEmployees should submit planned annual leave at least 10 calendar days before the first day of leave. Managers should normally respond within 3 working days. These are planning targets, not automatic approval rules.\nFor an absence of 5 or more consecutive working days, employees should submit the request at least 15 calendar days in advance where reasonably possible. Business-critical periods may require coordination with the manager, but managers should consider requests fairly and explain any denial or proposed alternative.\n\n[employee_handbook.txt]\nEmployee Handbook > Chapter 4: Employee Leave Policy (India) > 4.11 Quick Reference Table\nAbout this chapter: This policy describes annual leave, sick leave, casual leave, parental leave, public holidays, carry-over, and leave requests.\n4.11 QUICK REFERENCE TABLE\nLeave type | Annual entitlement | Carry-over rule\nAnnual leave | 20 days | Up to 5 days; use by 31 March of the following year, subject to Section 4.3\nSick leave | 10 days | No carry-over under this policy\nCasual leave | 6 days | No carry-over; expires at year-end\nParental leave | Case-dependent | Confirm eligibility under separate procedures and applicable requirements\nThis table is a summary. If it appears inconsistent with a detailed section, consult the detailed section and contact People Operations for confirmation."
+        }
+      ],
+      "blocked_by_guard": false,
+      "replaced_by_output_check": false,
+      "stopped_by": null,
+      "model_calls": 4,
+      "tokens": 25082,
+      "seconds": 14.3,
+      "error": null,
+      "asked_to_confirm": [],
+      "review_notes": [
+        "Before answering, fix your draft: look up The employee's own current annual leave balance (the draft states '7 available days' with no lookup of their leave record); Confirmation of which leave year is current (draft assumes 2026 leave year ends and carry-over into 2027 applies). Only state what the results back; unsupported: 'Of your 7 available days' - no tool result shows the employee's leave balance of 7 days."
+      ],
+      "trial": 2
+    }
+  ]
+}

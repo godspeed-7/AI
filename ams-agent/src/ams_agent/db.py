@@ -38,10 +38,13 @@ def connect(write: bool = False) -> sqlite3.Connection:
 
 
 def find_employee(employee_id: str) -> dict | None:
-    """Name, office, department, grade and title for an ID, or None."""
+    """An ID's employment record (name, job, grade, office, join date,
+    status with its dates, manager), or None."""
     with closing(connect()) as con:
         row = con.execute(
-            "SELECT employee_id, name, office, department, grade, job_title"
+            "SELECT employee_id, name, office, department, grade, job_title,"
+            " join_date, status, probation_end_date, resignation_date,"
+            " last_working_day, manager_id"
             " FROM employees WHERE employee_id = ?",
             (employee_id,),
         ).fetchone()
