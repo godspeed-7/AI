@@ -1,26 +1,13 @@
 """What the app keeps after an answer, and for how long.
 
-In:  open_memory() once per app; chat_id(employee_id) from sign-in.
-Out: a durable checkpointer (each person's chat, and a pending Confirm)
-     (data/chats.sqlite) and store (their preferences,
-     data/preferences.sqlite); the
-     preference tools; history() and pending() to redraw a chat after a
-     refresh or restart; delete_old_chats() for retention.
+In:  open_memory() once per app; chat_id(employee_id) at sign-in.
+Out: the checkpointer (chats, data/chats.sqlite), the store
+     (preferences), the preference tools, history(), delete_old_chats().
 
-Strategy: three storages, three jobs. The checkpointer holds one chat:
-its messages and a paused booking, so a refresh, a restart or a crash
-loses nothing. The chat ID comes from sign-in (one ongoing chat per
-person), never from the user, so nobody can open someone else's chat
-(no IDOR on chats); "New chat" deletes it and starts fresh. The store
-holds facts across chats, but only from ALLOWED (how to answer: short
-or detailed), never secrets, guesses or anyone else's data; the person
-can see them (they're in the prompt) and forget them. Retention: a chat
-unused for CHAT_KEEP_DAYS is deleted, at app start and at sign-in.
-Long chats are summarised in the agent (SummarizationMiddleware).
+How: one chat per person, its ID from sign-in (nobody opens another's);
+only ALLOWED preferences are kept; old chats deleted (CHAT_KEEP_DAYS).
 
-Caveats: two tabs as the same person share one chat. The live step
-traces aren't kept, only the questions and answers. The evals keep
-everything in memory instead (agent.py's defaults).
+Watch out: two tabs as the same person share one chat.
 """
 
 import sqlite3

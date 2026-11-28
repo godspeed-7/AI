@@ -1,39 +1,14 @@
-"""The AMS agent in the browser: sign in, ask, see each step.
+"""The web page: sign in, ask, see each step, then the answer.
 
-In:  uv run streamlit run app.py (after load_data.py), then open
-     http://localhost:8501 and sign in with the 4 digits of an ID
-     (AMS-1015 -> 1015).
-Out: a chat for the signed-in employee; under each question, the
-     agent's steps as they finish (the tool it asked for, the tool's
-     result), then the answer.
+In:  uv run streamlit run app.py (after load_data.py); sign in with the
+     4 digits of an employee ID (AMS-1015 -> 1015).
+Out: the employee's chat: each step as it finishes, then the answer,
+     with thumbs up / down.
 
-Strategy: sign-in puts the employee, their context (ID and roles,
-context.py) and their chat ID (memory.py) in st.session_state; every question
-first passes the request limits (limits.py: length, and questions a
-minute per person), then runs the agent with that context, never one
-from the chat (inside the agent, the topic guard runs first). Only the
-new message is sent: the agent's checkpointer keeps the chat under its
-ID, so follow-ups work. stream_mode="updates" gives one event per
-finished step. A booking pauses: the app shows the exact
-action with Confirm / Cancel, and the click resumes the run.
+How: sign-in fixes who is asking (context.py); each question passes
+limits.py, then runs the agent. A booking pauses for Confirm / Cancel.
 
-Caveats:
-- DEV-ONLY sign-in: an ID box, no password, so anyone can be anyone.
-  Production: st.login() with the company's OpenID Connect provider
-  (SSO), and st.user's email mapped to the employee ID; the agent and
-  tools don't change.
-- A refresh signs you out (session_state lives per browser tab); sign
-  in again and the chat comes back, with a booking still waiting for
-  Confirm. Chats unused for 30 days are deleted.
-- The answer appears once it has passed the checks (reviewer, output
-  check), never word by word: streamed text can't be un-shown if a
-  check replaces it. The steps stream as they happen.
-- Employee IDs are shown with names (respond.py); the model sees IDs only.
-- Under each answer: thumbs up / down; each answer is kept 30 days for
-  review with its background checks (quality.py); each question is
-  traced in our local Langfuse while TRACE_APP is on (tracing.py), one
-  trace per question (a booking's Confirm joins it), the chat as its
-  session, its thumbs and checks as scores.
+Watch out: dev-only sign-in, no password (production: SSO, st.login).
 """
 
 import streamlit as st

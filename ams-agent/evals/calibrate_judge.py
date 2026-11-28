@@ -1,18 +1,12 @@
 """How often the LLM judge agrees with a person.
 
-In:  uv run python evals/calibrate_judge.py
-     evals/judge_key.csv: answers a person graded (question_id, answer,
-     correct: yes / no), about 20, from real runs; the expected
-     answers come from evals/questions.csv.
-Out: the judge's verdict on each, where it disagrees with the person,
-     and the agreement rate.
+In:  uv run python evals/calibrate_judge.py (reads evals/judge_key.csv,
+     ~20 answers a person graded).
+Out: the judge's verdict on each, the disagreements, the agreement rate.
 
-Strategy: a judge is a model, so it is tested like one: on answers a
-person already graded, before its grades are trusted (EVAL_PLAYBOOK D).
-Fill the key from answers that are right in other words (like Q09),
-plainly right, and plainly wrong, so both kinds of mistake show.
+How: test the judge on graded answers before trusting its grades.
 
-Caveats: about 20 judge calls (Gemma's own quota, not the agent's).
+Watch out: about 20 judge calls (Gemma's own quota).
 """
 
 import csv

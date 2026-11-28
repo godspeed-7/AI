@@ -1,23 +1,13 @@
-"""The brakes on the agent loop: a budget per question.
+"""The brakes: a budget per question, so the agent loop can't run away.
 
-In:  brakes(), put in the agent's middleware first (agent.py).
-Out: a run that ends with STOP_REPLY when a budget runs out; the
-     reason goes to the log and the message's response_metadata
-     ("stopped_by": model_calls, seconds or tokens), never to the person.
+In:  brakes(), first in the agent's middleware (agent.py).
+Out: a run that ends with STOP_REPLY when a budget runs out (the reason
+     goes in response_metadata, never to the person).
 
-Strategy: four budgets in code (OWASP LLM10, unbounded consumption):
-- model calls (MAX_MODEL_CALLS): LangChain's ModelCallLimitMiddleware,
-  with our reply instead of its own text;
-- tool calls (MAX_TOOL_CALLS): ToolCallLimitMiddleware; calls over the
-  limit are refused and the model answers with what it has;
-- time (MAX_SECONDS; BACKUP_MAX_SECONDS once the slower backup model
-  answers or the breaker is open) and tokens (MAX_TOKENS):
-  RunBudget, as LangChain has no limit for these. It starts the clock
-  before the topic guard, and checks both before every model call.
-The counts live in the run's state, so they restart for each question.
+How: limits on model calls, tool calls, seconds and tokens, counted in
+the run's state, so they restart for each question.
 
-Caveats: a check runs between calls, so a slow call still finishes (up
-to AGENT.timeout); the topic guard's tokens aren't counted.
+Watch out: checked between calls: a slow call still finishes.
 """
 
 import logging

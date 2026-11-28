@@ -1,20 +1,11 @@
-"""Opens the agent's HR database, read-only.
+"""Opens the agent's HR database, read-only, plus the lookups code needs.
 
 In:  config.DB_PATH, built by load_data.py.
-Out: connect() -> a read-only connection whose rows read like dicts
-     (connect(write=True): the leave booking's, the only writer);
-     find_employee(id) -> the sign-in screen's lookup;
-     count_reports(id) -> direct reports, for the manager role;
-     managers_above(id), people_named(name), direct_reports(id) -> for
-     the permission check (permissions.py);
-     count_rows(table) -> for the evals' database checks.
+Out: connect() (read-only; write=True for the booking only) and lookups:
+     find_employee, managers_above, people_named, count_rows, ...
 
-Strategy: the database is opened with mode=ro, so no tool can change
-data, even by mistake (least privilege); only the booking tool asks
-for a writable connection. Values always go in as ?
-parameters, never pasted into the SQL (parameterised queries); a table
-name can't be a parameter, so count_rows checks it against the real
-tables first (an allowlist).
+How: mode=ro so no tool can change data; values always go in as ?
+parameters, never pasted into the SQL.
 """
 
 import sqlite3

@@ -1,33 +1,14 @@
-"""Booking leave: checks, a person's yes, then one save.
+"""Booking leave: checks, the person's yes, then one save.
 
-In:  submit_leave_request(leave_type, start_date, end_date), called by
-     the model for the signed-in employee only (no `employee` input).
-Out: JSON for the model: the saved request (pending, with its approver),
-     the request already on record, "cancelled", or why it can't be
-     booked. On the way, a pause: interrupt() hands the app the exact
-     action to show with Confirm / Cancel.
+In:  submit_leave_request(leave_type, start_date, end_date), for the
+     signed-in employee only.
+Out: the saved request (pending), the one already on record,
+     "cancelled", or why it can't be booked.
 
-Strategy, in order (the shape and rule checks live here, with the
-only write):
-1. Shape: a leave type the person has this year, real dates, today or
-   later, start before end, within this leave year.
-2. Rules (Employee handbook): days = working days, without weekends
-   and the office's holidays (4.2); enough days available; no overlap
-   with a pending or approved request; on India probation, at least 5
-   annual days in all (3.4.4). Less notice than 4.3.4 asks (10 days,
-   15 for 5+ days) is a warning shown with the action, not a block:
-   the handbook calls those planning targets.
-3. The same request already pending or approved: return it.
-4. interrupt(): the person sees the real action and confirms or
-   cancels. Nothing is written before this point: on resume, the code
-   above runs again (only reads), then the answer comes back.
-5. Save once: one transaction, locked (BEGIN IMMEDIATE),
-   that re-checks steps 2-3, adds the request and moves the days to
-   "pending" in the balance. The database's unique index refuses a
-   second copy even if two clicks race.
+How: check dates and handbook rules -> pause for Confirm (interrupt)
+-> save in one locked transaction that checks again.
 
-Caveats: needs a checkpointer (the pause is saved there; agent.py). The
-manager's approve / reject is not here yet. Half days aren't bookable.
+Watch out: nothing is written before the yes. No half days yet.
 """
 
 import json

@@ -1,24 +1,12 @@
 """An LLM judge for meaning, where keyword checks can't see it.
 
-In:  grade(question, expected, answer), from the eval runner (--judge).
+In:  grade(question, expected, answer), from run_evals.py --judge.
 Out: JudgeVerdict(correct, reason), or None if the judge failed.
 
-Strategy: a judge from another model family than the agent (Gemma 4,
-not Claude: a model tends to favour answers in its own style), with
-its own free quota (14,400 a day) so it never uses the agent's. It
-compares the answer with the expected answer and says whether the
-answer conveys the same facts and decision, ignoring wording and
-length (verbosity bias). It grades only what code can't: questions
-with no code check, and a second opinion on code failures, which a
-person then looks at. It never overrides a code check or a safety
-gate. Its agreement with a person is measured on JUDGE_KEY (calibrate
-with evals/calibrate_judge.py) before its grades are trusted.
+How: Gemma 4 (another model family, its own free quota) compares the
+answer with the expected one, ignoring wording and length.
 
-Caveats: Gemma's JSON is parsed by us (one retry on bad JSON). Paced
-below its 30 calls a minute and 16K tokens a minute. When Google is
-overloaded (503), it waits JUDGE_BUSY_WAIT seconds and tries again, up
-to JUDGE_BUSY_TRIES times, so a busy spell slows a run down instead of
-leaving answers ungraded.
+Watch out: never overrides a code check; calibrate it first (JUDGE_KEY).
 """
 
 import json

@@ -1,21 +1,12 @@
 """Every model client, made from its job's settings in config.py.
 
-In:  chat_model(job), with a job from config.py (AGENT, GUARD, ...).
-Out: a LangChain chat model (ChatAnthropic, ChatGoogleGenerativeAI or
-     ChatOllama) with the job's time limit, retries, thinking,
-     temperature, output cap and pace. hide_keys(text): the text with
-     any API key masked, for logging an error message.
+In:  chat_model(job), e.g. chat_model(AGENT).
+Out: a LangChain chat model with the job's limits; hide_keys(text).
 
-Strategy: the one place that knows the providers, so the other files
-ask for a job, never a provider, and moving a job to another model is a
-config change. Client-side throttling: jobs with the same Pace share
-one limiter (a token bucket), so together they stay under a free
-tier's per-minute cap instead of failing with 429 and being retried.
-Each client is named after its job, so a trace shows "guard", "agent",
-"reviewer" instead of the class name.
+How: the one file that knows the providers; jobs sharing a Pace share
+one rate limiter, so a free tier's cap isn't hit.
 
-Caveats: a limiter lives in this process: the app and an eval run at
-the same time each have their own, and together can still go over.
+Watch out: the limiter is per process (app + evals together can go over).
 """
 
 import os

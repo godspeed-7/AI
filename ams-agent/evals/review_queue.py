@@ -1,19 +1,12 @@
 """What a person should look at, and turning it into a test.
 
-In:  uv run python evals/review_queue.py [--days 1]
-     uv run python evals/review_queue.py --to-test 42
-Out: the queue: answers with a thumbs-down, answers an online check
-     flagged, and REVIEW_SAMPLE random others a day; --to-test drafts a
-     new test case from answer 42 into evals/candidates.csv.
+In:  uv run python evals/review_queue.py [--days 1] [--to-test 42]
+Out: the queue (thumbs-down, flagged, a random sample); --to-test
+     drafts a test case into evals/candidates.csv.
 
-Strategy: close the loop: a real failure -> a person reviews it -> a
-new test case -> fix -> run again. The random sample catches what no
-check flags. A drafted case still needs its right answer and checks,
-written by the person; it joins evals/questions.csv only then, so the
-golden set never holds a guess.
+How: a real failure -> a person reviews it -> a new test -> fix.
 
-Caveats: reads data/quality.sqlite, which holds what was asked and
-answered: for reviewers only.
+Watch out: a draft joins questions.csv only once a person checks it.
 """
 
 import argparse

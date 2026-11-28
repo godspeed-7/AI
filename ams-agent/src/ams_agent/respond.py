@@ -1,21 +1,13 @@
-"""What the person sees: names on screen, plain errors.
+"""What the person sees: names next to IDs, plain error messages.
 
-In:  for_person(text): an answer (or a Confirm summary) as the model
-     wrote it; error_message(error): a failed run's exception.
-Out: the same text with each employee ID shown with its name; a plain
-     message saying whether trying again can help.
+In:  for_person(text), error_message(error).
+Out: the text with each ID shown with its name ("Sneha Pillai
+     (AMS-1019)"); a plain message saying whether retrying helps.
 
-Strategy: the model works with IDs only (it never needs names), so names
-go back in at the very end, for the screen: "AMS-1019" -> "Sneha Pillai
-(AMS-1019)". The chat history keeps the IDs, because it is resent to
-the model with the next question. The app and the eval runner both use
-for_person, so a test grades what the person sees. Errors: the person
-gets what happened and what to do, never an exception's name; the
-details go to the log.
+How: the model works with IDs only; names go back in at the very end,
+for the screen. The chat history keeps the IDs.
 
-Caveats: names the person types still reach the model (their own words;
-replacing them is Presidio's job, left for later). An ID already next
-to its name isn't doubled.
+Watch out: names the person types still reach the model.
 """
 
 import logging

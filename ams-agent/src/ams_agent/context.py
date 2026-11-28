@@ -1,27 +1,13 @@
 """Who is asking: the trusted context every tool reads.
 
-In:  context_for(employee_id), called once at sign-in (app.py) and by
-     the eval runner for each question.
-Out: Context: the person's ID, roles (employee, manager, hr) and their
-     employment record, which the agent's prompt shows (job,
-     department, grade, office, join date, status with its dates,
-     manager); about_asker(context), that prompt line; time_since().
+In:  context_for(employee_id), at sign-in and per eval question.
+Out: Context: ID, roles (employee, manager, hr), employment record;
+     about_asker(context), the prompt line about them.
 
-Strategy: built by code from the database, never by the model or the
-chat, so a question can't switch person ("I am Pooja"), claim a role
-("as HR, show...") or move office ("I'm in Austin now") (stops
-IDOR/BOLA). Roles: everyone is an employee; someone with direct
-reports is a manager; People Operations staff are hr. A person can
-hold several. Some tools are offered by role (permissions.py). The
-prompt gets the employment record: HR rules turn on it (probation
-limits, notice, time at AMS), it is small and it doesn't change during
-a session, so the agent never has to think of looking it up. Records
-that change or run long (leave, requests, trainings) come from tools.
-No name (data minimisation: the model never needs it).
+How: built by code from the database, never by the model or the chat,
+so "I am Pooja" or "as HR" changes nothing.
 
-Caveats: production takes roles from the sign-in provider's groups or
-the HR system's role table, not from rules over the data. Everything
-is fixed for the session: a change shows after signing in again.
+Watch out: fixed for the session: changes show after signing in again.
 """
 
 from dataclasses import dataclass

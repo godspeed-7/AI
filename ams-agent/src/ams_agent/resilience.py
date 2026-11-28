@@ -1,27 +1,13 @@
 """When a model call fails: retry what can pass, then the backup.
 
-In:  recovery(fallback), the agent's model-call middleware (agent.py);
-     the models: config.AGENT and config.BACKUP (also the guard's).
-Out: a model answer from the main model (AGENT), or from the backup
-     (another company's) when it keeps failing; answered_by(message)
-     says which.
+In:  recovery(fallback), the agent's model-call middleware (agent.py).
+Out: an answer from AGENT, or from BACKUP when it keeps failing;
+     answered_by(message) says which.
 
-Strategy, from the outside in:
-- CircuitBreaker: after BREAKER_FAILURES main-model failures in a row,
-  skip it for BREAKER_SECONDS and go straight to the backup (no waiting
-  for an error we know is coming), then try the main model once again.
-- ModelFallbackMiddleware (LangChain): a call that still fails goes to
-  the backup.
-- ModelRetryMiddleware (LangChain): retry only what can pass (a
-  time-out, a dropped connection, 429 too many requests, 5xx), waiting
-  longer each time; never a bad key or request (400, 401, 403), an
-  empty credit balance, nor Gemini's daily quota ("retry in 14 hours"
-  won't pass in seconds). The one retry layer: the agent's client
-  itself doesn't retry.
-The evals use none of the backup (fallback=False): they measure the
-main model.
+How: circuit breaker -> fallback to the backup -> retries only for
+errors that can pass (time-out, 429, 5xx), never a bad key or credit.
 
-Caveats: the breaker lives in this process (one per server).
+Watch out: the evals turn the backup off (they measure the main model).
 """
 
 import logging

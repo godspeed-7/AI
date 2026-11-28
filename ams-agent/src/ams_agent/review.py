@@ -1,29 +1,12 @@
 """A second look at each draft answer, before the person sees it.
 
 In:  AnswerReview(), in the agent's middleware (agent.py).
-Out: nothing when the draft is approved; otherwise one more round: a
-     note to the agent (what's missing or unsupported) and back to the
-     model. An empty draft gets one more try, then a fixed reply.
+Out: nothing if approved; else a note sends the draft back to the model.
 
-Strategy: a separate reviewer: a fresh model call that sees only
-today's date, the asker's details, the last REVIEW_EARLIER_TURNS turns
-of the chat (each question, what was looked up, the answer), the
-question, this run's tool results and the draft, never the agent's
-reasoning, and returns fixed JSON (ReviewVerdict). Without the date,
-"due in 3 days" can't be checked; without the earlier turns, a
-follow-up's facts look unsupported and get sent back.
-Code acts on it, not the model: approved -> the answer goes out;
-otherwise at most REVIEW_ROUNDS extra rounds, counted in code, then the
-answer goes out as it is. The reviewer judges substance (missing look-
-ups, claims the results don't back), never style. Fail open: if the
-reviewer fails, the draft goes out. A backup answer isn't reviewed:
-the reviewer runs on the main model, which is down when the backup
-answers.
+How: a fresh model call sees the question, tool results and draft
+(never the agent's reasoning) and returns ReviewVerdict.
 
-Caveats: one extra model call per answer. The note and the first
-draft stay in the chat (named "reviewer"); the app shows the final,
-which the note asks to be written for the employee, never as a reply
-to the note.
+Watch out: at most REVIEW_ROUNDS send-backs; fails open.
 """
 
 import logging

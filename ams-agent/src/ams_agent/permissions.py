@@ -1,31 +1,13 @@
 """Who may see whose records: one check, in code.
 
-In:  the asker's Context (from sign-in) and who the question is about,
-     as the model wrote it: nothing (themselves), an ID or a name.
-Out: target(context, employee) -> (employee_id, None) when allowed, or
-     (None, a reply for the model) when not; may_see(context, id);
-     offer_by_role, middleware that hides tools the asker's roles can't
-     use (TOOL_ROLES).
+In:  the asker's Context and who the question is about (none, ID, name).
+Out: target() -> (employee_id, None) or (None, a reply for the model);
+     offer_by_role, which hides tools the asker's roles can't use.
 
-Strategy: the model never decides what is allowed; every record tool
-calls target() before its query runs. The rules (Employee 9.5, "the
-employee, their managers, and People Operations"):
-- anyone: their own records;
-- a manager: anyone below them (their reports, and their reports'
-  reports);
-- hr (People Operations): everyone.
-A name is looked up only among the people the asker may see, and an
-unknown person gets the same NOT_ALLOWED as a forbidden one, so the
-replies can't reveal who works here (no enumeration). Several matches:
-the model is asked which one, by ID.
+How: own records for all, your reports' for managers, everyone's for
+hr (Employee 9.5). Not allowed and unknown get the same reply.
 
-Tools by role (least privilege): a tool in TOOL_ROLES
-is offered only to those roles, so the model can't even try it for
-anyone else; the tool checks the role again (defence in depth).
-
-Caveats: roles come from sign-in (context.py), so "I'm HR now" changes
-nothing. Same rule for every record type; field-level rules (e.g. a
-manager sees leave but not tickets) would go here.
+Watch out: roles come from sign-in, so "I'm HR now" changes nothing.
 """
 
 import re

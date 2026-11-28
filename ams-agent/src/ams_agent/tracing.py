@@ -1,29 +1,13 @@
-"""Traces of the runs worth keeping, in our local Langfuse.
+"""Sends app questions and full eval runs to our local Langfuse.
 
-In:  run_config(employee_id, chat_id, traced, ...) for each agent run
-     (app.py, run_evals.py); TRACE_*, LANGFUSE_URL and each job's price
-     (config.py); the LANGFUSE_* keys (environment).
-Out: the run's config: the chat ID always; when traced, a handler that
-     records the run (each model and tool call, time, tokens, cost) as
-     TRACE_NAME, with user = employee ID, tags and a session if given.
-     new_trace_id(), score(), unscore(): a trace's ID made up front, so
-     scores can go on it later (thumbs, online checks). flush();
-     sync_prices(): each job's price into Langfuse
-     (`uv run python -m ams_agent.tracing`).
+In:  run_config(employee_id, chat_id, traced, ...) for each agent run.
+Out: the run's config (with a Langfuse handler when traced); score(),
+     unscore(), flush(); sync_prices() (`python -m ams_agent.tracing`).
 
-Strategy: two doors trace: the app (environment TRACE_ENVIRONMENT) and
-a full eval run (a Langfuse experiment: run_evals.py). Anything else
-passes no handler and sends nothing, so Langfuse holds no test noise.
-Step types: Langfuse's LangChain handler guesses them from names ("..
-before_agent" -> agent), so ours are set by name (STEP_TYPES): the
-checks show as guardrail and evaluator. Counter checks (QUIET_STEPS)
-are DEBUG, hidden in the trace view by default. Cost = tokens x the price
-Langfuse holds, from config.py. Labels: the employee ID, never a name.
+How: our Handler sets step types (STEP_TYPES) and hides counter checks
+(QUIET_STEPS); anything not traced sends nothing.
 
-Caveats: Langfuse down: runs go untraced, scores are dropped (never an
-error). STEP_TYPES overrides one of the handler's private methods: an
-SDK update can break it (the checks would show). Cost is worked out
-when a trace arrives: a price changed later leaves old traces as is.
+Watch out: Langfuse down = runs untraced, never an error.
 """
 
 import logging

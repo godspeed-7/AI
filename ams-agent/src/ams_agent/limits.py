@@ -1,20 +1,13 @@
 """Request limits, checked in code before the agent runs.
 
-In:  too_long(text) and RateLimiter.wait(employee_id), called by app.py
-     before each question.
-Out: too_long -> the reason to show, or None; wait -> 0 if the question
-     may go on (and counts it), else the seconds until it may.
+In:  too_long(text), RateLimiter.wait(employee_id), from app.py.
+Out: too_long -> the reason to show, or None; wait -> 0, or the
+     seconds until the next question may go.
 
-Strategy: deterministic, so they never let a request through by
-chance, and they cost no model call. A message over MAX_MESSAGE_CHARS
-is refused. Each employee gets MAX_QUESTIONS_PER_MINUTE in any 60
-seconds (a sliding window). The counts live in the server process,
-shared by every browser tab, so a refresh doesn't reset them.
+How: MAX_MESSAGE_CHARS per message; MAX_QUESTIONS_PER_MINUTE per
+person (a sliding window).
 
-Caveats: kept in memory, so a restart resets them and two servers
-wouldn't share them; production keeps them in a shared store (e.g.
-Redis) or the API gateway. The eval runner doesn't use them: it tests
-the agent, not the app.
+Watch out: kept in memory: a restart resets them.
 """
 
 import threading

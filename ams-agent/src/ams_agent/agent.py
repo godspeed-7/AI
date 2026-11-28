@@ -1,33 +1,13 @@
-"""The AMS agent: the model + the tools + short instructions, in a loop.
+"""The AMS agent: the model, the tools and the instructions, in a loop.
 
-In:  build_agent(); then agent.invoke({"messages": [new message]},
-     context=context_for(employee_id), config={"configurable":
-     {"thread_id": chat_id}}) or agent.stream(...) the same way; a
-     paused booking resumes with Command(resume={"confirmed": ...}).
-Out: the run's messages: the model's tool calls, the tool results and,
-     last, the answer (final_answer() picks it out).
+In:  build_agent(); then invoke / stream with the new message, the
+     asker's context and the chat ID.
+Out: the run's messages; final_answer() picks out the answer.
 
-Strategy: first the topic guard (topic_guard.py) checks the question;
-off-topic ends the run with a fixed reply. Then create_agent runs the
-agent loop (ReAct): the model either asks for tools, whose results go
-back to it, or writes the answer, which ends the run. Before each
-model call, with_asker adds who is asking (context.py) to the end of
-the prompt: the same start for everyone, so it can be cached. Each
-call marks the tools, the prompt and the chat so far for Claude's
-prompt cache, so the next call reads them back at a tenth of the price.
-A failed model call is retried if it can pass, then goes to the
-backup model (resilience.py); a tool that keeps failing becomes a
-message the model can read. The brakes (budget.py) stop it with a
-fixed reply past a budget: model calls, tool calls, seconds or tokens
-per question. A separate reviewer (review.py) checks each draft and
-sends it back once if a fact is missing; last, the output check
-(output_check.py) replaces an answer that quotes this prompt. The
-instructions say: answer only from tool results, else say you don't
-know (grounded answers). The prompt holds nothing secret: it may leak
-(OWASP LLM07).
+How: create_agent (ReAct loop) wrapped in middleware: brakes, topic
+guard, role filter, backup model, prompt cache, reviewer, output check.
 
-Caveats: without the app's durable checkpointer (memory.py), chats
-live in memory (the evals): a restart loses them.
+Watch out: without memory.py's checkpointer, chats live in memory.
 """
 
 from langchain.agents import create_agent

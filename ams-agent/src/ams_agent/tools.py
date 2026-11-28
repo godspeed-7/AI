@@ -1,25 +1,13 @@
 """The agent's tools: code that looks up facts for the model.
 
-In:  the signed-in employee's context (context.py) and, optionally, who
-     the question is about (`employee`: a name or ID, from the model).
-Out: TOOLS, the list given to the agent: 10 record tools and get_team
-     (JSON text, saying whose records), search_policies
-     (policy_search.py, handbook sections) and submit_leave_request
-     (leave_booking.py, the only tool that writes).
+In:  the asker's context, and optionally who it's about (`employee`).
+Out: TOOLS: the record tools and get_team, search_policies and
+     submit_leave_request (the only one that writes).
 
-Strategy: fixed SQL tools: we write every query, the model only picks
-the tool and whom it is about (never text-to-SQL). Before any query,
-permissions.target() decides whose records may be read: the asker's
-own, their team's (managers), anyone's (hr); otherwise nothing is read
-and the tool says "Not allowed". get_team exists for managers
-only: it is offered by role (permissions.offer_by_role) and checks the
-role again itself. Deterministic: code does the sums and the date
-checks (available days, time at AMS, overdue), the model explains.
-People appear as IDs, never names (the model doesn't need them). Errors
-and "nothing found" come back as JSON, so the model can say so.
+How: fixed SQL, never text-to-SQL; permissions.target() runs before
+every query; code does the sums, the model explains.
 
-Caveats: employee_private (bank, PAN, Aadhaar, SSN) has no tool, on
-purpose. Same permission rule for every record type.
+Watch out: bank and ID numbers (employee_private) have no tool, on purpose.
 """
 
 import json

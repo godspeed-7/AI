@@ -1,29 +1,12 @@
 """The topic guard: off-topic questions get a fixed reply.
 
 In:  TopicGuard(), first in the agent's middleware (agent.py).
-Out: before each run, either nothing (the agent runs as usual) or
-     OFF_TOPIC_REPLY, which ends the run before the agent's model.
+Out: nothing (the agent runs), or OFF_TOPIC_REPLY, which ends the run.
 
-Strategy: an input rail. One small model call per question reads the
-allow-list (TOPICS, scope.py: the same text the agent's prompt uses),
-the last few messages and the new
-question, and answers on_topic true or false (structured output). An
-allow-list, not a deny-list: the off-topic world is endless, an HR
-assistant's job is short. It runs inside the agent, so the app and
-the evals both go through it. Fail open: if the check fails, the
-question goes on to the agent, which still has its prompt scope and
-read-only tools.
+How: one small model call checks the question against the allow-list
+(scope.py). Topic only, never permission (that's permissions.py).
 
-It judges the topic only, never permission: "What does Ananya earn?"
-is an HR topic; whether the asker may see it is code's job (permissions.py).
-
-When the main model fails, the same check runs on the backup model
-(config.BACKUP); only if both fail does it let the question through.
-
-Caveats: one extra model call per question. The check is a model, so
-it can be wrong both ways; the eval's mirror questions measure that
-(Q29, Q32, Q34 must get no off-topic answer; Q24, Q31, Q33 must not be
-blocked).
+Watch out: fails open: if the check fails, the question goes on.
 """
 
 import logging

@@ -1,21 +1,13 @@
 """Every setting of the AMS agent, in one place, grouped by job.
 
 In:  nothing; edit the values here, and only here.
-Out: the constants the other files import; `uv run python -m
-     ams_agent.config` prints the overview: which model each job uses,
-     where it runs, its time limit and retries, and the limits.
+Out: the constants other files import; `uv run python -m
+     ams_agent.config` prints the overview.
 
-Strategy: code asks for a job (AGENT, GUARD, ...), never a provider or
-a model name (models.py makes the clients), so moving a job to another
-model is a change here only. No secrets here: PROVIDER_KEYS names each
-provider's key; the keys stay in the environment (~/.zshrc) or in
-ams-agent/.env (git ignores it). Each eval run saves settings() with
-its results, so runs compare fairly.
+How: code asks for a job (AGENT, GUARD, ...), never a model name.
+No secrets: the keys stay in the environment or ams-agent/.env.
 
-Caveats: the handbook search's settings are ams-assistant's (its
-config.py): shown here and in the overview, changed there. Handbook
-rules (e.g. probation limits) stay next to the code that applies them,
-with their section numbers: they change with the handbook.
+Watch out: the handbook search's settings live in ams-assistant.
 """
 
 import os

@@ -1,23 +1,13 @@
 """Watching live answers: thumbs, background checks, retention.
 
-In:  record(employee_id, question, answer, messages, trace_id) after
-     each answer (app.py); feedback(row_id, thumbs, comment, trace_id)
-     from the thumbs.
-Out: data/quality.sqlite: each answer with its flags (what the online
-     checks found) and the person's thumbs; review_queue.py reads it.
-     The same as scores on the answer's Langfuse trace: one yes / no
-     per check in ONLINE_CHECKS (1 = it fired), and "thumbs".
+In:  record(...) after each answer; feedback(...) from the thumbs.
+Out: data/quality.sqlite (each answer, its flags, its thumbs) and the
+     same as scores on the answer's Langfuse trace.
 
-Strategy: online checks are code, cheap and run in the background, so
-nobody waits: a budget stop, the output check, the reviewer sending a
-draft back, the backup model, a tool error, a "not allowed", an
-off-topic block. A flag isn't a verdict: it chooses what a person
-looks at (with thumbs-down and a random sample: review_queue.py).
-Every check is scored, fired or not, so Langfuse can count how often
-each fires. Kept QUALITY_KEEP_DAYS, then deleted (HR data).
+How: cheap code checks run in the background (ONLINE_CHECKS); a flag
+picks what a person reviews (review_queue.py), it isn't a verdict.
 
-Caveats: what was asked and answered is stored here (with names, as
-shown): only the reviewers may open this file.
+Watch out: holds real questions and answers: reviewers only.
 """
 
 import json

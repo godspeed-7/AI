@@ -1,18 +1,12 @@
 """Two eval runs side by side: what changed, and is it safe?
 
 In:  uv run python evals/compare_runs.py <before.json> <after.json>
-     (two files from evals/results/).
-Out: the score of each, the questions gained and lost, the counts per
-     category, time and tokens, and the safety gates of each; exit
-     code 1 if the second run lost a question or failed a gate.
+Out: each score, questions gained and lost, safety gates; exit code 1
+     if a question was lost or a gate failed.
 
-Strategy: a change is safe when nothing dropped and every gate held
-(an experiment, EVAL_PLAYBOOK B). With --repeat runs, a question
-counts as passed when it passed every time, so noise isn't mistaken
-for a gain. API errors (🔌) count as neither.
+How: matched by question ID; with --repeat, passed = passed every time.
 
-Caveats: compares by question ID; a question only in one run is listed
-apart. One run of each says little about a small difference: repeat.
+Watch out: one run of each says little about a small difference.
 """
 
 import json

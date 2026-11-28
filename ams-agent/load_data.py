@@ -1,24 +1,13 @@
 """Loads the 12 HR tables (ams-data/db/*.csv) into the agent's database.
 
 In:  uv run python load_data.py; or build(path) (the eval runner).
-Out: data/hr.sqlite (rebuilt each time), one table per CSV with the
-     same columns, plus `holidays` (office, holiday_date, name) from the
-     Employee Handbook's calendar (chapter 6); prints each row count.
+Out: data/hr.sqlite, rebuilt each time, plus a holidays table read
+     from the Employee Handbook; prints each row count.
 
-Strategy: each column's type comes from its values: all whole numbers
--> INTEGER, all numbers -> REAL, otherwise TEXT; an empty cell is NULL.
-A number with a leading zero ("007") stays text. The CSVs stay the
-source of truth: this database is rebuilt from them, never edited.
+How: each column's type comes from its values; the CSVs stay the
+source of truth. A unique index refuses duplicate leave requests.
 
-The holidays exist only as tables in the handbook text, so they are
-read from there once, into data code can count leave days with
-(leave_booking.py). One rule is kept by the database itself: a person
-can't have two pending or approved requests for the same leave and
-dates (a partial unique index), so a repeat is refused even if code
-misses it.
-
-Caveats: no foreign keys (1,200 people is small). Restricted holidays
-(India, 2 chosen per person) are not company holidays: not loaded.
+Watch out: restricted holidays (India, 2 chosen each) aren't loaded.
 """
 
 import csv

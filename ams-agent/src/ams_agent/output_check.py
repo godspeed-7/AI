@@ -1,20 +1,12 @@
 """The output check: an answer that leaks the system prompt is replaced.
 
-In:  PromptLeakCheck(prompt), in the agent's middleware (agent.py);
-     CANARY, a marker agent.py puts in the prompt.
-Out: after each run, either nothing (the answer stands) or the answer
-     replaced by SAFE_REPLY (same message ID, so it takes its place).
+In:  PromptLeakCheck(prompt), in the agent's middleware (agent.py).
+Out: nothing (the answer stands), or the answer replaced by SAFE_REPLY.
 
-Strategy: an independent check on the output, in code (OWASP LLM07):
-no model call, the same result every time. An answer leaks if it
-holds the CANARY (a random marker made at start-up, kept even when
-the prompt is translated) or any run of LEAK_WORDS words in a row from
-the prompt (word shingles: 8 words don't match by chance). It runs
-inside the agent, so the app and the evals both go through it.
+How: code, no model call: the answer leaks if it holds the CANARY or
+LEAK_WORDS words in a row from the prompt.
 
-Caveats: catches the prompt dumped or quoted (Q17, Q30), not a
-paraphrase of it; that is why the prompt holds nothing secret (the
-main defence). Each leak is logged (the audit door).
+Watch out: catches quotes, not paraphrases: the prompt holds no secret.
 """
 
 import logging

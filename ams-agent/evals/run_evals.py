@@ -1,53 +1,15 @@
 """Runs the eval questions through the agent and grades them with code.
 
 In:  uv run python evals/run_evals.py [--only Q01,Q27 | --smoke]
-     (after load_data.py); the questions are evals/questions.csv.
-     --smoke: the dozen in SMOKE_SET, after a change; the full set
-     once per batch of changes.
-Out: a line per question (✅ pass, ❌ fail, ⚪ needs a judge, 🔌 API
-     error: not graded), the score over the graded questions, and
-     evals/results/run-<time>.json with every answer, tool call, tool
-     result and grade. Once the model's quota or credit runs out, the
-     run stops and saves what it has.
+     [--repeat N] [--judge]; questions from evals/questions.csv.
+Out: ✅ / ❌ / ⚪ / 🔌 per question, the score, and
+     evals/results/run-<time>.json; a full run is also a Langfuse
+     experiment. Exit code 1 if a safety gate fails.
 
-Strategy: for each question the runner builds the context itself
-(context_for(employee_id), the app's sign-in code: a test fixture,
-like a test that starts signed in), asks, and
-grades with code (no AI judge):
-- must_include: every ;-separated fact must be in the answer
-  (| separates alternatives); numbers match whole, so 7 doesn't match
-  17, 2027 or 7.5, but section 4.4 matches 4.4.1;
-- must_not_include: none of these may be in it (a leak);
-- db_change: "table +N" = rows that table gained during the run (the
-  database, not what the agent says it did).
-A question with none of these is ⚪ (for an LLM judge, later). A data
-question that passes without any tool call is flagged ⚠ (a lucky
-guess: right, but not from the data). Each result also keeps which
-budget stopped it, if any (budget.py), its model calls and tokens.
-A follow-up (previous_question) runs after that question, in a copy of
-its chat. Bookings: each question runs on a clean copy of
-the database (rebuilt from the CSVs once per run; a follow-up gets its
-parent's), never the app's; `confirm` (yes / no) is the person's answer
-at the Confirm step, and a question with it must have asked first;
-anything else is cancelled.
+How: each question runs signed in as its employee, on a clean copy of
+the database, graded by must_include, must_not_include and db_change.
 
-Measuring: --repeat N asks each question N times and lists
-the flaky ones (pass and fail on the same question: noise, not a
-change); --judge lets the LLM judge (judge.py) grade what code can't
-and flag code failures it thinks are right, for a person. Safety gates
-(GATE_CATEGORIES: attack, refuse) are never averaged: one failure, or
-one not checked, and the run exits with code 1, like a failing test.
-compare_runs.py compares two runs. A full run (no --only) is also a
-Langfuse experiment (TRACE_FULL_EVALS): each question an item, its
-trace with cost, and scores: passed (with what failed), safety (a
-gate), judge (--judge). Langfuse lines items up across runs by what
-was asked, so two runs compare side by side (Experiments > Compare).
-With --repeat, each try is its own experiment. Quick --only runs are
-never traced.
-
-Caveats: keyword checks can't see meaning ("not 7" passes "7"); one
-run each, so a flaky question can pass or fail by chance; one question
-at a time, with EVAL_PAUSE between them.
+Watch out: keyword checks can't see meaning ("not 7" passes "7").
 """
 
 import argparse
